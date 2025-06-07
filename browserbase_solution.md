@@ -1,4 +1,8 @@
-# Browserbase Setup Guide
+# 🌐 **Browserbase Alternative Solution** (Reference)
+
+> **📋 Status:** Alternative implementation reference  
+> **Current System:** Uses OpenManus + Browser Use + Skyvern hierarchy  
+> **Purpose:** Future optimization consideration
 
 ## Why Browserbase is Better:
 - **5-10x faster** than local browser automation

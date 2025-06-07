@@ -272,10 +272,18 @@ python -c "from image_processor_factory import ImageProcessorFactory; print(Imag
 
 ## 📚 **Documentation**
 
+### **📖 Main Documentation**
+- **`README.md`** (this file) - System overview, quick start, and configuration
+- **`SYSTEM_OVERVIEW.md`** - Complete technical documentation and architecture
+- **`QUICK_REFERENCE.md`** - Commands, supported retailers, and recent updates
+
+### **🔧 Technical Guides**
 - **`PHASE_3_DOCUMENTATION.md`** - Detailed image processing architecture
-- **`PHASE_1_2_IMPLEMENTATION_SUMMARY.md`** - Early implementation history
-- **`SETUP_INSTRUCTIONS.md`** - Detailed setup guide
-- **`testing/`** - Test files and examples
+- **`SETUP_INSTRUCTIONS.md`** - Detailed installation and setup guide
+
+### **📜 Historical Reference**
+- **`PHASE_1_2_IMPLEMENTATION_SUMMARY.md`** - Early development history (archived)
+- **`browserbase_solution.md`** - Alternative browser solution (reference)
 
 ## 🏆 **System Achievements**
 
