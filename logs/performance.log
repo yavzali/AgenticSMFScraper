@@ -1,0 +1,6 @@
+[2025-06-06 14:43:51.981] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1443_20250606_1843.json
+[2025-06-06 14:43:51.982] [INFO] [batch_processor] Batch batch_20250606_1443 completed: 0/5 successful (0.0%)
+[2025-06-06 14:44:35.225] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1444_20250606_1844.json
+[2025-06-06 14:44:35.226] [INFO] [batch_processor] Batch batch_20250606_1444 completed: 0/5 successful (0.0%)
+[2025-06-06 14:45:31.767] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1445_20250606_1845.json
+[2025-06-06 14:45:31.768] [INFO] [batch_processor] Batch batch_20250606_1445 completed: 4/5 successful (80.0%)

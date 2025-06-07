@@ -1,0 +1,33 @@
+# Core dependencies
+aiohttp>=3.8.0
+aiosqlite>=0.19.0
+pillow>=10.0.0
+pytz>=2023.3
+
+# Optional dependencies for fallback agents
+playwright>=1.40.0  # For Browser Use fallback
+requests>=2.31.0    # For some image processors
+
+# Development and testing (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# Note: Standard library modules used (no pip install needed):
+# - asyncio, json, sqlite3, hashlib, datetime, pathlib, os, re, csv, smtplib
+
+# New dependencies
+aiofiles>=0.8.0
+asyncio
+beautifulsoup4>=4.10.0
+lxml>=4.6.0
+sqlite3
+pydantic>=1.8.0
+shopify-python-api>=12.0.0
+openai>=1.0.0
+python-dotenv>=0.19.0
+Pillow>=8.0.0
+python-dateutil>=2.8.0
+uuid7>=0.1.0
+pathvalidate>=2.5.0
+psutil>=5.8.0
+patchright>=1.0.0

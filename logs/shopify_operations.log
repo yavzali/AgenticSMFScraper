@@ -1,0 +1,40 @@
+[2025-06-06 14:45:19.260] [INFO] [shopify_manager] Created Shopify product: 14738523914610
+[2025-06-06 14:45:19.456] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738523914610
+[2025-06-06 14:45:19.645] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738523914610
+[2025-06-06 14:45:19.835] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738523914610
+[2025-06-06 14:45:20.096] [DEBUG] [shopify_manager] Created metafield product_id for product 14738523914610
+[2025-06-06 14:45:20.289] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738523914610
+[2025-06-06 14:45:20.461] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738523914610
+[2025-06-06 14:45:20.638] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738523914610
+[2025-06-06 14:45:20.799] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738523914610
+[2025-06-06 14:45:21.005] [DEBUG] [shopify_manager] Created metafield original_price for product 14738523914610
+[2025-06-06 14:45:22.624] [INFO] [shopify_manager] Created Shopify product: 14738523947378
+[2025-06-06 14:45:22.831] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738523947378
+[2025-06-06 14:45:23.027] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738523947378
+[2025-06-06 14:45:23.204] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738523947378
+[2025-06-06 14:45:23.380] [DEBUG] [shopify_manager] Created metafield product_id for product 14738523947378
+[2025-06-06 14:45:23.578] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738523947378
+[2025-06-06 14:45:23.770] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738523947378
+[2025-06-06 14:45:23.945] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738523947378
+[2025-06-06 14:45:24.132] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738523947378
+[2025-06-06 14:45:24.317] [DEBUG] [shopify_manager] Created metafield original_price for product 14738523947378
+[2025-06-06 14:45:25.949] [INFO] [shopify_manager] Created Shopify product: 14738524012914
+[2025-06-06 14:45:26.130] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738524012914
+[2025-06-06 14:45:26.301] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738524012914
+[2025-06-06 14:45:26.463] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738524012914
+[2025-06-06 14:45:26.629] [DEBUG] [shopify_manager] Created metafield product_id for product 14738524012914
+[2025-06-06 14:45:26.796] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738524012914
+[2025-06-06 14:45:26.969] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738524012914
+[2025-06-06 14:45:27.140] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738524012914
+[2025-06-06 14:45:27.310] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738524012914
+[2025-06-06 14:45:27.483] [DEBUG] [shopify_manager] Created metafield original_price for product 14738524012914
+[2025-06-06 14:45:29.191] [INFO] [shopify_manager] Created Shopify product: 14738524045682
+[2025-06-06 14:45:29.378] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738524045682
+[2025-06-06 14:45:29.545] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738524045682
+[2025-06-06 14:45:29.730] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738524045682
+[2025-06-06 14:45:29.909] [DEBUG] [shopify_manager] Created metafield product_id for product 14738524045682
+[2025-06-06 14:45:30.093] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738524045682
+[2025-06-06 14:45:30.239] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738524045682
+[2025-06-06 14:45:30.421] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738524045682
+[2025-06-06 14:45:30.588] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738524045682
+[2025-06-06 14:45:30.756] [DEBUG] [shopify_manager] Created metafield original_price for product 14738524045682

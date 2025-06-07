@@ -1,0 +1,83 @@
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:43:46.970] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:43:46.971] [ERROR] [url_processor] Error processing URL {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:46.971] [ERROR] [batch_processor] [1/5] Critical error processing {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:47.972] [ERROR] [url_processor] Error processing URL {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:47.972] [ERROR] [batch_processor] [2/5] Critical error processing {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:48.974] [ERROR] [url_processor] Error processing URL {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:48.974] [ERROR] [batch_processor] [3/5] Critical error processing {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:49.976] [ERROR] [url_processor] Error processing URL {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:49.976] [ERROR] [batch_processor] [4/5] Critical error processing {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:50.977] [ERROR] [url_processor] Error processing URL {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:50.978] [ERROR] [batch_processor] [5/5] Critical error processing {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:51.982] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:44:30.211] [ERROR] [url_processor] Error processing URL https://www.aritzia.com/us/en/product/effortless-pant/95086.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:30.211] [ERROR] [batch_processor] [1/5] Critical error processing https://www.aritzia.com/us/en/product/effortless-pant/95086.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:31.214] [ERROR] [url_processor] Error processing URL https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:31.214] [ERROR] [batch_processor] [2/5] Critical error processing https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:32.216] [ERROR] [url_processor] Error processing URL https://www2.hm.com/en_us/productpage.0970819001.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:32.217] [ERROR] [batch_processor] [3/5] Critical error processing https://www2.hm.com/en_us/productpage.0970819001.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:33.220] [ERROR] [url_processor] Error processing URL https://www.uniqlo.com/us/en/products/E457606-000: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:33.220] [ERROR] [batch_processor] [4/5] Critical error processing https://www.uniqlo.com/us/en/products/E457606-000: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:34.223] [ERROR] [url_processor] Error processing URL https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:34.223] [ERROR] [batch_processor] [5/5] Critical error processing https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:35.227] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 14:45:17.259] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:45:17.259] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:45:17.261] [WARNING] [agent_extractor] Missing required field: price
+[2025-06-06 14:45:31.770] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 16:46:07.916] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:52:24.714] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:58:16.639] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 19:49:52.242] [ERROR] [agent_extractor] OpenManus CLI error (code 2): /Users/Yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory
+[2025-06-06 19:50:08.612] [ERROR] [agent_extractor] OpenManus CLI error (code 2): /Users/yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory
+[2025-06-06 19:55:36.073] [ERROR] [agent_extractor] OpenManus extraction timed out after 300 seconds
+[2025-06-06 20:00:39.966] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'llm_model'
+[2025-06-06 20:01:50.570] [WARNING] [agent_extractor] Extraction failed with openmanus: 'str' object has no attribute 'copy'
+[2025-06-06 20:02:19.139] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-06 20:04:40.649] [WARNING] [agent_extractor] Missing required field: price
+[2025-06-06 20:05:21.353] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-06 20:10:21.361] [ERROR] [agent_extractor] OpenManus extraction timed out after 300 seconds
+[2025-06-06 22:33:52.496] [ERROR] [agent_extractor] OpenManus extraction timed out after 480 seconds
+[2025-06-06 22:33:53.069] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-07 02:41:15.807] [ERROR] [agent_extractor] OpenManus CLI error (code 1): File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13
+    result = await agent.run("Go to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 and extract the following product information. Return as structured JSON:
+                             ^
+SyntaxError: unterminated string literal (detected at line 13)
+[2025-06-07 02:41:16.294] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'

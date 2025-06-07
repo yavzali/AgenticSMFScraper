@@ -1,0 +1,93 @@
+[2025-06-06 16:46:07.915] [DEBUG] [base_image_processor] Created download directory: downloads/uniqlo_images
+[2025-06-06 16:46:07.915] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:46:07.915] [DEBUG] [base_image_processor] Created download directory: downloads/asos_images
+[2025-06-06 16:46:07.915] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:46:07.916] [DEBUG] [base_image_processor] Created download directory: downloads/revolve_images
+[2025-06-06 16:46:07.916] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:46:07.916] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:46:08.614] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:46:08.615] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:46:08.615] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:46:08.616] [DEBUG] [base_image_processor] Created download directory: downloads/hm_images
+[2025-06-06 16:46:08.616] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:46:08.616] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:46:08.616] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:52:24.713] [DEBUG] [base_image_processor] Created download directory: downloads/aritzia_images
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:52:24.714] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:52:24.752] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:52:24.752] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/dress/example
+[2025-06-06 16:52:24.752] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 16:52:24.752] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:52:24.752] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:52:24.753] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:52:24.753] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:58:16.639] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:58:16.667] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:58:16.668] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:58:16.668] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/dress/example
+[2025-06-06 16:58:16.668] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 16:58:16.668] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:58:16.668] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:58:16.669] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 17:00:27.988] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://test.com
+[2025-06-06 17:00:27.988] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 17:00:27.988] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/test/$S$&wid=513 -> https://images.asos-media.com/products/test/$XXL$&wid=513
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 17:00:27.988] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 19:39:49.384] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo

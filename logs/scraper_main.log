@@ -1,0 +1,654 @@
+[2025-06-06 00:37:36.832] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 00:37:36.833] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 00:37:41.172] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:41.268] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:41.268] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:41.269] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 14:43:41.270] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 14:43:41.270] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 14:43:41.271] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:43:41.271] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:43:41.272] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:43:41.272] [INFO] [scheduler] Cost optimizer initialized - Discount hours: [2, 3, 4, 5, 6, 7] UTC
+[2025-06-06 14:43:41.272] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-06 14:43:46.968] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:46.968] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:46.969] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 14:43:46.969] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 14:43:46.970] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 14:43:46.970] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:43:46.970] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:43:46.971] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:43:46.971] [INFO] [scheduler] Cost optimizer initialized - Discount hours: [2, 3, 4, 5, 6, 7] UTC
+[2025-06-06 14:43:46.971] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-06 14:43:46.971] [INFO] [__main__] Starting batch processing: batch_20250606_1443
+[2025-06-06 14:43:46.971] [INFO] [batch_processor] Starting batch batch_20250606_1443 with 5 URLs
+[2025-06-06 14:43:46.971] [INFO] [checkpoint_manager] Initialized batch checkpoint: batch_20250606_1443 with 5 URLs
+[2025-06-06 14:43:46.971] [INFO] [batch_processor] Processing URL 1/5: {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'}
+[2025-06-06 14:43:46.971] [DEBUG] [batch_processor] [1/5] Phase 1: Processing URL
+[2025-06-06 14:43:46.971] [ERROR] [url_processor] Error processing URL {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:46.971] [ERROR] [batch_processor] [1/5] Critical error processing {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:46.971] [INFO] [batch_processor] Added to manual review: {'url': 'https://www.aritzia.com/us/en/product/effortless-pant/95086.html', 'retailer': 'aritzia', 'expected_category': 'pants', 'priority': 'high'} (critical_error)
+[2025-06-06 14:43:47.972] [INFO] [batch_processor] Processing URL 2/5: {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'}
+[2025-06-06 14:43:47.972] [DEBUG] [batch_processor] [2/5] Phase 1: Processing URL
+[2025-06-06 14:43:47.972] [ERROR] [url_processor] Error processing URL {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:47.972] [ERROR] [batch_processor] [2/5] Critical error processing {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:47.972] [INFO] [batch_processor] Added to manual review: {'url': 'https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449', 'retailer': 'asos', 'expected_category': 'blazers', 'priority': 'medium'} (critical_error)
+[2025-06-06 14:43:48.974] [INFO] [batch_processor] Processing URL 3/5: {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'}
+[2025-06-06 14:43:48.974] [DEBUG] [batch_processor] [3/5] Phase 1: Processing URL
+[2025-06-06 14:43:48.974] [ERROR] [url_processor] Error processing URL {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:48.974] [ERROR] [batch_processor] [3/5] Critical error processing {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:48.974] [INFO] [batch_processor] Added to manual review: {'url': 'https://www2.hm.com/en_us/productpage.0970819001.html', 'retailer': 'hm', 'expected_category': 'dresses', 'priority': 'medium'} (critical_error)
+[2025-06-06 14:43:49.976] [INFO] [batch_processor] Processing URL 4/5: {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'}
+[2025-06-06 14:43:49.976] [DEBUG] [batch_processor] [4/5] Phase 1: Processing URL
+[2025-06-06 14:43:49.976] [ERROR] [url_processor] Error processing URL {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:49.976] [ERROR] [batch_processor] [4/5] Critical error processing {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:49.976] [INFO] [batch_processor] Added to manual review: {'url': 'https://www.uniqlo.com/us/en/products/E457606-000', 'retailer': 'uniqlo', 'expected_category': 'tops', 'priority': 'low'} (critical_error)
+[2025-06-06 14:43:50.977] [INFO] [batch_processor] Processing URL 5/5: {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'}
+[2025-06-06 14:43:50.977] [DEBUG] [batch_processor] [5/5] Phase 1: Processing URL
+[2025-06-06 14:43:50.977] [ERROR] [url_processor] Error processing URL {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:50.978] [ERROR] [batch_processor] [5/5] Critical error processing {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'}: 'dict' object has no attribute 'startswith'
+[2025-06-06 14:43:50.978] [INFO] [batch_processor] Added to manual review: {'url': 'https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/', 'retailer': 'revolve', 'expected_category': 'dresses', 'priority': 'high'} (critical_error)
+[2025-06-06 14:43:50.979] [DEBUG] [checkpoint_manager] Checkpoint saved: 5/5 completed
+[2025-06-06 14:43:50.979] [INFO] [batch_processor] Checkpoint saved at URL 5/5
+[2025-06-06 14:43:51.981] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1443_20250606_1843.json
+[2025-06-06 14:43:51.982] [INFO] [batch_processor] Batch batch_20250606_1443 completed: 0/5 successful (0.0%)
+[2025-06-06 14:43:51.982] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 14:43:51.982] [INFO] [__main__] Batch batch_20250606_1443 completed successfully
+[2025-06-06 14:44:30.207] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:44:30.208] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:44:30.209] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 14:44:30.209] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 14:44:30.209] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 14:44:30.210] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:44:30.210] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:44:30.211] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:44:30.211] [INFO] [scheduler] Cost optimizer initialized - Discount hours: [2, 3, 4, 5, 6, 7] UTC
+[2025-06-06 14:44:30.211] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-06 14:44:30.211] [INFO] [__main__] Starting batch processing: batch_20250606_1444
+[2025-06-06 14:44:30.211] [INFO] [batch_processor] Starting batch batch_20250606_1444 with 5 URLs
+[2025-06-06 14:44:30.211] [INFO] [checkpoint_manager] Initialized batch checkpoint: batch_20250606_1444 with 5 URLs
+[2025-06-06 14:44:30.211] [INFO] [batch_processor] Processing URL 1/5: https://www.aritzia.com/us/en/product/effortless-pant/95086.html
+[2025-06-06 14:44:30.211] [DEBUG] [batch_processor] [1/5] Phase 1: Processing URL
+[2025-06-06 14:44:30.211] [ERROR] [url_processor] Error processing URL https://www.aritzia.com/us/en/product/effortless-pant/95086.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:30.211] [ERROR] [batch_processor] [1/5] Critical error processing https://www.aritzia.com/us/en/product/effortless-pant/95086.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:30.211] [INFO] [batch_processor] Added to manual review: https://www.aritzia.com/us/en/product/effortless-pant/95086.html (critical_error)
+[2025-06-06 14:44:31.214] [INFO] [batch_processor] Processing URL 2/5: https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449
+[2025-06-06 14:44:31.214] [DEBUG] [batch_processor] [2/5] Phase 1: Processing URL
+[2025-06-06 14:44:31.214] [ERROR] [url_processor] Error processing URL https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:31.214] [ERROR] [batch_processor] [2/5] Critical error processing https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:31.214] [INFO] [batch_processor] Added to manual review: https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449 (critical_error)
+[2025-06-06 14:44:32.216] [INFO] [batch_processor] Processing URL 3/5: https://www2.hm.com/en_us/productpage.0970819001.html
+[2025-06-06 14:44:32.216] [DEBUG] [batch_processor] [3/5] Phase 1: Processing URL
+[2025-06-06 14:44:32.216] [ERROR] [url_processor] Error processing URL https://www2.hm.com/en_us/productpage.0970819001.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:32.217] [ERROR] [batch_processor] [3/5] Critical error processing https://www2.hm.com/en_us/productpage.0970819001.html: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:32.217] [INFO] [batch_processor] Added to manual review: https://www2.hm.com/en_us/productpage.0970819001.html (critical_error)
+[2025-06-06 14:44:33.219] [INFO] [batch_processor] Processing URL 4/5: https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-06 14:44:33.220] [DEBUG] [batch_processor] [4/5] Phase 1: Processing URL
+[2025-06-06 14:44:33.220] [ERROR] [url_processor] Error processing URL https://www.uniqlo.com/us/en/products/E457606-000: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:33.220] [ERROR] [batch_processor] [4/5] Critical error processing https://www.uniqlo.com/us/en/products/E457606-000: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:33.221] [INFO] [batch_processor] Added to manual review: https://www.uniqlo.com/us/en/products/E457606-000 (critical_error)
+[2025-06-06 14:44:34.222] [INFO] [batch_processor] Processing URL 5/5: https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/
+[2025-06-06 14:44:34.222] [DEBUG] [batch_processor] [5/5] Phase 1: Processing URL
+[2025-06-06 14:44:34.223] [ERROR] [url_processor] Error processing URL https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:34.223] [ERROR] [batch_processor] [5/5] Critical error processing https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/: 'coroutine' object is not subscriptable
+[2025-06-06 14:44:34.223] [INFO] [batch_processor] Added to manual review: https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/ (critical_error)
+[2025-06-06 14:44:34.223] [DEBUG] [checkpoint_manager] Checkpoint saved: 5/5 completed
+[2025-06-06 14:44:34.223] [INFO] [batch_processor] Checkpoint saved at URL 5/5
+[2025-06-06 14:44:35.225] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1444_20250606_1844.json
+[2025-06-06 14:44:35.226] [INFO] [batch_processor] Batch batch_20250606_1444 completed: 0/5 successful (0.0%)
+[2025-06-06 14:44:35.227] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 14:44:35.227] [INFO] [__main__] Batch batch_20250606_1444 completed successfully
+[2025-06-06 14:45:17.256] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:45:17.257] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:45:17.258] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 14:45:17.258] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 14:45:17.259] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 14:45:17.259] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 14:45:17.259] [WARNING] [batch_processor] Could not load image processor for aritzia: No module named 'aritzia_image_processor'
+[2025-06-06 14:45:17.259] [WARNING] [batch_processor] Could not load image processor for asos: No module named 'asos_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for hm: No module named 'hm_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for uniqlo: No module named 'uniqlo_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for revolve: No module named 'revolve_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for mango: No module named 'mango_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for anthropologie: No module named 'anthropologie_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for abercrombie: No module named 'abercrombie_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for nordstrom: No module named 'nordstrom_image_processor'
+[2025-06-06 14:45:17.260] [WARNING] [batch_processor] Could not load image processor for urban_outfitters: No module named 'urban_outfitters_image_processor'
+[2025-06-06 14:45:17.260] [INFO] [scheduler] Cost optimizer initialized - Discount hours: [2, 3, 4, 5, 6, 7] UTC
+[2025-06-06 14:45:17.260] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-06 14:45:17.260] [INFO] [__main__] Starting batch processing: batch_20250606_1445
+[2025-06-06 14:45:17.260] [INFO] [batch_processor] Starting batch batch_20250606_1445 with 5 URLs
+[2025-06-06 14:45:17.260] [INFO] [checkpoint_manager] Initialized batch checkpoint: batch_20250606_1445 with 5 URLs
+[2025-06-06 14:45:17.260] [INFO] [batch_processor] Processing URL 1/5: https://www.aritzia.com/us/en/product/effortless-pant/95086.html
+[2025-06-06 14:45:17.260] [DEBUG] [batch_processor] [1/5] Phase 1: Processing URL
+[2025-06-06 14:45:17.261] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/effortless-pant/95086.html -> aritzia (duplicate: False)
+[2025-06-06 14:45:17.261] [DEBUG] [batch_processor] [1/5] Phase 2: Extracting product data
+[2025-06-06 14:45:17.261] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.aritzia.com/us/en/product/effortless-pant/95086.html
+[2025-06-06 14:45:17.261] [WARNING] [agent_extractor] Missing required field: price
+[2025-06-06 14:45:17.261] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.aritzia.com/us/en/product/effortless-pant/95086.html
+[2025-06-06 14:45:17.262] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/us/en/product/effortless-pant/95086.html
+[2025-06-06 14:45:17.262] [INFO] [batch_processor] Added to manual review: https://www.aritzia.com/us/en/product/effortless-pant/95086.html (extraction_failed)
+[2025-06-06 14:45:18.263] [INFO] [batch_processor] Processing URL 2/5: https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449
+[2025-06-06 14:45:18.263] [DEBUG] [batch_processor] [2/5] Phase 1: Processing URL
+[2025-06-06 14:45:18.265] [DEBUG] [url_processor] Processed URL: https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449 -> asos (duplicate: False)
+[2025-06-06 14:45:18.265] [DEBUG] [batch_processor] [2/5] Phase 2: Extracting product data
+[2025-06-06 14:45:18.265] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449
+[2025-06-06 14:45:18.267] [DEBUG] [pattern_learner] Recorded successful pattern for asos: openmanus
+[2025-06-06 14:45:18.267] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-06 14:45:18.267] [DEBUG] [batch_processor] [2/5] Phase 3: Processing images
+[2025-06-06 14:45:18.267] [DEBUG] [batch_processor] [2/5] Phase 4: Creating Shopify product
+[2025-06-06 14:45:19.260] [INFO] [shopify_manager] Created Shopify product: 14738523914610
+[2025-06-06 14:45:19.456] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738523914610
+[2025-06-06 14:45:19.645] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738523914610
+[2025-06-06 14:45:19.835] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738523914610
+[2025-06-06 14:45:20.096] [DEBUG] [shopify_manager] Created metafield product_id for product 14738523914610
+[2025-06-06 14:45:20.289] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738523914610
+[2025-06-06 14:45:20.461] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738523914610
+[2025-06-06 14:45:20.638] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738523914610
+[2025-06-06 14:45:20.799] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738523914610
+[2025-06-06 14:45:21.005] [DEBUG] [shopify_manager] Created metafield original_price for product 14738523914610
+[2025-06-06 14:45:21.011] [DEBUG] [duplicate_detector] Stored product: https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449
+[2025-06-06 14:45:21.011] [DEBUG] [batch_processor] Stored product record for https://www.asos.com/us/asos-design/asos-design-oversized-blazer-in-cream/prd/204685449
+[2025-06-06 14:45:21.011] [INFO] [batch_processor] [2/5] Successfully created product: 14738523914610
+[2025-06-06 14:45:22.012] [INFO] [batch_processor] Processing URL 3/5: https://www2.hm.com/en_us/productpage.0970819001.html
+[2025-06-06 14:45:22.013] [DEBUG] [batch_processor] [3/5] Phase 1: Processing URL
+[2025-06-06 14:45:22.018] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.0970819001.html -> hm (duplicate: False)
+[2025-06-06 14:45:22.018] [DEBUG] [batch_processor] [3/5] Phase 2: Extracting product data
+[2025-06-06 14:45:22.018] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www2.hm.com/en_us/productpage.0970819001.html
+[2025-06-06 14:45:22.023] [DEBUG] [pattern_learner] Recorded successful pattern for hm: openmanus
+[2025-06-06 14:45:22.023] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-06 14:45:22.023] [DEBUG] [batch_processor] [3/5] Phase 3: Processing images
+[2025-06-06 14:45:22.023] [DEBUG] [batch_processor] [3/5] Phase 4: Creating Shopify product
+[2025-06-06 14:45:22.624] [INFO] [shopify_manager] Created Shopify product: 14738523947378
+[2025-06-06 14:45:22.831] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738523947378
+[2025-06-06 14:45:23.027] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738523947378
+[2025-06-06 14:45:23.204] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738523947378
+[2025-06-06 14:45:23.380] [DEBUG] [shopify_manager] Created metafield product_id for product 14738523947378
+[2025-06-06 14:45:23.578] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738523947378
+[2025-06-06 14:45:23.770] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738523947378
+[2025-06-06 14:45:23.945] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738523947378
+[2025-06-06 14:45:24.132] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738523947378
+[2025-06-06 14:45:24.317] [DEBUG] [shopify_manager] Created metafield original_price for product 14738523947378
+[2025-06-06 14:45:24.323] [DEBUG] [duplicate_detector] Stored product: https://www2.hm.com/en_us/productpage.0970819001.html
+[2025-06-06 14:45:24.323] [DEBUG] [batch_processor] Stored product record for https://www2.hm.com/en_us/productpage.0970819001.html
+[2025-06-06 14:45:24.323] [INFO] [batch_processor] [3/5] Successfully created product: 14738523947378
+[2025-06-06 14:45:25.325] [INFO] [batch_processor] Processing URL 4/5: https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-06 14:45:25.325] [DEBUG] [batch_processor] [4/5] Phase 1: Processing URL
+[2025-06-06 14:45:25.329] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E457606-000 -> uniqlo (duplicate: False)
+[2025-06-06 14:45:25.329] [DEBUG] [batch_processor] [4/5] Phase 2: Extracting product data
+[2025-06-06 14:45:25.329] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-06 14:45:25.334] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
+[2025-06-06 14:45:25.335] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-06 14:45:25.335] [DEBUG] [batch_processor] [4/5] Phase 3: Processing images
+[2025-06-06 14:45:25.335] [DEBUG] [batch_processor] [4/5] Phase 4: Creating Shopify product
+[2025-06-06 14:45:25.949] [INFO] [shopify_manager] Created Shopify product: 14738524012914
+[2025-06-06 14:45:26.130] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738524012914
+[2025-06-06 14:45:26.301] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738524012914
+[2025-06-06 14:45:26.463] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738524012914
+[2025-06-06 14:45:26.629] [DEBUG] [shopify_manager] Created metafield product_id for product 14738524012914
+[2025-06-06 14:45:26.796] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738524012914
+[2025-06-06 14:45:26.969] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738524012914
+[2025-06-06 14:45:27.140] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738524012914
+[2025-06-06 14:45:27.310] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738524012914
+[2025-06-06 14:45:27.483] [DEBUG] [shopify_manager] Created metafield original_price for product 14738524012914
+[2025-06-06 14:45:27.489] [DEBUG] [duplicate_detector] Stored product: https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-06 14:45:27.489] [DEBUG] [batch_processor] Stored product record for https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-06 14:45:27.490] [INFO] [batch_processor] [4/5] Successfully created product: 14738524012914
+[2025-06-06 14:45:28.491] [INFO] [batch_processor] Processing URL 5/5: https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/
+[2025-06-06 14:45:28.491] [DEBUG] [batch_processor] [5/5] Phase 1: Processing URL
+[2025-06-06 14:45:28.494] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/ -> revolve (duplicate: False)
+[2025-06-06 14:45:28.494] [DEBUG] [batch_processor] [5/5] Phase 2: Extracting product data
+[2025-06-06 14:45:28.494] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/
+[2025-06-06 14:45:28.499] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: openmanus
+[2025-06-06 14:45:28.499] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-06 14:45:28.499] [DEBUG] [batch_processor] [5/5] Phase 3: Processing images
+[2025-06-06 14:45:28.499] [DEBUG] [batch_processor] [5/5] Phase 4: Creating Shopify product
+[2025-06-06 14:45:29.191] [INFO] [shopify_manager] Created Shopify product: 14738524045682
+[2025-06-06 14:45:29.378] [DEBUG] [shopify_manager] Created metafield stock_status for product 14738524045682
+[2025-06-06 14:45:29.545] [DEBUG] [shopify_manager] Created metafield source_urls for product 14738524045682
+[2025-06-06 14:45:29.730] [DEBUG] [shopify_manager] Created metafield last_updated for product 14738524045682
+[2025-06-06 14:45:29.909] [DEBUG] [shopify_manager] Created metafield product_id for product 14738524045682
+[2025-06-06 14:45:30.093] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14738524045682
+[2025-06-06 14:45:30.239] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14738524045682
+[2025-06-06 14:45:30.421] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738524045682
+[2025-06-06 14:45:30.588] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738524045682
+[2025-06-06 14:45:30.756] [DEBUG] [shopify_manager] Created metafield original_price for product 14738524045682
+[2025-06-06 14:45:30.762] [DEBUG] [duplicate_detector] Stored product: https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/
+[2025-06-06 14:45:30.763] [DEBUG] [batch_processor] Stored product record for https://www.revolve.com/lovers-friends-kimberly-mini-dress/dp/LOVF-WD2089/
+[2025-06-06 14:45:30.763] [INFO] [batch_processor] [5/5] Successfully created product: 14738524045682
+[2025-06-06 14:45:30.765] [DEBUG] [checkpoint_manager] Checkpoint saved: 5/5 completed
+[2025-06-06 14:45:30.765] [INFO] [batch_processor] Checkpoint saved at URL 5/5
+[2025-06-06 14:45:31.767] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1445_20250606_1845.json
+[2025-06-06 14:45:31.768] [INFO] [batch_processor] Batch batch_20250606_1445 completed: 4/5 successful (80.0%)
+[2025-06-06 14:45:31.770] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-06 14:45:31.770] [INFO] [__main__] Batch batch_20250606_1445 completed successfully
+[2025-06-06 16:46:07.915] [DEBUG] [base_image_processor] Created download directory: downloads/uniqlo_images
+[2025-06-06 16:46:07.915] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:46:07.915] [DEBUG] [base_image_processor] Created download directory: downloads/asos_images
+[2025-06-06 16:46:07.915] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:46:07.916] [DEBUG] [base_image_processor] Created download directory: downloads/revolve_images
+[2025-06-06 16:46:07.916] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:46:07.916] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:46:08.614] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:46:08.614] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:46:08.615] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:46:08.615] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:46:08.615] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:46:08.616] [DEBUG] [base_image_processor] Created download directory: downloads/hm_images
+[2025-06-06 16:46:08.616] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:46:08.616] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:46:08.616] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:46:08.616] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:52:24.713] [DEBUG] [base_image_processor] Created download directory: downloads/aritzia_images
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:52:24.713] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:52:24.714] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:52:24.752] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:52:24.752] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:52:24.752] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/dress/example
+[2025-06-06 16:52:24.752] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 16:52:24.752] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:52:24.752] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:52:24.752] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:52:24.753] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:52:24.753] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:52:24.753] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:52:24.753] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 16:58:16.639] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-06 16:58:16.639] [WARNING] [image_processor_factory] No image processor available for retailer: invalid_retailer
+[2025-06-06 16:58:16.667] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E474062-000
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Extracted product code 474062 from URL using pattern /products/E?(\d{6})
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-06 16:58:16.668] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 474062, color 000
+[2025-06-06 16:58:16.668] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-06 16:58:16.668] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/dress/example
+[2025-06-06 16:58:16.668] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 16:58:16.668] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$S$&wid=513&fit=constrain -> https://images.asos-media.com/products/asos-design-oversized-t-shirt-in-black/12345-1-black?$XXL$&wid=513&fit=constrain
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed revolve URL: https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/ct/1.jpg -> https://revolve.s3.amazonaws.com/images/SUPE-WD12345/n/z/1.jpg
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['/n/ct/ -> /n/z/']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for revolve (1 additional)
+[2025-06-06 16:58:16.668] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Transformed hm URL: https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_600x600.jpg -> https://lp2.hm.com/hmgoepprod.azureedge.net/imagesources/pic_12345_2000x2000.jpg
+[2025-06-06 16:58:16.668] [DEBUG] [simple_transform_image_processor] Applied transformations: ['_\\d{2,3}x\\d{2,3} -> _2000x2000']
+[2025-06-06 16:58:16.668] [INFO] [simple_transform_image_processor] Generated 2 URLs for hm (1 additional)
+[2025-06-06 16:58:16.669] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-06 17:00:27.988] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://test.com
+[2025-06-06 17:00:27.988] [DEBUG] [aritzia_image_processor] Enhanced Aritzia resolution: https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_400x400.jpg → https://media.aritzia.com/media/catalog/product/c/l/cloth_dress_1200x1500.jpg
+[2025-06-06 17:00:27.988] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for asos
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Applying URL transformations for asos
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Transformed asos URL: https://images.asos-media.com/products/test/$S$&wid=513 -> https://images.asos-media.com/products/test/$XXL$&wid=513
+[2025-06-06 17:00:27.988] [DEBUG] [simple_transform_image_processor] Applied transformations: ['\\$S\\$ -> $XXL$']
+[2025-06-06 17:00:27.988] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
+[2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-06 18:10:59.384] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 18:10:59.385] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 18:10:59.385] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 18:12:59.534] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 18:12:59.535] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 18:12:59.535] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:09:11.718] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-06 19:09:11.718] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-06 19:09:17.296] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 19:09:17.297] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 19:09:17.298] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:09:17.298] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:09:17.298] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:09:17.299] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-06 19:09:17.303] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   asos: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   revolve: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   hm: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-06 19:09:17.303] [INFO] [batch_processor]   mango: transformation
+[2025-06-06 19:09:17.303] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-06 19:09:17.303] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-06 19:09:17.304] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-06 19:21:21.013] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:21:21.014] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:21:21.014] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:21:45.374] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:21:45.375] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:21:45.375] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:39:07.809] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:39:07.813] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:39:07.814] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:39:07.815] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:39:07.815] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:39:07.815] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:39:07.847] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:39:07.847] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:39:49.268] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:39:49.269] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:39:49.269] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:39:49.384] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-06 19:49:07.642] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:49:07.645] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:49:07.645] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:49:07.647] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:49:07.647] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:49:07.647] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:07.661] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:07.661] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:52.227] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:49:52.228] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:49:52.228] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:49:52.230] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:49:52.230] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:49:52.230] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:52.230] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:52.230] [DEBUG] [agent_extractor] OpenManus config: /Users/Yav/OpenManus, /Users/Yav/miniconda3/envs/openmanus
+[2025-06-06 19:49:52.230] [INFO] [agent_extractor] Running OpenManus command: /Users/Yav/miniconda3/envs/openmanus/bin/python temp_openmanus_script.py
+[2025-06-06 19:49:52.242] [DEBUG] [agent_extractor] OpenManus stdout: ...
+[2025-06-06 19:49:52.242] [DEBUG] [agent_extractor] OpenManus stderr: /Users/Yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory...
+[2025-06-06 19:49:52.242] [ERROR] [agent_extractor] OpenManus CLI error (code 2): /Users/Yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory
+[2025-06-06 19:49:52.242] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:49:52.242] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:08.597] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:50:08.598] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:50:08.598] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:50:08.599] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:50:08.599] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:50:08.599] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:08.599] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:08.599] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 19:50:08.600] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python temp_openmanus_script.py
+[2025-06-06 19:50:08.612] [DEBUG] [agent_extractor] OpenManus stdout: ...
+[2025-06-06 19:50:08.612] [DEBUG] [agent_extractor] OpenManus stderr: /Users/yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory...
+[2025-06-06 19:50:08.612] [ERROR] [agent_extractor] OpenManus CLI error (code 2): /Users/yav/miniconda3/envs/openmanus/bin/python: can't open file '/Users/yav/OpenManus/temp_openmanus_script.py': [Errno 2] No such file or directory
+[2025-06-06 19:50:08.612] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:08.612] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:36.065] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 19:50:36.066] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:50:36.067] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 19:50:36.067] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:50:36.067] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:36.068] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:50:36.068] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 19:50:36.068] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-06 19:50:36.070] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 19:55:36.073] [ERROR] [agent_extractor] OpenManus extraction timed out after 300 seconds
+[2025-06-06 19:55:36.074] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 19:55:36.075] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:00:39.368] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 20:00:39.371] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:00:39.371] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:00:39.372] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:00:39.372] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:00:39.372] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:00:39.966] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:00:39.966] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'llm_model'
+[2025-06-06 20:00:39.966] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:00:39.966] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:00:39.966] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 20:00:39.966] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-06 20:01:50.569] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetr...
+[2025-06-06 20:01:50.570] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-06 20:00:40.628 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-06 20:00:42.931 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1361, Completion=254, Cumulative Input=1361, Cumulative Completion=254, Total=1615, Cumulative Total=1615
+2025-06-06 20:00:42.931 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can extract the information from the provided URL and return it in JSON format. Here's the plan:
+
+1.  **Use the `browser_use` to...
+[2025-06-06 20:01:50.570] [WARNING] [agent_extractor] Extraction failed with openmanus: 'str' object has no attribute 'copy'
+[2025-06-06 20:01:50.573] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-06 20:01:50.573] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-06 20:01:50.573] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:02:18.677] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 20:02:18.678] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:02:18.678] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:02:18.679] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:02:18.679] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:02:18.679] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:02:19.139] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:02:19.139] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-06 20:02:19.139] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:02:19.139] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:02:19.139] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 20:02:19.139] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-06 20:04:40.647] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+OPENMANUS_RESULT_START
+"Step 1: Observed output of cmd `browser_use` executed:\nError: Browser action 'extract_content' failed: RetryError[<Future at 0x11f6182c0 state=finished raised BadRequestError>]\nStep 2: Observed output of cmd `browser_use` executed:\nNavigated to https://www.uniqlo.com/us/en/pro...
+[2025-06-06 20:04:40.648] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-06 20:02:19.780 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-06 20:02:22.540 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1361, Completion=331, Cumulative Input=1361, Cumulative Completion=331, Total=1692, Cumulative Total=1692
+2025-06-06 20:02:22.540 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can extract the information from the provided URL and return it in JSON format. Here's the plan:
+
+1.  **Use the `browser_use` to...
+[2025-06-06 20:04:40.649] [WARNING] [agent_extractor] Missing required field: price
+[2025-06-06 20:04:40.649] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:05:21.001] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 20:05:21.003] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:05:21.003] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:05:21.004] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:05:21.004] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:05:21.004] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:05:21.353] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:05:21.353] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-06 20:05:21.354] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:05:21.354] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:05:21.354] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 20:05:21.354] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-06 20:10:21.361] [ERROR] [agent_extractor] OpenManus extraction timed out after 300 seconds
+[2025-06-06 20:10:21.362] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:11:21.742] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-06 20:11:21.743] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:11:21.743] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-06 20:11:21.744] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:11:21.744] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-06 20:11:21.744] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:11:21.744] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 20:11:21.744] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-06 20:11:21.744] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-06 22:33:52.496] [ERROR] [agent_extractor] OpenManus extraction timed out after 480 seconds
+[2025-06-06 22:33:52.499] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 22:33:53.069] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-06 22:33:53.069] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-06 22:33:53.069] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 02:27:08.431] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 02:27:08.435] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:27:08.435] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:27:08.436] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:27:08.436] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-07 02:27:08.436] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E457606-000
+[2025-06-07 02:27:08.436] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 02:27:08.437] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 02:27:08.439] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:38:36.433] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 02:38:36.437] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:38:36.437] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:38:36.438] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:38:36.438] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:38:36.439] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.aritzia.com/us/en/product/sculpt-knit-off-the-shoulder-top/99228.html
+[2025-06-07 02:38:36.439] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.aritzia.com/us/en/product/sculpt-knit-off-the-shoulder-top/99228.html
+[2025-06-07 02:38:36.439] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 02:38:36.439] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 02:41:15.792] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 02:41:15.793] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:41:15.793] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 02:41:15.794] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:41:15.794] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 02:41:15.794] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 02:41:15.795] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 02:41:15.795] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 02:41:15.795] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 02:41:15.807] [DEBUG] [agent_extractor] OpenManus stdout: ...
+[2025-06-07 02:41:15.807] [DEBUG] [agent_extractor] OpenManus stderr: File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13
+    result = await agent.run("Go to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 and extract the following product information. Return as structured JSON:
+                             ^
+SyntaxError: unterminated string literal (detected at line 13)...
+[2025-06-07 02:41:15.807] [ERROR] [agent_extractor] OpenManus CLI error (code 1): File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13
+    result = await agent.run("Go to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 and extract the following product information. Return as structured JSON:
+                             ^
+SyntaxError: unterminated string literal (detected at line 13)
+[2025-06-07 02:41:15.807] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 02:41:16.294] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 02:41:16.294] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-07 02:41:16.294] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:01:58.081] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:01:58.084] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:01:58.084] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:01:58.085] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:01:58.085] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:01:58.086] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:01:58.086] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:01:58.086] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:01:58.086] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:02:49.357] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetr...
+[2025-06-07 03:02:49.358] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-07 03:01:59.071 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-07 03:02:00.057 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1362, Completion=81, Cumulative Input=1362, Cumulative Completion=81, Total=1443, Cumulative Total=1443
+2025-06-07 03:02:00.058 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will use the `browser_use` tool to go to the URL and extract the information.
+
+
+2025-06-07 03:02:00.058 | INFO     ...
+[2025-06-07 03:02:49.359] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 4 fields
+[2025-06-07 03:02:49.360] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
+[2025-06-07 03:02:49.361] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-07 03:05:58.840] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:05:58.841] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:05:58.841] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:05:58.842] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:05:58.842] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:05:58.842] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:05:58.842] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:05:58.842] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:05:58.843] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:13:21.479] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:13:21.480] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:13:21.480] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:13:21.480] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:13:21.480] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:13:21.481] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:13:21.481] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:13:21.481] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:13:21.481] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:14:49.947] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+OPENMANUS_RESULT_START
+"Step 1: Observed output of cmd `browser_use` executed:\nNavigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003\nStep 2: Observed output of cmd `browser_use` executed:\nError: Browser action 'extract_content' failed: RetryError[<F...
+[2025-06-07 03:14:49.947] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-07 03:13:22.292 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-07 03:13:23.778 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1388, Completion=83, Cumulative Input=1388, Cumulative Completion=83, Total=1471, Cumulative Total=1471
+2025-06-07 03:13:23.778 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-07 03:13:23.778 | IN...
+[2025-06-07 03:14:49.948] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 4 fields
+[2025-06-07 03:14:49.950] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
+[2025-06-07 03:14:49.950] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-07 03:17:36.901] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 03:17:36.902] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000 -> uniqlo (duplicate: True)
+[2025-06-07 03:17:42.508] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:17:42.510] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:17:42.510] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:17:42.510] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:17:42.510] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:17:42.511] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:17:42.511] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:17:42.511] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:17:42.511] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:19:10.455] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:19:10.456] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:19:10.456] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:19:10.457] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:19:10.457] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:19:10.457] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:19:10.457] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:19:10.457] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:19:10.457] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:21:36.910] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:21:36.911] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:22:31.975] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:22:31.976] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:22:31.976] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:22:31.977] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:22:31.977] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:22:31.978] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:22:31.978] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:22:31.978] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:22:31.978] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:29:59.315] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:29:59.316] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:29:59.316] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:31:10.477] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:31:10.478] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:31:10.478] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:34:49.512] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:34:49.513] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:34:49.513] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:41:31.752] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:41:31.754] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:41:31.754] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:41:40.838] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:41:40.839] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:41:40.839] [INFO] [agent_extractor] Extraction agents initialized

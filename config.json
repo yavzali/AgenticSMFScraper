@@ -1,0 +1,270 @@
+{
+    "shopify": {
+        "store_url": "dmrggj-28.myshopify.com",
+        "api_version": "2025-01", 
+        "access_token": "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"
+    },
+    
+    "retailers": {
+        "aritzia": {
+            "base_url": "aritzia.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 2.0,
+            "custom_headers": {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://aritzia.com/"
+            },
+            "stock_status_mappings": {
+                "few left": "low in stock",
+                "sold out": "out of stock",
+                "limited quantities": "low in stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_small.jpg -> _large.jpg",
+                    "size_transform": "150x150 -> 800x800"
+                },
+                "anti_hotlinking": true,
+                "referrer_required": true
+            }
+        },
+        "asos": {
+            "base_url": "asos.com", 
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.5,
+            "stock_status_mappings": {
+                "limited stock": "low in stock",
+                "out of stock": "out of stock"  
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_2xl.jpg -> _xxl.jpg"
+                },
+                "anti_hotlinking": false,
+                "referrer_required": false
+            }
+        },
+        "hm": {
+            "base_url": "hm.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 2.0,
+            "stock_status_mappings": {
+                "few items left": "low in stock",
+                "out of stock online": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_1x1.jpg -> _2x2.jpg"
+                },
+                "anti_hotlinking": true,
+                "referrer_required": true
+            }
+        },
+        "uniqlo": {
+            "base_url": "uniqlo.com",
+            "extraction_method": "openmanus", 
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.8,
+            "stock_status_mappings": {
+                "limited availability": "low in stock",
+                "coming soon": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_400x400.jpg -> _1125x1125.jpg"
+                },
+                "anti_hotlinking": false,
+                "referrer_required": false
+            }
+        },
+        "revolve": {
+            "base_url": "revolve.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"], 
+            "rate_limit": 1.2,
+            "stock_status_mappings": {
+                "almost gone": "low in stock",
+                "sold out": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_sw.jpg -> _xl.jpg"
+                },
+                "anti_hotlinking": true,
+                "referrer_required": true
+            }
+        },
+        "mango": {
+            "base_url": "mango.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 2.0,
+            "stock_status_mappings": {
+                "últimas unidades": "low in stock",
+                "agotado": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_B.jpg -> _D.jpg"
+                },
+                "anti_hotlinking": false,
+                "referrer_required": false
+            }
+        },
+        "anthropologie": {
+            "base_url": "anthropologie.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.5,
+            "stock_status_mappings": {
+                "few left": "low in stock",
+                "sold out": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_330_430.jpg -> _1094_1405.jpg"
+                },
+                "anti_hotlinking": true,
+                "referrer_required": true
+            }
+        },
+        "abercrombie": {
+            "base_url": "abercrombie.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.8,
+            "stock_status_mappings": {
+                "few left": "low in stock",
+                "sold out": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_prod.jpg -> _model.jpg"
+                },
+                "anti_hotlinking": false,
+                "referrer_required": false
+            }
+        },
+        "nordstrom": {
+            "base_url": "nordstrom.com",
+            "extraction_method": "openmanus", 
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.0,
+            "stock_status_mappings": {
+                "only a few left": "low in stock",
+                "sold out": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_300.jpg -> _1200.jpg"
+                },
+                "anti_hotlinking": true,
+                "referrer_required": true
+            }
+        },
+        "urban_outfitters": {
+            "base_url": "urbanoutfitters.com",
+            "extraction_method": "openmanus",
+            "fallback_methods": ["skyvern", "browser_use"],
+            "rate_limit": 1.5,
+            "stock_status_mappings": {
+                "low stock": "low in stock",
+                "sold out": "out of stock"
+            },
+            "image_processing": {
+                "url_patterns": {
+                    "thumbnail_to_large": "_001_b.jpg -> _001_a.jpg"
+                },
+                "anti_hotlinking": false,
+                "referrer_required": false
+            }
+        }
+    },
+    
+    "scheduling": {
+        "max_concurrent_batches": 3,
+        "cost_optimization_enabled": false,
+        "max_batch_duration_hours": 8,
+        "deepseek_discount_hours": [2, 3, 4, 5, 6, 7],
+        "timezone": "UTC",
+        "pause_between_batches_minutes": 15,
+        "preferred_start_time": "02:00",
+        "checkpoint_frequency": 5
+    },
+    
+    "processing": {
+        "max_retries": 3,
+        "retry_delay_base": 2,
+        "max_retry_delay": 60,
+        "max_images_per_product": 5,
+        "image_quality_threshold": {
+            "min_width": 400,
+            "min_height": 400, 
+            "min_file_size_kb": 50
+        }
+    },
+    
+    "notifications": {
+        "email_enabled": true,
+        "email_recipients": ["Ya.Zardali@gmail.com"],
+        "notification_triggers": {
+            "batch_complete": true,
+            "critical_errors": true,
+            "manual_review_threshold": 20
+        }
+    },
+    
+    "logging": {
+        "log_level": "INFO",
+        "log_retention_days": 30,
+        "performance_metrics_enabled": true
+    },
+    
+    "agents": {
+        "openmanus": {
+            "enabled": true,
+            "timeout": 480,
+            "max_retries": 1,
+            "installation_path": "/Users/yav/OpenManus",
+            "conda_env": "/Users/yav/miniconda3/envs/openmanus",
+            "config_file": "/Users/yav/OpenManus/config/config.toml",
+            "api_key": "AIzaSyAe-F_ROGiG610mR1rlSanBfix96ZxCS7Q",
+            "note": "CLI tool using Gemini Flash 2.0"
+        },
+        "skyvern": {
+            "enabled": false,
+            "timeout": 90,
+            "max_retries": 2,
+            "base_url": "http://localhost:8000",
+            "api_key": "REQUIRES_DOCKER_SETUP",
+            "note": "Requires Docker + PostgreSQL setup via 'skyvern init'. Currently disabled."
+        },
+        "browser_use": {
+            "enabled": true,
+            "timeout": 180,
+            "max_retries": 1,
+            "model": "gemini-2.0-flash-exp",
+            "use_vision": true,
+            "headless": true,
+            "save_conversation": true
+        }
+    },
+    
+    "llm_providers": {
+        "google": {
+            "api_key": "AIzaSyAe-F_ROGiG610mR1rlSanBfix96ZxCS7Q",
+            "model": "gemini-2.0-flash-exp"
+        },
+        "openai": {
+            "api_key": "YOUR_OPENAI_API_KEY",
+            "model": "gpt-4"
+        },
+        "anthropic": {
+            "api_key": "YOUR_ANTHROPIC_API_KEY",
+            "model": "claude-3-5-sonnet-20241022"
+        }
+    }
+}
