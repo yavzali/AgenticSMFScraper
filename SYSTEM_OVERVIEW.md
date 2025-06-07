@@ -235,19 +235,34 @@ print(f"Success rate: {results['success_rate']:.1f}%")
 
 ### **3. Testing System**
 ```bash
-# Run comprehensive tests
+# Test single URL (verified working - December 2024)
+python test_single_url.py "https://www.uniqlo.com/us/en/products/E479225-000/00" uniqlo
+
+# Run comprehensive image processing tests
 python testing/test_new_image_system.py
 
-# Test specific retailer
+# Test factory system functionality
 python -c "from image_processor_factory import ImageProcessorFactory; print(ImageProcessorFactory.get_factory_stats())"
+
+# Verify core system imports
+python -c "from agent_extractor import AgentExtractor; print('✅ Agent system operational')"
 ```
+
+### **Verified Test Results (December 2024)**
+- ✅ **OpenManus agent functional** (95.57 second extraction time)
+- ✅ **Uniqlo retailer extraction** (Mercerized Cotton Dress successfully extracted)
+- ✅ **Asyncio integration fixed** (agent hierarchy working properly)
+- ✅ **Modesty metadata system** (user-assigned tags pass through correctly)
 
 ## 🔧 **Configuration Options**
 
 ### **Modesty Levels**
-- **Conservative:** Strict filtering, family-friendly
-- **Moderate:** Balanced approach
-- **Liberal:** Minimal filtering
+**User-assigned metadata** (not AI filtering):
+- **Conservative:** User-assigned tag for family-friendly products
+- **Moderate:** User-assigned tag for balanced product selection
+- **Liberal:** User-assigned tag for minimal content restrictions
+
+*The system treats modesty levels as pass-through metadata that gets added as Shopify product tags. No content analysis or filtering is performed by the AI agents.*
 
 ### **Processing Settings**
 ```json

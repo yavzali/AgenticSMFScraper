@@ -652,3 +652,41 @@ OPENMANUS_RESULT_START
 [2025-06-07 03:41:40.838] [INFO] [pattern_learner] Pattern learning database initialized
 [2025-06-07 03:41:40.839] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-07 03:41:40.839] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:55:53.215] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:55:53.218] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:55:53.218] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:55:53.220] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:55:53.220] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:55:53.220] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:55:53.221] [WARNING] [agent_extractor] Extraction failed with openmanus: cannot access local variable 'asyncio' where it is not associated with a value
+[2025-06-07 03:55:53.222] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-07 03:55:53.222] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-07 03:55:53.222] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:55:53.222] [WARNING] [agent_extractor] Extraction failed with browser_use: cannot access local variable 'asyncio' where it is not associated with a value
+[2025-06-07 03:55:53.222] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-07 03:55:53.222] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-07 03:55:53.222] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:56:57.602] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 03:56:57.603] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:56:57.603] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 03:56:57.604] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:56:57.604] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 03:56:57.604] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:56:57.605] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 03:56:57.605] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 03:56:57.606] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 03:58:33.166] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetr...
+[2025-06-07 03:58:33.167] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-07 03:56:59.340 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-07 03:57:00.488 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1388, Completion=83, Cumulative Input=1388, Cumulative Completion=83, Total=1471, Cumulative Total=1471
+2025-06-07 03:57:00.489 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-07 03:57:00.489 | IN...
+[2025-06-07 03:58:33.168] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 4 fields
+[2025-06-07 03:58:33.169] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
+[2025-06-07 03:58:33.170] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False

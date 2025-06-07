@@ -173,13 +173,13 @@ class AgentExtractor:
     async def _extract_with_openmanus(self, url: str, retailer: str, learned_patterns: List, prompt: str) -> ExtractionResult:
         """Extract using OpenManus CLI agent"""
         
-        start_time = asyncio.get_event_loop().time()
-        
         try:
             import subprocess
             import json
             import asyncio
             from pathlib import Path
+            
+            start_time = asyncio.get_event_loop().time()
             
             logger.info(f"Starting OpenManus extraction for {url}")
             
@@ -350,11 +350,12 @@ if __name__ == "__main__":
     async def _extract_with_browser_use(self, url: str, retailer: str, learned_patterns: List, prompt: str) -> ExtractionResult:
         """Extract using Browser Use + Playwright"""
         
-        start_time = asyncio.get_event_loop().time()
-        
         try:
             import sys
             import os
+            import asyncio
+            
+            start_time = asyncio.get_event_loop().time()
             
             # Add browser-use to path
             browser_use_path = os.path.join(os.getcwd(), "browser-use")
@@ -362,7 +363,6 @@ if __name__ == "__main__":
                 sys.path.insert(0, browser_use_path)
             
             from browser_use import Agent
-            import asyncio
             
             logger.info(f"Starting Browser Use extraction for {url}")
             

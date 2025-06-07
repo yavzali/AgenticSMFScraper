@@ -81,3 +81,5 @@
                              ^
 SyntaxError: unterminated string literal (detected at line 13)
 [2025-06-07 02:41:16.294] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-07 03:55:53.221] [WARNING] [agent_extractor] Extraction failed with openmanus: cannot access local variable 'asyncio' where it is not associated with a value
+[2025-06-07 03:55:53.222] [WARNING] [agent_extractor] Extraction failed with browser_use: cannot access local variable 'asyncio' where it is not associated with a value

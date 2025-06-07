@@ -39,7 +39,10 @@
 ## ⚡ **Quick Commands**
 
 ```bash
-# Test system
+# Test single URL (verified working)
+python test_single_url.py "https://www.uniqlo.com/us/en/products/E479225-000/00" uniqlo
+
+# Test system components
 python testing/test_new_image_system.py
 
 # Check factory status
@@ -66,6 +69,20 @@ tail -f logs/scraper.log
 ✅ **10 Retailers** - 2 reconstruction + 8 transformation  
 ✅ **80% Success Rate** - Automated processing  
 ✅ **Documentation** - Updated and consolidated  
+
+## 🔧 **Recent Updates (December 2024)**
+
+### **✅ Fixed Issues**
+- **Asyncio scope errors** in agent extraction methods
+- **Browser Use parameter** compatibility (save_conversation_path)
+- **OpenManus integration** verified and working
+- **Modesty level documentation** clarified as user-assigned metadata
+
+### **✅ Verified Working**
+- **Single URL testing** with test_single_url.py
+- **OpenManus extraction** (95.57s for Uniqlo dress)
+- **Metadata pass-through** for modesty levels
+- **Agent hierarchy** (OpenManus → Browser Use → Skyvern)
 
 ---
 

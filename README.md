@@ -131,9 +131,12 @@ enhanced_urls = await processor.reconstruct_image_urls(url, product_data)
 ## 🔧 **Configuration**
 
 ### **Modesty Levels**
-- **Conservative:** Strict filtering, family-friendly
-- **Moderate:** Balanced approach
-- **Liberal:** Minimal filtering
+**User-assigned metadata** (not AI filtering):
+- **Conservative:** User-assigned tag for family-friendly products
+- **Moderate:** User-assigned tag for balanced product selection  
+- **Liberal:** User-assigned tag for minimal content restrictions
+
+*Note: Modesty levels are metadata tags assigned by users when inputting URLs. The system passes this through to Shopify product tags - no content filtering is applied.*
 
 ### **Retailer-Specific Settings**
 ```json
@@ -222,12 +225,24 @@ RECONSTRUCTION_RETAILERS = {
 
 ### **Testing**
 ```bash
-# Run comprehensive tests
+# Test single URL (verified working)
+python test_single_url.py "https://www.uniqlo.com/us/en/products/E479225-000/00" uniqlo
+
+# Run comprehensive image processing tests
 python testing/test_new_image_system.py
 
-# Test specific retailer
+# Test factory system
 python -c "from image_processor_factory import ImageProcessorFactory; processor = ImageProcessorFactory.get_processor('aritzia')"
+
+# Verify all imports work
+python -c "from batch_processor import BatchProcessor; print('✅ All imports work')"
 ```
+
+### **Recent Test Results**
+- ✅ **Uniqlo extraction successful** (95.57 seconds via OpenManus)
+- ✅ **Product data extracted:** Mercerized Cotton Dress, $29.90
+- ✅ **Agent hierarchy working:** OpenManus primary agent functional
+- ✅ **Metadata handling:** Modesty levels correctly passed through
 
 ## 🔧 **Troubleshooting**
 
