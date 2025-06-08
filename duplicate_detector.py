@@ -22,11 +22,21 @@ class DuplicateDetector:
     def _init_database(self):
         """Initialize SQLite database with required tables"""
         try:
-            # Use asyncio.run for initial setup since this is called during __init__
-            asyncio.get_event_loop().run_until_complete(self._async_init_database())
-        except RuntimeError:
-            # If no event loop exists, create one temporarily
-            asyncio.run(self._async_init_database())
+            # Check if we're already in an event loop
+            try:
+                loop = asyncio.get_running_loop()
+                # If we're in a running loop, we can't use asyncio.run()
+                # Instead, we'll defer initialization until first use
+                self._db_initialized = False
+                logger.info("Database initialization deferred (running in event loop)")
+                return
+            except RuntimeError:
+                # No running loop, safe to use asyncio.run()
+                asyncio.run(self._async_init_database())
+                self._db_initialized = True
+        except Exception as e:
+            logger.error(f"Database initialization failed: {e}")
+            self._db_initialized = False
     
     async def _async_init_database(self):
         """Async database initialization"""
@@ -75,8 +85,16 @@ class DuplicateDetector:
             logger.error(f"Failed to initialize database: {e}")
             raise
     
+    async def _ensure_db_initialized(self):
+        """Ensure database is initialized before use"""
+        if not getattr(self, '_db_initialized', False):
+            await self._async_init_database()
+            self._db_initialized = True
+    
     async def check_duplicate(self, url: str, retailer: str) -> Dict:
         """Check if URL or similar product already exists"""
+        
+        await self._ensure_db_initialized()
         
         try:
             async with aiosqlite.connect(self.db_path) as conn:
@@ -301,7 +319,9 @@ class DuplicateDetector:
             return 'uncertain'
     
     async def store_product(self, **product_data) -> bool:
-        """Store new product in database"""
+        """Store a new product in the database"""
+        
+        await self._ensure_db_initialized()
         
         try:
             async with aiosqlite.connect(self.db_path) as conn:

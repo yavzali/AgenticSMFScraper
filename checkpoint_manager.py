@@ -197,6 +197,37 @@ class CheckpointManager:
         else:
             return False
     
+    def save_batch_progress(self, batch_id: str, results: Dict, remaining_urls: List[str]):
+        """Save batch progress synchronously (wrapper for async method)"""
+        
+        try:
+            import asyncio
+            
+            # Try to get existing event loop
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # Create a task for async save_checkpoint
+                    asyncio.create_task(self.save_checkpoint(batch_id, results, remaining_urls))
+                else:
+                    # Run in new event loop
+                    loop.run_until_complete(self.save_checkpoint(batch_id, results, remaining_urls))
+            except RuntimeError:
+                # No event loop, create new one
+                asyncio.run(self.save_checkpoint(batch_id, results, remaining_urls))
+                
+        except Exception as e:
+            logger.error(f"Failed to save batch progress: {e}")
+            # Fallback: at least update the current state
+            self.current_state.update({
+                'batch_id': batch_id,
+                'processed_count': results.get('processed_count', 0),
+                'successful_count': results.get('successful_count', 0),
+                'failed_count': results.get('failed_count', 0),
+                'manual_review_count': results.get('manual_review_count', 0),
+                'last_checkpoint': datetime.utcnow().isoformat()
+            })
+    
     def _validate_checkpoint(self, checkpoint_data: Dict) -> bool:
         """Validate checkpoint data integrity"""
         

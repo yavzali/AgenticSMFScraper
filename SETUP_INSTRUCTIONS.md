@@ -171,3 +171,359 @@ If the system fails:
    ```
    - Get your API key from: https://platform.deepseek.com/api_keys
    - Optional: If not provided, markdown extractor will use only Gemini Flash 2.0
+
+# 🛠️ **Setup Instructions - Agent Modest Scraper System**
+
+## 🎯 **Dual Engine Architecture Setup**
+
+This system uses **dual extraction engines** requiring different API keys for optimal performance:
+- **Markdown Extractor** (5 retailers): Jina AI + DeepSeek V3/Gemini Flash 2.0
+- **Browser Agents** (5 retailers): Browser Use + OpenManus with verification handling
+
+## 📋 **Prerequisites**
+
+### **System Requirements**
+- **Python 3.8+** (tested with 3.9, 3.10, 3.11)
+- **Chrome/Chromium** (for browser agents)
+- **4GB+ RAM** (for browser automation)
+- **Stable internet connection** (for Jina AI and verification challenges)
+
+### **Operating System Support**
+- ✅ **macOS** (primary development)
+- ✅ **Linux** (Ubuntu 20.04+)
+- ✅ **Windows** (with WSL recommended)
+
+## 🔑 **API Keys Required**
+
+### **1. Google Gemini API** (Required)
+```bash
+export GOOGLE_API_KEY="your_gemini_api_key"
+```
+- **Used for:** Browser agents, markdown extractor fallback
+- **Get key from:** https://makersuite.google.com/app/apikey
+- **Cost:** Free tier available, pay-per-use
+- **Required for:** All system operations
+
+### **2. DeepSeek API** (Optional but Recommended)
+```bash
+export DEEPSEEK_API_KEY="your_deepseek_api_key"
+```
+- **Used for:** Primary LLM in markdown extraction cascade
+- **Get key from:** https://platform.deepseek.com/api_keys
+- **Cost:** Very cost-effective, high performance
+- **Benefits:** Better extraction quality, lower costs for markdown retailers
+
+### **3. Shopify API** (Required for Production)
+```bash
+# Set in config.json
+{
+  "shopify": {
+    "api_key": "your_shopify_api_key",
+    "secret": "your_shopify_secret",
+    "store_url": "your-store.myshopify.com"
+  }
+}
+```
+- **Used for:** Product creation and updates
+- **Get from:** Shopify Partner Dashboard or store admin
+- **Required for:** Product uploads to store
+
+## 🚀 **Installation Steps**
+
+### **Step 1: Clone Repository**
+```bash
+git clone https://github.com/yavzali/AgenticSMFScraper.git
+cd "Agent Modest Scraper System"
+```
+
+### **Step 2: Create Virtual Environment**
+```bash
+# Create virtual environment
+python -m venv scraper_env
+
+# Activate environment
+# On macOS/Linux:
+source scraper_env/bin/activate
+# On Windows:
+scraper_env\Scripts\activate
+```
+
+### **Step 3: Install Dependencies**
+```bash
+# Install all required packages
+pip install -r requirements.txt
+
+# Verify critical imports
+python -c "import browser_use, google.generativeai, requests; print('✅ Core dependencies installed')"
+```
+
+### **Step 4: Configure API Keys**
+
+#### **Environment Variables (Recommended)**
+```bash
+# Add to ~/.bashrc, ~/.zshrc, or create .env file
+export GOOGLE_API_KEY="your_gemini_api_key"
+export DEEPSEEK_API_KEY="your_deepseek_api_key"  # Optional but recommended
+```
+
+#### **Config File Setup**
+```bash
+# Copy example config
+cp config.json.example config.json
+
+# Edit configuration
+nano config.json
+```
+
+### **Step 5: Verify Installation**
+```bash
+# Test markdown extractor
+python -c "from markdown_extractor import MarkdownExtractor; print('✅ Markdown extractor ready')"
+
+# Test browser agents
+python -c "from agent_extractor import AgentExtractor; print('✅ Browser agents ready')"
+
+# Test integration
+python test_integration_routing.py
+```
+
+## 🔧 **Configuration Details**
+
+### **config.json Structure**
+```json
+{
+  "extraction_routing": {
+    "markdown_retailers": ["asos", "mango", "uniqlo", "revolve", "hm"],
+    "browser_retailers": ["nordstrom", "aritzia", "anthropologie", "urban_outfitters", "abercrombie"]
+  },
+  "markdown_extractor": {
+    "cache_expiry_days": 5,
+    "token_limit": 120000,
+    "models": {
+      "deepseek": "deepseek-chat",
+      "gemini": "gemini-2.0-flash-exp"
+    }
+  },
+  "browser_agents": {
+    "browser_use": {
+      "enabled": true,
+      "headless": true,
+      "timeout": 120
+    },
+    "openmanus": {
+      "enabled": true,
+      "timeout": 90
+    }
+  },
+  "shopify": {
+    "api_key": "your_shopify_api_key",
+    "secret": "your_shopify_secret",
+    "store_url": "your-store.myshopify.com"
+  },
+  "image_processing": {
+    "quality_threshold": 80,
+    "min_resolution": [800, 800],
+    "min_file_size": 102400
+  }
+}
+```
+
+### **Retailer-Specific Settings**
+```json
+{
+  "retailers": {
+    "asos": {
+      "extraction_method": "markdown",
+      "image_patterns": ["$XXL$", "$XXXL$"],
+      "fallback_to_browser": true
+    },
+    "nordstrom": {
+      "extraction_method": "browser_agent",
+      "verification_handling": "press_and_hold",
+      "timeout": 180
+    }
+  }
+}
+```
+
+## 🧪 **Testing & Validation**
+
+### **Basic Functionality Tests**
+```bash
+# Test markdown extraction for supported retailers
+python test_markdown_extractor.py
+
+# Test browser agent verification handling
+python test_verification_handling.py
+
+# Test routing logic
+python test_integration_routing.py
+
+# Test single URL extraction
+python test_single_url.py "https://www.asos.com/product-url" asos
+```
+
+### **System Integration Test**
+```bash
+# Complete system validation
+python -c "
+from agent_extractor import AgentExtractor
+from markdown_extractor import MarkdownExtractor, MARKDOWN_RETAILERS
+import asyncio
+
+async def test_system():
+    agent = AgentExtractor()
+    print(f'✅ Markdown retailers: {MARKDOWN_RETAILERS}')
+    print('✅ All systems operational')
+
+asyncio.run(test_system())
+"
+```
+
+## 🛡️ **Security & Best Practices**
+
+### **API Key Security**
+```bash
+# Use environment variables (recommended)
+export GOOGLE_API_KEY="your_key"
+export DEEPSEEK_API_KEY="your_key"
+
+# Or use .env file (add to .gitignore)
+echo "GOOGLE_API_KEY=your_key" > .env
+echo "DEEPSEEK_API_KEY=your_key" >> .env
+```
+
+### **Rate Limiting Configuration**
+```json
+{
+  "rate_limiting": {
+    "requests_per_minute": 30,
+    "concurrent_requests": 3,
+    "retry_delays": [1, 2, 4, 8]
+  }
+}
+```
+
+### **Anti-Detection Measures**
+```json
+{
+  "anti_detection": {
+    "user_agent_rotation": true,
+    "proxy_rotation": false,
+    "request_delays": [1, 3],
+    "retailer_specific_headers": true
+  }
+}
+```
+
+## 🔍 **Troubleshooting**
+
+### **Common Issues**
+
+#### **1. Import Errors**
+```bash
+# Check Python version
+python --version  # Should be 3.8+
+
+# Reinstall dependencies
+pip install -r requirements.txt --force-reinstall
+
+# Verify specific imports
+python -c "import browser_use; print('Browser Use OK')"
+python -c "import google.generativeai; print('Gemini OK')"
+```
+
+#### **2. API Key Issues**
+```bash
+# Verify environment variables
+echo $GOOGLE_API_KEY
+echo $DEEPSEEK_API_KEY
+
+# Test API connectivity
+python -c "
+import google.generativeai as genai
+import os
+genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+print('✅ Gemini API connected')
+"
+```
+
+#### **3. Browser Agent Issues**
+```bash
+# Check Chrome installation
+google-chrome --version
+# or
+chromium --version
+
+# Test browser initialization
+python test_anti_detection.py
+```
+
+#### **4. Markdown Extractor Issues**
+```bash
+# Test Jina AI connectivity
+python -c "
+import requests
+response = requests.get('https://r.jina.ai/https://www.asos.com')
+print(f'Jina AI status: {response.status_code}')
+"
+
+# Test cache system
+python -c "
+from markdown_extractor import MarkdownExtractor
+extractor = MarkdownExtractor()
+print('✅ Markdown cache system ready')
+"
+```
+
+## 📊 **Performance Optimization**
+
+### **Memory Management**
+```json
+{
+  "performance": {
+    "max_concurrent_extractions": 3,
+    "cache_size_mb": 100,
+    "log_retention_days": 7
+  }
+}
+```
+
+### **Cost Optimization**
+```json
+{
+  "cost_optimization": {
+    "prefer_markdown_extraction": true,
+    "cache_markdown": true,
+    "fallback_timeout_seconds": 30
+  }
+}
+```
+
+## 🚀 **Ready for Production**
+
+### **Final Validation Checklist**
+- [ ] All API keys configured and tested
+- [ ] Dependencies installed and verified
+- [ ] Browser agents can handle verification challenges
+- [ ] Markdown extractor processes supported retailers
+- [ ] Image processing quality meets standards
+- [ ] Shopify integration tested (if using)
+- [ ] Logging system operational
+- [ ] Cost tracking active
+
+### **Launch Commands**
+```bash
+# Single URL test
+python test_single_url.py "https://www.uniqlo.com/us/en/products/E479225-000" uniqlo
+
+# Batch processing
+python batch_processor.py --input urls.json --output results.json
+
+# Monitor system
+tail -f logs/scraper_main.log
+```
+
+---
+
+**🎯 Setup Status:** Ready for production with dual engine architecture optimized for cost and success rates across 10 major fashion retailers.
