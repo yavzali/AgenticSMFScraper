@@ -60,7 +60,13 @@ class MarkdownExtractor:
             # DeepSeek V3 setup
             try:
                 from openai import OpenAI
+                
+                # Get API key from environment variable or config (like Gemini handling)
                 deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+                if not deepseek_api_key:
+                    # Fallback to config if environment variable not set
+                    deepseek_api_key = self.config.get("llm_providers", {}).get("deepseek", {}).get("api_key")
+                
                 if deepseek_api_key:
                     self.deepseek_client = OpenAI(
                         api_key=deepseek_api_key,
@@ -70,7 +76,7 @@ class MarkdownExtractor:
                     logger.info("✅ DeepSeek V3 client initialized")
                 else:
                     self.deepseek_enabled = False
-                    logger.warning("⚠️ DeepSeek API key not found, DeepSeek disabled")
+                    logger.debug("ℹ️ DeepSeek API key not found in environment or config - using Gemini only")
             except ImportError:
                 self.deepseek_enabled = False
                 logger.warning("⚠️ OpenAI client not available for DeepSeek")
