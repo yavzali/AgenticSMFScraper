@@ -182,6 +182,21 @@ class CheckpointManager:
         except Exception as e:
             logger.error(f"Failed to clear checkpoint: {e}")
     
+    def should_save_checkpoint(self, current_index: int) -> bool:
+        """Determine if a checkpoint should be saved based on frequency"""
+        
+        # Save checkpoint every 5 URLs or if this is the first/last item
+        checkpoint_frequency = 5
+        
+        if current_index == 0:  # First item
+            return True
+        elif current_index % checkpoint_frequency == 0:  # Every N items
+            return True
+        elif current_index == self.current_state.get('total_urls', 0) - 1:  # Last item
+            return True
+        else:
+            return False
+    
     def _validate_checkpoint(self, checkpoint_data: Dict) -> bool:
         """Validate checkpoint data integrity"""
         
