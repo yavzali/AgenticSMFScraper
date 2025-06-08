@@ -226,13 +226,13 @@
     "agents": {
         "openmanus": {
             "enabled": true,
-            "timeout": 480,
+            "timeout": 180,
             "max_retries": 1,
             "installation_path": "/Users/yav/OpenManus",
             "conda_env": "/Users/yav/miniconda3/envs/openmanus",
             "config_file": "/Users/yav/OpenManus/config/config.toml",
             "api_key": "AIzaSyAe-F_ROGiG610mR1rlSanBfix96ZxCS7Q",
-            "note": "CLI tool using Gemini Flash 2.0"
+            "note": "CLI tool - temporarily using GPT-4o-mini for stability"
         },
         "skyvern": {
             "enabled": false,
@@ -240,16 +240,33 @@
             "max_retries": 2,
             "base_url": "http://localhost:8000",
             "api_key": "REQUIRES_DOCKER_SETUP",
-            "note": "Requires Docker + PostgreSQL setup via 'skyvern init'. Currently disabled."
+            "note": "TEMPORARILY DISABLED - Requires Docker + PostgreSQL setup via 'skyvern init'."
         },
         "browser_use": {
             "enabled": true,
             "timeout": 180,
-            "max_retries": 1,
-            "model": "gemini-2.0-flash-exp",
+            "max_retries": 2,
+            "model": "gemini-2.0-flash",
             "use_vision": true,
-            "headless": true,
-            "save_conversation": true
+            "headless": false,
+            "save_conversation": "logs/browser_use_conversations",
+            "anti_detection": {
+                "stealth_mode": true,
+                "user_agent_rotation": true,
+                "human_like_behavior": true,
+                "random_delays": true,
+                "retry_backoff": true,
+                "retailer_specific_timeouts": true
+            },
+            "verification_handling": {
+                "checkbox_click_enabled": true,
+                "press_hold_duration_seconds": 5,
+                "cloudflare_tab_management": true,
+                "max_verification_attempts": 3,
+                "verification_timeout_seconds": 60,
+                "retry_on_verification_failure": true
+            },
+            "note": "PRIMARY METHOD - Enhanced with Phase 1 & 2 anti-detection + automatic verification handling, better Gemini compatibility than OpenManus"
         }
     },
     
@@ -260,7 +277,7 @@
         },
         "openai": {
             "api_key": "YOUR_OPENAI_API_KEY",
-            "model": "gpt-4"
+            "model": "gpt-4o-mini"
         },
         "anthropic": {
             "api_key": "YOUR_ANTHROPIC_API_KEY",

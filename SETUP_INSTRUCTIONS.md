@@ -149,3 +149,25 @@ If the system fails:
 4. **Test components**: Run individual scripts to isolate issues
 5. **Database issues**: Delete `products.db` to recreate
 6. **Resume capability**: Use `--resume` flag after interruptions
+
+### API Keys Required
+
+1. **Google Gemini API** (Primary LLM)
+   ```bash
+   export GOOGLE_API_KEY="your_gemini_api_key"
+   ```
+
+2. **OpenManus API** (if using OpenManus agent)
+   ```bash
+   export OPENMANUS_API_KEY="your_openmanus_api_key"
+   ```
+
+3. **Browser Use** (Uses Gemini API key)
+   - No separate key needed, uses GOOGLE_API_KEY
+
+4. **DeepSeek API** (For Markdown Extractor)
+   ```bash
+   export DEEPSEEK_API_KEY="your_deepseek_api_key"
+   ```
+   - Get your API key from: https://platform.deepseek.com/api_keys
+   - Optional: If not provided, markdown extractor will use only Gemini Flash 2.0

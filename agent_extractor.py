@@ -33,6 +33,22 @@ class AgentExtractor:
         
         self.pattern_learner = PatternLearner()
         
+        # Initialize browser use components
+        self.browser_use_agent = None
+        self.browser_use_llm = None
+        
+        # Initialize LLM clients for browser use
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            self.browser_use_llm = ChatGoogleGenerativeAI(
+                model="gemini-2.0-flash-exp",
+                temperature=0.1,
+                google_api_key=self.config["agents"]["openmanus"]["api_key"]
+            )
+            logger.info("✅ Browser Use LLM initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Browser Use LLM initialization failed: {e}")
+        
         # Import extraction tools
         try:
             # These would be actual imports in real implementation
@@ -44,105 +60,170 @@ class AgentExtractor:
             logger.warning(f"Some extraction tools not available: {e}")
     
     async def extract_product_data(self, url: str, retailer: str) -> ExtractionResult:
-        """Main extraction method with fallback hierarchy and cost optimization"""
+        """Main extraction method with markdown/agent routing and fallback hierarchy"""
         start_time = asyncio.get_event_loop().time()
         
         try:
             # Get learned patterns for this retailer/URL
             learned_patterns = await self.pattern_learner.get_learned_patterns(retailer, url)
             
-            # Try extraction methods in order (most reliable first)
-            for method in ['openmanus', 'browser_use', 'skyvern']:
+            # STEP 1: Route to appropriate extraction method based on retailer
+            from markdown_extractor import MarkdownExtractor, MARKDOWN_RETAILERS
+            
+            if retailer in MARKDOWN_RETAILERS:
+                # Try markdown extraction first for these retailers
+                logger.info(f"Using markdown extraction for {retailer}: {url}")
+                
                 try:
-                    logger.info(f"Attempting extraction with {method} for {url}")
+                    markdown_extractor = MarkdownExtractor()
+                    markdown_result = await markdown_extractor.extract_product_data(url, retailer)
                     
-                    # Build prompt
-                    prompt = self._build_extraction_prompt(url, retailer, learned_patterns)
-                    
-                    # Check for cached response first
-                    cached_response = cost_tracker.get_cached_response(prompt)
-                    if cached_response:
-                        logger.info(f"Using cached response for {url}")
-                        processing_time = asyncio.get_event_loop().time() - start_time
-                        
-                        # Track the cache hit
-                        cost_tracker.track_api_call(
-                            method=method, 
-                            prompt=prompt, 
-                            response=cached_response,
-                            retailer=retailer, 
-                            url=url, 
-                            processing_time=processing_time
-                        )
-                        
-                        return ExtractionResult(
-                            success=True,
-                            data=cached_response.get('data', {}),
-                            method_used=f"{method}_cached",
-                            processing_time=processing_time,
-                            warnings=[],
-                            errors=[]
-                        )
-                    
-                    # Perform actual extraction
-                    result = await self._extract_with_method(method, url, retailer, learned_patterns, prompt)
-                    
-                    if result.success:
-                        # Process and validate extracted data
-                        processed_data = await self._process_extracted_data(result.data, retailer)
+                    if markdown_result.success and not markdown_result.should_fallback:
+                        # Markdown extraction succeeded - process and return
+                        processed_data = await self._process_extracted_data(markdown_result.data, retailer)
                         
                         if self._validate_extraction_quality(processed_data, retailer):
                             # Record successful pattern
                             await self.pattern_learner.record_successful_extraction(
-                                retailer, url, method, processed_data
+                                retailer, url, "markdown_extractor", processed_data
                             )
                             
                             processing_time = asyncio.get_event_loop().time() - start_time
                             
                             # Track API call with cost tracking
-                            response_data = {'success': True, 'data': processed_data}
                             cost_tracker.track_api_call(
-                                method=method,
-                                prompt=prompt, 
-                                response=response_data,
+                                method="markdown_extractor",
+                                prompt=f"Markdown extraction for {retailer}",
+                                response={'success': True, 'data': processed_data},
                                 retailer=retailer,
                                 url=url,
                                 processing_time=processing_time
                             )
                             
+                            logger.info(f"✅ Markdown extraction successful for {retailer} in {processing_time:.2f}s")
                             return ExtractionResult(
                                 success=True,
                                 data=processed_data,
-                                method_used=method,
+                                method_used="markdown_extractor",
                                 processing_time=processing_time,
-                                warnings=result.warnings,
+                                warnings=markdown_result.warnings,
                                 errors=[]
                             )
-                
-                except Exception as e:
-                    logger.warning(f"Extraction failed with {method}: {e}")
-                    await self.pattern_learner.record_failed_extraction(retailer, url, method, str(e))
                     
-                    # Track failed API call
+                    # Markdown extraction failed or indicated fallback needed
+                    logger.warning(f"Markdown extraction failed for {retailer}, falling back to browser agent")
+                    logger.warning(f"Markdown errors: {markdown_result.errors}")
+                    
+                except Exception as e:
+                    logger.error(f"Markdown extractor error for {retailer}: {e}, falling back to browser agent")
+            
+            # STEP 2: Use browser agent (either direct route or fallback)
+            if retailer not in MARKDOWN_RETAILERS:
+                logger.info(f"Using browser agent for {retailer} (direct route): {url}")
+            else:
+                logger.info(f"Using browser agent for {retailer} (fallback from markdown): {url}")
+            
+            # Build prompt for browser agent
+            prompt = self._build_extraction_prompt(url, retailer, learned_patterns)
+            
+            # Check for cached response first
+            cached_response = cost_tracker.get_cached_response(prompt)
+            if cached_response:
+                logger.info(f"Using cached response for {url}")
+                processing_time = asyncio.get_event_loop().time() - start_time
+                
+                # Track the cache hit
+                cost_tracker.track_api_call(
+                    method="browser_use_cached", 
+                    prompt=prompt, 
+                    response=cached_response,
+                    retailer=retailer, 
+                    url=url, 
+                    processing_time=processing_time
+                )
+                
+                # Ensure cached_response is a dict
+                if isinstance(cached_response, dict):
+                    cached_data = cached_response.get('data', {})
+                else:
+                    # Handle case where cached_response is a string or other type
+                    cached_data = {
+                        "retailer": retailer,
+                        "title": "Cached Result",
+                        "raw_output": str(cached_response)
+                    }
+                
+                return ExtractionResult(
+                    success=True,
+                    data=cached_data,
+                    method_used="browser_use_cached",
+                    processing_time=processing_time,
+                    warnings=[],
+                    errors=[]
+                )
+            
+            # Perform browser agent extraction
+            result = await self._extract_with_browser_use(url, retailer, learned_patterns, prompt)
+            
+            if result.success:
+                # Process and validate extracted data
+                processed_data = await self._process_extracted_data(result.data, retailer)
+                
+                if self._validate_extraction_quality(processed_data, retailer):
+                    # Record successful pattern
+                    await self.pattern_learner.record_successful_extraction(
+                        retailer, url, "browser_use", processed_data
+                    )
+                    
+                    processing_time = asyncio.get_event_loop().time() - start_time
+                    
+                    # Track API call with cost tracking
+                    response_data = {'success': True, 'data': processed_data}
                     cost_tracker.track_api_call(
-                        method=method,
-                        prompt=self._build_extraction_prompt(url, retailer, learned_patterns),
-                        response={'success': False, 'error': str(e)},
+                        method="browser_use",
+                        prompt=prompt, 
+                        response=response_data,
                         retailer=retailer,
                         url=url,
-                        processing_time=asyncio.get_event_loop().time() - start_time
+                        processing_time=processing_time
                     )
-                    continue
+                    
+                    return ExtractionResult(
+                        success=True,
+                        data=processed_data,
+                        method_used="browser_use",
+                        processing_time=processing_time,
+                        warnings=result.warnings,
+                        errors=[]
+                    )
+                else:
+                    logger.warning(f"Browser agent extraction quality validation failed for {retailer}")
+            
+            # Browser agent also failed
+            await self.pattern_learner.record_failed_extraction(retailer, url, "browser_use", str(result.errors))
+            
+            # Track failed API call
+            cost_tracker.track_api_call(
+                method="browser_use",
+                prompt=prompt,
+                response={'success': False, 'error': str(result.errors)},
+                retailer=retailer,
+                url=url,
+                processing_time=asyncio.get_event_loop().time() - start_time
+            )
             
             # All methods failed
             processing_time = asyncio.get_event_loop().time() - start_time
+            error_message = f"Both markdown and browser agent extraction failed for {retailer}"
+            logger.error(error_message)
+            
             return ExtractionResult(
                 success=False,
                 data={},
                 method_used="none",
                 processing_time=processing_time,
                 warnings=[],
-                errors=["All extraction methods failed"]
+                errors=[error_message]
             )
             
         except Exception as e:
@@ -347,105 +428,688 @@ if __name__ == "__main__":
         return ExtractionResult(success=False, data={}, method_used="skyvern", 
                               processing_time=0, warnings=[], errors=["Skyvern not implemented"])
     
-    async def _extract_with_browser_use(self, url: str, retailer: str, learned_patterns: List, prompt: str) -> ExtractionResult:
-        """Extract using Browser Use + Playwright"""
-        
+    async def _extract_with_browser_use(self, url: str, retailer: str, learned_patterns: dict, prompt: str) -> ExtractionResult:
+        """Perform extraction using browser_use agent"""
         try:
-            import sys
-            import os
-            import asyncio
+            # Initialize browser_use if not already done
+            if not self.browser_use_llm:
+                return ExtractionResult(
+                    success=False,
+                    data={},
+                    method_used="browser_use",
+                    processing_time=0,
+                    warnings=[],
+                    errors=["Browser Use LLM not initialized"]
+                )
             
-            start_time = asyncio.get_event_loop().time()
+            # Import and initialize browser_use
+            try:
+                from browser_use import Browser, BrowserConfig
+                from browser_use.browser.browser import BrowserContextConfig
+                logger.debug("Browser Use imported successfully")
+            except ImportError as e:
+                logger.error(f"Failed to import browser_use: {e}")
+                return ExtractionResult(
+                    success=False,
+                    data={},
+                    method_used="browser_use",
+                    processing_time=0,
+                    warnings=[],
+                    errors=[f"Browser Use not available: {e}"]
+                )
             
-            # Add browser-use to path
-            browser_use_path = os.path.join(os.getcwd(), "browser-use")
-            if browser_use_path not in sys.path:
-                sys.path.insert(0, browser_use_path)
+            # Configure browser session with anti-detection
+            browser_config = {
+                'headless': True,
+                'extra_chromium_args': [
+                    '--no-sandbox',
+                    '--disable-blink-features=AutomationControlled',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                ]
+            }
             
-            from browser_use import Agent
+            # Apply retailer-specific anti-detection
+            if retailer in ['nordstrom', 'aritzia', 'anthropologie']:
+                # These retailers have stronger anti-bot measures
+                browser_config['extra_chromium_args'].extend([
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-extensions'
+                ])
             
-            logger.info(f"Starting Browser Use extraction for {url}")
-            
-            # Get Browser Use configuration
-            browser_config = self.config["agents"]["browser_use"]
-            
-            # Create Browser Use agent
-            agent = Agent(
-                task=prompt,
-                llm=browser_config["model"],
-                use_vision=browser_config["use_vision"],
-                save_conversation=browser_config["save_conversation"]
+            # Create context config
+            context_config = BrowserContextConfig(
+                disable_security=True,
+                browser_window_size={'width': 1920, 'height': 1080},
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             )
             
-            # Run extraction with timeout
-            result = await asyncio.wait_for(
-                agent.run(),
-                timeout=browser_config["timeout"]
+            # Create browser config
+            config = BrowserConfig(
+                headless=browser_config['headless'],
+                extra_chromium_args=browser_config['extra_chromium_args'],
+                new_context_config=context_config
             )
             
-            # Calculate actual processing time
-            processing_time = asyncio.get_event_loop().time() - start_time
+            browser = Browser(config=config)
             
-            logger.debug(f"Browser Use raw result: {str(result)[:200]}...")
-            
-            # Parse the result
-            if isinstance(result, dict):
-                extracted_data = result
-            elif isinstance(result, str):
-                # Try to parse as JSON
-                try:
-                    import json
-                    extracted_data = json.loads(result)
-                except json.JSONDecodeError:
-                    # Create structured data from text
-                    extracted_data = {
+            try:
+                # Execute extraction task
+                logger.debug(f"Executing browser_use extraction: {prompt[:200]}...")
+                
+                # Enhanced prompt with URL navigation
+                full_prompt = f"Navigate to {url} and {prompt}"
+                
+                result = await browser.run(full_prompt)
+                
+                # Parse result
+                parsed_data = self._parse_json_result(str(result), retailer)
+                
+                if parsed_data:
+                    return ExtractionResult(
+                        success=True,
+                        data=parsed_data,
+                        method_used="browser_use",
+                        processing_time=0,  # Will be calculated by caller
+                        warnings=[],
+                        errors=[]
+                    )
+                else:
+                    # Create fallback data structure
+                    fallback_data = {
                         "retailer": retailer,
                         "title": "Extracted by Browser Use",
-                        "description": result,
-                        "raw_output": result
+                        "description": str(result)[:500],
+                        "raw_output": str(result)
                     }
-            else:
-                # Fallback
+                    
+                    return ExtractionResult(
+                        success=True,  # Technical success
+                        data=fallback_data,
+                        method_used="browser_use",
+                        processing_time=0,
+                        warnings=["Could not parse structured data, using fallback"],
+                        errors=[]
+                    )
+                    
+            finally:
+                # Clean up browser
+                try:
+                    await browser.close()
+                except:
+                    pass  # Ignore cleanup errors
+                
+        except Exception as e:
+            logger.error(f"Browser Use extraction failed: {e}")
+            return ExtractionResult(
+                success=False,
+                data={},
+                method_used="browser_use",
+                processing_time=0,
+                warnings=[],
+                errors=[str(e)]
+            )
+    
+    def _parse_json_result(self, result_text: str, retailer: str) -> Optional[Dict[str, Any]]:
+        """Parse JSON from extraction result text"""
+        
+        if not result_text:
+            return None
+        
+        try:
+            # Look for JSON pattern in the text
+            import re
+            import json
+            
+            # Try to find JSON blocks
+            json_patterns = [
+                r'\{[^{}]*"retailer"[^{}]*\}',  # Simple JSON with retailer field
+                r'\{.*?\}',  # Any JSON-like structure
+                r'```json\s*(\{.*?\})\s*```',  # Markdown JSON blocks
+                r'```\s*(\{.*?\})\s*```'  # Generic code blocks
+            ]
+            
+            for pattern in json_patterns:
+                matches = re.findall(pattern, result_text, re.DOTALL | re.IGNORECASE)
+                for match in matches:
+                    try:
+                        # Clean up the match
+                        json_str = match.strip()
+                        if json_str.startswith('json'):
+                            json_str = json_str[4:].strip()
+                        
+                        # Parse JSON
+                        data = json.loads(json_str)
+                        
+                        # Validate it has some expected fields
+                        if isinstance(data, dict) and (
+                            'title' in data or 
+                            'retailer' in data or 
+                            'price' in data
+                        ):
+                            # Ensure retailer field matches
+                            data['retailer'] = retailer
+                            return data
+                            
+                    except json.JSONDecodeError:
+                        continue
+            
+            # If no JSON found, try to extract key-value pairs
+            extracted_data = {"retailer": retailer}
+            
+            # Extract title
+            title_patterns = [
+                r'title[:\s]*["\']([^"\']+)["\']',
+                r'product[_\s]*title[:\s]*["\']([^"\']+)["\']',
+                r'name[:\s]*["\']([^"\']+)["\']'
+            ]
+            
+            for pattern in title_patterns:
+                match = re.search(pattern, result_text, re.IGNORECASE)
+                if match:
+                    extracted_data['title'] = match.group(1).strip()
+                    break
+            
+            # Extract price
+            price_patterns = [
+                r'price[:\s]*["\']?[\$]?([0-9.,]+)["\']?',
+                r'cost[:\s]*["\']?[\$]?([0-9.,]+)["\']?',
+                r'\$([0-9.,]+)'
+            ]
+            
+            for pattern in price_patterns:
+                match = re.search(pattern, result_text, re.IGNORECASE)
+                if match:
+                    extracted_data['price'] = f"${match.group(1)}"
+                    break
+            
+            # Return if we found at least title or price
+            if 'title' in extracted_data or 'price' in extracted_data:
+                return extracted_data
+                
+        except Exception as e:
+            logger.warning(f"Error parsing JSON result: {e}")
+        
+        return None
+    
+    def _get_rotated_user_agents(self, retailer: str) -> List[str]:
+        """Get realistic user agents with rotation based on retailer preferences"""
+        
+        # Desktop user agents (primary)
+        desktop_agents = [
+            # Chrome (most common)
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            
+            # Firefox
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
+            
+            # Safari (Mac)
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15",
+            
+            # Edge
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        ]
+        
+        # Mobile user agents (often less detected)
+        mobile_agents = [
+            # iPhone
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1",
+            
+            # Android
+            "Mozilla/5.0 (Linux; Android 14; SM-G998B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36"
+        ]
+        
+        # Retailer-specific preferences
+        retailer_preferences = {
+            "nordstrom": desktop_agents + mobile_agents[:2],  # Include mobile for better success
+            "aritzia": desktop_agents[1:4] + mobile_agents[:1],  # Prefer Mac agents 
+            "anthropologie": desktop_agents,  # Desktop focus
+            "abercrombie": desktop_agents + mobile_agents,  # Mixed
+            "revolve": desktop_agents[:3],  # Chrome focused
+        }
+        
+        return retailer_preferences.get(retailer, desktop_agents)
+    
+    def _get_retailer_specific_args(self, retailer: str) -> List[str]:
+        """Get retailer-specific browser arguments for enhanced stealth"""
+        
+        base_args = [
+            "--disable-default-browser-check",
+            "--disable-translate",
+            "--disable-extensions",
+            "--disable-plugins",
+            "--disable-sync"
+        ]
+        
+        retailer_args = {
+            "nordstrom": [
+                "--disable-blink-features=AutomationControlled",
+                "--disable-infobars",
+                "--disable-notifications",
+                "--disable-popup-blocking"
+            ],
+            "aritzia": [
+                "--disable-blink-features=AutomationControlled", 
+                "--disable-geolocation",
+                "--disable-notifications"
+            ],
+            "anthropologie": [
+                "--disable-blink-features=AutomationControlled",
+                "--disable-notifications"
+            ],
+            "abercrombie": [
+                "--disable-blink-features=AutomationControlled",
+                "--disable-notifications", 
+                "--disable-infobars"
+            ],
+            "revolve": [
+                "--disable-blink-features=AutomationControlled",
+                "--disable-notifications",
+                "--disable-images=false"  # Revolve is image-heavy
+            ]
+        }
+        
+        return base_args + retailer_args.get(retailer, [])
+    
+    def _get_retailer_timeout(self, retailer: str, base_timeout: int, attempt: int) -> int:
+        """Get retailer-specific timeout values with retry adjustments"""
+        
+        # Base timeouts by retailer difficulty
+        retailer_timeouts = {
+            "nordstrom": 300,  # Longer for high-protection sites
+            "aritzia": 240,
+            "anthropologie": 180,
+            "abercrombie": 200,
+            "revolve": 180,
+            "default": base_timeout
+        }
+        
+        timeout = retailer_timeouts.get(retailer, base_timeout)
+        
+        # Increase timeout on retries
+        if attempt > 0:
+            timeout += (attempt * 60)  # Add 1 minute per retry
+        
+        return timeout
+    
+    def _build_anti_detection_prompt(self, base_prompt: str, retailer: str) -> str:
+        """Build enhanced prompt with human-like behavior instructions"""
+        
+        # PHASE 2: Human-like browsing behavior + VERIFICATION HANDLING
+        behavioral_instructions = {
+            "nordstrom": """IMPORTANT: Browse naturally like a real customer:
+1. First, wait 3-5 seconds after page loads
+2. Scroll down slowly to see the page content
+3. Hover over product images before extracting data
+4. Take time to "read" product details (pause 2-3 seconds)
+5. If you see any popups or overlays, close them naturally
+6. VERIFICATION HANDLING: If you see "Press & Hold to confirm you are a human" button, click and hold it for 3-5 seconds until verification completes
+7. If Cloudflare protection appears, wait for it to complete automatically or click through any checkboxes""",
+            
+            "aritzia": """IMPORTANT: Shop naturally on Aritzia:
+1. Wait for page to fully load (3-5 seconds)
+2. Scroll through the product page slowly
+3. Look at size options and product details
+4. Hover over elements before clicking
+5. Take your time extracting information
+6. VERIFICATION HANDLING: If "verify you are human" checkbox appears, click it immediately
+7. If Cloudflare tabs open, close them by clicking the X or switching back to main tab
+8. If verification fails, try the checkbox again after a 2-3 second pause
+9. Keep retrying verification until the product page loads properly""",
+            
+            "anthropologie": """IMPORTANT: Browse like a real shopper:
+1. Allow page to load completely (3-4 seconds)
+2. Scroll down to see all product information
+3. Examine product details and images naturally
+4. Don't rush through the extraction process
+5. VERIFICATION HANDLING: If you see "Press & Hold to confirm you are a human" button, click and hold it for 4-6 seconds
+6. Wait for verification to complete before proceeding
+7. If verification appears multiple times, repeat the process patiently""",
+            
+            "urban_outfitters": """IMPORTANT: Shop naturally:
+1. Wait for page load (3-5 seconds)
+2. Scroll down to view product details
+3. Close any popups that appear
+4. Hover over product information before extracting
+5. Take time between actions (2-3 second pauses)
+6. VERIFICATION HANDLING: If "Press & Hold to confirm you are a human" appears, click and hold the button for 4-6 seconds
+7. Watch for the verification to complete (button color change or checkmark)
+8. If verification fails, wait 3 seconds and try again""",
+            
+            "abercrombie": """IMPORTANT: Shop naturally:
+1. Wait for page load (3-5 seconds)
+2. Scroll down to view product details
+3. Close any popups that appear
+4. Hover over product information before extracting
+5. Take time between actions (2-3 second pauses)
+6. VERIFICATION HANDLING: If any verification appears (checkboxes, press-and-hold), complete it patiently
+7. Multiple verification attempts may be needed - keep trying until successful""",
+            
+            "revolve": """IMPORTANT: Shop naturally:
+1. Wait for page load (3-5 seconds) 
+2. Scroll down to view product details
+3. Close any popups that appear
+4. Hover over product information before extracting
+5. Take time between actions (2-3 second pauses)
+6. VERIFICATION HANDLING: Handle any verification challenges that appear""",
+            
+            "default": """IMPORTANT: Browse naturally:
+1. Wait 3-5 seconds after page loads
+2. Scroll down to view all content
+3. Hover over elements before interacting
+4. Take natural pauses between actions
+5. VERIFICATION HANDLING: If any verification appears (checkboxes, press-and-hold buttons, Cloudflare), handle it:
+   - For checkboxes: Click them immediately
+   - For press-and-hold: Click and hold for 4-6 seconds
+   - For Cloudflare: Wait for auto-completion or follow prompts
+   - If verification fails, retry after a 2-3 second pause"""
+        }
+        
+        behavior = behavioral_instructions.get(retailer, behavioral_instructions["default"])
+        
+        # Add universal verification handling instructions
+        verification_guidance = """
+
+CRITICAL VERIFICATION HANDLING RULES:
+- ALWAYS complete any verification challenges before extracting data
+- "Verify you are human" checkboxes: Click immediately, retry if needed
+- "Press & Hold" buttons: Click and hold for 4-6 seconds minimum
+- Cloudflare protection: Wait patiently, close extra tabs if they appear
+- If verification fails, wait 2-3 seconds and try again
+- Don't give up - some sites require multiple verification attempts
+- Only proceed to data extraction AFTER all verifications are completed"""
+        
+        return f"{behavior}\n{verification_guidance}\n\nAfter completing all verifications and browsing naturally, {base_prompt}"
+    
+    async def _process_browser_use_result(self, result, retailer: str, processing_time: float, url: str) -> ExtractionResult:
+        """Process Browser Use result with enhanced verification detection logic"""
+        
+        logger.debug(f"Browser Use raw result: {str(result)[:200]}...")
+        
+        # Enhanced verification attempt detection
+        verification_indicators = self._detect_verification_attempts(result)
+        
+        # Parse the result
+        if isinstance(result, dict):
+            extracted_data = result
+        elif hasattr(result, 'action_results'):
+            action_results = result.action_results()
+            # Parse Browser Use AgentHistoryList
+            extracted_data = None
+            
+            # Enhanced parsing with verification loop detection
+            verification_loops = 0
+            done_actions = 0
+            failed_actions = 0
+            
+            # Look for extracted content with JSON
+            for i, action_result in enumerate(action_results):
+                # Count verification-related actions
+                if hasattr(action_result, 'extracted_content') and action_result.extracted_content:
+                    content = action_result.extracted_content.lower()
+                    if any(term in content for term in ['click', 'hold', 'verify', 'human', 'wait']):
+                        verification_loops += 1
+                
+                # Count done vs failed actions
+                if hasattr(action_result, 'is_done') and action_result.is_done:
+                    done_actions += 1
+                if hasattr(action_result, 'success') and action_result.success == False:
+                    failed_actions += 1
+                    
+                if hasattr(action_result, 'extracted_content') and action_result.extracted_content:
+                    content = action_result.extracted_content
+                    
+                    # Check if this is the final done action with clean JSON
+                    if hasattr(action_result, 'is_done') and action_result.is_done and '{' in content and '}' in content:
+                        # Check for verification failure messages
+                        if any(phrase in content.lower() for phrase in 
+                               ['unable to complete', 'could not pass', 'verification failed', 'did not work']):
+                            logger.warning(f"Browser Use reported verification failure: {content[:100]}...")
+                            verification_indicators['verification_failed'] = True
+                            verification_indicators['failure_message'] = content
+                        
+                        # Try to extract JSON from the done message
+                        import re
+                        json_match = re.search(r'\{.*\}', content, re.DOTALL)
+                        if json_match:
+                            try:
+                                import json
+                                json_string = json_match.group(0)
+                                # Clean escaped characters
+                                json_string = json_string.replace('\\n', '\n').replace('\\"', '"')
+                                extracted_data = json.loads(json_string)
+                                # Ensure retailer field matches our input
+                                extracted_data['retailer'] = retailer
+                                break
+                            except json.JSONDecodeError as e:
+                                logger.debug(f"JSON decode error from done action: {e}")
+                    
+                    # Check for markdown JSON blocks
+                    if '```json' in content:
+                        # Extract JSON from markdown code blocks
+                        import re
+                        json_match = re.search(r'```json\s*(\{.*?\})\s*```', content, re.DOTALL | re.MULTILINE)
+                        if not json_match:
+                            # Try a more flexible pattern
+                            json_match = re.search(r'```json\s*(.*?)\s*```', content, re.DOTALL | re.MULTILINE)
+                            if json_match:
+                                # Check if it looks like valid JSON
+                                candidate = json_match.group(1).strip()
+                                if candidate.startswith('{') and candidate.endswith('}'):
+                                    json_match = type('Match', (), {'group': lambda self, n: candidate})()
+                        
+                        if json_match:
+                            try:
+                                import json
+                                json_string = json_match.group(1)
+                                # Clean escaped characters from Browser Use output
+                                json_string = json_string.replace('\\n', '\n').replace('\\"', '"')
+                                extracted_data = json.loads(json_string)
+                                # Standardize field names to match our expected format
+                                if 'product_title' in extracted_data:
+                                    extracted_data['title'] = extracted_data.pop('product_title')
+                                if 'product_id' in extracted_data:
+                                    extracted_data['product_code'] = extracted_data.pop('product_id')
+                                if 'main_image_urls' in extracted_data:
+                                    extracted_data['image_urls'] = extracted_data.pop('main_image_urls')
+                                # Ensure retailer field matches our input
+                                extracted_data['retailer'] = retailer
+                                break
+                            except json.JSONDecodeError as e:
+                                logger.debug(f"JSON decode error: {e}")
+                                continue
+            
+            # Analyze verification handling patterns
+            verification_indicators.update({
+                'verification_loops': verification_loops,
+                'done_actions': done_actions,
+                'failed_actions': failed_actions,
+                'total_actions': len(action_results),
+                'likely_stuck_in_loop': verification_loops > 20,  # More than 20 verification attempts
+                'action_failure_rate': failed_actions / max(1, len(action_results))
+            })
+            
+            # Fallback if no JSON found
+            if not extracted_data:
+                # Check if this was a verification failure
+                if verification_indicators.get('verification_failed'):
+                    logger.warning(f"Browser Use failed verification challenges for {retailer}")
+                    return ExtractionResult(
+                        success=False,
+                        data={},
+                        method_used="browser_use",
+                        processing_time=processing_time,
+                        warnings=[f"Verification handling failed: {verification_indicators.get('failure_message', 'Unknown')}"],
+                        errors=["Verification challenges could not be completed"]
+                    )
+                
+                # Create fallback data but mark it as such
                 extracted_data = {
                     "retailer": retailer,
                     "title": "Extracted by Browser Use",
-                    "raw_output": str(result)
+                    "description": str(result),
+                    "raw_output": str(result),
+                    "_is_fallback_data": True,  # Flag for validation
+                    "_verification_indicators": verification_indicators
                 }
-            
-            return ExtractionResult(
-                success=True,
-                data=extracted_data,
-                method_used="browser_use",
-                processing_time=processing_time,
-                warnings=[],
-                errors=[]
-            )
-            
-        except asyncio.TimeoutError:
-            processing_time = asyncio.get_event_loop().time() - start_time
-            error_msg = f"Browser Use extraction timed out after {browser_config['timeout']} seconds"
-            logger.error(error_msg)
-            return ExtractionResult(
-                success=False,
-                data={},
-                method_used="browser_use",
-                processing_time=processing_time,
-                warnings=[],
-                errors=[error_msg]
-            )
-            
-        except Exception as e:
-            processing_time = asyncio.get_event_loop().time() - start_time
-            error_msg = f"Browser Use execution error: {str(e)}"
-            logger.error(error_msg)
-            return ExtractionResult(
-                success=False,
-                data={},
-                method_used="browser_use",
-                processing_time=processing_time,
-                warnings=[],
-                errors=[error_msg]
-            )
+                
+        elif isinstance(result, str):
+            # Try to parse as JSON
+            try:
+                import json
+                extracted_data = json.loads(result)
+            except json.JSONDecodeError:
+                # Create structured data from text
+                extracted_data = {
+                    "retailer": retailer,
+                    "title": "Extracted by Browser Use",
+                    "description": result,
+                    "raw_output": result,
+                    "_is_fallback_data": True
+                }
+        else:
+            # Fallback
+            extracted_data = {
+                "retailer": retailer,
+                "title": "Extracted by Browser Use",
+                "raw_output": str(result),
+                "_is_fallback_data": True
+            }
+        
+        # Enhanced success determination
+        is_real_success = self._assess_extraction_quality(extracted_data, verification_indicators, processing_time)
+        
+        # Add verification metadata
+        extracted_data['_verification_metadata'] = {
+            'processing_time': processing_time,
+            'verification_indicators': verification_indicators,
+            'is_real_success': is_real_success
+        }
+        
+        if not is_real_success:
+            logger.warning(f"Browser Use extraction quality low for {retailer} - likely fallback data")
+        
+        return ExtractionResult(
+            success=True,  # Technical success (no crash)
+            data=extracted_data,
+            method_used="browser_use",
+            processing_time=processing_time,
+            warnings=[] if is_real_success else ["Low extraction quality detected"],
+            errors=[]
+        )
+    
+    def _detect_verification_attempts(self, result) -> dict:
+        """Detect verification handling attempts in Browser Use results"""
+        
+        indicators = {
+            'verification_keywords_found': False,
+            'repeated_clicking_detected': False,
+            'verification_failed': False,
+            'cloudflare_detected': False,
+            'press_hold_attempted': False
+        }
+        
+        # Convert result to string for analysis
+        result_str = str(result).lower()
+        
+        # Check for verification keywords
+        verification_keywords = [
+            'verify you are human', 'press and hold', 'cloudflare', 
+            'just a moment', 'checking your browser', 'security check',
+            'human verification', 'captcha', 'click and hold'
+        ]
+        
+        for keyword in verification_keywords:
+            if keyword in result_str:
+                indicators['verification_keywords_found'] = True
+                if 'cloudflare' in keyword:
+                    indicators['cloudflare_detected'] = True
+                if 'press' in keyword or 'hold' in keyword:
+                    indicators['press_hold_attempted'] = True
+                break
+        
+        # Check for repeated clicking patterns (indicates stuck in loop)
+        click_count = result_str.count('click')
+        wait_count = result_str.count('wait')
+        
+        if click_count > 15 and wait_count > 15:  # Many repeated actions
+            indicators['repeated_clicking_detected'] = True
+        
+        # Check for explicit failure messages
+        failure_phrases = [
+            'unable to complete', 'could not pass', 'verification failed',
+            'did not work', 'cannot proceed', 'blocked'
+        ]
+        
+        for phrase in failure_phrases:
+            if phrase in result_str:
+                indicators['verification_failed'] = True
+                break
+        
+        return indicators
+    
+    def _assess_extraction_quality(self, data: dict, verification_indicators: dict, processing_time: float) -> bool:
+        """Assess if extraction represents real success vs fallback data"""
+        
+        # Immediate disqualifiers
+        if data.get('_is_fallback_data'):
+            return False
+        
+        if verification_indicators.get('verification_failed'):
+            return False
+        
+        if verification_indicators.get('likely_stuck_in_loop'):
+            return False
+        
+        # Quality indicators
+        quality_score = 0
+        
+        # Check for real data vs placeholder text
+        title = data.get('title', '')
+        if title and not any(phrase in title.lower() for phrase in 
+                           ['extracted by', 'no title', 'extracted product']):
+            quality_score += 2
+        
+        # Check for actual price
+        price = data.get('price')
+        if price and isinstance(price, (int, float)) and price > 0:
+            quality_score += 3
+        elif price and str(price).replace('.', '').replace(',', '').isdigit():
+            quality_score += 2
+        
+        # Check for brand
+        if data.get('brand') and data.get('brand') != 'N/A':
+            quality_score += 1
+        
+        # Check for image URLs
+        image_urls = data.get('image_urls', [])
+        if len(image_urls) >= 3:
+            quality_score += 2
+        elif len(image_urls) > 0:
+            quality_score += 1
+        
+        # Check for product description
+        description = data.get('description', '')
+        if description and len(description) > 50:
+            quality_score += 1
+        
+        # Processing time consideration
+        if 30 <= processing_time <= 180:  # Reasonable time for real extraction
+            quality_score += 1
+        elif processing_time > 300:  # Too long suggests issues
+            quality_score -= 2
+        elif processing_time < 15:  # Too fast suggests no verification encountered
+            quality_score -= 1
+        
+        # Final assessment
+        return quality_score >= 5
     
     def _build_extraction_prompt(self, url: str, retailer: str, learned_patterns: List) -> str:
         """Build retailer-specific extraction prompt for agents"""
@@ -514,7 +1178,14 @@ if __name__ == "__main__":
         # Special handling for Uniqlo - they don't show original prices during sales
         if retailer == 'uniqlo':
             sale_status = processed.get('sale_status', '')
-            if sale_status and 'sale' in sale_status.lower():
+            # Handle both boolean and string sale_status
+            is_on_sale = False
+            if isinstance(sale_status, bool):
+                is_on_sale = sale_status
+            elif isinstance(sale_status, str) and sale_status and 'sale' in sale_status.lower():
+                is_on_sale = True
+            
+            if is_on_sale:
                 # If item is on sale but no original price provided, set to None
                 if not processed.get('original_price'):
                     processed['original_price'] = None
@@ -627,10 +1298,18 @@ if __name__ == "__main__":
         
         return brand
     
-    def _standardize_stock_status(self, status: str) -> str:
-        """Standardize stock status"""
-        if not status:
+    def _standardize_stock_status(self, status) -> str:
+        """Standardize stock status - handles various input types"""
+        if status is None:
             return "in stock"
+        
+        # Handle boolean input (True = in stock, False = out of stock)
+        if isinstance(status, bool):
+            return 'in stock' if status else 'out of stock'
+        
+        # Handle string input
+        if not isinstance(status, str):
+            status = str(status)
         
         status_lower = status.lower()
         
@@ -643,10 +1322,18 @@ if __name__ == "__main__":
         else:
             return 'in stock'
     
-    def _standardize_sale_status(self, status: str) -> str:
-        """Standardize sale status"""
-        if not status:
+    def _standardize_sale_status(self, status) -> str:
+        """Standardize sale status - handles both string and boolean inputs"""
+        if status is None:
             return "not on sale"
+        
+        # Handle boolean input
+        if isinstance(status, bool):
+            return 'on sale' if status else 'not on sale'
+        
+        # Handle string input
+        if not isinstance(status, str):
+            status = str(status)
         
         sale_indicators = ['sale', 'clearance', 'reduced', 'discount', 'marked down', 'on sale']
         
