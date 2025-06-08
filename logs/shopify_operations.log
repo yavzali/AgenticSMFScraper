@@ -38,3 +38,98 @@
 [2025-06-06 14:45:30.421] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14738524045682
 [2025-06-06 14:45:30.588] [DEBUG] [shopify_manager] Created metafield sale_status for product 14738524045682
 [2025-06-06 14:45:30.756] [DEBUG] [shopify_manager] Created metafield original_price for product 14738524045682
+[2025-06-08 00:04:12.665] [INFO] [shopify_manager] Created Shopify product: 14739050135922
+[2025-06-08 00:04:12.856] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739050135922
+[2025-06-08 00:04:13.021] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739050135922
+[2025-06-08 00:04:13.221] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739050135922
+[2025-06-08 00:04:13.412] [DEBUG] [shopify_manager] Created metafield product_id for product 14739050135922
+[2025-06-08 00:04:13.602] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739050135922
+[2025-06-08 00:04:13.901] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739050135922
+[2025-06-08 00:04:14.074] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739050135922
+[2025-06-08 00:04:14.239] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739050135922
+[2025-06-08 00:04:14.448] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 00:29:39.804] [INFO] [shopify_manager] Created Shopify product: 14739050594674
+[2025-06-08 00:29:40.003] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739050594674
+[2025-06-08 00:29:40.185] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739050594674
+[2025-06-08 00:29:40.428] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739050594674
+[2025-06-08 00:29:40.625] [DEBUG] [shopify_manager] Created metafield product_id for product 14739050594674
+[2025-06-08 00:29:40.800] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739050594674
+[2025-06-08 00:29:40.960] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739050594674
+[2025-06-08 00:29:41.129] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739050594674
+[2025-06-08 00:29:41.306] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739050594674
+[2025-06-08 00:29:41.445] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 01:45:55.221] [INFO] [shopify_manager] Created Shopify product: 14739053052274
+[2025-06-08 01:45:55.409] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053052274
+[2025-06-08 01:45:55.569] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053052274
+[2025-06-08 01:45:55.748] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053052274
+[2025-06-08 01:45:55.921] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053052274
+[2025-06-08 01:45:56.145] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053052274
+[2025-06-08 01:45:56.304] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053052274
+[2025-06-08 01:45:56.464] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053052274
+[2025-06-08 01:45:56.633] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053052274
+[2025-06-08 01:45:56.797] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053052274
+[2025-06-08 01:46:21.835] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739050594674
+[2025-06-08 01:46:22.121] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739050594674
+[2025-06-08 01:46:22.406] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739050594674
+[2025-06-08 01:46:22.539] [INFO] [shopify_manager] Updated Shopify product: 14739050594674
+[2025-06-08 01:47:14.375] [INFO] [shopify_manager] Created Shopify product: 14739053085042
+[2025-06-08 01:47:16.015] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54170749469042,"alt":"Maeve Sleeveless Mini Shift Dress - Image 1","position":1,"product_id":14739053085042,"created_at":"2025-06-08T01:47:15-04:00","updated_at":"2025-06-08T01:47:15-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46239928811890","width":640,"height":960,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/eea2676a7c9417bbc998f38e8d2f86e9.jpg?v=1749361635","variant_ids":[]}}
+[2025-06-08 01:47:16.190] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053085042
+[2025-06-08 01:47:16.394] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053085042
+[2025-06-08 01:47:16.561] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053085042
+[2025-06-08 01:47:16.738] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053085042
+[2025-06-08 01:47:16.926] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053085042
+[2025-06-08 01:47:17.083] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053085042
+[2025-06-08 01:47:17.263] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053085042
+[2025-06-08 01:47:17.450] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053085042
+[2025-06-08 01:47:17.612] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053085042
+[2025-06-08 01:47:27.994] [INFO] [shopify_manager] Created Shopify product: 14739053117810
+[2025-06-08 01:47:28.169] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053117810
+[2025-06-08 01:47:28.336] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053117810
+[2025-06-08 01:47:28.509] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053117810
+[2025-06-08 01:47:28.667] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053117810
+[2025-06-08 01:47:28.819] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053117810
+[2025-06-08 01:47:28.997] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053117810
+[2025-06-08 01:47:29.176] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053117810
+[2025-06-08 01:47:29.366] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053117810
+[2025-06-08 01:47:29.504] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 01:49:37.762] [INFO] [shopify_manager] Created Shopify product: 14739053281650
+[2025-06-08 01:49:37.937] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053281650
+[2025-06-08 01:49:38.103] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053281650
+[2025-06-08 01:49:38.278] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053281650
+[2025-06-08 01:49:38.445] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053281650
+[2025-06-08 01:49:38.640] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053281650
+[2025-06-08 01:49:38.807] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053281650
+[2025-06-08 01:49:38.984] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053281650
+[2025-06-08 01:49:39.167] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053281650
+[2025-06-08 01:49:39.341] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053281650
+[2025-06-08 02:53:51.391] [INFO] [shopify_manager] Created Shopify product: 14739054788978
+[2025-06-08 02:53:51.588] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739054788978
+[2025-06-08 02:53:51.761] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739054788978
+[2025-06-08 02:53:51.942] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739054788978
+[2025-06-08 02:53:52.132] [DEBUG] [shopify_manager] Created metafield product_id for product 14739054788978
+[2025-06-08 02:53:52.377] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739054788978
+[2025-06-08 02:53:52.557] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739054788978
+[2025-06-08 02:53:52.737] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739054788978
+[2025-06-08 02:53:52.920] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739054788978
+[2025-06-08 02:53:53.061] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 03:00:48.834] [INFO] [shopify_manager] Created Shopify product: 14739054985586
+[2025-06-08 03:00:49.022] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739054985586
+[2025-06-08 03:00:49.258] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739054985586
+[2025-06-08 03:00:49.434] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739054985586
+[2025-06-08 03:00:49.619] [DEBUG] [shopify_manager] Created metafield product_id for product 14739054985586
+[2025-06-08 03:00:49.784] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739054985586
+[2025-06-08 03:00:49.939] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739054985586
+[2025-06-08 03:00:50.206] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739054985586
+[2025-06-08 03:00:50.389] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739054985586
+[2025-06-08 03:00:50.571] [DEBUG] [shopify_manager] Created metafield original_price for product 14739054985586
+[2025-06-08 03:01:38.321] [INFO] [shopify_manager] Created Shopify product: 14739055018354
+[2025-06-08 03:01:38.512] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739055018354
+[2025-06-08 03:01:38.672] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739055018354
+[2025-06-08 03:01:38.841] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739055018354
+[2025-06-08 03:01:38.998] [DEBUG] [shopify_manager] Created metafield product_id for product 14739055018354
+[2025-06-08 03:01:39.190] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739055018354
+[2025-06-08 03:01:39.353] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739055018354
+[2025-06-08 03:01:39.585] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739055018354
+[2025-06-08 03:01:39.755] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739055018354
+[2025-06-08 03:01:39.892] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}

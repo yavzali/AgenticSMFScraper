@@ -2,6 +2,7 @@
 Pattern Learner - Learns from successful and failed extractions to improve future performance
 """
 
+import os
 import aiosqlite
 import asyncio
 import json
@@ -16,7 +17,11 @@ from logger_config import setup_logging
 logger = setup_logging(__name__)
 
 class PatternLearner:
-    def __init__(self, db_path: str = "patterns.db"):
+    def __init__(self, db_path: str = None):
+        if db_path is None:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            db_path = os.path.join(script_dir, 'patterns.db')
+        self.db_path = db_path
         self.db_path = db_path
         
         # In-memory pattern cache for performance

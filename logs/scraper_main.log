@@ -690,3 +690,1416 @@ INFO     [root] Anonymized telemetr...
 [2025-06-07 03:58:33.168] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 4 fields
 [2025-06-07 03:58:33.169] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
 [2025-06-07 03:58:33.170] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-07 23:21:28.116] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:21:28.117] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:21:28.117] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:21:28.118] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:21:28.118] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:21:28.119] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:21:28.123] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:21:28.123] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:21:28.123] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:21:28.123] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:21:28.124] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:21:28.124] [ERROR] [__main__] Critical error in batch processing: Expecting ',' delimiter: line 7 column 5 (char 275)
+[2025-06-07 23:21:28.124] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-07 23:22:21.175] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:22:21.176] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:22:21.177] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:22:21.177] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:22:21.177] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:22:21.178] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:22:21.181] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:22:21.181] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:22:21.181] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:22:21.181] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:22:21.181] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:22:21.181] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-07 23:22:21.181] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-07 23:22:21.181] [INFO] [batch_processor] Batch batch_001_June_7th completed: 0/9 successful (0.0%)
+[2025-06-07 23:22:21.182] [ERROR] [__main__] Critical error in batch processing: 'CheckpointManager' object has no attribute 'should_save_checkpoint'
+[2025-06-07 23:22:21.182] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-07 23:25:15.680] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:25:15.681] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:25:15.682] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:25:15.683] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:25:15.683] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:25:15.683] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:25:15.685] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:25:15.686] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:25:15.686] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:25:15.686] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:25:15.686] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:25:15.686] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-07 23:25:15.686] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-07 23:25:15.686] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:25:15.686] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-07 23:25:15.687] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-07 23:25:15.687] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-07 23:25:15.687] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:25:15.687] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:25:15.687] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:25:15.688] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:33:14.344] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:33:14.345] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:33:14.345] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:33:14.346] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:33:14.346] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:33:14.346] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:33:14.351] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:33:14.351] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:33:14.351] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:33:14.351] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:33:14.351] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:33:14.351] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-07 23:33:14.351] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-07 23:33:14.351] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:33:14.351] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-07 23:33:14.352] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-07 23:33:14.352] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-07 23:33:14.352] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:33:14.352] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:33:14.352] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:33:14.352] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:36:12.134] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:36:12.135] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:36:12.136] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:36:12.136] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:36:12.137] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:36:12.137] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:36:12.141] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:36:12.141] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:36:12.141] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:36:12.141] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:36:12.142] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:36:12.142] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-07 23:36:12.142] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-07 23:36:12.142] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:36:12.142] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-07 23:36:12.142] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-07 23:36:12.142] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-07 23:36:12.143] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:36:12.143] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:36:12.143] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:36:12.143] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:44:12.147] [ERROR] [agent_extractor] OpenManus extraction timed out after 480 seconds
+[2025-06-07 23:44:12.148] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:44:12.898] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:44:12.898] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'save_conversation'. Did you mean 'save_conversation_path'?
+[2025-06-07 23:44:12.898] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:44:12.898] [INFO] [batch_processor] Added to manual review: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 (extraction_failed)
+[2025-06-07 23:44:13.899] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-07 23:44:13.900] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-07 23:44:13.904] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-07 23:44:13.904] [DEBUG] [batch_processor] [2/9] Phase 2: Extracting product data
+[2025-06-07 23:44:13.904] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-07 23:44:13.905] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-07 23:44:13.905] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:44:13.906] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:49:25.535] [INFO] [__main__] Received signal 2, initiating graceful shutdown...
+[2025-06-07 23:51:11.840] [INFO] [__main__] Received signal 2, initiating graceful shutdown...
+[2025-06-07 23:54:24.322] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:54:24.323] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:54:24.323] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:54:24.324] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:54:24.324] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:54:24.324] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:54:24.324] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:54:24.324] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:54:24.324] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:57:24.327] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-07 23:57:24.328] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:57:24.909] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:57:24.909] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-07 23:57:24.909] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:58:19.560] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:58:19.561] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:58:19.561] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:58:19.562] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:58:19.562] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:58:19.562] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:58:19.563] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:58:19.563] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:58:19.563] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-07 23:59:42.469] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+OPENMANUS_RESULT_START
+"Step 1: Observed output of cmd `browser_use` executed:\nNavigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003\nStep 2: Observed output of cmd `browser_use` executed:\nError: Browser action 'extract_content' failed: RetryError[<F...
+[2025-06-07 23:59:42.470] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-07 23:58:20.380 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-07 23:58:21.485 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1358, Completion=83, Cumulative Input=1358, Cumulative Completion=83, Total=1441, Cumulative Total=1441
+2025-06-07 23:58:21.486 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-07 23:58:21.486 | IN...
+[2025-06-07 23:59:42.470] [INFO] [agent_extractor] Validation passed for moderately modest extraction with 4 fields
+[2025-06-07 23:59:42.472] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: openmanus
+[2025-06-07 23:59:42.472] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-07 23:59:56.171] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:59:56.171] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:59:56.172] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:59:56.173] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:59:56.173] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-07 23:59:56.173] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-07 23:59:56.177] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   asos: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   revolve: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   hm: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-07 23:59:56.177] [INFO] [batch_processor]   mango: transformation
+[2025-06-07 23:59:56.177] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-07 23:59:56.177] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-07 23:59:56.177] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-07 23:59:56.178] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-07 23:59:56.178] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-07 23:59:56.178] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:59:56.178] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-07 23:59:56.179] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-07 23:59:56.179] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-07 23:59:56.179] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:59:56.179] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-07 23:59:56.179] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-07 23:59:56.180] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:02:56.184] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:02:56.186] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:02:56.670] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:02:56.670] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 00:02:56.670] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:02:56.670] [INFO] [batch_processor] Added to manual review: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 (extraction_failed)
+[2025-06-08 00:02:57.672] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:02:57.675] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-08 00:02:57.677] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 00:02:57.677] [DEBUG] [batch_processor] [2/9] Phase 2: Extracting product data
+[2025-06-08 00:02:57.677] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:02:57.677] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:02:57.677] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:02:57.678] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:04:11.961] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+OPENMANUS_RESULT_START
+"Step 1: Observed output of cmd `browser_use` executed:\nNavigated to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275\nStep 2: Observed output of cmd `browser_use` executed:\nError: Browser action 'extract_content' failed: RetryError[<Future at 0x110ad89...
+[2025-06-08 00:04:11.963] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-08 00:02:58.519 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:03:00.362 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1363, Completion=244, Cumulative Input=1363, Cumulative Completion=244, Total=1607, Cumulative Total=1607
+2025-06-08 00:03:00.362 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I understand the request. I need to extract specific product information from the given Aritzia URL and return it as a JSON object...
+[2025-06-08 00:04:11.963] [INFO] [agent_extractor] Validation passed for aritzia extraction with 4 fields
+[2025-06-08 00:04:11.964] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: openmanus
+[2025-06-08 00:04:11.965] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-08 00:04:11.965] [DEBUG] [batch_processor] [2/9] Phase 3: Processing images
+[2025-06-08 00:04:11.965] [DEBUG] [batch_processor] [2/9] Phase 4: Creating Shopify product
+[2025-06-08 00:04:12.665] [INFO] [shopify_manager] Created Shopify product: 14739050135922
+[2025-06-08 00:04:12.856] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739050135922
+[2025-06-08 00:04:13.021] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739050135922
+[2025-06-08 00:04:13.221] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739050135922
+[2025-06-08 00:04:13.412] [DEBUG] [shopify_manager] Created metafield product_id for product 14739050135922
+[2025-06-08 00:04:13.602] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739050135922
+[2025-06-08 00:04:13.901] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739050135922
+[2025-06-08 00:04:14.074] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739050135922
+[2025-06-08 00:04:14.239] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739050135922
+[2025-06-08 00:04:14.448] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 00:04:14.450] [DEBUG] [duplicate_detector] Stored product: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:04:14.451] [DEBUG] [batch_processor] Stored product record for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:04:14.451] [INFO] [batch_processor] [2/9] Successfully created product: 14739050135922
+[2025-06-08 00:04:15.452] [INFO] [batch_processor] [3/9] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:04:15.452] [DEBUG] [batch_processor] [3/9] Phase 1: Processing URL
+[2025-06-08 00:04:15.454] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: True)
+[2025-06-08 00:04:15.454] [INFO] [batch_processor] [3/9] Duplicate detected: add_variant
+[2025-06-08 00:04:15.454] [INFO] [batch_processor] Added to manual review: https://www2.hm.com/en_us/productpage.1232566001.html (duplicate_uncertain)
+[2025-06-08 00:04:16.455] [INFO] [batch_processor] [4/9] Processing: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:16.456] [DEBUG] [batch_processor] [4/9] Phase 1: Processing URL
+[2025-06-08 00:04:16.457] [DEBUG] [url_processor] Processed URL: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 -> urban_outfitters (duplicate: False)
+[2025-06-08 00:04:16.457] [DEBUG] [batch_processor] [4/9] Phase 2: Extracting product data
+[2025-06-08 00:04:16.457] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:16.457] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:16.457] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:04:16.457] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:04:23.429] [INFO] [__main__] Received signal 2, initiating graceful shutdown...
+[2025-06-08 00:04:23.734] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information....
+[2025-06-08 00:04:23.734] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-08 00:04:17.286 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:04:18.440 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1370, Completion=86, Cumulative Input=1370, Cumulative Completion=86, Total=1456, Cumulative Total=1456
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-08 00:04:18.440 | IN...
+[2025-06-08 00:04:23.734] [ERROR] [agent_extractor] OpenManus CLI error (code -2): 2025-06-08 00:04:17.286 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:04:18.440 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1370, Completion=86, Cumulative Input=1370, Cumulative Completion=86, Total=1456, Cumulative Total=1456
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:82 - 🛠️ Manus selected 1 tools to use
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:86 - 🧰 Tools being prepared: ['browser_use']
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:89 - 🔧 Tool arguments: {"action":"go_to_url","url":"https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1"}
+2025-06-08 00:04:18.441 | INFO     | app.agent.toolcall:execute_tool:180 - 🔧 Activating tool: 'browser_use'...
+2025-06-08 00:04:20.270 | INFO     | app.agent.toolcall:act:150 - 🎯 Tool 'browser_use' completed its mission! Result: Observed output of cmd `browser_use` executed:
+Navigated to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+2025-06-08 00:04:20.270 | INFO     | app.agent.base:run:140 - Executing step 2/20
+2025-06-08 00:04:23.511 | INFO     | app.tool.mcp:disconnect:175 - Disconnected from all MCP servers
+Traceback (most recent call last):
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13, in main
+    result = await agent.run('Go to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product ID/code, and main image URLs. Return as JSON with keys: title, brand, price, original_price, description, stock_status, sale_status, clothing_type, product_code, image_urls, retailer. UO/multi-brand. Exclusive indicators. Order images: primary product shot first, lifestyle shots after.')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/toolcall.py", line 248, in run
+    return await super().run(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/base.py", line 141, in run
+    step_result = await self.step()
+                  ^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/react.py", line 35, in step
+    should_act = await self.think()
+                 ^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/manus.py", line 157, in think
+    await self.browser_context_helper.format_next_step_prompt()
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 44, in format_next_step_prompt
+    browser_state = await self.get_browser_state()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 29, in get_browser_state
+    result = await browser_tool.get_current_state()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/tool/browser_use_tool.py", line 492, in get_current_state
+    state = await ctx.get_state()
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 675, in get_state
+    await self._wait_for_page_and_frames_load()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 560, in _wait_for_page_and_frames_load
+    await self._wait_for_stable_network()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 531, in _wait_for_stable_network
+    await asyncio.sleep(0.1)
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/tasks.py", line 665, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 25, in <module>
+    asyncio.run(main())
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+[2025-06-08 00:04:23.735] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:23.735] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:23.735] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 00:04:23.736] [INFO] [agent_extractor] Attempting extraction with skyvern for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 00:04:23.736] [INFO] [batch_processor] Added to manual review: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 (extraction_failed)
+[2025-06-08 00:04:24.737] [INFO] [batch_processor] Batch batch_001_June_7th completed: 1/9 successful (11.1%)
+[2025-06-08 00:04:24.738] [ERROR] [__main__] Critical error in batch processing: 'CheckpointManager' object has no attribute 'save_batch_progress'
+[2025-06-08 00:04:24.739] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 00:21:57.064] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 00:21:57.064] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 00:21:57.065] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:21:57.066] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:21:57.066] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:21:57.066] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 00:21:57.071] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 00:21:57.071] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 00:21:57.071] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 00:21:57.071] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 00:21:57.071] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 00:21:57.071] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-08 00:21:57.071] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-08 00:21:57.071] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:21:57.071] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-08 00:21:57.072] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-08 00:21:57.072] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-08 00:21:57.072] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:21:57.072] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:21:57.072] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:21:57.073] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:24:57.077] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:24:57.077] [INFO] [batch_processor] Added to manual review: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 (extraction_failed)
+[2025-06-08 00:24:58.079] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:24:58.079] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-08 00:24:58.082] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 00:24:58.082] [DEBUG] [batch_processor] [2/9] Phase 2: Extracting product data
+[2025-06-08 00:24:58.082] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:24:58.083] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 00:24:58.083] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:24:58.083] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:27:58.090] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:27:58.091] [INFO] [batch_processor] Added to manual review: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 (extraction_failed)
+[2025-06-08 00:27:59.093] [INFO] [batch_processor] [3/9] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:27:59.093] [DEBUG] [batch_processor] [3/9] Phase 1: Processing URL
+[2025-06-08 00:27:59.096] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: False)
+[2025-06-08 00:27:59.097] [DEBUG] [batch_processor] [3/9] Phase 2: Extracting product data
+[2025-06-08 00:27:59.097] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:27:59.097] [INFO] [agent_extractor] Starting OpenManus extraction for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:27:59.097] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:27:59.097] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:29:39.084] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetr...
+[2025-06-08 00:29:39.085] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-08 00:27:59.979 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:28:01.007 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1351, Completion=68, Cumulative Input=1351, Cumulative Completion=68, Total=1419, Cumulative Total=1419
+2025-06-08 00:28:01.008 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-08 00:28:01.008 | IN...
+[2025-06-08 00:29:39.086] [INFO] [agent_extractor] Validation passed for hm extraction with 4 fields
+[2025-06-08 00:29:39.087] [DEBUG] [pattern_learner] Recorded successful pattern for hm: openmanus
+[2025-06-08 00:29:39.087] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-08 00:29:39.087] [DEBUG] [batch_processor] [3/9] Phase 3: Processing images
+[2025-06-08 00:29:39.087] [DEBUG] [batch_processor] [3/9] Phase 4: Creating Shopify product
+[2025-06-08 00:29:39.804] [INFO] [shopify_manager] Created Shopify product: 14739050594674
+[2025-06-08 00:29:40.003] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739050594674
+[2025-06-08 00:29:40.185] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739050594674
+[2025-06-08 00:29:40.428] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739050594674
+[2025-06-08 00:29:40.625] [DEBUG] [shopify_manager] Created metafield product_id for product 14739050594674
+[2025-06-08 00:29:40.800] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739050594674
+[2025-06-08 00:29:40.960] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739050594674
+[2025-06-08 00:29:41.129] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739050594674
+[2025-06-08 00:29:41.306] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739050594674
+[2025-06-08 00:29:41.445] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 00:29:41.451] [DEBUG] [duplicate_detector] Stored product: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:29:41.451] [DEBUG] [batch_processor] Stored product record for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 00:29:41.452] [INFO] [batch_processor] [3/9] Successfully created product: 14739050594674
+[2025-06-08 00:40:22.778] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:40:22.779] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:40:22.779] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:40:22.780] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:40:22.780] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:40:22.781] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:40:22.781] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:40:22.781] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:40:22.781] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:43:20.951] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:43:20.952] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:43:20.952] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:43:20.953] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:43:20.953] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:43:20.954] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:43:20.954] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:43:20.954] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:43:20.956] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:46:20.958] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:51:38.929] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:51:38.930] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:51:38.930] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:51:38.931] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:51:38.931] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:51:38.932] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:51:38.932] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:51:38.932] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:51:38.934] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:52:50.044] [DEBUG] [agent_extractor] OpenManus stdout: INFO     [browser_use] BrowserUse logging setup complete with level info
+INFO     [root] Anonymized telemetry enabled. See https://docs.browser-use.com/development/telemetry for more information.
+OPENMANUS_RESULT_START
+"Step 1: Observed output of cmd `browser_use` executed:\nNavigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003\nStep 2: Observed output of cmd `browser_use` executed:\nError: Browser action 'extract_content' failed: RetryError[<F...
+[2025-06-08 00:52:50.045] [DEBUG] [agent_extractor] OpenManus stderr: 2025-06-08 00:51:39.555 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:51:41.601 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1713, Completion=87, Cumulative Input=1713, Cumulative Completion=87, Total=1800, Cumulative Total=1800
+2025-06-08 00:51:41.602 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I will navigate to the provided Uniqlo URL and extract the requested product information.
+
+
+2025-06-08 00:51:41.602 | INFO     | app...
+[2025-06-08 00:52:50.045] [INFO] [agent_extractor] Validation passed for moderately modest extraction with 4 fields
+[2025-06-08 00:52:50.047] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: openmanus
+[2025-06-08 00:52:50.047] [DEBUG] [cost_tracker] Tracked API call: openmanus ($0.0000) - Cached: False
+[2025-06-08 00:54:54.032] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:54:54.033] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:54:54.033] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:54:54.034] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:54:54.034] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:54:54.034] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:54:54.034] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:54:54.034] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:54:54.036] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:56:01.822] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 00:56:01.823] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:56:01.823] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:56:01.824] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:56:01.824] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:56:01.824] [INFO] [agent_extractor] Attempting extraction with openmanus for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:56:01.825] [INFO] [agent_extractor] Starting OpenManus extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 00:56:01.825] [DEBUG] [agent_extractor] OpenManus config: /Users/yav/OpenManus, /Users/yav/miniconda3/envs/openmanus
+[2025-06-08 00:56:01.825] [INFO] [agent_extractor] Running OpenManus command: /Users/yav/miniconda3/envs/openmanus/bin/python /Users/yav/OpenManus/temp_openmanus_script.py
+[2025-06-08 00:59:01.828] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 01:25:47.263] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:25:47.264] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:25:47.264] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:25:47.265] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:25:47.265] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:25:47.858] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:25:47.858] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 01:26:49.600] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:26:49.601] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:26:49.601] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:26:49.602] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:26:49.602] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:26:50.417] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:26:56.354] [ERROR] [agent_extractor] Browser Use execution error: Your default credentials were not found. To set up Application Default Credentials, see https://cloud.google.com/docs/authentication/external/set-up-adc for more information.
+[2025-06-08 01:27:23.401] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:27:23.402] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:23.402] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:23.403] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:23.403] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:23.404] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:27:23.865] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:27:26.326] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[], all_model_outputs=[])...
+[2025-06-08 01:27:26.327] [INFO] [agent_extractor] Validation passed for moderately modest extraction with 3 fields
+[2025-06-08 01:27:26.329] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: browser_use
+[2025-06-08 01:27:26.329] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:27:48.588] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:27:48.590] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:48.590] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:48.591] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:48.591] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:48.591] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:27:49.091] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:28:13.790] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:28:13.790] [INFO] [agent_extractor] Validation passed for moderately modest extraction with 3 fields
+[2025-06-08 01:28:13.793] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: browser_use
+[2025-06-08 01:28:13.794] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:28:37.916] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:28:37.917] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:28:37.917] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:28:37.918] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:28:37.918] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:28:37.918] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:28:38.661] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:28:59.334] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:28:59.334] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:28:59.337] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:28:59.337] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:29:31.118] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:29:31.120] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:29:31.120] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:29:31.121] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:29:31.121] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:29:31.121] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:29:31.782] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:29:51.551] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:29:51.551] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:29:51.554] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:29:51.555] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:30:28.569] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:30:28.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:28.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:28.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:28.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:28.572] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:30:29.230] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:30:48.289] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:30:48.289] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:30:48.292] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:30:48.292] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:30:55.339] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:30:55.344] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:55.344] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:55.345] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:55.345] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:30:56.054] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:30:57.249] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:31:15.728] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:31:15.728] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:31:15.731] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:31:15.731] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:32:02.787] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:32:02.788] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:02.788] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:02.789] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:02.790] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:02.790] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:32:03.486] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:32:24.614] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:32:24.615] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:32:24.618] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:32:24.619] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:32:30.422] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:32:30.423] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:30.423] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:30.424] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:30.425] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:30.425] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:32:31.126] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:32:53.016] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:32:53.017] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:32:53.019] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:32:53.020] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:33:21.437] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:33:21.439] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:33:21.439] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:33:21.440] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:33:21.440] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:33:21.441] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:33:22.280] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:33:43.416] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:33:43.417] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:33:43.419] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:33:43.420] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:34:01.067] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:34:01.069] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:34:01.069] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:34:01.071] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:34:01.071] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:34:01.071] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:34:01.770] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:34:22.283] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:34:22.283] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:34:22.286] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:34:22.287] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:35:00.473] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:35:00.474] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:00.474] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:00.476] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:00.476] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:00.476] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:35:01.197] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:35:26.690] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:35:26.691] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:35:26.694] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:35:26.695] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:35:32.717] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:35:32.718] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:32.718] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:32.719] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:32.719] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:32.720] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:35:33.435] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:35:53.706] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:35:53.707] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:35:53.710] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:35:53.711] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:36:00.569] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:36:00.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:00.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:00.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:00.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:00.572] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:36:01.264] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:36:23.835] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:36:23.836] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:36:23.839] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:36:23.839] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:36:43.288] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:36:43.289] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:43.290] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:43.291] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:43.291] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:43.291] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:36:44.039] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:37:11.948] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:37:11.949] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:37:11.952] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:37:11.953] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:37:27.591] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:37:27.592] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:37:27.592] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:37:27.593] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:37:27.593] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:37:27.594] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:37:28.332] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:37:46.620] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:37:46.621] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:37:46.621] [DEBUG] [agent_extractor] Browser Use result has all_results: False
+[2025-06-08 01:37:46.621] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:37:46.624] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:37:46.624] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:38:03.731] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:38:03.733] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:03.733] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:03.734] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:03.734] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:03.734] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:38:04.492] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:38:25.861] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:38:25.861] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:38:25.861] [DEBUG] [agent_extractor] Browser Use result attributes: ['__abstractmethods__', '__annotations__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'action_names', 'action_results', 'construct', 'copy', 'dict', 'errors', 'extracted_content', 'final_result', 'from_orm', 'has_errors', 'history', 'input_token_usage', 'is_done', 'is_successful', 'json', 'last_action', 'load_from_file', 'model_actions', 'model_actions_filtered', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_outputs', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_thoughts', 'model_validate', 'model_validate_json', 'model_validate_strings', 'number_of_steps', 'parse_file', 'parse_obj', 'parse_raw', 'save_to_file', 'schema', 'schema_json', 'screenshots', 'total_duration_seconds', 'total_input_tokens', 'update_forward_refs', 'urls', 'validate']
+[2025-06-08 01:38:25.862] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 3 fields
+[2025-06-08 01:38:25.864] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:38:25.865] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:38:55.638] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:38:55.639] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:55.639] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:55.640] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:55.641] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:55.641] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:38:56.340] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:40:33.558] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content=None, error='Error executing action go_to_url: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating...
+[2025-06-08 01:40:33.559] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:40:33.559] [DEBUG] [agent_extractor] Browser Use result attributes: ['__abstractmethods__', '__annotations__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'action_names', 'action_results', 'construct', 'copy', 'dict', 'errors', 'extracted_content', 'final_result', 'from_orm', 'has_errors', 'history', 'input_token_usage', 'is_done', 'is_successful', 'json', 'last_action', 'load_from_file', 'model_actions', 'model_actions_filtered', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_outputs', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_thoughts', 'model_validate', 'model_validate_json', 'model_validate_strings', 'number_of_steps', 'parse_file', 'parse_obj', 'parse_raw', 'save_to_file', 'schema', 'schema_json', 'screenshots', 'total_duration_seconds', 'total_input_tokens', 'update_forward_refs', 'urls', 'validate']
+[2025-06-08 01:40:33.559] [ERROR] [agent_extractor] Browser Use execution error: object of type 'method' has no len()
+[2025-06-08 01:40:40.014] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:40:40.015] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:40:40.016] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:40:40.017] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:40:40.017] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:40:40.017] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:40:40.858] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:41:00.675] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:41:00.676] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:41:00.676] [DEBUG] [agent_extractor] Browser Use result attributes: ['__abstractmethods__', '__annotations__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'action_names', 'action_results', 'construct', 'copy', 'dict', 'errors', 'extracted_content', 'final_result', 'from_orm', 'has_errors', 'history', 'input_token_usage', 'is_done', 'is_successful', 'json', 'last_action', 'load_from_file', 'model_actions', 'model_actions_filtered', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_outputs', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_thoughts', 'model_validate', 'model_validate_json', 'model_validate_strings', 'number_of_steps', 'parse_file', 'parse_obj', 'parse_raw', 'save_to_file', 'schema', 'schema_json', 'screenshots', 'total_duration_seconds', 'total_input_tokens', 'update_forward_refs', 'urls', 'validate']
+[2025-06-08 01:41:00.676] [ERROR] [agent_extractor] Browser Use execution error: object of type 'method' has no len()
+[2025-06-08 01:41:30.113] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:41:30.114] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:30.114] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:30.116] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:30.116] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:30.116] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:41:30.804] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:41:50.481] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Browser Use result attributes: ['__abstractmethods__', '__annotations__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'action_names', 'action_results', 'construct', 'copy', 'dict', 'errors', 'extracted_content', 'final_result', 'from_orm', 'has_errors', 'history', 'input_token_usage', 'is_done', 'is_successful', 'json', 'last_action', 'load_from_file', 'model_actions', 'model_actions_filtered', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_outputs', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_thoughts', 'model_validate', 'model_validate_json', 'model_validate_strings', 'number_of_steps', 'parse_file', 'parse_obj', 'parse_raw', 'save_to_file', 'schema', 'schema_json', 'screenshots', 'total_duration_seconds', 'total_input_tokens', 'update_forward_refs', 'urls', 'validate']
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Result has action_results with 3 items
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Browser Use returned 3 action results
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Action 0: is_done=False, content: 🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplay...
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Action 1: is_done=False, content: 📄  Extracted from page
+: ```json
+{
+  "product_title": "Mercerized Cotton Dress",
+  "brand": "UNIQLO"...
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Found JSON block in content
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] JSON match found, attempting to parse
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Raw JSON string: {
+  "product_title": "Mercerized Cotton Dress",
+  "brand": "UNIQLO",
+  "price": "29.90",
+  "original_price": null,
+  "description": "Smooth, premium cotton jersey fabric. Comfortable, unrestrictive fi...
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Successfully parsed JSON: ['product_title', 'brand', 'price', 'original_price', 'description', 'stock_status', 'sale_status', 'clothing_type', 'product_ID', 'main_image_URLs']
+[2025-06-08 01:41:50.482] [DEBUG] [agent_extractor] Uniqlo sale item without original price: Mercerized Cotton Dress
+[2025-06-08 01:41:50.483] [DEBUG] [agent_extractor] Uniqlo sale item without original price - this is expected behavior
+[2025-06-08 01:41:50.483] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 11 fields
+[2025-06-08 01:41:50.485] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:41:50.486] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:41:59.221] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:41:59.222] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:59.223] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:59.224] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:59.224] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:59.224] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:41:59.750] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Browser Use result type: <class 'browser_use.agent.views.AgentHistoryList'>
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Browser Use result attributes: ['__abstractmethods__', '__annotations__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'action_names', 'action_results', 'construct', 'copy', 'dict', 'errors', 'extracted_content', 'final_result', 'from_orm', 'has_errors', 'history', 'input_token_usage', 'is_done', 'is_successful', 'json', 'last_action', 'load_from_file', 'model_actions', 'model_actions_filtered', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_outputs', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_thoughts', 'model_validate', 'model_validate_json', 'model_validate_strings', 'number_of_steps', 'parse_file', 'parse_obj', 'parse_raw', 'save_to_file', 'schema', 'schema_json', 'screenshots', 'total_duration_seconds', 'total_input_tokens', 'update_forward_refs', 'urls', 'validate']
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Result has action_results with 3 items
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Browser Use returned 3 action results
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Action 0: is_done=False, content: 🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplay...
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Action 1: is_done=False, content: 📄  Extracted from page
+: ```json
+{
+  "product_title": "Mercerized Cotton Dress",
+  "brand": "UNIQLO"...
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Found JSON block in content
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] JSON match found, attempting to parse
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Raw JSON string: {
+  "product_title": "Mercerized Cotton Dress",
+  "brand": "UNIQLO",
+  "price": "29.90",
+  "original_price": null,
+  "description": "Smooth, premium cotton jersey fabric. Comfortable, unrestrictive fi...
+[2025-06-08 01:42:18.905] [DEBUG] [agent_extractor] Successfully parsed JSON: ['product_title', 'brand', 'price', 'original_price', 'description', 'stock_status', 'sale_status', 'clothing_type', 'product_ID', 'main_image_URLs']
+[2025-06-08 01:42:18.906] [DEBUG] [agent_extractor] Uniqlo sale item without original price: Mercerized Cotton Dress
+[2025-06-08 01:42:18.906] [DEBUG] [agent_extractor] Uniqlo sale item without original price - this is expected behavior
+[2025-06-08 01:42:18.906] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 11 fields
+[2025-06-08 01:42:18.908] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:42:18.909] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:44:42.100] [INFO] [duplicate_detector] Database initialization deferred (running in event loop)
+[2025-06-08 01:44:42.101] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 01:44:42.101] [INFO] [duplicate_detector] Database initialization deferred (running in event loop)
+[2025-06-08 01:44:42.106] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 01:44:42.106] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-08 01:44:42.106] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:44:42.106] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-08 01:44:42.107] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:44:42.107] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 01:44:42.108] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:44:42.108] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-08 01:44:42.108] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-08 01:44:42.109] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:44:42.109] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:44:42.109] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:44:42.568] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 01:45:03.324] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 01:45:03.324] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:45:03.327] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-08 01:45:03.327] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:45:03.327] [INFO] [batch_processor] Added to manual review: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 (extraction_failed)
+[2025-06-08 01:45:04.328] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 01:45:04.328] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-08 01:45:04.330] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 01:45:04.330] [DEBUG] [batch_processor] [2/9] Phase 2: Extracting product data
+[2025-06-08 01:45:04.330] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 01:45:04.330] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 01:45:54.301] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275', error=None, incl...
+[2025-06-08 01:45:54.302] [INFO] [agent_extractor] Validation passed for aritzia extraction with 11 fields
+[2025-06-08 01:45:54.304] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 01:45:54.304] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:45:54.304] [DEBUG] [batch_processor] [2/9] Phase 3: Processing images
+[2025-06-08 01:45:54.304] [DEBUG] [batch_processor] [2/9] Phase 4: Creating Shopify product
+[2025-06-08 01:45:55.221] [INFO] [shopify_manager] Created Shopify product: 14739053052274
+[2025-06-08 01:45:55.409] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053052274
+[2025-06-08 01:45:55.569] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053052274
+[2025-06-08 01:45:55.748] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053052274
+[2025-06-08 01:45:55.921] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053052274
+[2025-06-08 01:45:56.145] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053052274
+[2025-06-08 01:45:56.304] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053052274
+[2025-06-08 01:45:56.464] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053052274
+[2025-06-08 01:45:56.633] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053052274
+[2025-06-08 01:45:56.797] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053052274
+[2025-06-08 01:45:56.799] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 01:45:56.801] [DEBUG] [duplicate_detector] Stored product: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 01:45:56.801] [DEBUG] [batch_processor] Stored product record for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 01:45:56.802] [INFO] [batch_processor] [2/9] Successfully created product: 14739053052274
+[2025-06-08 01:45:57.804] [INFO] [batch_processor] [3/9] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 01:45:57.805] [DEBUG] [batch_processor] [3/9] Phase 1: Processing URL
+[2025-06-08 01:45:57.809] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: True)
+[2025-06-08 01:45:57.809] [INFO] [batch_processor] [3/9] Duplicate detected: update
+[2025-06-08 01:45:57.810] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 01:45:57.812] [INFO] [agent_extractor] Starting Browser Use extraction for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 01:46:20.702] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www2.hm.com/en_us/productpage.1232566001.html', error=None, include_in_memory=True), ...
+[2025-06-08 01:46:20.703] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 01:46:20.706] [DEBUG] [agent_extractor] Validated 5 image URLs for hm
+[2025-06-08 01:46:20.706] [INFO] [agent_extractor] Validation passed for hm extraction with 11 fields
+[2025-06-08 01:46:20.708] [DEBUG] [pattern_learner] Recorded successful pattern for hm: browser_use
+[2025-06-08 01:46:20.708] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:46:21.835] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739050594674
+[2025-06-08 01:46:22.121] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739050594674
+[2025-06-08 01:46:22.406] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739050594674
+[2025-06-08 01:46:22.539] [INFO] [shopify_manager] Updated Shopify product: 14739050594674
+[2025-06-08 01:46:22.539] [INFO] [batch_processor] Successfully updated existing product: 14739050594674
+[2025-06-08 01:46:23.539] [INFO] [batch_processor] [4/9] Processing: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 01:46:23.540] [DEBUG] [batch_processor] [4/9] Phase 1: Processing URL
+[2025-06-08 01:46:23.542] [DEBUG] [url_processor] Processed URL: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 -> urban_outfitters (duplicate: False)
+[2025-06-08 01:46:23.542] [DEBUG] [batch_processor] [4/9] Phase 2: Extracting product data
+[2025-06-08 01:46:23.542] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 01:46:23.543] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 01:46:48.043] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothin...
+[2025-06-08 01:46:48.043] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:46:48.045] [DEBUG] [pattern_learner] Recorded failure pattern for urban_outfitters: unknown_error
+[2025-06-08 01:46:48.045] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:46:48.045] [INFO] [batch_processor] Added to manual review: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 (extraction_failed)
+[2025-06-08 01:46:49.046] [INFO] [batch_processor] [5/9] Processing: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:46:49.047] [DEBUG] [batch_processor] [5/9] Phase 1: Processing URL
+[2025-06-08 01:46:49.050] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 01:46:49.051] [DEBUG] [url_processor] Processed URL: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1 -> anthropologie (duplicate: False)
+[2025-06-08 01:46:49.052] [DEBUG] [batch_processor] [5/9] Phase 2: Extracting product data
+[2025-06-08 01:46:49.052] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:46:49.052] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:47:13.111] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=0...
+[2025-06-08 01:47:13.113] [DEBUG] [base_image_processor] Created download directory: downloads/anthropologie_images
+[2025-06-08 01:47:13.113] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for anthropologie
+[2025-06-08 01:47:13.113] [DEBUG] [agent_extractor] Validated 5 image URLs for anthropologie
+[2025-06-08 01:47:13.113] [INFO] [agent_extractor] Validation passed for anthropologie extraction with 11 fields
+[2025-06-08 01:47:13.114] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 01:47:13.114] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:47:13.114] [DEBUG] [batch_processor] [5/9] Phase 3: Processing images
+[2025-06-08 01:47:13.114] [INFO] [batch_processor] Processing 5 images for anthropologie using transformation processor
+[2025-06-08 01:47:13.114] [INFO] [base_image_processor] Starting image processing for anthropologie with 5 URLs
+[2025-06-08 01:47:13.489] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=60, size=173662, resolution=(640, 960)
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] Applying URL transformations for anthropologie
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b14?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b2?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b3?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b4?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [INFO] [simple_transform_image_processor] Generated 5 URLs for anthropologie (0 additional)
+[2025-06-08 01:47:13.529] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=60, size=173662, resolution=(640, 960)
+[2025-06-08 01:47:13.571] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=45, size=68206, resolution=(640, 960)
+[2025-06-08 01:47:13.648] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=45, size=61596, resolution=(640, 960)
+[2025-06-08 01:47:13.680] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=68206, resolution=(640, 960)
+[2025-06-08 01:47:13.711] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=61596, resolution=(640, 960)
+[2025-06-08 01:47:13.747] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=87054, resolution=(640, 960)
+[2025-06-08 01:47:13.793] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=30, size=38842, resolution=(640, 960)
+[2025-06-08 01:47:13.793] [INFO] [simple_transform_image_processor] anthropologie Browser Use fallback called for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:47:13.793] [INFO] [batch_processor] Successfully processed 1 images for anthropologie
+[2025-06-08 01:47:13.793] [DEBUG] [batch_processor] [5/9] Phase 4: Creating Shopify product
+[2025-06-08 01:47:14.375] [INFO] [shopify_manager] Created Shopify product: 14739053085042
+[2025-06-08 01:47:16.015] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54170749469042,"alt":"Maeve Sleeveless Mini Shift Dress - Image 1","position":1,"product_id":14739053085042,"created_at":"2025-06-08T01:47:15-04:00","updated_at":"2025-06-08T01:47:15-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46239928811890","width":640,"height":960,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/eea2676a7c9417bbc998f38e8d2f86e9.jpg?v=1749361635","variant_ids":[]}}
+[2025-06-08 01:47:16.190] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053085042
+[2025-06-08 01:47:16.394] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053085042
+[2025-06-08 01:47:16.561] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053085042
+[2025-06-08 01:47:16.738] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053085042
+[2025-06-08 01:47:16.926] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053085042
+[2025-06-08 01:47:17.083] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053085042
+[2025-06-08 01:47:17.263] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053085042
+[2025-06-08 01:47:17.450] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053085042
+[2025-06-08 01:47:17.612] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053085042
+[2025-06-08 01:47:17.623] [DEBUG] [duplicate_detector] Stored product: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:47:17.623] [DEBUG] [batch_processor] Stored product record for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 01:47:17.623] [INFO] [batch_processor] [5/9] Successfully created product: 14739053085042
+[2025-06-08 01:47:18.624] [INFO] [batch_processor] [6/9] Processing: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 01:47:18.624] [DEBUG] [batch_processor] [6/9] Phase 1: Processing URL
+[2025-06-08 01:47:18.627] [DEBUG] [url_processor] Processed URL: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001 -> nordstrom (duplicate: False)
+[2025-06-08 01:47:18.628] [DEBUG] [batch_processor] [6/9] Phase 2: Extracting product data
+[2025-06-08 01:47:18.628] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 01:47:18.628] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 01:47:27.379] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&brea...
+[2025-06-08 01:47:27.380] [INFO] [agent_extractor] Validation passed for nordstrom extraction with 4 fields
+[2025-06-08 01:47:27.381] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 01:47:27.381] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:47:27.381] [DEBUG] [batch_processor] [6/9] Phase 3: Processing images
+[2025-06-08 01:47:27.381] [DEBUG] [batch_processor] [6/9] Phase 4: Creating Shopify product
+[2025-06-08 01:47:27.994] [INFO] [shopify_manager] Created Shopify product: 14739053117810
+[2025-06-08 01:47:28.169] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053117810
+[2025-06-08 01:47:28.336] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053117810
+[2025-06-08 01:47:28.509] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053117810
+[2025-06-08 01:47:28.667] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053117810
+[2025-06-08 01:47:28.819] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053117810
+[2025-06-08 01:47:28.997] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053117810
+[2025-06-08 01:47:29.176] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053117810
+[2025-06-08 01:47:29.366] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053117810
+[2025-06-08 01:47:29.504] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 01:47:29.509] [DEBUG] [duplicate_detector] Stored product: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 01:47:29.509] [DEBUG] [batch_processor] Stored product record for https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 01:47:29.509] [INFO] [batch_processor] [6/9] Successfully created product: 14739053117810
+[2025-06-08 01:47:30.511] [INFO] [batch_processor] [7/9] Processing: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 01:47:30.511] [DEBUG] [batch_processor] [7/9] Phase 1: Processing URL
+[2025-06-08 01:47:30.514] [DEBUG] [url_processor] Processed URL: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 -> abercrombie (duplicate: False)
+[2025-06-08 01:47:30.514] [DEBUG] [batch_processor] [7/9] Phase 2: Extracting product data
+[2025-06-08 01:47:30.514] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 01:47:30.514] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 01:48:14.941] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&f...
+[2025-06-08 01:48:14.943] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:48:14.945] [DEBUG] [pattern_learner] Recorded failure pattern for abercrombie: unknown_error
+[2025-06-08 01:48:14.945] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:48:14.945] [INFO] [batch_processor] Added to manual review: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 (extraction_failed)
+[2025-06-08 01:48:15.946] [INFO] [batch_processor] [8/9] Processing: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 01:48:15.947] [DEBUG] [batch_processor] [8/9] Phase 1: Processing URL
+[2025-06-08 01:48:15.949] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 -> revolve (duplicate: False)
+[2025-06-08 01:48:15.949] [DEBUG] [batch_processor] [8/9] Phase 2: Extracting product data
+[2025-06-08 01:48:15.949] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 01:48:15.950] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 01:49:00.781] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page...
+[2025-06-08 01:49:00.782] [DEBUG] [agent_extractor] JSON decode error: Invalid control character at: line 6 column 54 (char 156)
+[2025-06-08 01:49:00.782] [WARNING] [agent_extractor] Missing required field: title
+[2025-06-08 01:49:00.782] [INFO] [batch_processor] Added to manual review: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 (extraction_failed)
+[2025-06-08 01:49:01.784] [INFO] [batch_processor] [9/9] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 01:49:01.784] [DEBUG] [batch_processor] [9/9] Phase 1: Processing URL
+[2025-06-08 01:49:01.790] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: False)
+[2025-06-08 01:49:01.790] [DEBUG] [batch_processor] [9/9] Phase 2: Extracting product data
+[2025-06-08 01:49:01.790] [INFO] [agent_extractor] Attempting extraction with browser_use for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 01:49:01.791] [INFO] [agent_extractor] Starting Browser Use extraction for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 01:49:37.211] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-bl...
+[2025-06-08 01:49:37.213] [INFO] [agent_extractor] Validation passed for mango extraction with 12 fields
+[2025-06-08 01:49:37.215] [DEBUG] [pattern_learner] Recorded successful pattern for mango: browser_use
+[2025-06-08 01:49:37.215] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 01:49:37.215] [DEBUG] [batch_processor] [9/9] Phase 3: Processing images
+[2025-06-08 01:49:37.215] [DEBUG] [batch_processor] [9/9] Phase 4: Creating Shopify product
+[2025-06-08 01:49:37.762] [INFO] [shopify_manager] Created Shopify product: 14739053281650
+[2025-06-08 01:49:37.937] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739053281650
+[2025-06-08 01:49:38.103] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739053281650
+[2025-06-08 01:49:38.278] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739053281650
+[2025-06-08 01:49:38.445] [DEBUG] [shopify_manager] Created metafield product_id for product 14739053281650
+[2025-06-08 01:49:38.640] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739053281650
+[2025-06-08 01:49:38.807] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739053281650
+[2025-06-08 01:49:38.984] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739053281650
+[2025-06-08 01:49:39.167] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739053281650
+[2025-06-08 01:49:39.341] [DEBUG] [shopify_manager] Created metafield original_price for product 14739053281650
+[2025-06-08 01:49:39.349] [DEBUG] [duplicate_detector] Stored product: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 01:49:39.349] [DEBUG] [batch_processor] Stored product record for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 01:49:39.349] [INFO] [batch_processor] [9/9] Successfully created product: 14739053281650
+[2025-06-08 01:49:40.352] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_0549.json
+[2025-06-08 01:49:40.354] [INFO] [batch_processor] Batch batch_001_June_7th completed: 5/9 successful (55.6%)
+[2025-06-08 02:48:54.909] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 02:48:54.910] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:48:54.911] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:48:54.912] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:48:54.912] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:48:54.912] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559
+[2025-06-08 02:48:55.812] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559
+[2025-06-08 02:48:55.812] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap...
+[2025-06-08 02:48:55.830] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-08 02:48:55.831] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:48:55.831] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:48:55.831] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac O...
+[2025-06-08 02:48:55.832] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-08 02:49:23.567] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 02:49:23.568] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:49:23.568] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:49:23.569] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:49:23.569] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559
+[2025-06-08 02:49:24.310] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559
+[2025-06-08 02:49:24.310] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0...
+[2025-06-08 02:49:25.424] [DEBUG] [agent_extractor] Initial human-like delay: 4.11s
+[2025-06-08 02:49:25.424] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:49:29.535] [INFO] [agent_extractor] Attempt 1/2 for nordstrom (timeout: 300s)
+[2025-06-08 02:49:38.112] [INFO] [agent_extractor] Browser Use succeeded for nordstrom in 14.54s
+[2025-06-08 02:49:38.113] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559', error=None, incl...
+[2025-06-08 02:49:38.113] [INFO] [agent_extractor] Validation passed for nordstrom extraction with 4 fields
+[2025-06-08 02:49:38.115] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 02:49:38.116] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:49:38.116] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:49:38.116] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:49:38.116] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac O...
+[2025-06-08 02:49:38.744] [DEBUG] [agent_extractor] Initial human-like delay: 3.85s
+[2025-06-08 02:49:42.597] [INFO] [agent_extractor] Attempt 1/2 for aritzia (timeout: 240s)
+[2025-06-08 02:50:20.190] [INFO] [agent_extractor] Browser Use succeeded for aritzia in 42.07s
+[2025-06-08 02:50:20.190] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.aritzia.com/en/product/contour-long-sleeve/98652.html', error=None, include_in_me...
+[2025-06-08 02:50:20.206] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:50:20.206] [DEBUG] [agent_extractor] Validated 5 image URLs for aritzia
+[2025-06-08 02:50:20.206] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 02:50:20.207] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 02:50:20.208] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:51:10.419] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:51:10.420] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:51:10.420] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 02:51:10.420] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:51:11.119] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 02:51:11.119] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac O...
+[2025-06-08 02:51:12.291] [DEBUG] [agent_extractor] Initial human-like delay: 4.96s
+[2025-06-08 02:51:17.249] [INFO] [agent_extractor] Attempt 1/2 for aritzia (timeout: 240s)
+[2025-06-08 02:52:53.937] [INFO] [agent_extractor] Browser Use succeeded for aritzia in 103.51s
+[2025-06-08 02:52:53.938] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.aritzia.com/', error=None, include_in_memory=True), ActionResult(is_done=False, s...
+[2025-06-08 02:52:53.960] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:52:53.960] [DEBUG] [agent_extractor] Validated 5 image URLs for aritzia
+[2025-06-08 02:52:53.960] [INFO] [agent_extractor] Validation passed for aritzia extraction with 11 fields
+[2025-06-08 02:52:53.964] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 02:52:53.964] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:53:10.922] [INFO] [duplicate_detector] Database initialization deferred (running in event loop)
+[2025-06-08 02:53:10.922] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 02:53:10.923] [INFO] [duplicate_detector] Database initialization deferred (running in event loop)
+[2025-06-08 02:53:10.924] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 02:53:10.924] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 02:53:10.925] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-08 02:53:10.925] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 02:53:10.925] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-08 02:53:10.926] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:53:10.926] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 02:53:10.927] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:53:10.927] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-08 02:53:10.927] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-08 02:53:10.927] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:53:10.928] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:53:10.928] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 02:53:11.626] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 02:53:11.626] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+[2025-06-08 02:53:12.667] [DEBUG] [agent_extractor] Initial human-like delay: 4.04s
+[2025-06-08 02:53:16.712] [INFO] [agent_extractor] Attempt 1/2 for uniqlo (timeout: 180s)
+[2025-06-08 02:53:50.710] [INFO] [agent_extractor] Browser Use succeeded for uniqlo in 39.78s
+[2025-06-08 02:53:50.710] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003'...
+[2025-06-08 02:53:50.710] [DEBUG] [agent_extractor] JSON decode error: Invalid control character at: line 6 column 56 (char 163)
+[2025-06-08 02:53:50.711] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 4 fields
+[2025-06-08 02:53:50.713] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 02:53:50.713] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:53:50.713] [DEBUG] [batch_processor] [1/9] Phase 3: Processing images
+[2025-06-08 02:53:50.713] [DEBUG] [batch_processor] [1/9] Phase 4: Creating Shopify product
+[2025-06-08 02:53:51.391] [INFO] [shopify_manager] Created Shopify product: 14739054788978
+[2025-06-08 02:53:51.588] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739054788978
+[2025-06-08 02:53:51.761] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739054788978
+[2025-06-08 02:53:51.942] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739054788978
+[2025-06-08 02:53:52.132] [DEBUG] [shopify_manager] Created metafield product_id for product 14739054788978
+[2025-06-08 02:53:52.377] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739054788978
+[2025-06-08 02:53:52.557] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739054788978
+[2025-06-08 02:53:52.737] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739054788978
+[2025-06-08 02:53:52.920] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739054788978
+[2025-06-08 02:53:53.061] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 02:53:53.063] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 02:53:53.065] [DEBUG] [duplicate_detector] Stored product: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 02:53:53.065] [DEBUG] [batch_processor] Stored product record for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 02:53:53.065] [INFO] [batch_processor] [1/9] Successfully created product: 14739054788978
+[2025-06-08 02:53:54.067] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 02:53:54.067] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-08 02:53:54.069] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: True)
+[2025-06-08 02:53:54.069] [INFO] [batch_processor] [2/9] Duplicate detected: update
+[2025-06-08 02:53:54.069] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 02:53:54.070] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 02:53:54.070] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap...
+[2025-06-08 02:53:54.837] [DEBUG] [agent_extractor] Initial human-like delay: 4.78s
+[2025-06-08 02:53:59.618] [INFO] [agent_extractor] Attempt 1/2 for aritzia (timeout: 240s)
+[2025-06-08 02:54:46.354] [INFO] [agent_extractor] Browser Use succeeded for aritzia in 52.28s
+[2025-06-08 02:54:46.354] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275', error=None, incl...
+[2025-06-08 02:54:46.355] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:54:46.355] [DEBUG] [agent_extractor] Validated 5 image URLs for aritzia
+[2025-06-08 02:54:46.355] [INFO] [agent_extractor] Validation passed for aritzia extraction with 11 fields
+[2025-06-08 02:54:46.356] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 02:54:46.357] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:54:47.547] [INFO] [batch_processor] [3/9] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 02:54:47.548] [DEBUG] [batch_processor] [3/9] Phase 1: Processing URL
+[2025-06-08 02:54:47.549] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: True)
+[2025-06-08 02:54:47.550] [INFO] [batch_processor] [3/9] Duplicate detected: update
+[2025-06-08 02:54:47.550] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 02:54:47.550] [INFO] [agent_extractor] Starting Browser Use extraction for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 02:54:47.550] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap...
+[2025-06-08 02:54:48.422] [DEBUG] [agent_extractor] Initial human-like delay: 3.49s
+[2025-06-08 02:54:51.908] [INFO] [agent_extractor] Attempt 1/2 for hm (timeout: 180s)
+[2025-06-08 02:55:20.311] [INFO] [agent_extractor] Browser Use succeeded for hm in 32.76s
+[2025-06-08 02:55:20.311] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www2.hm.com/en_us/productpage.1232566001.html', error=None, include_in_memory=True), ...
+[2025-06-08 02:55:20.311] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 02:55:20.312] [DEBUG] [agent_extractor] Validated 5 image URLs for hm
+[2025-06-08 02:55:20.312] [INFO] [agent_extractor] Validation passed for hm extraction with 11 fields
+[2025-06-08 02:55:20.313] [DEBUG] [pattern_learner] Recorded successful pattern for hm: browser_use
+[2025-06-08 02:55:20.313] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:55:21.512] [INFO] [batch_processor] [4/9] Processing: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 02:55:21.512] [DEBUG] [batch_processor] [4/9] Phase 1: Processing URL
+[2025-06-08 02:55:21.514] [DEBUG] [url_processor] Processed URL: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 -> urban_outfitters (duplicate: False)
+[2025-06-08 02:55:21.514] [DEBUG] [batch_processor] [4/9] Phase 2: Extracting product data
+[2025-06-08 02:55:21.514] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 02:55:21.515] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 02:55:21.515] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:1...
+[2025-06-08 02:55:22.285] [DEBUG] [agent_extractor] Initial human-like delay: 4.37s
+[2025-06-08 02:55:26.656] [INFO] [agent_extractor] Attempt 1/2 for urban_outfitters (timeout: 180s)
+[2025-06-08 02:55:56.229] [INFO] [agent_extractor] Browser Use succeeded for urban_outfitters in 34.71s
+[2025-06-08 02:55:56.229] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothin...
+[2025-06-08 02:55:56.229] [WARNING] [agent_extractor] Missing required field: title
+[2025-06-08 02:55:56.230] [INFO] [batch_processor] Added to manual review: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 (extraction_failed)
+[2025-06-08 02:55:57.231] [INFO] [batch_processor] [5/9] Processing: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 02:55:57.231] [DEBUG] [batch_processor] [5/9] Phase 1: Processing URL
+[2025-06-08 02:55:57.234] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 02:55:57.235] [DEBUG] [url_processor] Processed URL: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1 -> anthropologie (duplicate: True)
+[2025-06-08 02:55:57.235] [INFO] [batch_processor] [5/9] Duplicate detected: update
+[2025-06-08 02:55:57.235] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 02:55:57.235] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 02:55:57.235] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+[2025-06-08 02:55:58.017] [DEBUG] [agent_extractor] Initial human-like delay: 3.51s
+[2025-06-08 02:56:01.533] [INFO] [agent_extractor] Attempt 1/2 for anthropologie (timeout: 180s)
+[2025-06-08 02:56:39.081] [INFO] [agent_extractor] Browser Use succeeded for anthropologie in 41.85s
+[2025-06-08 02:56:39.081] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=0...
+[2025-06-08 02:56:39.082] [INFO] [agent_extractor] Validation passed for anthropologie extraction with 4 fields
+[2025-06-08 02:56:39.083] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 02:56:39.083] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:56:40.290] [INFO] [batch_processor] [6/9] Processing: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 02:56:40.290] [DEBUG] [batch_processor] [6/9] Phase 1: Processing URL
+[2025-06-08 02:56:40.291] [DEBUG] [url_processor] Processed URL: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001 -> nordstrom (duplicate: True)
+[2025-06-08 02:56:40.291] [INFO] [batch_processor] [6/9] Duplicate detected: update
+[2025-06-08 02:56:40.291] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 02:56:40.291] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 02:56:40.291] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36...
+[2025-06-08 02:56:41.064] [DEBUG] [agent_extractor] Initial human-like delay: 3.04s
+[2025-06-08 02:56:44.110] [INFO] [agent_extractor] Attempt 1/2 for nordstrom (timeout: 300s)
+[2025-06-08 02:57:06.917] [INFO] [agent_extractor] Browser Use succeeded for nordstrom in 26.63s
+[2025-06-08 02:57:06.917] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&brea...
+[2025-06-08 02:57:06.917] [INFO] [agent_extractor] Validation passed for nordstrom extraction with 4 fields
+[2025-06-08 02:57:06.920] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 02:57:06.920] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 02:57:08.108] [INFO] [batch_processor] [7/9] Processing: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 02:57:08.108] [DEBUG] [batch_processor] [7/9] Phase 1: Processing URL
+[2025-06-08 02:57:08.109] [DEBUG] [url_processor] Processed URL: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 -> abercrombie (duplicate: False)
+[2025-06-08 02:57:08.109] [DEBUG] [batch_processor] [7/9] Phase 2: Extracting product data
+[2025-06-08 02:57:08.109] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 02:57:08.109] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 02:57:08.110] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac O...
+[2025-06-08 02:57:08.902] [DEBUG] [agent_extractor] Initial human-like delay: 3.82s
+[2025-06-08 02:57:12.724] [INFO] [agent_extractor] Attempt 1/2 for abercrombie (timeout: 200s)
+[2025-06-08 03:00:48.282] [INFO] [agent_extractor] Browser Use succeeded for abercrombie in 220.17s
+[2025-06-08 03:00:48.283] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&f...
+[2025-06-08 03:00:48.285] [INFO] [agent_extractor] Validation passed for abercrombie extraction with 11 fields
+[2025-06-08 03:00:48.287] [DEBUG] [pattern_learner] Recorded successful pattern for abercrombie: browser_use
+[2025-06-08 03:00:48.287] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 03:00:48.287] [DEBUG] [batch_processor] [7/9] Phase 3: Processing images
+[2025-06-08 03:00:48.287] [DEBUG] [batch_processor] [7/9] Phase 4: Creating Shopify product
+[2025-06-08 03:00:48.834] [INFO] [shopify_manager] Created Shopify product: 14739054985586
+[2025-06-08 03:00:49.022] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739054985586
+[2025-06-08 03:00:49.258] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739054985586
+[2025-06-08 03:00:49.434] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739054985586
+[2025-06-08 03:00:49.619] [DEBUG] [shopify_manager] Created metafield product_id for product 14739054985586
+[2025-06-08 03:00:49.784] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739054985586
+[2025-06-08 03:00:49.939] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739054985586
+[2025-06-08 03:00:50.206] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739054985586
+[2025-06-08 03:00:50.389] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739054985586
+[2025-06-08 03:00:50.571] [DEBUG] [shopify_manager] Created metafield original_price for product 14739054985586
+[2025-06-08 03:00:50.575] [DEBUG] [duplicate_detector] Stored product: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 03:00:50.575] [DEBUG] [batch_processor] Stored product record for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 03:00:50.575] [INFO] [batch_processor] [7/9] Successfully created product: 14739054985586
+[2025-06-08 03:00:51.576] [INFO] [batch_processor] [8/9] Processing: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 03:00:51.577] [DEBUG] [batch_processor] [8/9] Phase 1: Processing URL
+[2025-06-08 03:00:51.579] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 -> revolve (duplicate: False)
+[2025-06-08 03:00:51.579] [DEBUG] [batch_processor] [8/9] Phase 2: Extracting product data
+[2025-06-08 03:00:51.579] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 03:00:51.579] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 03:00:51.579] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36...
+[2025-06-08 03:00:52.349] [DEBUG] [agent_extractor] Initial human-like delay: 3.66s
+[2025-06-08 03:00:56.013] [INFO] [agent_extractor] Attempt 1/2 for revolve (timeout: 180s)
+[2025-06-08 03:01:37.705] [INFO] [agent_extractor] Browser Use succeeded for revolve in 46.13s
+[2025-06-08 03:01:37.705] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page...
+[2025-06-08 03:01:37.705] [DEBUG] [agent_extractor] JSON decode error: Invalid control character at: line 6 column 54 (char 154)
+[2025-06-08 03:01:37.706] [DEBUG] [agent_extractor] JSON decode error from done action: Invalid control character at: line 6 column 54 (char 154)
+[2025-06-08 03:01:37.706] [DEBUG] [agent_extractor] JSON decode error: Invalid control character at: line 6 column 54 (char 154)
+[2025-06-08 03:01:37.706] [INFO] [agent_extractor] Validation passed for revolve extraction with 4 fields
+[2025-06-08 03:01:37.708] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: browser_use
+[2025-06-08 03:01:37.708] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 03:01:37.708] [DEBUG] [batch_processor] [8/9] Phase 3: Processing images
+[2025-06-08 03:01:37.708] [DEBUG] [batch_processor] [8/9] Phase 4: Creating Shopify product
+[2025-06-08 03:01:38.321] [INFO] [shopify_manager] Created Shopify product: 14739055018354
+[2025-06-08 03:01:38.512] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739055018354
+[2025-06-08 03:01:38.672] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739055018354
+[2025-06-08 03:01:38.841] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739055018354
+[2025-06-08 03:01:38.998] [DEBUG] [shopify_manager] Created metafield product_id for product 14739055018354
+[2025-06-08 03:01:39.190] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739055018354
+[2025-06-08 03:01:39.353] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739055018354
+[2025-06-08 03:01:39.585] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739055018354
+[2025-06-08 03:01:39.755] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739055018354
+[2025-06-08 03:01:39.892] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 03:01:39.895] [DEBUG] [duplicate_detector] Stored product: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 03:01:39.895] [DEBUG] [batch_processor] Stored product record for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 03:01:39.895] [INFO] [batch_processor] [8/9] Successfully created product: 14739055018354
+[2025-06-08 03:01:40.896] [INFO] [batch_processor] [9/9] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 03:01:40.896] [DEBUG] [batch_processor] [9/9] Phase 1: Processing URL
+[2025-06-08 03:01:40.897] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: True)
+[2025-06-08 03:01:40.897] [INFO] [batch_processor] [9/9] Duplicate detected: update
+[2025-06-08 03:01:40.897] [INFO] [agent_extractor] Attempting extraction with browser_use for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 03:01:40.897] [INFO] [agent_extractor] Starting Browser Use extraction for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 03:01:40.897] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+[2025-06-08 03:01:41.734] [DEBUG] [agent_extractor] Initial human-like delay: 3.05s
+[2025-06-08 03:01:44.785] [INFO] [agent_extractor] Attempt 1/2 for mango (timeout: 180s)
+[2025-06-08 03:02:22.954] [INFO] [agent_extractor] Browser Use succeeded for mango in 42.06s
+[2025-06-08 03:02:22.954] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-bl...
+[2025-06-08 03:02:22.956] [DEBUG] [base_image_processor] Created download directory: downloads/mango_images
+[2025-06-08 03:02:22.956] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 03:02:22.956] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 03:02:22.956] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 03:02:22.957] [DEBUG] [pattern_learner] Recorded successful pattern for mango: browser_use
+[2025-06-08 03:02:22.957] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 03:02:24.162] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_0702.json
+[2025-06-08 03:02:24.162] [INFO] [batch_processor] Batch batch_001_June_7th completed: 3/9 successful (33.3%)
+[2025-06-08 03:02:24.163] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-08 03:10:04.880] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 03:10:04.883] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:04.883] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:04.884] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:04.884] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:04.885] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:05.479] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/hybrid/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:05.479] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.042] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 03:10:49.044] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:49.044] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:49.046] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:49.046] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:49.046] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 03:10:49.465] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.465] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/hybrid/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 03:10:49.466] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.466] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 03:10:49.466] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:17:38.625] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 03:17:38.626] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:17:38.626] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:17:38.627] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:17:38.627] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:17:38.628] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 03:17:39.176] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 03:17:39.176] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap...
+[2025-06-08 03:17:39.226] [DEBUG] [agent_extractor] Initial human-like delay: 4.78s
+[2025-06-08 03:17:44.011] [INFO] [agent_extractor] Attempt 1/2 for anthropologie (timeout: 180s)
+[2025-06-08 03:18:34.405] [INFO] [agent_extractor] Browser Use succeeded for anthropologie in 55.78s
+[2025-06-08 03:18:34.405] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=0...
+[2025-06-08 03:18:34.406] [INFO] [agent_extractor] Validation passed for anthropologie extraction with 4 fields
+[2025-06-08 03:18:34.407] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 03:18:34.408] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 03:18:34.408] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.urbanoutfitters.com/shop/hybrid/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 03:18:34.408] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.urbanoutfitters.com/shop/hybrid/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 03:18:34.408] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb...
+[2025-06-08 03:18:34.417] [DEBUG] [agent_extractor] Initial human-like delay: 2.17s
+[2025-06-08 03:18:36.586] [INFO] [agent_extractor] Attempt 1/2 for urban_outfitters (timeout: 180s)
+[2025-06-08 03:28:20.719] [INFO] [agent_extractor] Browser Use succeeded for urban_outfitters in 586.31s
+[2025-06-08 03:28:20.720] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.urbanoutfitters.com/shop/hybrid/97-nyc-applique-graphic-baby-tee?category=womens-...
+[2025-06-08 03:28:20.721] [INFO] [agent_extractor] Validation passed for urban_outfitters extraction with 4 fields
+[2025-06-08 03:28:20.723] [DEBUG] [pattern_learner] Recorded successful pattern for urban_outfitters: browser_use
+[2025-06-08 03:28:20.723] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 03:28:20.724] [INFO] [agent_extractor] Attempting extraction with browser_use for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 03:28:20.724] [INFO] [agent_extractor] Starting Browser Use extraction for https://www.aritzia.com/en/product/contour-long-sleeve/98652.html
+[2025-06-08 03:28:20.724] [DEBUG] [agent_extractor] Selected user agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap...
+[2025-06-08 03:28:20.732] [DEBUG] [agent_extractor] Initial human-like delay: 2.75s
+[2025-06-08 03:28:23.486] [INFO] [agent_extractor] Attempt 1/2 for aritzia (timeout: 240s)
+[2025-06-08 03:28:49.497] [INFO] [agent_extractor] Browser Use succeeded for aritzia in 28.77s
+[2025-06-08 03:28:49.497] [DEBUG] [agent_extractor] Browser Use raw result: AgentHistoryList(all_results=[ActionResult(is_done=False, success=None, extracted_content='🔗  Navigated to https://www.aritzia.com/en/product/contour-long-sleeve/98652.html', error=None, include_in_me...
+[2025-06-08 03:28:49.533] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 03:28:49.533] [DEBUG] [agent_extractor] Validated 5 image URLs for aritzia
+[2025-06-08 03:28:49.533] [INFO] [agent_extractor] Validation passed for aritzia extraction with 11 fields
+[2025-06-08 03:28:49.534] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 03:28:49.535] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 04:13:59.633] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 04:13:59.633] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 04:13:59.636] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:13:59.636] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:13:59.637] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 04:13:59.638] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 04:13:59.639] [INFO] [agent_extractor] Using markdown extraction for asos: https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151
+[2025-06-08 04:13:59.821] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 04:13:59.822] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 04:13:59.822] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 04:13:59.822] [INFO] [markdown_extractor] Starting markdown extraction for asos: https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151
+[2025-06-08 04:13:59.822] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151
+[2025-06-08 04:14:32.558] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151 (3751 tokens)
+[2025-06-08 04:14:34.531] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for asos
+[2025-06-08 04:14:34.531] [WARNING] [markdown_extractor] Validation failed for asos: Missing required field: title, Missing required field: price, No high-res ASOS images found
+[2025-06-08 04:14:34.531] [WARNING] [agent_extractor] Markdown extraction failed for asos, falling back to browser agent
+[2025-06-08 04:14:34.531] [WARNING] [agent_extractor] Markdown errors: ['Validation failed']
+[2025-06-08 04:14:34.531] [INFO] [agent_extractor] Using browser agent for asos (fallback from markdown): https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151
+[2025-06-08 04:14:34.645] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 04:14:34.646] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:14:34.647] [DEBUG] [pattern_learner] Recorded failure pattern for asos: unknown_error
+[2025-06-08 04:14:34.647] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 04:14:34.647] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for asos
+[2025-06-08 04:14:34.647] [INFO] [agent_extractor] Using markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:14:34.648] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 04:14:34.648] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 04:14:34.648] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 04:14:34.648] [INFO] [markdown_extractor] Starting markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:14:34.648] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:14:42.894] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www.uniqlo.com/us/en/products/E449220-000 (5347 tokens)
+[2025-06-08 04:15:12.009] [WARNING] [markdown_extractor] JSON parsing failed: Extra data: line 1 column 332 (char 331)
+[2025-06-08 04:15:12.010] [WARNING] [markdown_extractor] Both DeepSeek V3 and Gemini Flash 2.0 failed for uniqlo
+[2025-06-08 04:15:12.010] [WARNING] [markdown_extractor] LLM extraction failed for https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:15:12.010] [WARNING] [agent_extractor] Markdown extraction failed for uniqlo, falling back to browser agent
+[2025-06-08 04:15:12.010] [WARNING] [agent_extractor] Markdown errors: ['LLM extraction failed']
+[2025-06-08 04:15:12.010] [INFO] [agent_extractor] Using browser agent for uniqlo (fallback from markdown): https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:15:12.011] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 04:15:12.011] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.014] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-08 04:15:12.014] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 04:15:12.015] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for uniqlo
+[2025-06-08 04:15:12.015] [INFO] [agent_extractor] Using browser agent for nordstrom (direct route): https://www.nordstrom.com/s/sample-product
+[2025-06-08 04:15:12.015] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 04:15:12.015] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.017] [DEBUG] [pattern_learner] Recorded failure pattern for nordstrom: unknown_error
+[2025-06-08 04:15:12.018] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 04:15:12.018] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for nordstrom
+[2025-06-08 04:15:12.018] [INFO] [agent_extractor] Using browser agent for aritzia (direct route): https://www.aritzia.com/us/en/sample-product
+[2025-06-08 04:15:12.018] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 04:15:12.018] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.020] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 04:15:12.020] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 04:15:12.020] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 04:15:56.208] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:15:56.209] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 04:15:56.763] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 04:15:56.763] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 13:14:58.613] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:15:24.013] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:15:24.014] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:15:24.015] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:15:24.281] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 13:15:24.281] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 13:15:24.282] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:16:22.837] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:16:22.838] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:16:22.838] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:16:23.257] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 13:16:23.257] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 13:16:23.258] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:16:23.263] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 13:16:23.263] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 13:16:23.263] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 13:16:23.264] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 13:48:17.242] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:48:17.243] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:48:17.791] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 13:48:17.791] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 13:48:23.514] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 13:48:23.831] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 13:48:23.831] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 13:48:39.781] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:48:39.783] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:48:39.784] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:48:40.066] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 13:48:40.066] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 13:48:40.067] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 13:48:40.073] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 13:48:40.073] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 13:58:28.677] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:58:28.678] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:58:29.254] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 13:58:29.254] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:03:01.333] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:03:01.335] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:03:01.975] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:03:01.975] [INFO] [agent_extractor] Extraction agents initialized

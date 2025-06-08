@@ -8,6 +8,7 @@ import re
 import asyncio
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+import os
 
 from logger_config import setup_logging
 from pattern_learner import PatternLearner
@@ -28,7 +29,13 @@ class AgentExtractor:
     def __init__(self):
         # Load configuration
         import json
-        with open('config.json', 'r') as f:
+        import os
+        
+        # Get the directory where this script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, 'config.json')
+        
+        with open(config_path, 'r') as f:
             self.config = json.load(f)
         
         self.pattern_learner = PatternLearner()
@@ -444,11 +451,22 @@ if __name__ == "__main__":
             
             # Import and initialize browser_use
             try:
-                from browser_use import Browser, BrowserConfig
-                from browser_use.browser.browser import BrowserContextConfig
+                # Try to import browser_use from external installation
+                import sys
+                import os
+                
+                # Add the external browser-use path if it exists
+                external_browser_use_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'browser-use')
+                if os.path.exists(external_browser_use_path) and external_browser_use_path not in sys.path:
+                    sys.path.insert(0, external_browser_use_path)
+                
+                from browser_use import Browser, BrowserConfig  # type: ignore
+                from browser_use.browser.browser import BrowserContextConfig  # type: ignore
                 logger.debug("Browser Use imported successfully")
+                
             except ImportError as e:
                 logger.error(f"Failed to import browser_use: {e}")
+                logger.info("Note: Browser Use should be installed separately or placed in ../browser-use/")
                 return ExtractionResult(
                     success=False,
                     data={},

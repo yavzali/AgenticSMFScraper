@@ -2,6 +2,12 @@
 Simple Transform Image Processor - For retailers that need URL transformations only
 Handles ASOS, Revolve, H&M, and other retailers with simpler image URL patterns
 """
+import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 import re
 from typing import List, Dict

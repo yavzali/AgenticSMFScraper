@@ -2,6 +2,7 @@
 Duplicate Detector - Handles database operations and sophisticated duplicate detection
 """
 
+import os
 import aiosqlite
 import asyncio
 import json
@@ -15,7 +16,11 @@ from logger_config import setup_logging
 logger = setup_logging(__name__)
 
 class DuplicateDetector:
-    def __init__(self, db_path: str = "products.db"):
+    def __init__(self, db_path: str = None):
+        if db_path is None:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            db_path = os.path.join(script_dir, 'products.db')
+        self.db_path = db_path
         self.db_path = db_path
         self._init_database()
     

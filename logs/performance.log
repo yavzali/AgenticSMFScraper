@@ -4,3 +4,74 @@
 [2025-06-06 14:44:35.226] [INFO] [batch_processor] Batch batch_20250606_1444 completed: 0/5 successful (0.0%)
 [2025-06-06 14:45:31.767] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_20250606_1445_20250606_1845.json
 [2025-06-06 14:45:31.768] [INFO] [batch_processor] Batch batch_20250606_1445 completed: 4/5 successful (80.0%)
+[2025-06-07 23:22:21.181] [INFO] [batch_processor] Batch batch_001_June_7th completed: 0/9 successful (0.0%)
+[2025-06-08 00:04:23.734] [ERROR] [agent_extractor] OpenManus CLI error (code -2): 2025-06-08 00:04:17.286 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:04:18.440 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1370, Completion=86, Cumulative Input=1370, Cumulative Completion=86, Total=1456, Cumulative Total=1456
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:82 - 🛠️ Manus selected 1 tools to use
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:86 - 🧰 Tools being prepared: ['browser_use']
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:89 - 🔧 Tool arguments: {"action":"go_to_url","url":"https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1"}
+2025-06-08 00:04:18.441 | INFO     | app.agent.toolcall:execute_tool:180 - 🔧 Activating tool: 'browser_use'...
+2025-06-08 00:04:20.270 | INFO     | app.agent.toolcall:act:150 - 🎯 Tool 'browser_use' completed its mission! Result: Observed output of cmd `browser_use` executed:
+Navigated to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+2025-06-08 00:04:20.270 | INFO     | app.agent.base:run:140 - Executing step 2/20
+2025-06-08 00:04:23.511 | INFO     | app.tool.mcp:disconnect:175 - Disconnected from all MCP servers
+Traceback (most recent call last):
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13, in main
+    result = await agent.run('Go to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product ID/code, and main image URLs. Return as JSON with keys: title, brand, price, original_price, description, stock_status, sale_status, clothing_type, product_code, image_urls, retailer. UO/multi-brand. Exclusive indicators. Order images: primary product shot first, lifestyle shots after.')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/toolcall.py", line 248, in run
+    return await super().run(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/base.py", line 141, in run
+    step_result = await self.step()
+                  ^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/react.py", line 35, in step
+    should_act = await self.think()
+                 ^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/manus.py", line 157, in think
+    await self.browser_context_helper.format_next_step_prompt()
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 44, in format_next_step_prompt
+    browser_state = await self.get_browser_state()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 29, in get_browser_state
+    result = await browser_tool.get_current_state()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/tool/browser_use_tool.py", line 492, in get_current_state
+    state = await ctx.get_state()
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 675, in get_state
+    await self._wait_for_page_and_frames_load()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 560, in _wait_for_page_and_frames_load
+    await self._wait_for_stable_network()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 531, in _wait_for_stable_network
+    await asyncio.sleep(0.1)
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/tasks.py", line 665, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 25, in <module>
+    asyncio.run(main())
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+[2025-06-08 00:04:24.737] [INFO] [batch_processor] Batch batch_001_June_7th completed: 1/9 successful (11.1%)
+[2025-06-08 01:49:40.352] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_0549.json
+[2025-06-08 01:49:40.354] [INFO] [batch_processor] Batch batch_001_June_7th completed: 5/9 successful (55.6%)
+[2025-06-08 03:02:24.162] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_0702.json
+[2025-06-08 03:02:24.162] [INFO] [batch_processor] Batch batch_001_June_7th completed: 3/9 successful (33.3%)

@@ -5,8 +5,13 @@ Test simplified extraction for speed optimization.
 
 import asyncio
 import json
+import os
 import subprocess
 from pathlib import Path
+import sys
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def test_fast_extraction():
     """Test with simplified prompt for speed"""
@@ -14,7 +19,10 @@ def test_fast_extraction():
     print("=== Fast Extraction Test ===\n")
     
     # Load config
-    with open('config.json', 'r') as f:
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    config_path = os.path.join(script_dir, 'config.json')
+    with open(config_path, 'r') as f:
         config = json.load(f)
     
     installation_path = config["agents"]["openmanus"]["installation_path"]
@@ -28,6 +36,7 @@ def test_fast_extraction():
 import asyncio
 import sys
 import json
+import os
 import traceback
 
 sys.path.insert(0, "{installation_path}")

@@ -20,7 +20,10 @@ logger = setup_logging(__name__)
 class ShopifyManager:
     def __init__(self):
         # Load configuration
-        with open('config.json', 'r') as f:
+        # Get the directory where this script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, 'config.json')
+        with open(config_path, 'r') as f:
             config = json.load(f)
         
         self.shopify_config = config['shopify']

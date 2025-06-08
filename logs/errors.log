@@ -83,3 +83,130 @@ SyntaxError: unterminated string literal (detected at line 13)
 [2025-06-07 02:41:16.294] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
 [2025-06-07 03:55:53.221] [WARNING] [agent_extractor] Extraction failed with openmanus: cannot access local variable 'asyncio' where it is not associated with a value
 [2025-06-07 03:55:53.222] [WARNING] [agent_extractor] Extraction failed with browser_use: cannot access local variable 'asyncio' where it is not associated with a value
+[2025-06-07 23:21:28.124] [ERROR] [__main__] Critical error in batch processing: Expecting ',' delimiter: line 7 column 5 (char 275)
+[2025-06-07 23:21:28.124] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-07 23:22:21.182] [ERROR] [__main__] Critical error in batch processing: 'CheckpointManager' object has no attribute 'should_save_checkpoint'
+[2025-06-07 23:22:21.182] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-07 23:44:12.147] [ERROR] [agent_extractor] OpenManus extraction timed out after 480 seconds
+[2025-06-07 23:44:12.898] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'save_conversation'. Did you mean 'save_conversation_path'?
+[2025-06-07 23:57:24.327] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-07 23:57:24.909] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 00:02:56.184] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:02:56.670] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 00:04:14.448] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 00:04:23.734] [ERROR] [agent_extractor] OpenManus CLI error (code -2): 2025-06-08 00:04:17.286 | INFO     | app.agent.base:run:140 - Executing step 1/20
+2025-06-08 00:04:18.440 | INFO     | app.llm:update_token_count:243 - Token usage: Input=1370, Completion=86, Cumulative Input=1370, Cumulative Completion=86, Total=1456, Cumulative Total=1456
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:81 - ✨ Manus's thoughts: Okay, I can do that. I will start by using the `browser_use` tool to go to the URL and extract the content.
+
+
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:82 - 🛠️ Manus selected 1 tools to use
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:86 - 🧰 Tools being prepared: ['browser_use']
+2025-06-08 00:04:18.440 | INFO     | app.agent.toolcall:think:89 - 🔧 Tool arguments: {"action":"go_to_url","url":"https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1"}
+2025-06-08 00:04:18.441 | INFO     | app.agent.toolcall:execute_tool:180 - 🔧 Activating tool: 'browser_use'...
+2025-06-08 00:04:20.270 | INFO     | app.agent.toolcall:act:150 - 🎯 Tool 'browser_use' completed its mission! Result: Observed output of cmd `browser_use` executed:
+Navigated to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+2025-06-08 00:04:20.270 | INFO     | app.agent.base:run:140 - Executing step 2/20
+2025-06-08 00:04:23.511 | INFO     | app.tool.mcp:disconnect:175 - Disconnected from all MCP servers
+Traceback (most recent call last):
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 13, in main
+    result = await agent.run('Go to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product ID/code, and main image URLs. Return as JSON with keys: title, brand, price, original_price, description, stock_status, sale_status, clothing_type, product_code, image_urls, retailer. UO/multi-brand. Exclusive indicators. Order images: primary product shot first, lifestyle shots after.')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/toolcall.py", line 248, in run
+    return await super().run(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/base.py", line 141, in run
+    step_result = await self.step()
+                  ^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/react.py", line 35, in step
+    should_act = await self.think()
+                 ^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/manus.py", line 157, in think
+    await self.browser_context_helper.format_next_step_prompt()
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 44, in format_next_step_prompt
+    browser_state = await self.get_browser_state()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/agent/browser.py", line 29, in get_browser_state
+    result = await browser_tool.get_current_state()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/OpenManus/app/tool/browser_use_tool.py", line 492, in get_current_state
+    state = await ctx.get_state()
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 675, in get_state
+    await self._wait_for_page_and_frames_load()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 560, in _wait_for_page_and_frames_load
+    await self._wait_for_stable_network()
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/site-packages/browser_use/browser/context.py", line 531, in _wait_for_stable_network
+    await asyncio.sleep(0.1)
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/tasks.py", line 665, in sleep
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/yav/OpenManus/temp_openmanus_script.py", line 25, in <module>
+    asyncio.run(main())
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yav/miniconda3/envs/openmanus/lib/python3.12/asyncio/runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+[2025-06-08 00:04:23.735] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 00:04:24.738] [ERROR] [__main__] Critical error in batch processing: 'CheckpointManager' object has no attribute 'save_batch_progress'
+[2025-06-08 00:04:24.739] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 00:24:57.077] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:27:58.090] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:29:41.445] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 00:46:20.958] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 00:59:01.828] [ERROR] [agent_extractor] OpenManus extraction timed out after 180 seconds
+[2025-06-08 01:25:47.858] [ERROR] [agent_extractor] Browser Use execution error: 'str' object has no attribute 'get'
+[2025-06-08 01:26:56.354] [ERROR] [agent_extractor] Browser Use execution error: Your default credentials were not found. To set up Application Default Credentials, see https://cloud.google.com/docs/authentication/external/set-up-adc for more information.
+[2025-06-08 01:40:33.559] [ERROR] [agent_extractor] Browser Use execution error: object of type 'method' has no len()
+[2025-06-08 01:41:00.676] [ERROR] [agent_extractor] Browser Use execution error: object of type 'method' has no len()
+[2025-06-08 01:45:03.324] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:46:48.043] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:46:49.050] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 01:47:16.015] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54170749469042,"alt":"Maeve Sleeveless Mini Shift Dress - Image 1","position":1,"product_id":14739053085042,"created_at":"2025-06-08T01:47:15-04:00","updated_at":"2025-06-08T01:47:15-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46239928811890","width":640,"height":960,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/eea2676a7c9417bbc998f38e8d2f86e9.jpg?v=1749361635","variant_ids":[]}}
+[2025-06-08 01:47:29.504] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 01:48:14.943] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 01:49:00.782] [WARNING] [agent_extractor] Missing required field: title
+[2025-06-08 02:48:55.830] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-08 02:48:55.832] [ERROR] [agent_extractor] Browser Use execution error: Agent.__init__() got an unexpected keyword argument 'headless'
+[2025-06-08 02:50:20.206] [WARNING] [agent_extractor] Extraction failed with browser_use: 'bool' object has no attribute 'lower'
+[2025-06-08 02:53:53.061] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 02:55:56.229] [WARNING] [agent_extractor] Missing required field: title
+[2025-06-08 02:55:57.234] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 03:01:39.892] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:05.479] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.465] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.466] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 03:10:49.466] [ERROR] [agent_extractor] Browser Use execution error: No module named 'langchain_google_genai'
+[2025-06-08 04:13:59.821] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 04:14:34.531] [WARNING] [markdown_extractor] Validation failed for asos: Missing required field: title, Missing required field: price, No high-res ASOS images found
+[2025-06-08 04:14:34.531] [WARNING] [agent_extractor] Markdown extraction failed for asos, falling back to browser agent
+[2025-06-08 04:14:34.531] [WARNING] [agent_extractor] Markdown errors: ['Validation failed']
+[2025-06-08 04:14:34.646] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:14:34.647] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for asos
+[2025-06-08 04:14:34.648] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 04:15:12.009] [WARNING] [markdown_extractor] JSON parsing failed: Extra data: line 1 column 332 (char 331)
+[2025-06-08 04:15:12.010] [WARNING] [markdown_extractor] Both DeepSeek V3 and Gemini Flash 2.0 failed for uniqlo
+[2025-06-08 04:15:12.010] [WARNING] [markdown_extractor] LLM extraction failed for https://www.uniqlo.com/us/en/products/E449220-000
+[2025-06-08 04:15:12.010] [WARNING] [agent_extractor] Markdown extraction failed for uniqlo, falling back to browser agent
+[2025-06-08 04:15:12.010] [WARNING] [agent_extractor] Markdown errors: ['LLM extraction failed']
+[2025-06-08 04:15:12.011] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.015] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for uniqlo
+[2025-06-08 04:15:12.015] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.018] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for nordstrom
+[2025-06-08 04:15:12.018] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
+[2025-06-08 04:15:12.020] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 13:48:23.514] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled

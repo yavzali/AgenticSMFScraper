@@ -4,6 +4,7 @@ Scheduler - Handles cost optimization timing and batch scheduling
 
 import asyncio
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional, Dict, List
 import pytz
@@ -15,7 +16,10 @@ logger = setup_logging(__name__)
 class CostOptimizer:
     def __init__(self):
         # Load configuration
-        with open('config.json', 'r') as f:
+        # Get the directory where this script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, 'config.json')
+        with open(config_path, 'r') as f:
             config = json.load(f)
         
         self.scheduling_config = config.get('scheduling', {})

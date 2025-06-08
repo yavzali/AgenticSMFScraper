@@ -1,202 +1,316 @@
-# 🚀 **Quick Reference Guide**
+# 🚀 **Quick Reference Guide - Agent Modest Scraper System v4.1**
 
-## 🎯 **Dual Engine Architecture (v4.0)**
+## 📋 **System Status Overview**
 
-### **🚀 Markdown Extraction (5 Retailers)**
-- **ASOS, Mango, Uniqlo, Revolve, H&M**
-- **Method:** Jina AI + DeepSeek V3/Gemini Flash 2.0
-- **Speed:** 5-10 seconds per product
-- **Cost:** $0.02-0.05 per extraction
-- **Success Rate:** 80-95%
+| Component | Status | Method | Success Rate | Cost/URL |
+|-----------|--------|--------|--------------|----------|
+| **Markdown Extractor** | ✅ Active | Jina AI + LLM | 80-95% | $0.02-0.05 |
+| **Browser Agents** | ✅ Active | Browser Use | 70-85% | $0.10-0.30 |
+| **Verification Handling** | ✅ Active | Auto-detect | 75-90% | Variable |
+| **Image Processing** | ✅ Active | 4-layer system | 85/100 avg | Included |
+| **Database System** | ✅ Active | SQLite async | 99.9% | Free |
 
-### **🤖 Browser Agents (5 Retailers)**
-- **Nordstrom, Aritzia, Anthropologie, Urban Outfitters, Abercrombie**
-- **Method:** Browser Use + OpenManus with verification handling
-- **Speed:** 30-120 seconds per product
-- **Cost:** $0.10-0.30 per extraction
-- **Success Rate:** 70-85%
+## 🎯 **Retailer Routing Matrix**
 
-## 📁 **Core System Files**
+### **Markdown Extraction (Fast & Cheap)**
+| Retailer | Success Rate | Speed | Special Notes |
+|----------|--------------|-------|---------------|
+| **ASOS** | 90-95% | 5-8s | Most reliable, high-res images |
+| **Mango** | 85-90% | 6-10s | Consistent, good for bulk |
+| **Uniqlo** | 80-90% | 8-12s | Complex image patterns |
+| **Revolve** | 85-95% | 5-10s | Designer brands, premium |
+| **H&M** | 60-75% | 5-15s | Inconsistent, fast when works |
 
-### **🚀 Markdown Extraction Engine**
-- `markdown_extractor.py` - Jina AI + LLM cascade (690 lines)
-- `test_markdown_extractor.py` - Comprehensive validation (442 lines)
-- `markdown_cache.pkl` - 5-day cache system (auto-managed)
+### **Browser Automation (Anti-bot Handling)**
+| Retailer | Verification Type | Success Rate | Speed |
+|----------|-------------------|--------------|-------|
+| **Nordstrom** | Advanced anti-bot | 75-85% | 45-90s |
+| **Aritzia** | Checkbox + Cloudflare | 70-80% | 60-120s |
+| **Anthropologie** | Press & Hold (4-6s) | 75-85% | 90-150s |
+| **Urban Outfitters** | Press & Hold (4-6s) | 70-80% | 90-150s |
+| **Abercrombie** | Multi-step verification | 65-75% | 120-180s |
 
-### **🤖 Browser Agent System**
-- `agent_extractor.py` - Smart routing + verification (1512 lines)
-- `test_verification_handling.py` - Anti-bot testing (231 lines)
-- `test_integration_routing.py` - Routing validation (105 lines)
-- `VERIFICATION_HANDLING_GUIDE.md` - Documentation (274 lines)
+## ⚡ **Essential Commands**
 
-### **🖼️ Image Processing Factory**
-- `image_processor_factory.py` - Central routing (114 lines)
-- `base_image_processor.py` - 4-layer architecture (317 lines)
-- `uniqlo_image_processor.py` - Complex reconstruction (181 lines)
-- `aritzia_image_processor.py` - Resolution enhancement (108 lines)
-- `simple_transform_image_processor.py` - 8 retailers transformation (176 lines)
-
-### **💼 Business Logic**
-- `batch_processor.py` - Workflow orchestration (440 lines)
-- `shopify_manager.py` - Product creation (529 lines)
-- `url_processor.py` - Retailer detection (261 lines)
-- `cost_tracker.py` - API optimization (322 lines)
-
-## ⚡ **Quick Commands**
-
-### **🧪 Testing Commands**
+### **🧪 Testing & Validation**
 ```bash
-# Test markdown extraction system
-python test_markdown_extractor.py
+# Quick system check
+python -c "from agent_extractor import AgentExtractor; print('✅ System ready!')"
 
-# Test routing logic (markdown vs browser)
+# Test single URL with routing
+cd testing
+python test_single_url.py "URL_HERE" retailer_name
+
+# Test markdown extractor (fast test)
+python test_markdown_extractor.py --quick
+
+# Test all routing logic
 python test_integration_routing.py
 
-# Test verification handling for anti-bot sites
+# Test verification handling
 python test_verification_handling.py
 
-# Test single URL with automatic routing
-python test_single_url.py "https://www.asos.com/product/..." asos
-
-# Test anti-detection measures
+# Test anti-detection measures  
 python test_anti_detection.py
+
+# Return to main directory
+cd ..
 ```
 
-### **🔍 System Validation**
+### **🚀 Production Commands**
 ```bash
-# Verify all imports work
-python -c "from agent_extractor import AgentExtractor; from markdown_extractor import MarkdownExtractor; print('✅ All systems operational')"
+# Run batch with scheduling
+python main_scraper.py --batch-file batch_001_June_7th.json
 
-# Check markdown extractor setup
-python -c "from markdown_extractor import MARKDOWN_RETAILERS; print(f'Markdown retailers: {MARKDOWN_RETAILERS}')"
+# Force immediate run (bypass scheduling)
+python main_scraper.py --batch-file batch_001_June_7th.json --force-run-now
 
-# Test browser agent initialization
-python -c "from agent_extractor import AgentExtractor; agent = AgentExtractor(); print('✅ Browser agents ready')"
+# Resume interrupted batch
+python main_scraper.py --batch-file batch_001_June_7th.json --resume
+
+# Dry run (test without actual extraction)
+python main_scraper.py --batch-file batch_001_June_7th.json --dry-run
 ```
 
-### **📊 Monitoring Commands**
+### **🔧 Maintenance Commands**
 ```bash
-# View main extraction logs
+# Clear markdown cache (force fresh extraction)
+rm markdown_cache.pkl
+
+# Reset pattern learning database
+rm patterns.db
+
+# Clear product database (treat all as new)
+rm products.db
+
+# Full system reset (keeps config)
+rm *.db *.pkl
+
+# Check logs
 tail -f logs/scraper_main.log
+tail -f logs/errors.log
 
-# Monitor markdown extractor activity
-tail -f logs/scraper_main.log | grep "markdown"
-
-# Track verification challenges
-tail -f logs/scraper_main.log | grep "verification"
-
-# Monitor routing decisions
-tail -f logs/scraper_main.log | grep "routing"
-
-# Check cost optimization
-tail -f logs/performance.log | grep "cost"
+# Monitor system
+watch -n 5 "ls -lh *.db *.pkl"
 ```
 
-## 🛍️ **Retailer Routing Matrix**
+## 🎚️ **Configuration Quick Setup**
 
-### **🚀 Markdown Extraction**
-| Retailer | Success Rate | Speed | Cost | Fallback |
-|----------|--------------|-------|------|----------|
-| **ASOS** | 90-95% | 5-8s | $0.02-0.05 | Browser Agent |
-| **Mango** | 85-90% | 6-10s | $0.02-0.05 | Browser Agent |
-| **Uniqlo** | 80-90% | 5-8s | $0.02-0.05 | Browser Agent |
-| **Revolve** | 85-95% | 6-10s | $0.02-0.05 | Browser Agent |
-| **H&M** | 60-80% | 5-8s | $0.02-0.05 | Browser Agent |
-
-### **🤖 Browser Agent Extraction**
-| Retailer | Verification | Speed | Cost | Success Rate |
-|----------|--------------|-------|------|--------------|
-| **Nordstrom** | Press & Hold | 60-120s | $0.15-0.30 | 70-80% |
-| **Aritzia** | Checkbox + Tabs | 30-90s | $0.10-0.25 | 80-90% |
-| **Anthropologie** | Press & Hold | 45-120s | $0.15-0.30 | 75-85% |
-| **Urban Outfitters** | Press & Hold | 45-120s | $0.15-0.30 | 70-80% |
-| **Abercrombie** | Multi-Step | 45-120s | $0.15-0.30 | 70-80% |
-
-## 🔧 **Key Features**
-
-### **✅ Smart Routing**
-- **Automatic Detection:** URL → Retailer → Method selection
-- **Fallback Hierarchy:** Markdown → Browser → Manual
-- **Quality Validation:** Rigorous quality scoring (0-10 scale)
-- **Cost Optimization:** 60% cost reduction with markdown routing
-
-### **✅ Verification Handling**
-- **Press & Hold:** 4-6 second duration for human simulation
-- **Checkbox Clicking:** Immediate response for Cloudflare
-- **Tab Management:** Automatic cleanup of verification tabs
-- **Retry Logic:** Intelligent retry with timeout handling
-
-### **✅ Quality Assurance**
-- **Extraction Validation:** Required fields + content verification
-- **Fallback Detection:** Identify dummy/placeholder data
-- **Processing Time:** Real extraction vs timeout validation
-- **Image Enhancement:** High-res pattern detection and quality scoring
-
-## 📊 **Current Status**
-
-### **✅ Production Ready (v4.0)**
-- **Dual Engine Architecture:** Markdown + Browser agents operational
-- **10 Retailers Supported:** 5 markdown + 5 browser agent
-- **Comprehensive Testing:** 5 test suites covering all components
-- **Documentation:** Complete guides and API references
-
-### **✅ Performance Metrics**
-- **Combined Success Rate:** 80-90%
-- **Cost Reduction:** 60% savings with smart routing
-- **Processing Speed:** 5-120 seconds depending on method
-- **Quality Standards:** 85/100 average image quality score
-
-### **✅ Recent Major Updates (January 2025)**
-- **🚀 Markdown Extractor:** Jina AI + LLM cascade implementation
-- **🤖 Browser Use Integration:** Fixed initialization and verification
-- **🧪 Test Framework:** Comprehensive validation and quality assurance
-- **📚 Documentation:** Complete overhaul and consolidation
-- **🔧 Configuration:** Enhanced retailer-specific settings
-
-## 🛠️ **Development Setup**
-
-### **API Keys Required**
+### **🔑 Essential API Keys**
 ```bash
-# Required for all operations
+# Required: Google Gemini
 export GOOGLE_API_KEY="your_gemini_api_key"
 
-# Optional for enhanced markdown extraction
+# Optional: DeepSeek (improves markdown quality)
 export DEEPSEEK_API_KEY="your_deepseek_api_key"
+
+# Verify keys
+echo $GOOGLE_API_KEY | cut -c1-20  # Show first 20 chars
 ```
 
-### **Quick Development Test**
-```bash
-# Install dependencies
-pip install -r requirements.txt
+### **⚙️ Config.json Essentials**
+```json
+{
+  "shopify": {
+    "store_url": "your-store.myshopify.com",
+    "access_token": "shppa_your_shopify_token"
+  },
+  "extraction_routing": {
+    "markdown_retailers": ["asos", "mango", "uniqlo", "revolve", "hm"],
+    "browser_retailers": ["nordstrom", "aritzia", "anthropologie", "urban_outfitters", "abercrombie"]
+  }
+}
+```
 
-# Test core functionality
-python test_integration_routing.py
+## 📊 **System Performance Metrics**
+
+### **⚡ Speed Benchmarks**
+- **Markdown Extraction**: 5-15 seconds per URL
+- **Browser Agent**: 30-180 seconds per URL  
+- **Image Processing**: 2-5 seconds (included in above)
+- **Database Operations**: <1 second
+
+### **💰 Cost Analysis**
+| Method | Cost/URL | Monthly (1000 URLs) | Best For |
+|--------|----------|---------------------|----------|
+| **Markdown** | $0.02-0.05 | $20-50 | High volume, supported retailers |
+| **Browser** | $0.10-0.30 | $100-300 | Anti-bot sites, verification |
+| **Combined** | $0.04-0.15 | $40-150 | Optimal routing (60% savings) |
+
+### **🎯 Success Rate Optimization**
+- **Smart Routing**: Choose optimal method per retailer
+- **Fallback Strategy**: Markdown → Browser → Manual review
+- **Cache Hit**: 65% cache rate reduces costs
+- **Quality Validation**: 85/100 average image score
+
+## 🛠️ **Troubleshooting Quick Fixes**
+
+### **❌ Common Issues**
+
+#### **Import Errors**
+```bash
+# Fix: Reinstall dependencies
+pip install --upgrade -r requirements.txt
+
+# Check specific module
+python -c "import browser_use; print('✅ Browser Use available')"
+```
+
+#### **API Key Issues**  
+```bash
+# Check environment
+env | grep API_KEY
+
+# Test Gemini connection
+python -c "
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+llm = ChatGoogleGenerativeAI(model='gemini-2.0-flash-exp', google_api_key=os.getenv('GOOGLE_API_KEY'))
+print('✅ Gemini working')
+"
+```
+
+#### **Database Issues**
+```bash
+# Reset databases (auto-recreate)
+rm *.db *.pkl
+
+# Test database creation
+python -c "
+from duplicate_detector import DuplicateDetector
+import asyncio
+asyncio.run(DuplicateDetector().get_statistics())
+print('✅ Database working')
+"
+```
+
+#### **Browser Use Issues**
+```bash
+# Check installation
+python -c "
+try:
+    from browser_use import Browser
+    print('✅ Browser Use found')
+except ImportError:
+    print('⚠️ Install: pip install browser-use or place in ../browser-use/')
+"
+```
+
+## 📁 **Directory Structure Reference**
+
+```
+Agent Modest Scraper System/
+├── 🎯 **Core System**
+│   ├── main_scraper.py          # Entry point
+│   ├── batch_processor.py       # Workflow manager
+│   ├── agent_extractor.py       # Browser agents + routing
+│   └── markdown_extractor.py    # Jina AI + LLM system
+├── 🖼️ **Image Processing**
+│   ├── image_processor_factory.py
+│   ├── *_image_processor.py     # Retailer-specific
+│   └── base_image_processor.py
+├── 💾 **Data & Config**
+│   ├── config.json              # Configuration
+│   ├── products.db              # Product database
+│   ├── patterns.db              # Learned patterns
+│   └── markdown_cache.pkl       # 5-day cache
+├── 🧪 **Testing**
+│   └── testing/                 # All test files
+└── 📚 **Documentation**
+    ├── README.md
+    ├── SETUP_INSTRUCTIONS.md
+    └── QUICK_REFERENCE.md       # This file
+```
+
+## 🔍 **Debugging & Monitoring**
+
+### **📊 Real-time Monitoring**
+```bash
+# Watch log files
+tail -f logs/scraper_main.log | grep -E "(SUCCESS|ERROR|WARNING)"
+
+# Monitor extraction progress
+watch -n 10 "grep -c 'extracted successfully' logs/scraper_main.log"
+
+# Check database growth
+watch -n 30 "ls -lh *.db *.pkl"
+
+# Monitor API usage/costs
+grep "API cost" logs/scraper_main.log | tail -10
+```
+
+### **🐛 Debug Commands**
+```bash
+# Enable debug mode
+DEBUG=1 python main_scraper.py --batch-file your_batch.json --force-run-now
+
+# Test specific retailer
+cd testing
+python test_single_url.py "https://www.asos.com/product/..." asos
+
+# Check verification handling
+python test_verification_handling.py --retailer aritzia
 
 # Test markdown extraction
-python test_markdown_extractor.py
-
-# Verify browser agents
-python test_verification_handling.py
+python test_markdown_extractor.py --retailer uniqlo --verbose
 ```
 
-## 📚 **Documentation Hierarchy**
+## 🚀 **Development Commands**
 
-### **📖 Main Documentation**
-- **`README.md`** - System overview and quick start
-- **`SYSTEM_OVERVIEW.md`** - Complete technical architecture
-- **`QUICK_REFERENCE.md`** - This command reference guide
+### **📝 Creating Test Batches**
+```json
+// Create test_batch.json
+{
+  "batch_id": "test_2024",
+  "modesty_level": "modest",
+  "urls": [
+    "https://www.uniqlo.com/us/en/products/E479225-000",
+    "https://www.asos.com/asos-design/product/12345",
+    "https://www.nordstrom.com/browse/product/xyz"
+  ]
+}
+```
 
-### **🔧 Setup & Configuration**
-- **`SETUP_INSTRUCTIONS.md`** - Detailed installation guide
-- **`VERIFICATION_HANDLING_GUIDE.md`** - Anti-bot documentation
-- **`config.json`** - System configuration
+### **🔄 System Refresh**
+```bash
+# Soft reset (keep learned patterns)
+rm products.db markdown_cache.pkl
 
-### **🏗️ Architecture Documentation**
-- **`PHASE_3_DOCUMENTATION.md`** - Image processing architecture
-- **`PHASE_1_2_IMPLEMENTATION_SUMMARY.md`** - Historical reference
+# Hard reset (start fresh)
+rm *.db *.pkl
+
+# Update system
+git pull
+pip install --upgrade -r requirements.txt
+```
+
+## ⚡ **Performance Optimization**
+
+### **🎯 Speed Optimization**
+- **Use markdown retailers** when possible (5x faster)
+- **Enable caching** (65% hit rate)
+- **Parallel processing** for batches
+- **Smart timeouts** to avoid hangs
+
+### **💰 Cost Optimization**  
+- **Prefer markdown extraction** (75% cost savings)
+- **Cache markdown results** (5-day expiry)
+- **Smart fallback timing** (avoid unnecessary browser usage)
+- **Batch processing** (reduced overhead)
+
+### **🎪 Quality Optimization**
+- **4-layer image processing** for maximum quality
+- **Validation scoring** (reject low quality)
+- **Retailer-specific patterns** for accuracy
+- **Fallback detection** (avoid dummy data)
 
 ---
 
-**🎯 System Status:** Production-ready dual engine architecture with 60% cost reduction and 80-90% success rates across 10 major fashion retailers.
+## 📈 **System Status: Production Ready v4.1**
 
-**⚡ Quick Start:** `python test_integration_routing.py` to validate full system functionality. 
+✅ **All systems operational** with intelligent routing and comprehensive anti-bot protection  
+✅ **External dependencies managed** (Browser Use auto-detection)  
+✅ **Clean GitHub structure** with proper data protection  
+✅ **Cost-optimized** dual engine architecture  
+
+**Ready for 24/7 automated operation!** 

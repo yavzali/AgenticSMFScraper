@@ -2,6 +2,12 @@
 Test Markdown Extractor System - Comprehensive validation
 Tests markdown extraction for ASOS, Mango, Uniqlo, Revolve, H&M with fallback handling
 """
+import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 import asyncio
 import json

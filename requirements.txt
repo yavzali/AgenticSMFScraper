@@ -32,9 +32,19 @@ pathvalidate>=2.5.0
 psutil>=5.8.0
 patchright>=1.0.0
 skyvern-automate==0.4.8
-browser-use==0.1.43
 pydantic==2.10.3
+
+# External Agent Dependencies (installed separately)
+# browser-use==0.1.43  # Install separately or place in ../browser-use/
+# Note: Browser Use is automatically detected if available in ../browser-use/ directory
 
 # Markdown Extractor Dependencies
 openai>=1.40.0
 requests>=2.31.0
+
+# Google Gemini (required)
+google-generativeai>=0.3.0
+langchain-google-genai>=1.0.0
+
+# DeepSeek API (optional - improves markdown extraction)
+# Install manually: pip install deepseek-api

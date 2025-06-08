@@ -1,6 +1,12 @@
 """
 Test script to verify Phase 1 and 2 implementations
 """
+import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import asyncio
 import json
 from image_url_enhancer import enhance_product_images

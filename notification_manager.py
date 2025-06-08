@@ -4,6 +4,7 @@ Notification Manager - Handles email notifications and alerts
 
 import smtplib
 import json
+import os
 import csv
 import io
 from email.mime.text import MIMEText
@@ -20,7 +21,10 @@ logger = setup_logging(__name__)
 class NotificationManager:
     def __init__(self):
         # Load configuration
-        with open('config.json', 'r') as f:
+        # Get the directory where this script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, 'config.json')
+        with open(config_path, 'r') as f:
             config = json.load(f)
         
         self.notification_config = config.get('notifications', {})
@@ -362,7 +366,10 @@ Manual Review File: manual_review.csv
         """Get Shopify domain from config"""
         
         try:
-            with open('config.json', 'r') as f:
+            # Get the directory where this script is located
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            config_path = os.path.join(script_dir, 'config.json')
+            with open(config_path, 'r') as f:
                 config = json.load(f)
             return config.get('shopify', {}).get('store_url', 'your-store.myshopify.com')
         except Exception:

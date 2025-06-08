@@ -1,0 +1,102 @@
+{
+  "initialization": {
+    "status": "PASSED",
+    "supported_retailers": [
+      "asos",
+      "mango",
+      "uniqlo",
+      "revolve",
+      "hm"
+    ],
+    "deepseek_enabled": false
+  },
+  "routing": {
+    "asos": "PASSED",
+    "mango": "PASSED",
+    "uniqlo": "PASSED",
+    "revolve": "PASSED",
+    "hm": "PASSED",
+    "nordstrom": "PASSED",
+    "aritzia": "PASSED",
+    "anthropologie": "PASSED"
+  },
+  "individual_extraction": {
+    "asos": [
+      {
+        "url": "https://www.asos.com/us/nike/nike-club-fleece-hoodie-in-dark-gray-heather/prd/204295151",
+        "status": "FAILED",
+        "errors": [
+          "Validation failed"
+        ],
+        "should_fallback": true
+      }
+    ],
+    "mango": [
+      {
+        "url": "https://shop.mango.com/us/women/coats-coats/oversized-wool-coat_17035931.html",
+        "status": "FAILED",
+        "errors": [
+          "Validation failed"
+        ],
+        "should_fallback": true
+      }
+    ],
+    "uniqlo": [
+      {
+        "url": "https://www.uniqlo.com/us/en/products/E449220-000",
+        "status": "FAILED",
+        "errors": [
+          "LLM extraction failed"
+        ],
+        "should_fallback": true
+      }
+    ],
+    "revolve": [
+      {
+        "url": "https://www.revolve.com/by-anthropologie-tularosa-maya-dress/dp/TULA-WD1685/",
+        "status": "FAILED",
+        "errors": [
+          "Validation failed"
+        ],
+        "should_fallback": true
+      }
+    ],
+    "hm": [
+      {
+        "url": "https://www2.hm.com/en_us/productpage.0970819001.html",
+        "status": "SUCCESS",
+        "processing_time": 2.6926361250225455,
+        "validation_score": 10,
+        "data": {
+          "title": "Loose Fit Hoodie - Black - Men | H&M US",
+          "brand": "H&M",
+          "price": "$20.00",
+          "original_price": "$24.99",
+          "description": "Loose-fit sweatshirt hoodie in medium weight cotton-blend fabric with a generous, but not oversized silhouette. Jersey-lined, drawstring hood, dropped shoulders, long sleeves, and a kangaroo pocket. Wide ribbing at cuffs and hem. Soft, brushed inside.",
+          "stock_status": "in stock",
+          "sale_status": "on sale",
+          "clothing_type": "hoodie",
+          "product_code": "0970819001",
+          "image_urls": [
+            "https://image.hm.com/assets/hm/e6/78/e678a1f364cba25c0c2d2fc34afe60f74c995fc6.jpg?imwidth=2160",
+            "https://image.hm.com/assets/hm/da/e2/dae2087ec54734c74ab94cae263f9522d82399fb.jpg?imwidth=2160",
+            "https://image.hm.com/assets/hm/7e/30/7e30f1ae93b0e330eadd05e6fe7cff3473f49c41.jpg?imwidth=2160",
+            "https://image.hm.com/assets/hm/f1/1f/f11f22afd6cfcd9d2c2d695a07feee394e5c233a.jpg?imwidth=2160"
+          ],
+          "retailer": "hm"
+        }
+      }
+    ]
+  },
+  "fallback": {
+    "asos": "PASSED",
+    "mango": "PASSED",
+    "uniqlo": "PASSED"
+  },
+  "validation": [
+    "FAILED",
+    "PASSED",
+    "PASSED"
+  ],
+  "cache": "FAILED"
+}

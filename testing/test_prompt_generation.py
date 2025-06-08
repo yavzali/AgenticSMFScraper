@@ -5,10 +5,16 @@ Test script to verify prompt generation and system configuration.
 
 import asyncio
 import json
+import sys
+import os
 from datetime import datetime
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from logger_config import setup_logging
 from agent_extractor import AgentExtractor
+from test_single_url import detect_retailer
 
 logger = setup_logging(__name__)
 
@@ -25,7 +31,6 @@ def test_prompt_generation(url: str, retailer: str = None):
         
         # Auto-detect retailer if not provided
         if not retailer:
-            from test_single_url import detect_retailer
             retailer = detect_retailer(url)
             print(f"🔍 Auto-detected retailer: {retailer}")
         
@@ -52,6 +57,7 @@ def test_prompt_generation(url: str, retailer: str = None):
         print(f"   Gemini API key: {'✅ configured' if config['llm_providers']['google']['api_key'] else '❌ missing'}")
         
         # Test image processor
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         from image_processor_factory import ImageProcessorFactory
         processor = ImageProcessorFactory.get_processor(retailer)
         print(f"\n🖼️  Image processor:")

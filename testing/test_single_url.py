@@ -7,7 +7,11 @@ Tests a single URL through the complete extraction pipeline.
 import asyncio
 import json
 import sys
+import os
 from datetime import datetime
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from logger_config import setup_logging
 from agent_extractor import AgentExtractor

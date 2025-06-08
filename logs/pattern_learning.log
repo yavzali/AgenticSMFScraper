@@ -122,3 +122,227 @@
 [2025-06-07 03:56:57.604] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-07 03:56:57.604] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-07 03:58:33.169] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: openmanus
+[2025-06-07 23:21:28.117] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:21:28.118] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:22:21.177] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:22:21.177] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:25:15.682] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:25:15.683] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:33:14.345] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:33:14.346] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:36:12.136] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:36:12.136] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:54:24.323] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:54:24.323] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:54:24.324] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:54:24.324] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:58:19.561] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:58:19.561] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:58:19.562] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:58:19.562] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-07 23:59:42.472] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: openmanus
+[2025-06-07 23:59:56.172] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-07 23:59:56.173] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:04:11.964] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: openmanus
+[2025-06-08 00:21:57.065] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:21:57.066] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:29:39.087] [DEBUG] [pattern_learner] Recorded successful pattern for hm: openmanus
+[2025-06-08 00:40:22.779] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:40:22.779] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:40:22.780] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:40:22.780] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:43:20.952] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:43:20.952] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:43:20.953] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:43:20.956] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:51:38.930] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:51:38.930] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:51:38.931] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:51:38.934] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:52:50.047] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: openmanus
+[2025-06-08 00:54:54.033] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:54:54.033] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:54:54.034] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:54:54.036] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:56:01.823] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:56:01.823] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 00:56:01.824] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 00:56:01.824] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:25:47.264] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:25:47.264] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:25:47.265] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:26:49.601] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:26:49.601] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:26:49.602] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:23.402] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:23.402] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:23.403] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:23.403] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:26.329] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: browser_use
+[2025-06-08 01:27:48.590] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:48.590] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:27:48.591] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:27:48.591] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:28:13.793] [DEBUG] [pattern_learner] Recorded successful pattern for moderately modest: browser_use
+[2025-06-08 01:28:37.917] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:28:37.917] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:28:37.918] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:28:37.918] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:28:59.337] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:29:31.120] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:29:31.120] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:29:31.121] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:29:31.121] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:29:51.554] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:30:28.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:28.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:28.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:28.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:48.292] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:30:55.344] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:55.344] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:30:55.345] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:30:57.249] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:31:15.731] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:32:02.788] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:02.788] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:02.789] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:02.790] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:24.618] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:32:30.423] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:30.423] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:32:30.424] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:30.425] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:32:53.019] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:33:21.439] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:33:21.439] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:33:21.440] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:33:21.440] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:33:43.419] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:34:01.069] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:34:01.069] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:34:01.071] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:34:01.071] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:34:22.286] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:35:00.474] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:00.474] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:00.476] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:00.476] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:26.694] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:35:32.718] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:32.718] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:35:32.719] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:32.719] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:35:53.710] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:36:00.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:00.571] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:00.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:00.572] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:23.839] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:36:43.289] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:43.290] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:36:43.291] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:36:43.291] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:37:11.952] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:37:27.592] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:37:27.592] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:37:27.593] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:37:27.593] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:37:46.624] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:38:03.733] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:03.733] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:03.734] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:03.734] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:25.864] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:38:55.639] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:55.639] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:38:55.640] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:38:55.641] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:40:40.015] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:40:40.016] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:40:40.017] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:40:40.017] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:30.114] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:30.114] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:30.116] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:30.116] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:50.485] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:41:59.222] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:59.223] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:41:59.224] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:41:59.224] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:42:18.908] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 01:44:42.107] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:44:42.108] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:44:42.109] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 01:44:42.109] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 01:45:03.327] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-08 01:45:54.304] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 01:46:20.708] [DEBUG] [pattern_learner] Recorded successful pattern for hm: browser_use
+[2025-06-08 01:46:48.045] [DEBUG] [pattern_learner] Recorded failure pattern for urban_outfitters: unknown_error
+[2025-06-08 01:47:13.114] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 01:47:27.381] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 01:48:14.945] [DEBUG] [pattern_learner] Recorded failure pattern for abercrombie: unknown_error
+[2025-06-08 01:49:37.215] [DEBUG] [pattern_learner] Recorded successful pattern for mango: browser_use
+[2025-06-08 02:48:54.910] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:48:54.911] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:48:54.912] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:48:54.912] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:49:23.568] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:49:23.568] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:49:23.569] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:49:25.424] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:49:38.115] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 02:50:20.207] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 02:51:10.419] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:51:10.420] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:52:53.964] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 02:53:10.926] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:53:10.927] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:53:10.927] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 02:53:10.928] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 02:53:50.713] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: browser_use
+[2025-06-08 02:54:46.356] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 02:55:20.313] [DEBUG] [pattern_learner] Recorded successful pattern for hm: browser_use
+[2025-06-08 02:56:39.083] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 02:57:06.920] [DEBUG] [pattern_learner] Recorded successful pattern for nordstrom: browser_use
+[2025-06-08 03:00:48.287] [DEBUG] [pattern_learner] Recorded successful pattern for abercrombie: browser_use
+[2025-06-08 03:01:37.708] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: browser_use
+[2025-06-08 03:02:22.957] [DEBUG] [pattern_learner] Recorded successful pattern for mango: browser_use
+[2025-06-08 03:10:04.883] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:04.883] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:04.884] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:04.884] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:49.044] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:49.044] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:10:49.046] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:10:49.046] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:17:38.626] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:17:38.626] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 03:17:38.627] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:17:38.627] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 03:18:34.407] [DEBUG] [pattern_learner] Recorded successful pattern for anthropologie: browser_use
+[2025-06-08 03:28:20.723] [DEBUG] [pattern_learner] Recorded successful pattern for urban_outfitters: browser_use
+[2025-06-08 03:28:49.534] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 04:13:59.636] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:13:59.636] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:13:59.637] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 04:13:59.638] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 04:14:34.647] [DEBUG] [pattern_learner] Recorded failure pattern for asos: unknown_error
+[2025-06-08 04:15:12.014] [DEBUG] [pattern_learner] Recorded failure pattern for uniqlo: unknown_error
+[2025-06-08 04:15:12.017] [DEBUG] [pattern_learner] Recorded failure pattern for nordstrom: unknown_error
+[2025-06-08 04:15:12.020] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 04:15:56.208] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 04:15:56.209] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:15:24.014] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:15:24.015] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:16:22.838] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:16:22.838] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:48:17.242] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:48:17.243] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:48:39.783] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:48:39.784] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 13:58:28.677] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 13:58:28.678] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:03:01.333] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:03:01.335] [INFO] [pattern_learner] Pattern cache loaded successfully

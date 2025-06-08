@@ -5,8 +5,13 @@ Debug script to test OpenManus execution step by step.
 
 import asyncio
 import json
+import os
+import sys
 import subprocess
 from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def test_openmanus_setup():
     """Test OpenManus installation and setup"""
@@ -14,7 +19,10 @@ def test_openmanus_setup():
     print("🔍 Testing OpenManus setup...")
     
     # Load config
-    with open('config.json', 'r') as f:
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    config_path = os.path.join(script_dir, 'config.json')
+    with open(config_path, 'r') as f:
         config = json.load(f)
     
     openmanus_config = config["agents"]["openmanus"]
@@ -82,6 +90,7 @@ def create_test_script(url: str, prompt: str, installation_path: str):
 import asyncio
 import sys
 import json
+import os
 import traceback
 
 # Add OpenManus to path
@@ -132,7 +141,10 @@ def main():
     print(f"📝 Prompt: {prompt}")
     
     # Load config for paths
-    with open('config.json', 'r') as f:
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    config_path = os.path.join(script_dir, 'config.json')
+    with open(config_path, 'r') as f:
         config = json.load(f)
     
     installation_path = config["agents"]["openmanus"]["installation_path"]

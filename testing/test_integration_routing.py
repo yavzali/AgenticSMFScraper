@@ -2,6 +2,12 @@
 Integration Test - Markdown/Agent Routing
 Quick test to verify proper routing between markdown extractor and agent extractor
 """
+import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 import asyncio
 from agent_extractor import AgentExtractor

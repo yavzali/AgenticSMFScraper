@@ -91,3 +91,31 @@
 [2025-06-06 17:00:27.988] [INFO] [simple_transform_image_processor] Generated 2 URLs for asos (1 additional)
 [2025-06-06 17:00:27.988] [DEBUG] [image_processor_factory] Closed all image processor instances
 [2025-06-06 19:39:49.384] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 01:46:20.703] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 01:47:13.113] [DEBUG] [base_image_processor] Created download directory: downloads/anthropologie_images
+[2025-06-08 01:47:13.113] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for anthropologie
+[2025-06-08 01:47:13.114] [INFO] [base_image_processor] Starting image processing for anthropologie with 5 URLs
+[2025-06-08 01:47:13.489] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=60, size=173662, resolution=(640, 960)
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] Applying URL transformations for anthropologie
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b14?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b2?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b3?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/4130647160085_010_b4?$a15-pdp-detail-shot$&fit=constrain&qlt=80&wid=640
+[2025-06-08 01:47:13.489] [INFO] [simple_transform_image_processor] Generated 5 URLs for anthropologie (0 additional)
+[2025-06-08 01:47:13.529] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=60, size=173662, resolution=(640, 960)
+[2025-06-08 01:47:13.571] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=45, size=68206, resolution=(640, 960)
+[2025-06-08 01:47:13.648] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=45, size=61596, resolution=(640, 960)
+[2025-06-08 01:47:13.680] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=68206, resolution=(640, 960)
+[2025-06-08 01:47:13.711] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=61596, resolution=(640, 960)
+[2025-06-08 01:47:13.747] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=45, size=87054, resolution=(640, 960)
+[2025-06-08 01:47:13.793] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=30, size=38842, resolution=(640, 960)
+[2025-06-08 01:47:13.793] [INFO] [simple_transform_image_processor] anthropologie Browser Use fallback called for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 02:50:20.206] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:52:53.960] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:54:46.355] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 02:55:20.311] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 03:02:22.956] [DEBUG] [base_image_processor] Created download directory: downloads/mango_images
+[2025-06-08 03:02:22.956] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 03:02:24.163] [DEBUG] [image_processor_factory] Closed all image processor instances
+[2025-06-08 03:28:49.533] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
