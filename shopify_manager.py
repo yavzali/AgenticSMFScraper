@@ -292,13 +292,14 @@ class ShopifyManager:
                     data=json.dumps(image_payload)
                 ) as response:
                     
-                    if response.status == 201:
+                    # Handle successful status codes (200-299 range)
+                    if 200 <= response.status < 300:
                         image_data = await response.json()
                         uploaded_images.append(image_data['image'])
-                        logger.debug(f"Successfully uploaded image {i + 1} for product {product_id}")
+                        logger.info(f"✅ Successfully uploaded image {i + 1} for product {product_id} (HTTP {response.status})")
                     else:
                         error_text = await response.text()
-                        logger.error(f"Failed to upload image {i + 1}: {error_text}")
+                        logger.error(f"❌ Failed to upload image {i + 1} (HTTP {response.status}): {error_text}")
                 
                 # Clean up optimized image if different from original
                 if optimized_image_path != image_path and os.path.exists(optimized_image_path):

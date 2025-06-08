@@ -52,7 +52,7 @@ class BaseImageProcessor(ABC):
     async def process_images(self, extracted_image_urls: List[str], product_url: str, 
                            product_data: Dict) -> List[str]:
         """
-        Main entry point for image processing with quality-first optimization
+        Main entry point for image processing - Downloads ALL quality images like old script
         """
         logger.info(f"Starting image processing for {self.retailer} with {len(extracted_image_urls)} URLs")
         
@@ -62,52 +62,39 @@ class BaseImageProcessor(ABC):
         
         downloaded_images = []
         
-        # Layer 1: Try first extracted URL
-        if extracted_image_urls:
-            first_image = await self._try_download_and_validate(extracted_image_urls[0], "extracted_primary")
-            if first_image and first_image['quality'].is_high_quality:
-                logger.info(f"First extracted image is high quality, stopping here")
-                downloaded_images.append(first_image['path'])
-                return downloaded_images
-            elif first_image:
-                downloaded_images.append(first_image)
+        # Process ALL extracted URLs (like old script behavior)
+        for i, url in enumerate(extracted_image_urls):
+            if i >= 5:  # Limit to 5 images maximum
+                break
+            extracted_image = await self._try_download_and_validate(url, f"extracted_{i+1}")
+            if extracted_image:
+                downloaded_images.append(extracted_image['path'])
         
-        # Layer 2: URL Reconstruction (retailer-specific)
+        # If we got good images from extraction, return them
+        if downloaded_images:
+            logger.info(f"Successfully downloaded {len(downloaded_images)} extracted images for {self.retailer}")
+            return downloaded_images
+        
+        # Layer 2: URL Reconstruction (retailer-specific) if extraction failed
         reconstructed_urls = await self.reconstruct_image_urls(product_url, product_data)
         if reconstructed_urls:
-            for url in reconstructed_urls[:3]:  # Try up to 3 reconstructed URLs
-                reconstructed_image = await self._try_download_and_validate(url, "reconstructed")
-                if reconstructed_image and reconstructed_image['quality'].is_high_quality:
-                    logger.info(f"Reconstructed image is high quality, stopping here")
-                    downloaded_images = [reconstructed_image['path']]  # Replace with better image
-                    return downloaded_images
-                elif reconstructed_image:
-                    downloaded_images.append(reconstructed_image)
+            for i, url in enumerate(reconstructed_urls[:5]):  # Try up to 5 reconstructed URLs
+                reconstructed_image = await self._try_download_and_validate(url, f"reconstructed_{i+1}")
+                if reconstructed_image:
+                    downloaded_images.append(reconstructed_image['path'])
         
-        # Layer 3: Try remaining extracted URLs
-        for url in extracted_image_urls[1:5]:  # Try up to 4 more extracted URLs
-            extracted_image = await self._try_download_and_validate(url, "extracted_additional")
-            if extracted_image and extracted_image['quality'].is_high_quality:
-                logger.info(f"Additional extracted image is high quality, stopping here")
-                downloaded_images = [extracted_image['path']]  # Replace with better image
-                return downloaded_images
-            elif extracted_image:
-                downloaded_images.append(extracted_image)
-        
-        # Layer 4: Browser Use fallback (anti-scraping + screenshots)
-        browser_images = await self.browser_use_fallback(product_url, product_data)
-        downloaded_images.extend(browser_images)
-        
-        # Return best available image(s)
+        # If we got reconstructed images, return them
         if downloaded_images:
-            # If we have multiple images, return the best quality one
-            if len(downloaded_images) > 1 and isinstance(downloaded_images[0], dict):
-                best_image = max(downloaded_images, key=lambda x: x['quality'].quality_score if isinstance(x, dict) else 0)
-                return [best_image['path'] if isinstance(best_image, dict) else best_image]
-            elif isinstance(downloaded_images[0], dict):
-                return [downloaded_images[0]['path']]
-            else:
-                return downloaded_images[:1]  # Return just the first image
+            logger.info(f"Successfully downloaded {len(downloaded_images)} reconstructed images for {self.retailer}")
+            return downloaded_images
+        
+        # Layer 3: Browser Use fallback (anti-scraping + screenshots)
+        logger.warning(f"Primary processing failed for {self.retailer}, trying legacy fallback")
+        browser_images = await self.browser_use_fallback(product_url, product_data)
+        if browser_images:
+            downloaded_images.extend(browser_images)
+            logger.info(f"Successfully got {len(browser_images)} fallback images for {self.retailer}")
+            return downloaded_images
         
         logger.warning(f"No images successfully downloaded for {self.retailer}")
         return []
@@ -115,53 +102,68 @@ class BaseImageProcessor(ABC):
     async def _try_download_and_validate(self, url: str, source: str) -> Optional[Dict]:
         """Download an image and validate its quality"""
         try:
-            # Download image
+            # Download image with retry logic for anti-scraping
             headers = self._get_download_headers(url)
             
-            async with self.session.get(url, headers=headers) as response:
-                if response.status != 200:
-                    # Special case for 403 Forbidden on image domains (from working script)
-                    if response.status == 403:
-                        domain = url.lower()
-                        if any(img_domain in domain for img_domain in ["img.", "image.", "media.", "hmgoepprod.azureedge.net", "revolveassets.com", "asos-media.com"]):
-                            logger.warning(f"403 on image domain - may be anti-scraping protection: {url}")
-                            # Continue to try download anyway
+            max_retries = 2
+            for attempt in range(max_retries):
+                try:
+                    async with self.session.get(url, headers=headers, allow_redirects=True) as response:
+                        if response.status == 200:
+                            # Check Content-Type first (from working script pattern)
+                            content_type = response.headers.get("content-type", "").lower()
+                            if "image" not in content_type:
+                                logger.debug(f"Invalid content-type for {source} image: {content_type}")
+                                return None
+                            
+                            content = await response.read()
+                            
+                            # Validate content signatures as secondary check
+                            if not self._validate_image_content(content):
+                                logger.debug(f"Invalid image content for {source} image")
+                                return None
+                            
+                            # For successful downloads, assess quality but don't filter
+                            quality_result = await self._assess_image_quality(content, url)
+                            
+                            # Save image regardless of quality score (like old script)
+                            file_path = await self._save_image(content, source, quality_result)
+                            
+                            logger.debug(f"Downloaded {source} image: quality={quality_result.quality_score}, "
+                                       f"size={quality_result.file_size}, resolution={quality_result.resolution}")
+                            
+                            return {
+                                'path': file_path,
+                                'quality': quality_result,
+                                'source': source,
+                                'original_url': url
+                            }
+                        
+                        elif response.status == 403:
+                            # Special handling for 403 - common with image CDNs
+                            domain = url.lower()
+                            if any(img_domain in domain for img_domain in ["img.", "image.", "media.", "hmgoepprod.azureedge.net", "revolveassets.com", "asos-media.com", "aritzia.com"]):
+                                logger.warning(f"403 on image domain (attempt {attempt+1}/{max_retries}): {url}")
+                                if attempt < max_retries - 1:
+                                    # Try with different headers on retry
+                                    headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                                    await asyncio.sleep(1)  # Brief delay
+                                    continue
+                            logger.debug(f"Failed to download {source} image: HTTP {response.status}")
+                            return None
+                        
                         else:
                             logger.debug(f"Failed to download {source} image: HTTP {response.status}")
                             return None
+                
+                except Exception as e:
+                    if attempt < max_retries - 1:
+                        logger.debug(f"Download attempt {attempt+1} failed for {source}: {e}, retrying...")
+                        await asyncio.sleep(1)
+                        continue
                     else:
-                        logger.debug(f"Failed to download {source} image: HTTP {response.status}")
-                        return None
-                
-                # Check Content-Type first (from working script pattern)
-                content_type = response.headers.get("content-type", "").lower()
-                if "image" not in content_type:
-                    logger.debug(f"Invalid content-type for {source} image: {content_type}")
-                    return None
-                
-                content = await response.read()
-                
-                # Validate content signatures as secondary check
-                if not self._validate_image_content(content):
-                    logger.debug(f"Invalid image content for {source} image")
-                    return None
-                
-                # Assess quality
-                quality_result = await self._assess_image_quality(content, url)
-                
-                # Save image
-                file_path = await self._save_image(content, source, quality_result)
-                
-                logger.debug(f"Downloaded {source} image: quality={quality_result.quality_score}, "
-                           f"size={quality_result.file_size}, resolution={quality_result.resolution}")
-                
-                return {
-                    'path': file_path,
-                    'quality': quality_result,
-                    'source': source,
-                    'original_url': url
-                }
-                
+                        raise e
+                        
         except Exception as e:
             logger.debug(f"Error downloading {source} image from {url}: {e}")
             return None
@@ -358,10 +360,19 @@ class BaseImageProcessor(ABC):
     
     async def close(self):
         """Clean up resources"""
-        if self.session:
+        if self.session and not self.session.closed:
             await self.session.close()
+            self.session = None
     
     def __del__(self):
-        """Cleanup on destruction"""
+        """Cleanup on destruction - improved to avoid runtime warnings"""
         if hasattr(self, 'session') and self.session and not self.session.closed:
-            asyncio.create_task(self.session.close()) 
+            # Only attempt cleanup if there's an active event loop
+            try:
+                loop = asyncio.get_running_loop()
+                if loop and not loop.is_closed():
+                    # Create task for cleanup if we have a running loop
+                    asyncio.create_task(self.session.close())
+            except RuntimeError:
+                # No running event loop - just set to None
+                self.session = None 

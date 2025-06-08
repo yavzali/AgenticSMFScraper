@@ -70,7 +70,10 @@ class CheckpointManager:
             with open(self.checkpoint_file, 'w') as f:
                 json.dump(self.current_state, f, indent=2)
             
-            logger.debug(f"Checkpoint saved: {self.current_state['processed_count']}/{self.current_state['total_urls']} completed")
+            # Safe access to total_urls for logging
+            total_urls = self.current_state.get('total_urls', 'unknown')
+            processed_count = self.current_state.get('processed_count', 0)
+            logger.debug(f"Checkpoint saved: {processed_count}/{total_urls} completed")
         
         except Exception as e:
             logger.error(f"Failed to save checkpoint: {e}")

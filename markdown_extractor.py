@@ -78,10 +78,20 @@ class MarkdownExtractor:
             # Gemini Flash 2.0 setup
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI
+                
+                # Get API key from environment variable (like other components)
+                google_api_key = os.getenv("GOOGLE_API_KEY")
+                if not google_api_key:
+                    # Fallback to config if environment variable not set
+                    google_api_key = self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+                
+                if not google_api_key:
+                    raise ValueError("No Google API key found in environment or config")
+                
                 self.gemini_client = ChatGoogleGenerativeAI(
                     model="gemini-2.0-flash-exp",
                     temperature=0.1,
-                    google_api_key=self.config["agents"]["openmanus"]["api_key"]
+                    google_api_key=google_api_key
                 )
                 logger.info("✅ Gemini Flash 2.0 client initialized")
             except Exception as e:

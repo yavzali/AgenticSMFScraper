@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import os
 import logging
+import re
 
 from playwright.async_api import async_playwright, Page, Browser, BrowserContext
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -282,9 +283,8 @@ class PlaywrightMultiScreenshotAgent:
         raise Exception(f"All {self.max_retries} attempts failed. Last error: {last_error}")
     
     async def _navigate_and_capture(self, url: str, retailer: str) -> ProductData:
-        """Navigate to page and capture strategic screenshots"""
-        
-        # Get retailer strategy
+        """Navigate to URL and capture screenshots with DOM image extraction"""
+        # Get retailer strategy  
         domain = self._extract_domain(url)
         strategy = self.screenshot_strategies.get(domain, self.screenshot_strategies.get('default', {
             'screenshots': ['full_page', 'main_content'],
@@ -295,34 +295,49 @@ class PlaywrightMultiScreenshotAgent:
         
         logger.info(f"📋 Using strategy for {domain}: {strategy.get('anti_scraping')} anti-scraping")
         
-        # Navigate with timeout and error handling
         try:
             logger.info(f"🌐 Navigating to: {url}")
-            response = await self.page.goto(url, wait_until='load', timeout=30000)
             
-            if response.status >= 400:
-                logger.warning(f"⚠️ HTTP {response.status} response")
+            # Navigate with enhanced error handling
+            try:
+                response = await self.page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                if response and response.status >= 400:
+                    logger.warning(f"⚠️ HTTP {response.status} response")
+            except Exception as e:
+                logger.warning(f"Navigation warning: {e}")
+            
+            # Wait for content to load
+            await self._wait_for_content(strategy)
+            
+            # Handle verification challenges
+            await self._handle_verification_challenges(strategy)
+            
+            # Extract image URLs from DOM (before screenshots)
+            dom_image_urls = await self._extract_image_urls_from_dom(retailer)
+            
+            # Take strategic screenshots for content analysis
+            screenshots = await self._take_strategic_screenshots(strategy, retailer)
+            
+            # Analyze with Gemini
+            product_data = await self._analyze_with_gemini(screenshots, url, retailer)
+            
+            # Combine DOM-extracted images with Gemini analysis
+            if dom_image_urls and len(dom_image_urls) > len(product_data.image_urls):
+                logger.info(f"🖼️ DOM extracted {len(dom_image_urls)} images, adding to product data")
+                # Use DOM images if we got more than Gemini found
+                product_data.image_urls = dom_image_urls[:5]  # Limit to 5 best images
+            
+            return product_data
             
         except Exception as e:
-            logger.error(f"❌ Navigation failed: {e}")
-            raise
-        
-        # Wait for content to load
-        await self._wait_for_content(strategy)
-        
-        # Handle verification challenges proactively
-        await self._handle_verification_challenges(strategy)
-        
-        # Take strategic screenshots
-        screenshots = await self._take_strategic_screenshots(strategy, retailer)
-        
-        if not screenshots:
-            raise Exception("No screenshots captured")
-        
-        # Analyze with Gemini
-        product_data = await self._analyze_with_gemini(screenshots, url, retailer)
-        
-        return product_data
+            logger.error(f"Error during navigation and capture: {e}")
+            # Return minimal data with any DOM images we found
+            dom_images = await self._extract_image_urls_from_dom(retailer) if self.page else []
+            return ProductData(
+                title="Extraction Error",
+                retailer=retailer,
+                image_urls=dom_images[:3]  # Fallback images
+            )
     
     async def _wait_for_content(self, strategy: Dict):
         """Smart waiting based on retailer strategy"""
@@ -576,18 +591,58 @@ Focus on extracting comprehensive product data and ALL available image URLs.
     def _parse_gemini_response(self, response: str, retailer: str) -> ProductData:
         """Parse Gemini response into ProductData object"""
         try:
-            # Extract JSON from response
+            # Extract JSON from response with better error handling
             json_start = response.find('{')
             json_end = response.rfind('}') + 1
             
             if json_start == -1 or json_end == 0:
+                logger.warning(f"No JSON found in Gemini response for {retailer}")
+                logger.debug(f"Response content: {response[:200]}...")
                 raise ValueError("No JSON found in response")
             
             json_str = response[json_start:json_end]
-            data = json.loads(json_str)
+            
+            # Clean up common JSON issues
+            json_str = re.sub(r',\s*}', '}', json_str)  # Remove trailing commas
+            json_str = re.sub(r',\s*]', ']', json_str)  # Remove trailing commas in arrays
+            
+            try:
+                data = json.loads(json_str)
+            except json.JSONDecodeError as e:
+                logger.warning(f"JSON decode error for {retailer}: {e}")
+                logger.debug(f"Malformed JSON: {json_str[:300]}...")
+                
+                # Try to fix common JSON issues
+                json_str = json_str.replace('\n', ' ').replace('\r', ' ')
+                json_str = re.sub(r'\s+', ' ', json_str)
+                
+                try:
+                    data = json.loads(json_str)
+                except json.JSONDecodeError:
+                    # Last resort: create basic product data
+                    title_match = re.search(r'"title"\s*:\s*"([^"]+)"', json_str)
+                    title = title_match.group(1) if title_match else "Product"
+                    
+                    data = {
+                        "title": title,
+                        "retailer": retailer,
+                        "price": None,
+                        "image_urls": []
+                    }
             
             # Process and standardize the data using the same logic as the old system
             processed_data = self._process_extracted_data(data, retailer)
+            
+            # Ensure price is a proper format for Shopify (string)
+            price = processed_data.get('price')
+            if isinstance(price, (int, float)) and price > 0:
+                processed_data['price'] = f"{price:.2f}"
+            elif not price:
+                processed_data['price'] = "0.00"
+            
+            original_price = processed_data.get('original_price')
+            if isinstance(original_price, (int, float)) and original_price > 0:
+                processed_data['original_price'] = f"{original_price:.2f}"
             
             # Create ProductData object with processed data
             product_data = ProductData(
@@ -611,13 +666,14 @@ Focus on extracting comprehensive product data and ALL available image URLs.
             return product_data
             
         except Exception as e:
-            logger.error(f"Failed to parse Gemini response: {e}")
+            logger.error(f"Failed to parse Gemini response for {retailer}: {e}")
             logger.debug(f"Response was: {response[:500]}...")
             
             # Return minimal ProductData on parse failure
             return ProductData(
                 title="Parse Error",
-                retailer=retailer
+                retailer=retailer,
+                price="0.00"  # Ensure valid price format
             )
     
     def _process_extracted_data(self, data: dict, retailer: str) -> dict:
@@ -969,6 +1025,177 @@ Focus on extracting comprehensive product data and ALL available image URLs.
         except Exception as e:
             logger.error(f"Failed to capture screenshot as base64: {e}")
             return ""
+
+    async def _extract_image_urls_from_dom(self, retailer: str) -> List[str]:
+        """Extract image URLs directly from DOM elements"""
+        try:
+            # Retailer-specific image selectors
+            image_selectors = {
+                'aritzia': [
+                    'img[src*="media.aritzia.com"]',
+                    '.product-images img',
+                    '.product-carousel img',
+                    'img[data-src*="aritzia"]'
+                ],
+                'urban_outfitters': [
+                    'img[src*="urbanoutfitters.com"]',
+                    '.product-image img',
+                    '.carousel-item img',
+                    'img[data-src*="urbanoutfitters"]'
+                ],
+                'abercrombie': [
+                    'img[src*="abercrombie.com"]',
+                    'img[src*="anf.scene7.com"]',
+                    '.product-images img',
+                    'img[data-src*="abercrombie"]'
+                ],
+                'anthropologie': [
+                    'img[src*="anthropologie.com"]',
+                    'img[src*="assets.anthropologie.com"]',
+                    '.product-images img',
+                    'img[data-src*="anthropologie"]'
+                ],
+                'nordstrom': [
+                    'img[src*="nordstrommedia.com"]',
+                    '.product-media img',
+                    'img[data-src*="nordstrom"]'
+                ]
+            }
+            
+            # Generic fallback selectors
+            generic_selectors = [
+                'img[src*="product"]',
+                'img[src*="image"]',
+                'img[src*="media"]',
+                '.product img',
+                '.product-image img',
+                '.product-photo img',
+                'img[data-src]',
+                'img[src]:not([src*="icon"]):not([src*="logo"])'
+            ]
+            
+            selectors = image_selectors.get(retailer, []) + generic_selectors
+            image_urls = []
+            
+            for selector in selectors:
+                try:
+                    # Get all matching elements
+                    elements = await self.page.query_selector_all(selector)
+                    
+                    for element in elements:
+                        # Try to get src or data-src
+                        src = await element.get_attribute('src')
+                        if not src:
+                            src = await element.get_attribute('data-src')
+                        if not src:
+                            src = await element.get_attribute('data-original')
+                        
+                        if src and self._is_valid_product_image_url(src, retailer):
+                            # Convert relative URLs to absolute
+                            if src.startswith('//'):
+                                src = 'https:' + src
+                            elif src.startswith('/'):
+                                base_url = await self.page.evaluate('() => window.location.origin')
+                                src = base_url + src
+                            
+                            if src not in image_urls:
+                                image_urls.append(src)
+                    
+                    # Stop if we have enough images
+                    if len(image_urls) >= 10:
+                        break
+                        
+                except Exception as e:
+                    logger.debug(f"Error with selector {selector}: {e}")
+                    continue
+            
+            # Filter and rank images by quality indicators
+            quality_images = self._rank_image_urls(image_urls, retailer)
+            
+            logger.info(f"🖼️ DOM extracted {len(quality_images)} image URLs for {retailer}")
+            return quality_images[:5]  # Return top 5 images
+            
+        except Exception as e:
+            logger.error(f"Error extracting images from DOM: {e}")
+            return []
+    
+    def _is_valid_product_image_url(self, url: str, retailer: str) -> bool:
+        """Check if URL is likely a valid product image"""
+        if not url or len(url) < 10:
+            return False
+        
+        url_lower = url.lower()
+        
+        # Exclude obvious non-product images
+        exclude_patterns = [
+            'icon', 'logo', 'badge', 'button', 'banner', 'header', 'footer',
+            'star', 'rating', 'arrow', 'chevron', '1x1', 'spacer', 'pixel',
+            'thumb', 'avatar', 'profile', 'social'
+        ]
+        
+        if any(pattern in url_lower for pattern in exclude_patterns):
+            return False
+        
+        # Must be an image file or have image-like URL structure
+        image_indicators = [
+            '.jpg', '.jpeg', '.png', '.webp', '.gif',
+            'image', 'img', 'photo', 'picture', 'product', 'media'
+        ]
+        
+        if not any(indicator in url_lower for indicator in image_indicators):
+            return False
+        
+        # Retailer-specific validation
+        retailer_domains = {
+            'aritzia': ['aritzia.com', 'media.aritzia.com'],
+            'urban_outfitters': ['urbanoutfitters.com', 'images.urbanoutfitters.com'],
+            'abercrombie': ['abercrombie.com', 'anf.scene7.com'],
+            'anthropologie': ['anthropologie.com', 'assets.anthropologie.com'],
+            'nordstrom': ['nordstrom.com', 'nordstrommedia.com']
+        }
+        
+        valid_domains = retailer_domains.get(retailer, [retailer + '.com'])
+        if not any(domain in url_lower for domain in valid_domains):
+            return False
+        
+        return True
+    
+    def _rank_image_urls(self, image_urls: List[str], retailer: str) -> List[str]:
+        """Rank image URLs by quality indicators"""
+        if not image_urls:
+            return []
+        
+        scored_images = []
+        
+        for url in image_urls:
+            score = 0
+            url_lower = url.lower()
+            
+            # Size indicators (higher is better)
+            if any(size in url_lower for size in ['1200', '1500', '2000', '1024', '800']):
+                score += 30
+            elif any(size in url_lower for size in ['600', '500', '400']):
+                score += 15
+            elif any(size in url_lower for size in ['300', '200', '150']):
+                score -= 10
+            
+            # Quality indicators
+            if any(qual in url_lower for qual in ['large', 'big', 'xl', 'high', 'zoom']):
+                score += 20
+            if any(qual in url_lower for qual in ['small', 'thumb', 'mini']):
+                score -= 20
+            
+            # Product relevance
+            if any(prod in url_lower for prod in ['product', 'main', 'front', 'detail']):
+                score += 10
+            if any(bad in url_lower for bad in ['swatch', 'color', 'fabric']):
+                score -= 15
+            
+            scored_images.append((score, url))
+        
+        # Sort by score (descending) and return URLs
+        scored_images.sort(key=lambda x: x[0], reverse=True)
+        return [url for score, url in scored_images]
 
 
 # Integration with existing system

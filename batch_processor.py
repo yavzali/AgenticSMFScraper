@@ -431,10 +431,14 @@ class BatchProcessor:
         logger.info("BatchProcessor cleanup completed")
     
     def __del__(self):
-        """Cleanup on destruction"""
+        """Cleanup on destruction - improved to avoid runtime warnings"""
         if hasattr(self, 'image_processor_factory'):
             import asyncio
             try:
-                asyncio.create_task(self.image_processor_factory.close_all())
-            except:
+                # Only attempt cleanup if there's an active event loop
+                loop = asyncio.get_running_loop()
+                if loop and not loop.is_closed():
+                    asyncio.create_task(self.image_processor_factory.close_all())
+            except RuntimeError:
+                # No running event loop - cleanup will happen on process exit
                 pass  # Ignore cleanup errors during destruction

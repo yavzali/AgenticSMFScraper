@@ -228,7 +228,7 @@ Manual Review File: manual_review.csv
         
         try:
             if not self.email_username or not self.email_password:
-                logger.error("Email credentials not configured")
+                logger.warning("⚠️ Email credentials not configured - email notifications disabled")
                 return
             
             # Create message
