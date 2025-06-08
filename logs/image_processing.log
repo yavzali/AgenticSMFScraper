@@ -285,3 +285,29 @@
 [2025-06-08 14:58:22.936] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
 [2025-06-08 14:58:23.386] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=474834, resolution=(1500, 2098)
 [2025-06-08 14:58:23.386] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 16:02:39.669] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 16:02:39.669] [INFO] [base_image_processor] Starting image processing for aritzia with 2 URLs
+[2025-06-08 16:02:40.357] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:02:40.358] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:40.358] [DEBUG] [aritzia_image_processor] Added Aritzia size params: https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_2.jpg → https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_2.jpg?width=1200&height=1500
+[2025-06-08 16:02:40.359] [DEBUG] [aritzia_image_processor] Added Aritzia size params: https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_1.jpg → https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_1.jpg?width=1200&height=1500
+[2025-06-08 16:02:40.359] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-08 16:02:40.863] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:40.998] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:41.411] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:41.889] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:02:41.889] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:41.889] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 16:04:14.291] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 16:04:14.291] [INFO] [base_image_processor] Starting image processing for aritzia with 3 URLs
+[2025-06-08 16:04:14.523] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:04:14.523] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:04:14.523] [INFO] [aritzia_image_processor] Generated 3 enhanced URLs for Aritzia
+[2025-06-08 16:04:14.689] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.794] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.864] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.904] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:04:14.984] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:04:14.984] [INFO] [aritzia_image_processor] Aritzia enhanced fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:04:14.987] [INFO] [aritzia_image_processor] 🎭 Using Playwright screenshot fallback for Aritzia product 115422
+[2025-06-08 16:04:31.743] [INFO] [aritzia_image_processor] ✅ Playwright fallback generated 4 images

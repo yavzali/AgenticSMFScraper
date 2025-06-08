@@ -53,6 +53,14 @@ class ImageProcessorFactory:
         return processor
     
     @classmethod
+    def create_processor(cls, retailer: str) -> Optional[BaseImageProcessor]:
+        """
+        Create a new processor instance (alias for get_processor for compatibility)
+        This method was referenced in tests but was missing
+        """
+        return cls.get_processor(retailer)
+    
+    @classmethod
     def _create_processor(cls, retailer: str) -> Optional[BaseImageProcessor]:
         """Create the appropriate processor for a retailer"""
         

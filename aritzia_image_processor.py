@@ -93,16 +93,44 @@ class AritziaImageProcessor(BaseImageProcessor):
     
     async def browser_use_fallback(self, product_url: str, product_data: Dict) -> List[str]:
         """
-        Aritzia Browser Use fallback
+        Enhanced fallback using Playwright screenshots
+        NEW: Integrates with Playwright agent for screenshot-based image fallback
         """
-        logger.info(f"Aritzia Browser Use fallback called for {product_url}")
+        logger.info(f"Aritzia enhanced fallback called for {product_url}")
         
-        # TODO: Implement Aritzia-specific Browser Use logic
-        # This could:
-        # 1. Navigate to Aritzia product page
-        # 2. Handle Aritzia's specific image gallery structure
-        # 3. Extract high-resolution image URLs
-        # 4. Download via browser session to bypass anti-scraping
-        # 5. Take screenshots as final fallback
+        try:
+            # Try to import and use Playwright agent for screenshot fallback
+            from playwright_agent import PlaywrightMultiScreenshotAgent
+            
+            config = {}  # Use default config
+            playwright_agent = PlaywrightMultiScreenshotAgent(config)
+            
+            # Extract product code for file naming
+            product_code = product_data.get('product_code', 'unknown')
+            if not product_code or product_code == 'unknown':
+                # Try to extract from URL
+                import re
+                match = re.search(r'/(\d+)\.html', product_url)
+                product_code = match.group(1) if match else 'aritzia_product'
+            
+            # Use Playwright to capture high-quality screenshots as fallback images
+            logger.info(f"🎭 Using Playwright screenshot fallback for Aritzia product {product_code}")
+            
+            async with playwright_agent:
+                screenshot_paths = await playwright_agent.save_screenshots_as_fallback(
+                    product_url, 'aritzia', product_code
+                )
+                
+                if screenshot_paths:
+                    logger.info(f"✅ Playwright fallback generated {len(screenshot_paths)} images")
+                    return screenshot_paths
+                else:
+                    logger.warning("⚠️ Playwright fallback failed to generate images")
+                    return []
         
-        return [] 
+        except ImportError:
+            logger.warning("Playwright agent not available for fallback")
+            return []
+        except Exception as e:
+            logger.error(f"Playwright fallback failed: {e}")
+            return [] 

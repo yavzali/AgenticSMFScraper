@@ -1,77 +1,47 @@
-import sys
-import os
-
-# Add parent directory to path for imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#!/usr/bin/env python3
+"""
+Test anti-detection measures and verification handling
+"""
 
 import asyncio
-import logging
-from agent_extractor import AgentExtractor
+import sys
+import os
+from unified_extractor import UnifiedExtractor
 
-# Set up logging to see the anti-detection features in action
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# Test URLs that require anti-detection
+TEST_URLS = [
+    ("https://www.aritzia.com/us/en/product/effortless-pant/70347.html", "aritzia"),
+    ("https://www.anthropologie.com/clothing/dresses", "anthropologie"),
+    ("https://www.nordstrom.com/browse/women/clothing", "nordstrom")
+]
 
-async def test_anti_detection_features():
-    """Test the new anti-detection features on problematic retailers"""
+async def test_anti_detection():
+    """Test anti-detection capabilities"""
+    print("🛡️ Testing Anti-Detection Measures")
+    print("=" * 40)
     
-    extractor = AgentExtractor()
+    extractor = UnifiedExtractor()
     
-    # Test cases focusing on the retailers that had anti-bot protection
-    test_cases = [
-        {
-            "url": "https://www.nordstrom.com/s/demylee-milo-cashmere-crewneck-sweater/7615559",
-            "retailer": "nordstrom",
-            "name": "Nordstrom Test (Previously Failed)"
-        },
-        {
-            "url": "https://www.aritzia.com/en/product/contour-long-sleeve/98652.html",
-            "retailer": "aritzia", 
-            "name": "Aritzia Test (Previously Failed)"
-        }
-    ]
-    
-    print("🛡️ Testing Enhanced Anti-Detection Features")
-    print("="*60)
-    
-    for i, test_case in enumerate(test_cases, 1):
-        print(f"\n{i}. {test_case['name']}")
-        print(f"   URL: {test_case['url']}")
-        print(f"   Retailer: {test_case['retailer']}")
-        print("   Status: Testing...")
+    for url, retailer in TEST_URLS:
+        print(f"\n🧪 Testing {retailer}: {url}")
         
         try:
-            result = await extractor.extract_product_data(
-                test_case['url'], 
-                test_case['retailer']
-            )
+            result = await extractor.extract_product_data(url, retailer)
             
-            if result.success:
-                data = result.data
-                print(f"   ✅ SUCCESS! Extracted: {data.get('title', 'No title')[:50]}...")
-                print(f"   📊 Processing time: {result.processing_time:.2f}s")
-                print(f"   🏪 Brand: {data.get('brand', 'N/A')}")
-                print(f"   💰 Price: {data.get('price', 'N/A')}")
-                print(f"   🖼️  Images: {len(data.get('image_urls', []))} found")
-                
-                # Check for signs of successful anti-detection
-                if result.processing_time > 30:  # Took time = likely used stealth features
-                    print("   🕒 Long processing time indicates stealth mode worked")
-                if data.get('description') and len(data.get('description', '')) > 100:
-                    print("   📝 Rich description extracted - good data quality")
-                    
-            else:
-                print(f"   ❌ FAILED: {result.errors}")
+            print(f"  📤 Method: {result.method_used}")
+            print(f"  ✅ Success: {result.success}")
+            print(f"  ⏱️  Time: {result.processing_time:.2f}s")
+            
+            if result.warnings:
+                print(f"  ⚠️  Warnings: {result.warnings}")
+            
+            if result.errors:
+                print(f"  ❌ Errors: {result.errors}")
                 
         except Exception as e:
-            print(f"   💥 ERROR: {str(e)}")
+            print(f"  💥 Exception: {e}")
     
-    print("\n" + "="*60)
-    print("🔍 Anti-Detection Test Summary:")
-    print("- Stealth browser arguments applied")
-    print("- User agent rotation enabled") 
-    print("- Human-like behavior patterns implemented")
-    print("- Retailer-specific timeouts configured")
-    print("- Exponential backoff retry logic active")
+    print("\n🎯 Anti-detection testing complete")
 
 if __name__ == "__main__":
-    asyncio.run(test_anti_detection_features()) 
+    asyncio.run(test_anti_detection()) 

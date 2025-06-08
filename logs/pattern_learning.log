@@ -375,3 +375,18 @@
 [2025-06-08 14:58:04.772] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
 [2025-06-08 14:58:13.926] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
 [2025-06-08 14:58:22.935] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 16:09:37.315] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.842] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.844] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:16:33.844] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.845] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:17:18.438] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: playwright_agent
+[2025-06-08 16:17:39.471] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: playwright_agent
+[2025-06-08 16:18:01.641] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:19:44.955] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.879] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.881] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:26:53.881] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.882] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:27:14.858] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: playwright_agent
+[2025-06-08 16:27:36.207] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: playwright_agent

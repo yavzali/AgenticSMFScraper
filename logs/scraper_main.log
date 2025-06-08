@@ -2849,3 +2849,999 @@ OPENMANUS_RESULT_START
 [2025-06-08 14:58:28.674] [INFO] [batch_processor] Batch batch_20250608_1458 completed: 3/3 successful (100.0%)
 [2025-06-08 14:58:28.676] [ERROR] [notification_manager] Email credentials not configured
 [2025-06-08 14:58:28.676] [INFO] [__main__] Batch batch_20250608_1458 completed successfully
+[2025-06-08 15:39:31.237] [ERROR] [playwright_agent] Failed to initialize Gemini: No Google API key found
+[2025-06-08 15:39:31.237] [ERROR] [__main__] Test suite failed: No Google API key found
+[2025-06-08 15:39:58.191] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:39:58.212] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:39:58.212] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:39:58.212] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:39:58.890] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:39:58.890] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:39:58.890] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:39:58.890] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:39:59.895] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:39:59.898] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:40:09.899] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:09.909] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:40:09.991] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:40:11.052] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:40:12.115] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:40:13.176] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:40:13.178] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:40:13.178] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:40:14.693] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:14.693] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots. Therefore, I cannot extract the product information and generate the JSON output as requested....
+[2025-06-08 15:40:14.693] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:14.693] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:14.693] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:40:15.737] [INFO] [playwright_agent] 🔄 Attempt 2/3 for anthropologie
+[2025-06-08 15:40:15.737] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:40:15.737] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:40:16.617] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:16.619] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:40:26.623] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:26.640] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:40:26.707] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:40:27.767] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:40:28.816] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:40:29.890] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:40:29.891] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:40:29.891] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:40:31.245] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:31.245] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots. Therefore, I cannot extract the product information and generate the JSON output as requested....
+[2025-06-08 15:40:31.245] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:31.246] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:31.246] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:40:33.297] [INFO] [playwright_agent] 🔄 Attempt 3/3 for anthropologie
+[2025-06-08 15:40:33.297] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:40:33.297] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:40:34.235] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:34.238] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:40:44.240] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:44.251] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:40:44.323] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:40:45.385] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:40:46.463] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:40:47.549] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:40:47.550] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:40:47.550] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:40:48.745] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:48.745] [DEBUG] [playwright_agent] Response was: I am unable to access the internet to press and hold the button to confirm I am human. Therefore, I cannot access the website and extract the data....
+[2025-06-08 15:40:48.745] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.747] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.747] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.775] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for urban_outfitters: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:40:48.775] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:40:49.068] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:40:49.069] [INFO] [playwright_agent] 🔄 Attempt 1/3 for urban_outfitters
+[2025-06-08 15:40:49.069] [INFO] [playwright_agent] 📋 Using strategy for urbanoutfitters.com: high anti-scraping
+[2025-06-08 15:40:49.069] [INFO] [playwright_agent] 🌐 Navigating to: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:40:49.967] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:49.969] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:40:59.970] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:40:59.983] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:41:00.053] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:41:01.117] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:41:02.193] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:41:03.264] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.7
+[2025-06-08 15:41:03.264] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:41:03.264] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:41:04.570] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:04.570] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL provided, and therefore cannot extract the product information. I am also unable to "Press & Hold" to confirm that I am a human....
+[2025-06-08 15:41:04.570] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:04.570] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:04.570] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:41:05.621] [INFO] [playwright_agent] 🔄 Attempt 2/3 for urban_outfitters
+[2025-06-08 15:41:05.622] [INFO] [playwright_agent] 📋 Using strategy for urbanoutfitters.com: high anti-scraping
+[2025-06-08 15:41:05.622] [INFO] [playwright_agent] 🌐 Navigating to: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:41:06.542] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:41:06.543] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:41:16.545] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:16.561] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:41:16.640] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:41:17.716] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:41:18.767] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:41:19.842] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.7
+[2025-06-08 15:41:19.842] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:41:19.842] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:41:21.149] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:21.149] [DEBUG] [playwright_agent] Response was: I am unable to access the internet to retrieve content from URLs. Therefore, I cannot fulfill your request....
+[2025-06-08 15:41:21.149] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:21.150] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:21.150] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:41:23.195] [INFO] [playwright_agent] 🔄 Attempt 3/3 for urban_outfitters
+[2025-06-08 15:41:23.196] [INFO] [playwright_agent] 📋 Using strategy for urbanoutfitters.com: high anti-scraping
+[2025-06-08 15:41:23.196] [INFO] [playwright_agent] 🌐 Navigating to: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:41:24.241] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:41:24.244] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:41:34.247] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:34.258] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:41:34.335] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:41:35.399] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:41:36.476] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:41:37.543] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.7
+[2025-06-08 15:41:37.543] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:41:37.543] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:41:38.883] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:38.883] [DEBUG] [playwright_agent] Response was: I am unable to access external websites or press the "Press & Hold" button. Therefore, I cannot provide the JSON output as requested....
+[2025-06-08 15:41:38.883] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.885] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.885] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.915] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:41:38.915] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:41:39.162] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:41:39.162] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:41:39.162] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:41:39.162] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:41:40.499] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:41:50.502] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:50.517] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:41:50.563] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:41:51.628] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:41:52.686] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:41:53.754] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:41:53.755] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:41:53.755] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:41:54.951] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:54.951] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:41:54.951] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:54.952] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:54.952] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:41:55.996] [INFO] [playwright_agent] 🔄 Attempt 2/3 for nordstrom
+[2025-06-08 15:41:55.997] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:41:55.997] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:41:57.251] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:42:07.277] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:07.297] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:42:07.351] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:42:08.413] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:42:09.462] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:42:10.521] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:42:10.523] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:42:10.523] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:42:11.753] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:11.753] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information and generate the JSON output....
+[2025-06-08 15:42:11.753] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:11.755] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:11.755] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:42:13.805] [INFO] [playwright_agent] 🔄 Attempt 3/3 for nordstrom
+[2025-06-08 15:42:13.806] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:42:13.806] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:42:15.091] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:42:25.092] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:25.107] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:42:25.168] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:42:26.247] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:42:27.323] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:42:28.388] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:42:28.390] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:42:28.390] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:42:29.733] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:29.733] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:42:29.733] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.734] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.734] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.761] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:42:29.763] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:42:29.764] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:42:29.764] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:42:30.001] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:42:30.001] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:42:30.001] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:42:30.001] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:42:30.990] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:42:40.993] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:41.006] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:42:41.085] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:42:42.147] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:42:43.206] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:42:44.274] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:42:44.276] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:42:44.276] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:42:45.648] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:45.648] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the product information as requested....
+[2025-06-08 15:42:45.648] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:45.648] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:45.648] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:42:46.696] [INFO] [playwright_agent] 🔄 Attempt 2/3 for nordstrom
+[2025-06-08 15:42:46.696] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:42:46.696] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:42:47.826] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:42:57.828] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:57.844] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:42:57.900] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:42:58.962] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:43:00.022] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:43:01.107] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:43:01.108] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:43:01.108] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:43:02.339] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:02.339] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information and generate the JSON output....
+[2025-06-08 15:43:02.339] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:02.340] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:02.340] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:43:04.390] [INFO] [playwright_agent] 🔄 Attempt 3/3 for nordstrom
+[2025-06-08 15:43:04.390] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:43:04.390] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:43:05.399] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:43:15.401] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:43:15.414] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:43:15.467] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:43:16.527] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:43:17.605] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:43:18.671] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:43:18.673] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:43:18.673] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:43:19.910] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:19.910] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:43:19.911] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.912] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.912] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.943] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:43:19.943] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:43:20.191] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:43:20.191] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:43:20.191] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:43:20.191] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:43:23.020] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:43:33.021] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:43:33.035] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:43:33.620] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:43:34.703] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:43:35.809] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:43:36.908] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:43:37.992] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:43:37.996] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:43:37.996] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:43:42.448] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 15:43:42.449] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:43:42.449] [INFO] [playwright_agent] ✅ Playwright extraction completed in 22.5s
+[2025-06-08 15:43:42.479] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:43:42.479] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:43:42.719] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:43:42.720] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:43:42.720] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:43:42.720] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:43:43.661] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:43:43.663] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:43:53.664] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:43:53.723] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:43:53.776] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:43:54.845] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:43:55.914] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:43:56.983] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:43:56.984] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:43:56.985] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:43:58.393] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:58.394] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL and screenshots provided. Therefore, I cannot extract the product information and generate the JSON output as requested....
+[2025-06-08 15:43:58.394] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:58.395] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:58.395] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:43:59.444] [INFO] [playwright_agent] 🔄 Attempt 2/3 for anthropologie
+[2025-06-08 15:43:59.444] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:43:59.444] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:44:00.550] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:44:00.552] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:44:10.552] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:10.562] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:44:10.613] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:44:11.690] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:44:12.768] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:44:13.855] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:44:13.857] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:44:13.857] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:44:15.301] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:44:15.302] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL and screenshots provided. Therefore, I cannot extract the product information and return it in the requested JSON format....
+[2025-06-08 15:44:15.302] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:15.303] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:15.303] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:44:17.359] [INFO] [playwright_agent] 🔄 Attempt 3/3 for anthropologie
+[2025-06-08 15:44:17.359] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:44:17.360] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:44:18.300] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:44:18.303] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:44:28.305] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:28.320] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:44:28.382] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:44:29.443] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:44:30.514] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:44:31.583] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:44:31.585] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:44:31.585] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:44:32.963] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:44:32.963] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL provided because I cannot pass the bot detection. Can you provide the HTML content of the page?...
+[2025-06-08 15:44:32.963] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.964] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.964] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.993] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:44:32.994] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:44:32.994] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:44:32.994] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:44:33.243] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:44:33.243] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:44:33.243] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:44:33.243] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:44:36.271] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:44:46.274] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:46.289] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:44:46.865] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:44:47.965] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:44:49.085] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:44:50.165] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:44:51.240] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:44:51.243] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:44:51.244] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:44:55.574] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 15:44:55.575] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:44:55.575] [INFO] [playwright_agent] ✅ Playwright extraction completed in 22.6s
+[2025-06-08 15:44:55.606] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:44:55.606] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:44:55.841] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:44:55.844] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:44:55.844] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:44:55.844] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:44:56.796] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:44:56.798] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:45:06.800] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:06.809] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:45:06.873] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:45:07.939] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:45:09.015] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:45:10.104] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:45:10.105] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:45:10.105] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:45:11.277] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:11.278] [DEBUG] [playwright_agent] Response was: I am unable to access external websites or specific files online. Therefore, I cannot fulfill your request to extract product information from the provided URL and screenshots....
+[2025-06-08 15:45:11.278] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:11.278] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:11.278] [INFO] [playwright_agent] 🕒 Waiting 1s before retry...
+[2025-06-08 15:45:12.331] [INFO] [playwright_agent] 🔄 Attempt 2/3 for anthropologie
+[2025-06-08 15:45:12.331] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:45:12.331] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:45:13.026] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:45:13.027] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:45:23.028] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:23.041] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:45:23.121] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:45:24.175] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:45:25.272] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:45:26.333] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:45:26.334] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:45:26.334] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:45:27.593] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:27.593] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL provided, and the screenshots show a bot detection page. Therefore, I cannot extract the product information as requested....
+[2025-06-08 15:45:27.593] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:27.596] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:27.596] [INFO] [playwright_agent] 🕒 Waiting 2s before retry...
+[2025-06-08 15:45:29.650] [INFO] [playwright_agent] 🔄 Attempt 3/3 for anthropologie
+[2025-06-08 15:45:29.650] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:45:29.650] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:45:30.658] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:45:30.660] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:45:40.663] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:40.676] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:45:40.744] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:45:41.824] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:45:42.884] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:45:43.950] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:45:43.952] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:45:43.952] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:45:45.302] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:45.303] [DEBUG] [playwright_agent] Response was: I am unable to access external websites or specific files online. Therefore, I cannot fulfill your request to extract product information and image URLs from the provided Anthropologie URL and screenshots. I apologize for any inconvenience....
+[2025-06-08 15:45:45.303] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.304] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.304] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.328] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:45:45.329] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:45:45.618] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:45:45.618] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:45:45.618] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:45:45.618] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:45:46.660] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:46:15.090] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:46:15.097] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:50:03.109] [ERROR] [playwright_agent] Failed to initialize Gemini: No Google API key found
+[2025-06-08 15:52:44.470] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:52:44.488] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:52:44.488] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:52:44.488] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:52:45.109] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:52:45.109] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:52:45.109] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:52:45.109] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:52:46.409] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:52:46.411] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:52:56.415] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:52:56.433] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:52:56.512] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:52:57.574] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:52:58.650] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:52:59.715] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:52:59.716] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:52:59.716] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:53:01.519] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:01.519] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots. Therefore, I cannot extract the product information and generate the JSON output as requested....
+[2025-06-08 15:53:01.519] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:53:01.521] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:53:01.521] [INFO] [playwright_agent] ✅ Playwright extraction completed in 17.0s
+[2025-06-08 15:53:01.557] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for urban_outfitters: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:53:01.557] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:01.827] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:53:01.827] [INFO] [playwright_agent] 🔄 Attempt 1/3 for urban_outfitters
+[2025-06-08 15:53:01.827] [INFO] [playwright_agent] 📋 Using strategy for urbanoutfitters.com: high anti-scraping
+[2025-06-08 15:53:01.827] [INFO] [playwright_agent] 🌐 Navigating to: https://www.urbanoutfitters.com/women/dresses
+[2025-06-08 15:53:03.111] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:53:03.113] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:53:13.118] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:13.134] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:53:13.208] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:53:14.273] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:53:15.350] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:53:16.408] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.7
+[2025-06-08 15:53:16.408] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:53:16.409] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:53:17.866] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:17.866] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URL and screenshots. Therefore, I cannot extract the product information and return it in the requested JSON format....
+[2025-06-08 15:53:17.867] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:53:17.868] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:53:17.868] [INFO] [playwright_agent] ✅ Playwright extraction completed in 16.3s
+[2025-06-08 15:53:17.897] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:53:17.897] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:18.136] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:53:18.137] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:53:18.137] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:53:18.137] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:53:19.364] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:53:29.368] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:29.384] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:53:29.441] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:53:30.502] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:53:31.581] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:53:32.646] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:53:32.648] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:53:32.648] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:53:33.661] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:33.661] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:53:33.661] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:53:33.663] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:53:33.663] [INFO] [playwright_agent] ✅ Playwright extraction completed in 15.8s
+[2025-06-08 15:53:33.691] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:53:33.692] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:53:33.692] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:53:33.693] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:33.900] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:53:33.900] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:53:33.900] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:53:33.900] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:53:34.875] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:53:44.880] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:44.897] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:53:44.958] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:53:46.001] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:53:47.080] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:53:48.146] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:53:48.148] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:53:48.148] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:53:49.274] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:49.274] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:53:49.274] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:53:49.275] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:53:49.275] [INFO] [playwright_agent] ✅ Playwright extraction completed in 15.6s
+[2025-06-08 15:53:49.304] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:53:49.305] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:49.508] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:53:49.509] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:53:49.509] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:53:49.509] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:53:52.368] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:54:02.372] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:02.393] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:54:02.971] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:54:04.075] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:54:05.193] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:54:06.283] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:54:07.383] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:54:07.387] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:54:07.387] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:54:09.941] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 15:54:09.943] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:54:09.943] [INFO] [playwright_agent] ✅ Playwright extraction completed in 20.6s
+[2025-06-08 15:54:09.972] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:54:09.972] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:10.211] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:54:10.211] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:54:10.211] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:54:10.211] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:54:11.322] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:54:11.325] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:54:21.329] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:21.344] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:54:21.425] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:54:22.504] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:54:23.581] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:54:24.666] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:54:24.668] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:54:24.668] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:54:25.979] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:54:25.979] [DEBUG] [playwright_agent] Response was: I am unable to access the internet to retrieve the content from the URL provided. Therefore, I cannot extract the product information and create the JSON object as requested....
+[2025-06-08 15:54:25.979] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:54:25.981] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:54:25.981] [INFO] [playwright_agent] ✅ Playwright extraction completed in 16.0s
+[2025-06-08 15:54:26.014] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:54:26.016] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:54:26.016] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:54:26.016] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:26.244] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:54:26.244] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:54:26.244] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:54:26.244] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:54:29.069] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:54:39.074] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:39.091] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:54:39.674] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:54:40.775] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:54:41.893] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:54:42.979] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:54:44.064] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:54:44.068] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:54:44.068] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:54:48.460] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 15:54:48.462] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:54:48.462] [INFO] [playwright_agent] ✅ Playwright extraction completed in 22.4s
+[2025-06-08 15:54:48.491] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for anthropologie: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:54:48.491] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:48.727] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:54:48.727] [INFO] [playwright_agent] 🔄 Attempt 1/3 for anthropologie
+[2025-06-08 15:54:48.727] [INFO] [playwright_agent] 📋 Using strategy for anthropologie.com: high anti-scraping
+[2025-06-08 15:54:48.727] [INFO] [playwright_agent] 🌐 Navigating to: https://www.anthropologie.com/dresses/casual-dresses
+[2025-06-08 15:54:49.586] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:54:49.588] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 15:54:59.591] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:59.605] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:54:59.689] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:55:00.751] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:55:01.851] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:55:02.950] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:55:02.951] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:55:02.951] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:55:04.363] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:55:04.364] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL and screenshots provided. Therefore, I cannot extract the product information and return it in the requested JSON format....
+[2025-06-08 15:55:04.364] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:55:04.366] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:55:04.366] [INFO] [playwright_agent] ✅ Playwright extraction completed in 15.9s
+[2025-06-08 15:55:04.395] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for nordstrom: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:55:04.395] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:55:04.630] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:55:04.630] [INFO] [playwright_agent] 🔄 Attempt 1/3 for nordstrom
+[2025-06-08 15:55:04.630] [INFO] [playwright_agent] 📋 Using strategy for nordstrom.com: very_high anti-scraping
+[2025-06-08 15:55:04.630] [INFO] [playwright_agent] 🌐 Navigating to: https://www.nordstrom.com/browse/women/clothing/dresses
+[2025-06-08 15:55:05.745] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:55:15.750] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:55:15.765] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:55:15.820] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:55:16.882] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:55:17.960] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 15:55:19.025] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:55:19.027] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:55:19.027] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:55:20.439] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:55:20.440] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the provided URLs and screenshots due to security restrictions. Therefore, I cannot extract the requested product information....
+[2025-06-08 15:55:20.441] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:55:20.443] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:55:20.443] [INFO] [playwright_agent] ✅ Playwright extraction completed in 16.0s
+[2025-06-08 15:55:20.472] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:55:20.474] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:55:20.474] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:55:20.474] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:55:20.701] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:55:20.702] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:55:20.702] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:55:20.702] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 15:55:23.245] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:55:33.251] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:55:33.270] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:55:33.856] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:55:34.954] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:55:36.074] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:55:37.176] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:55:38.258] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:55:38.263] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:55:38.263] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:55:40.976] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 15:55:40.978] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:55:40.978] [INFO] [playwright_agent] ✅ Playwright extraction completed in 20.5s
+[2025-06-08 15:56:18.825] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:56:18.834] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:56:18.834] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/ganna-dress/98513.html
+[2025-06-08 15:56:18.834] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:56:19.444] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:56:19.444] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:56:19.444] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:56:19.444] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/ganna-dress/98513.html
+[2025-06-08 15:56:24.449] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:56:34.452] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:56:34.473] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:56:34.855] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:56:35.989] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:56:37.152] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:56:38.306] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:56:39.420] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:56:39.423] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:56:39.423] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:56:45.434] [INFO] [playwright_agent] ✅ Gemini analysis complete: Modern Utility Short
+[2025-06-08 15:56:45.436] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:56:45.436] [INFO] [playwright_agent] ✅ Playwright extraction completed in 26.6s
+[2025-06-08 15:56:45.468] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for abercrombie: https://www.abercrombie.com/shop/us/p/ultra-high-rise-90s-straight-jeans-50547819
+[2025-06-08 15:56:45.468] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:56:45.722] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:56:45.722] [INFO] [playwright_agent] 🔄 Attempt 1/3 for abercrombie
+[2025-06-08 15:56:45.723] [INFO] [playwright_agent] 📋 Using strategy for abercrombie.com: medium anti-scraping
+[2025-06-08 15:56:45.723] [INFO] [playwright_agent] 🌐 Navigating to: https://www.abercrombie.com/shop/us/p/ultra-high-rise-90s-straight-jeans-50547819
+[2025-06-08 15:56:47.769] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 15:56:49.645] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:56:59.650] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:56:59.669] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:56:59.847] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:57:00.999] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:57:02.122] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.4
+[2025-06-08 15:57:03.242] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.8
+[2025-06-08 15:57:03.242] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 15:57:03.242] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:57:06.039] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:57:06.040] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL provided, and therefore cannot extract the product information. I am also unable to process local files....
+[2025-06-08 15:57:06.040] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:57:06.042] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:57:06.042] [INFO] [playwright_agent] ✅ Playwright extraction completed in 20.6s
+[2025-06-08 15:57:36.580] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 15:57:36.597] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 15:57:36.598] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/the-sweatpant/70663.html
+[2025-06-08 15:57:36.598] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:57:37.155] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 15:57:37.156] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 15:57:37.156] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 15:57:37.156] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/the-sweatpant/70663.html
+[2025-06-08 15:57:41.023] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 15:57:44.077] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 15:57:54.081] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:57:54.100] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 15:57:54.225] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 15:57:55.289] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 15:57:56.366] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 15:57:57.458] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 15:57:58.540] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 15:57:58.544] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 15:57:58.544] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 15:58:00.456] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:58:00.457] [DEBUG] [playwright_agent] Response was: I am unable to extract the product information because the page returns a 404 error. The product page does not exist....
+[2025-06-08 15:58:00.457] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 15:58:00.458] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 15:58:00.458] [INFO] [playwright_agent] ✅ Playwright extraction completed in 23.9s
+[2025-06-08 16:02:18.158] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 16:02:18.179] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:02:18.179] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:18.179] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:02:18.750] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:02:18.750] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 16:02:18.750] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 16:02:18.750] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:21.766] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 16:02:31.769] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:02:31.786] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 16:02:32.397] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:02:33.487] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:02:34.588] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 16:02:35.668] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 16:02:36.732] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:02:36.735] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 16:02:36.736] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:02:39.640] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 16:02:39.641] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:02:39.641] [INFO] [playwright_agent] ✅ Playwright extraction completed in 21.5s
+[2025-06-08 16:02:39.669] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 16:02:39.669] [INFO] [base_image_processor] Starting image processing for aritzia with 2 URLs
+[2025-06-08 16:02:40.357] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:02:40.358] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:40.358] [DEBUG] [aritzia_image_processor] Added Aritzia size params: https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_2.jpg → https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_2.jpg?width=1200&height=1500
+[2025-06-08 16:02:40.359] [DEBUG] [aritzia_image_processor] Added Aritzia size params: https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_1.jpg → https://aritzia.scene7.com/is/image/Aritzia/medium/f22_01_a08471_115422_wh_1.jpg?width=1200&height=1500
+[2025-06-08 16:02:40.359] [INFO] [aritzia_image_processor] Generated 4 enhanced URLs for Aritzia
+[2025-06-08 16:02:40.863] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:40.998] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:41.411] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:02:41.889] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:02:41.889] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:02:41.889] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 16:03:50.969] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 16:03:50.987] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:03:50.987] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:03:50.987] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:03:51.556] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:03:51.556] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 16:03:51.556] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 16:03:51.556] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:03:54.332] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 16:04:04.335] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:04:04.351] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 16:04:04.963] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:04:06.072] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:04:07.189] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 16:04:08.296] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 16:04:09.392] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:04:09.396] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 16:04:09.396] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:04:14.254] [INFO] [playwright_agent] ✅ Gemini analysis complete: Utility Dress
+[2025-06-08 16:04:14.256] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:04:14.256] [INFO] [playwright_agent] ✅ Playwright extraction completed in 23.3s
+[2025-06-08 16:04:14.291] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 16:04:14.291] [INFO] [base_image_processor] Starting image processing for aritzia with 3 URLs
+[2025-06-08 16:04:14.523] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:04:14.523] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:04:14.523] [INFO] [aritzia_image_processor] Generated 3 enhanced URLs for Aritzia
+[2025-06-08 16:04:14.689] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.794] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.864] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:04:14.904] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:04:14.984] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:04:14.984] [INFO] [aritzia_image_processor] Aritzia enhanced fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:04:14.985] [INFO] [playwright_agent] ✅ Configuration loaded from config.json
+[2025-06-08 16:04:14.987] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:04:14.987] [INFO] [aritzia_image_processor] 🎭 Using Playwright screenshot fallback for Aritzia product 115422
+[2025-06-08 16:04:14.987] [INFO] [playwright_agent] 🖼️ Saving Playwright screenshots as image fallback for aritzia
+[2025-06-08 16:04:14.987] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:04:15.231] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:04:17.859] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 16:04:27.862] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:04:28.423] [INFO] [playwright_agent] 📸 Saved full page screenshot: downloads/aritzia_115422_full_page.png
+[2025-06-08 16:04:29.535] [INFO] [playwright_agent] 📸 Saved viewport screenshot: downloads/aritzia_115422_viewport_0.png
+[2025-06-08 16:04:30.653] [INFO] [playwright_agent] 📸 Saved viewport screenshot: downloads/aritzia_115422_viewport_1.png
+[2025-06-08 16:04:31.742] [INFO] [playwright_agent] 📸 Saved viewport screenshot: downloads/aritzia_115422_viewport_2.png
+[2025-06-08 16:04:31.743] [INFO] [playwright_agent] ✅ Saved 4 fallback screenshots for aritzia
+[2025-06-08 16:04:31.743] [INFO] [aritzia_image_processor] ✅ Playwright fallback generated 4 images
+[2025-06-08 16:09:37.311] [INFO] [agent_extractor] Extraction agents initialized - using Playwright for browser-based extraction
+[2025-06-08 16:09:37.315] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.838] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-08 16:16:33.842] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.844] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:16:33.844] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:16:33.845] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:16:33.889] [INFO] [unified_extractor] 🔄 Trying markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:16:34.178] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-08 16:16:34.584] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 16:16:34.584] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 16:16:34.584] [INFO] [markdown_extractor] Starting markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:16:34.586] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:16:47.860] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www.uniqlo.com/us/en/products/E443577-000 (5347 tokens)
+[2025-06-08 16:17:10.248] [DEBUG] [markdown_extractor] DeepSeek V3 extraction successful for uniqlo
+[2025-06-08 16:17:10.249] [WARNING] [markdown_extractor] Validation failed for uniqlo: Missing required field: price, Missing required field: image_urls, Title appears to be placeholder text, No image URLs found, Image URLs don't match Uniqlo CDN pattern
+[2025-06-08 16:17:10.249] [WARNING] [unified_extractor] ⚠️ Markdown extraction failed for uniqlo, falling back to Playwright
+[2025-06-08 16:17:10.249] [INFO] [unified_extractor] 🎭 Using Playwright extraction for uniqlo (fallback from markdown): https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:17:10.304] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:17:10.305] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:17:10.305] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:17:10.944] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:17:10.944] [INFO] [playwright_agent] 🔄 Attempt 1/3 for uniqlo
+[2025-06-08 16:17:10.944] [INFO] [playwright_agent] 📋 Using strategy for uniqlo.com: medium anti-scraping
+[2025-06-08 16:17:10.944] [INFO] [playwright_agent] 🌐 Navigating to: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:17:12.710] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:17:12.711] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 16:17:12.739] [INFO] [playwright_agent] 📸 Taking 2 types of screenshots
+[2025-06-08 16:17:12.822] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:17:13.907] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:17:14.995] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 16:17:16.076] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:17:16.076] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 16:17:16.076] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:17:18.393] [INFO] [playwright_agent] ✅ Gemini analysis complete: 
+[2025-06-08 16:17:18.395] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:17:18.395] [INFO] [playwright_agent] ✅ Playwright extraction completed in 8.1s
+[2025-06-08 16:17:18.438] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: playwright_agent
+[2025-06-08 16:17:18.438] [DEBUG] [cost_tracker] Tracked API call: playwright_agent ($0.0000) - Cached: False
+[2025-06-08 16:17:18.438] [INFO] [unified_extractor] ✅ Playwright extraction successful for uniqlo in 44.60s
+[2025-06-08 16:17:18.438] [INFO] [unified_extractor] 🎭 Using Playwright extraction for aritzia (direct route): https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:17:18.440] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:17:18.440] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:17:18.440] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:17:18.686] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:17:18.687] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 16:17:18.687] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 16:17:18.687] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:17:21.451] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:17:22.890] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 16:17:32.893] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:17:32.906] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 16:17:33.046] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:17:34.122] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:17:35.211] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 16:17:36.294] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 16:17:37.377] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:17:37.381] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 16:17:37.381] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:17:39.436] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:17:39.436] [DEBUG] [playwright_agent] Response was: I am unable to access the content of the URL provided, and therefore cannot fulfill your request. The screenshots show a 404 error page, indicating that the product page is not available....
+[2025-06-08 16:17:39.436] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 16:17:39.437] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:17:39.437] [INFO] [playwright_agent] ✅ Playwright extraction completed in 21.0s
+[2025-06-08 16:17:39.471] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: playwright_agent
+[2025-06-08 16:17:39.471] [DEBUG] [cost_tracker] Tracked API call: playwright_agent ($0.0000) - Cached: False
+[2025-06-08 16:17:39.471] [INFO] [unified_extractor] ✅ Playwright extraction successful for aritzia in 21.03s
+[2025-06-08 16:18:01.640] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-08 16:18:01.641] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:19:44.952] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-08 16:19:44.955] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.875] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-08 16:26:53.879] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.881] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:26:53.881] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 16:26:53.882] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 16:26:54.095] [INFO] [unified_extractor] 🔄 Trying markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:26:54.478] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-08 16:26:54.895] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 16:26:54.895] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 16:26:54.895] [INFO] [markdown_extractor] Starting markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:26:54.897] [DEBUG] [markdown_extractor] Using cached markdown for https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:27:06.457] [DEBUG] [markdown_extractor] DeepSeek V3 extraction successful for uniqlo
+[2025-06-08 16:27:06.457] [WARNING] [markdown_extractor] Validation failed for uniqlo: Missing required field: price, Missing required field: image_urls, Title appears to be placeholder text, No image URLs found, Image URLs don't match Uniqlo CDN pattern
+[2025-06-08 16:27:06.457] [WARNING] [unified_extractor] ⚠️ Markdown extraction failed for uniqlo, falling back to Playwright
+[2025-06-08 16:27:06.457] [INFO] [unified_extractor] 🎭 Using Playwright extraction for uniqlo (fallback from markdown): https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:27:06.511] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:27:06.511] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for uniqlo: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:27:06.511] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:27:07.160] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:27:07.160] [INFO] [playwright_agent] 🔄 Attempt 1/3 for uniqlo
+[2025-06-08 16:27:07.160] [INFO] [playwright_agent] 📋 Using strategy for uniqlo.com: medium anti-scraping
+[2025-06-08 16:27:07.160] [INFO] [playwright_agent] 🌐 Navigating to: https://www.uniqlo.com/us/en/products/E443577-000
+[2025-06-08 16:27:09.452] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:27:09.454] [DEBUG] [playwright_agent] ✅ Wait condition met: load
+[2025-06-08 16:27:09.479] [INFO] [playwright_agent] 📸 Taking 2 types of screenshots
+[2025-06-08 16:27:09.584] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:27:10.663] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:27:11.734] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.5
+[2025-06-08 16:27:12.810] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:27:12.810] [INFO] [playwright_agent] 📸 Captured 4 screenshots total
+[2025-06-08 16:27:12.810] [INFO] [playwright_agent] 🧠 Analyzing 4 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:27:14.817] [INFO] [playwright_agent] ✅ Gemini analysis complete: 
+[2025-06-08 16:27:14.818] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:27:14.818] [INFO] [playwright_agent] ✅ Playwright extraction completed in 8.3s
+[2025-06-08 16:27:14.858] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: playwright_agent
+[2025-06-08 16:27:14.858] [DEBUG] [cost_tracker] Tracked API call: playwright_agent ($0.0000) - Cached: False
+[2025-06-08 16:27:14.858] [INFO] [unified_extractor] ✅ Playwright extraction successful for uniqlo in 20.98s
+[2025-06-08 16:27:14.859] [INFO] [unified_extractor] 🎭 Using Playwright extraction for aritzia (direct route): https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:27:14.860] [INFO] [playwright_agent] ✅ Gemini 2.0 Flash initialized for Playwright agent
+[2025-06-08 16:27:14.860] [INFO] [playwright_agent] 🎭 Starting Playwright extraction for aritzia: https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:27:14.860] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:27:15.078] [INFO] [playwright_agent] 🥷 Stealth browser setup complete
+[2025-06-08 16:27:15.078] [INFO] [playwright_agent] 🔄 Attempt 1/3 for aritzia
+[2025-06-08 16:27:15.078] [INFO] [playwright_agent] 📋 Using strategy for aritzia.com: medium anti-scraping
+[2025-06-08 16:27:15.078] [INFO] [playwright_agent] 🌐 Navigating to: https://www.aritzia.com/us/en/product/effortless-pant/70347.html
+[2025-06-08 16:27:18.605] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:27:20.020] [DEBUG] [playwright_agent] ✅ Wait condition met: networkidle
+[2025-06-08 16:27:30.023] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:27:30.040] [INFO] [playwright_agent] 📸 Taking 4 types of screenshots
+[2025-06-08 16:27:30.183] [DEBUG] [playwright_agent] ✅ Full page screenshot captured
+[2025-06-08 16:27:31.265] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0
+[2025-06-08 16:27:32.339] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.3
+[2025-06-08 16:27:33.425] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 0.6
+[2025-06-08 16:27:34.504] [DEBUG] [playwright_agent] ✅ Viewport screenshot captured at scroll 1.0
+[2025-06-08 16:27:34.508] [INFO] [playwright_agent] 📸 Captured 5 screenshots total
+[2025-06-08 16:27:34.508] [INFO] [playwright_agent] 🧠 Analyzing 5 screenshots with Gemini 2.0 Flash
+[2025-06-08 16:27:36.175] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:27:36.176] [DEBUG] [playwright_agent] Response was: I'm sorry, but I am unable to extract the product information from the given screenshots. The screenshots show a 404 error page, indicating that the product page is not found. Therefore, I cannot provide the JSON output with the requested product details....
+[2025-06-08 16:27:36.176] [INFO] [playwright_agent] ✅ Gemini analysis complete: Parse Error
+[2025-06-08 16:27:36.177] [INFO] [playwright_agent] ✅ Success on attempt 1
+[2025-06-08 16:27:36.177] [INFO] [playwright_agent] ✅ Playwright extraction completed in 21.3s
+[2025-06-08 16:27:36.207] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: playwright_agent
+[2025-06-08 16:27:36.207] [DEBUG] [cost_tracker] Tracked API call: playwright_agent ($0.0000) - Cached: False
+[2025-06-08 16:27:36.207] [INFO] [unified_extractor] ✅ Playwright extraction successful for aritzia in 21.35s

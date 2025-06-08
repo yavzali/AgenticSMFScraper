@@ -259,3 +259,285 @@ KeyboardInterrupt
 [2025-06-08 14:58:19.923] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
 [2025-06-08 14:58:25.800] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175804064114,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739135594866,"created_at":"2025-06-08T14:58:25-04:00","updated_at":"2025-06-08T14:58:25-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714747250","width":1464,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/42f853319b8e7c5b80d940d1c34cd66e.jpg?v=1749409105","variant_ids":[]}}
 [2025-06-08 14:58:28.676] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 15:39:31.237] [ERROR] [playwright_agent] Failed to initialize Gemini: No Google API key found
+[2025-06-08 15:39:31.237] [ERROR] [__main__] Test suite failed: No Google API key found
+[2025-06-08 15:39:58.212] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:39:59.895] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:09.899] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:14.693] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:14.693] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:14.693] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:16.617] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:26.623] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:31.245] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:31.245] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:31.246] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:34.235] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:44.240] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:40:48.745] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:40:48.745] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.747] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.747] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:40:48.775] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:40:49.967] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:40:59.970] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:04.570] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:04.570] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:04.570] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:06.542] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:41:16.545] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:21.149] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:21.149] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:21.150] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:24.241] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:41:34.247] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:38.883] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:38.883] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.885] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.885] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:38.915] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:41:50.502] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:41:54.951] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:41:54.951] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:41:54.952] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:07.277] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:11.753] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:11.753] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:11.755] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:25.092] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:29.733] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:29.733] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.734] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.734] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:29.764] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:42:40.993] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:42:45.648] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:42:45.648] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:45.648] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:42:57.828] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:43:02.339] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:02.339] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:02.340] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:15.401] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:43:19.910] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:19.911] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.912] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.912] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:19.943] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:43:33.021] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:43:42.479] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:43:43.661] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:43:53.664] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:43:58.393] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:43:58.394] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:43:58.395] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:00.550] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:44:10.552] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:15.301] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:44:15.302] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:15.303] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:18.300] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:44:28.305] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:32.963] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:44:32.963] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.964] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.964] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:44:32.994] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:44:46.274] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:44:55.606] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:44:56.796] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:45:06.800] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:11.277] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:11.278] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:11.278] [WARNING] [playwright_agent] ⚠️ Attempt 1 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:13.026] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:45:23.028] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:27.593] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:27.593] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:27.596] [WARNING] [playwright_agent] ⚠️ Attempt 2 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:30.658] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:45:40.663] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:45:45.302] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:45:45.303] [ERROR] [playwright_agent] ❌ Gemini analysis failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.304] [WARNING] [playwright_agent] ⚠️ Attempt 3 failed: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.304] [ERROR] [playwright_agent] ❌ Playwright extraction failed: All 3 attempts failed. Last error: ProductData.__init__() got an unexpected keyword argument 'errors'
+[2025-06-08 15:45:45.329] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:50:03.109] [ERROR] [playwright_agent] Failed to initialize Gemini: No Google API key found
+[2025-06-08 15:52:44.488] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:52:46.409] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:52:56.415] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:53:01.519] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:01.557] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:03.111] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:53:13.118] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:17.866] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:17.897] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:29.368] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:33.661] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:33.693] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:53:44.880] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:53:49.274] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:53:49.305] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:02.372] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:09.972] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:11.322] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:54:21.329] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:25.979] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:54:26.016] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:39.074] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:54:48.491] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:54:49.586] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 15:54:59.591] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:55:04.363] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:55:04.395] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:55:15.750] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 15:55:20.439] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:55:20.474] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:55:33.251] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:56:18.834] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:56:34.452] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:56:45.468] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:56:47.769] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 15:56:59.650] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:57:06.039] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 15:57:36.598] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 15:57:41.023] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 15:57:54.081] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 15:58:00.456] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:02:18.179] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:02:31.769] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:02:41.889] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 16:03:50.987] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:04:04.335] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:04:14.987] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:04:27.862] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:17:10.249] [WARNING] [markdown_extractor] Validation failed for uniqlo: Missing required field: price, Missing required field: image_urls, Title appears to be placeholder text, No image URLs found, Image URLs don't match Uniqlo CDN pattern
+[2025-06-08 16:17:10.249] [WARNING] [unified_extractor] ⚠️ Markdown extraction failed for uniqlo, falling back to Playwright
+[2025-06-08 16:17:10.305] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:17:12.710] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:17:18.440] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:17:21.451] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:17:32.893] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:17:39.436] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:27:06.457] [WARNING] [markdown_extractor] Validation failed for uniqlo: Missing required field: price, Missing required field: image_urls, Title appears to be placeholder text, No image URLs found, Image URLs don't match Uniqlo CDN pattern
+[2025-06-08 16:27:06.457] [WARNING] [unified_extractor] ⚠️ Markdown extraction failed for uniqlo, falling back to Playwright
+[2025-06-08 16:27:06.511] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:27:09.452] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:27:14.860] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 16:27:18.605] [WARNING] [playwright_agent] ⚠️ HTTP 404 response
+[2025-06-08 16:27:30.023] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:27:36.175] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
