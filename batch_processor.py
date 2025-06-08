@@ -14,7 +14,7 @@ import traceback
 
 from logger_config import setup_logging
 from url_processor import URLProcessor, ProcessedURL
-from agent_extractor import AgentExtractor
+from unified_extractor import UnifiedExtractor  # Simplified: single extraction system
 from shopify_manager import ShopifyManager
 from checkpoint_manager import CheckpointManager
 from duplicate_detector import DuplicateDetector
@@ -28,7 +28,7 @@ logger = setup_logging(__name__)
 class BatchProcessor:
     def __init__(self):
         self.url_processor = URLProcessor()
-        self.agent_extractor = AgentExtractor()
+        self.unified_extractor = UnifiedExtractor()  # Single extraction system
         self.shopify_manager = ShopifyManager()
         self.checkpoint_manager = CheckpointManager()
         self.duplicate_detector = DuplicateDetector()
@@ -187,9 +187,9 @@ class BatchProcessor:
                                                    'duplicate_uncertain', 'Manual duplicate review required')
                     return result
             
-            # Phase 2: Data Extraction
+            # Phase 2: Data Extraction (simplified with unified extractor)
             logger.debug(f"[{current}/{total}] Phase 2: Extracting product data")
-            extraction_result = await self.agent_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
+            extraction_result = await self.unified_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
             
             result['extraction_method'] = extraction_result.method_used
             result['extraction_time'] = extraction_result.processing_time
@@ -343,7 +343,7 @@ class BatchProcessor:
         
         try:
             # Extract new data
-            extraction_result = await self.agent_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
+            extraction_result = await self.unified_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
             
             if extraction_result.success:
                 # Update product via Shopify manager
@@ -426,7 +426,7 @@ class BatchProcessor:
         if hasattr(self, 'image_processor_factory'):
             await self.image_processor_factory.close_all()
         
-        # AgentExtractor doesn't have a close method, so we skip it
+        # UnifiedExtractor doesn't have a close method, so we skip it
         
         logger.info("BatchProcessor cleanup completed")
     

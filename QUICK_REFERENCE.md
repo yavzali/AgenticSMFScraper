@@ -35,7 +35,7 @@
 ### **🧪 Testing & Validation**
 ```bash
 # Quick system check
-python -c "from agent_extractor import AgentExtractor; print('✅ System ready!')"
+python -c "from unified_extractor import UnifiedExtractor; print('✅ System ready!')"
 
 # Test single URL with routing
 cd testing

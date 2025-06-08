@@ -48,3 +48,6 @@ langchain-google-genai>=1.0.0
 
 # DeepSeek API (optional - improves markdown extraction)
 # Install manually: pip install deepseek-api
+
+# Playwright Multi-Screenshot Agent (Browser Use replacement)
+playwright-stealth>=1.0.6
