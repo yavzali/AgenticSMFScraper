@@ -460,8 +460,8 @@ if __name__ == "__main__":
                 if os.path.exists(external_browser_use_path) and external_browser_use_path not in sys.path:
                     sys.path.insert(0, external_browser_use_path)
                 
-                from browser_use import Browser, BrowserConfig  # type: ignore
-                from browser_use.browser.browser import BrowserContextConfig  # type: ignore
+                # Updated import for browser-use 0.2.x API
+                from browser_use import Agent  # type: ignore
                 logger.debug("Browser Use imported successfully")
                 
             except ImportError as e:
@@ -476,54 +476,28 @@ if __name__ == "__main__":
                     errors=[f"Browser Use not available: {e}"]
                 )
             
-            # Configure browser session with anti-detection
-            browser_config = {
-                'headless': True,
-                'extra_chromium_args': [
-                    '--no-sandbox',
-                    '--disable-blink-features=AutomationControlled',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor',
-                    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                ]
-            }
-            
-            # Apply retailer-specific anti-detection
-            if retailer in ['nordstrom', 'aritzia', 'anthropologie']:
-                # These retailers have stronger anti-bot measures
-                browser_config['extra_chromium_args'].extend([
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-extensions'
-                ])
-            
-            # Create context config
-            context_config = BrowserContextConfig(
-                disable_security=True,
-                browser_window_size={'width': 1920, 'height': 1080},
-                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-            )
-            
-            # Create browser config
-            config = BrowserConfig(
-                headless=browser_config['headless'],
-                extra_chromium_args=browser_config['extra_chromium_args'],
-                new_context_config=context_config
-            )
-            
-            browser = Browser(config=config)
-            
             try:
-                # Execute extraction task
+                # Execute extraction task using new Agent API
                 logger.debug(f"Executing browser_use extraction: {prompt[:200]}...")
                 
-                # Enhanced prompt with URL navigation
+                # Enhanced prompt with URL navigation for the new API
                 full_prompt = f"Navigate to {url} and {prompt}"
                 
-                result = await browser.run(full_prompt)
+                # Create Agent with task and LLM (Browser Use 0.2.x API)
+                agent = Agent(
+                    task=full_prompt,
+                    llm=self.browser_use_llm,
+                    use_vision=True,  # Enable vision for better web interaction
+                    max_actions_per_step=5,  # Limit actions per step
+                    max_failures=2,          # Limit failures before giving up
+                    retry_delay=5            # Shorter retry delay for faster processing
+                )
                 
-                # Parse result
-                parsed_data = self._parse_json_result(str(result), retailer)
+                # Run the agent
+                result = await agent.run()
+                
+                # Parse result - the new API returns an AgentHistoryList
+                parsed_data = self._parse_browser_use_result(result, retailer)
                 
                 if parsed_data:
                     return ExtractionResult(
@@ -552,12 +526,16 @@ if __name__ == "__main__":
                         errors=[]
                     )
                     
-            finally:
-                # Clean up browser
-                try:
-                    await browser.close()
-                except:
-                    pass  # Ignore cleanup errors
+            except Exception as e:
+                logger.error(f"Browser Use agent execution failed: {e}")
+                return ExtractionResult(
+                    success=False,
+                    data={},
+                    method_used="browser_use",
+                    processing_time=0,
+                    warnings=[],
+                    errors=[str(e)]
+                )
                 
         except Exception as e:
             logger.error(f"Browser Use extraction failed: {e}")
@@ -569,6 +547,43 @@ if __name__ == "__main__":
                 warnings=[],
                 errors=[str(e)]
             )
+    
+    def _parse_browser_use_result(self, result, retailer: str) -> Optional[Dict[str, Any]]:
+        """Parse result from Browser Use Agent (AgentHistoryList)"""
+        
+        if not result:
+            return None
+        
+        try:
+            # The new API returns an AgentHistoryList
+            # Try to get the final extracted content
+            if hasattr(result, 'final_result') and result.final_result():
+                final_content = result.final_result()
+                if isinstance(final_content, dict):
+                    final_content['retailer'] = retailer
+                    return final_content
+                elif isinstance(final_content, str):
+                    # Try to parse as JSON
+                    parsed = self._parse_json_result(final_content, retailer)
+                    if parsed:
+                        return parsed
+            
+            # Try to get extracted content from action results
+            if hasattr(result, 'extracted_content') and result.extracted_content():
+                content_list = result.extracted_content()
+                for content in content_list:
+                    if content and isinstance(content, str):
+                        parsed = self._parse_json_result(content, retailer)
+                        if parsed:
+                            return parsed
+            
+            # Fallback: try to convert the entire result to string and parse
+            result_str = str(result)
+            return self._parse_json_result(result_str, retailer)
+            
+        except Exception as e:
+            logger.debug(f"Error parsing Browser Use result: {e}")
+            return None
     
     def _parse_json_result(self, result_text: str, retailer: str) -> Optional[Dict[str, Any]]:
         """Parse JSON from extraction result text"""

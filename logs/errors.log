@@ -210,3 +210,52 @@ KeyboardInterrupt
 [2025-06-08 04:15:12.018] [ERROR] [agent_extractor] Browser Use extraction failed: Browser.__init__() got an unexpected keyword argument 'llm'
 [2025-06-08 04:15:12.020] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
 [2025-06-08 13:48:23.514] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:35:09.451] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:35:46.810] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:35:46.810] [WARNING] [batch_processor] Primary processing failed for uniqlo, trying legacy fallback
+[2025-06-08 14:35:47.237] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:35:51.343] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:35:51.344] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 14:35:52.350] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:36:03.516] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:03.516] [WARNING] [batch_processor] Primary processing failed for hm, trying legacy fallback
+[2025-06-08 14:36:03.772] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:07.647] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:07.649] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for urban_outfitters
+[2025-06-08 14:36:08.651] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 14:36:08.652] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:08.654] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for anthropologie
+[2025-06-08 14:36:09.660] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:09.665] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for nordstrom
+[2025-06-08 14:36:10.670] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:10.676] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for abercrombie
+[2025-06-08 14:36:11.682] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:36:22.686] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:36:23.473] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:36:23.473] [WARNING] [batch_processor] Primary processing failed for revolve, trying legacy fallback
+[2025-06-08 14:36:23.685] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:36:27.566] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:37:05.688] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175776670066,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739132875122,"created_at":"2025-06-08T14:37:05-04:00","updated_at":"2025-06-08T14:37:05-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242696855922","width":1024,"height":1432,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/30fbe28a9059cfaefc649bbbb4c02c92.jpg?v=1749407825","variant_ids":[]}}
+[2025-06-08 14:37:08.637] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:43:00.644] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:43:08.415] [ERROR] [agent_extractor] Browser Use agent execution failed: Failed to connect to LLM. Please check your API key and network connection.
+[2025-06-08 14:43:08.418] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 14:43:09.420] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:54:25.096] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:54:58.870] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:54:58.870] [WARNING] [batch_processor] Primary processing failed for aritzia, trying legacy fallback
+[2025-06-08 14:54:59.323] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:55:03.510] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:57:25.872] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:31.685] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:34.088] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:57:37.087] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:41.660] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:58:02.002] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:07.983] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803670898,"alt":"Rib-Knit Bodycon Dress - Black - Ladies - Image 1","position":1,"product_id":14739135463794,"created_at":"2025-06-08T14:58:07-04:00","updated_at":"2025-06-08T14:58:07-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714452338","width":1365,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/a1999e7401e272c0d1babbaae05b954f.jpg?v=1749409087","variant_ids":[]}}
+[2025-06-08 14:58:11.344] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:13.921] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:58:16.893] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803867506,"alt":"Sima Shirt Dress in Pine - Image 1","position":1,"product_id":14739135529330,"created_at":"2025-06-08T14:58:16-04:00","updated_at":"2025-06-08T14:58:16-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714616178","width":967,"height":1450,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/f5ceed365490a014e1f5e631a4925d32.jpg?v=1749409096","variant_ids":[]}}
+[2025-06-08 14:58:19.923] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:25.800] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175804064114,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739135594866,"created_at":"2025-06-08T14:58:25-04:00","updated_at":"2025-06-08T14:58:25-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714747250","width":1464,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/42f853319b8e7c5b80d940d1c34cd66e.jpg?v=1749409105","variant_ids":[]}}
+[2025-06-08 14:58:28.676] [ERROR] [notification_manager] Email credentials not configured

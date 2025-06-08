@@ -23,37 +23,42 @@ class SimpleTransformImageProcessor(BaseImageProcessor):
     def __init__(self, retailer: str):
         super().__init__(retailer)
         
-        # URL transformation rules by retailer
+        # URL transformation rules by retailer (FIXED with working patterns from old script)
         self.transformation_rules = {
             "asos": [
-                (r'\$S\$', '$XXL$'),  # Small to Extra Large
-                (r'\$M\$', '$XXL$'),  # Medium to Extra Large
-                (r'\$L\$', '$XXL$'),  # Large to Extra Large
+                # Replace S or T with XXL in product codes
+                (r'\$(.*?)([ST])\$', r'$\1XXL$'),
+                # Adjust width parameter
+                (r'wid=\d{1,3}', 'wid=1000'),
             ],
             "revolve": [
-                (r'/n/ct/', '/n/z/'),  # Thumbnail to Zoom
-                (r'/n/d/', '/n/z/'),   # Detail to Zoom
-                (r'/n/s/', '/n/z/'),   # Small to Zoom
+                # Multiple transformation patterns for Revolve (not just /n/ct/)
+                (r'/n/ct/', '/n/z/'),   # Thumbnail to Zoom
+                (r'/n/uv/', '/n/z/'),   # UV to Zoom  
+                (r'/n/d/', '/n/z/'),    # Detail to Zoom
+                (r'/n/p/', '/n/z/'),    # Preview to Zoom
+                (r'/n/r/', '/n/z/'),    # Regular to Zoom
+                (r'/n/t/', '/n/z/'),    # Thumb to Zoom
             ],
             "hm": [
-                (r'_\d{2,3}x\d{2,3}', '_2000x2000'),  # Any small resolution to 2000x2000
-                (r'_small', '_large'),
-                (r'_s\.', '_xl.'),
+                # H&M uses imwidth parameters, not resolution patterns
+                (r'imwidth=\d+', 'imwidth=2160'),  # Increase imwidth to high-res
+                (r'_s\d{1,2}x\d{1,2}', '_1500x2000'),  # Replace small dimensions
             ],
             "nordstrom": [
-                (r'(\.[jpg|jpeg|png]+)$', r'?width=1200&height=1500\1'),  # Add size parameters
+                (r'(\.[jpg|jpeg|png]+)$', r'?width=1200&height=1500\1'),
             ],
             "anthropologie": [
-                (r'_[a-z]+(\.[jpg|jpeg|png]+)$', r'_xl\1'),  # Transform any size suffix to xl
+                (r'_[a-z]+(\.[jpg|jpeg|png]+)$', r'_xl\1'),
             ],
             "urban_outfitters": [
-                (r'(\.[jpg|jpeg|png]+)$', r'_xl\1'),  # Add xl suffix
+                (r'(\.[jpg|jpeg|png]+)$', r'_xl\1'),
             ],
             "abercrombie": [
-                (r'(\.[jpg|jpeg|png]+)$', r'_prod\1'),  # Add prod suffix
+                (r'(\.[jpg|jpeg|png]+)$', r'_prod\1'),
             ],
             "mango": [
-                (r'(\.[jpg|jpeg|png]+)(\?.*)?$', r'\1?width=1200&height=1500'),  # Add size parameters
+                (r'(\.[jpg|jpeg|png]+)(\?.*)?$', r'\1?width=1200&height=1500'),
             ]
         }
         
@@ -101,6 +106,12 @@ class SimpleTransformImageProcessor(BaseImageProcessor):
                     if new_url != transformed_url:
                         transformations_applied.append(f"{pattern} -> {replacement}")
                         transformed_url = new_url
+            
+            # Special handling for H&M: Add imwidth parameter if missing (from working script)
+            if self.retailer == "hm" and "imwidth=" not in transformed_url and "width[" not in transformed_url:
+                separator = "&" if "?" in transformed_url else "?"
+                transformed_url += f"{separator}imwidth=2160"
+                transformations_applied.append("Added imwidth=2160 parameter")
             
             transformed_urls.append(transformed_url)
             

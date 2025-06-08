@@ -119,3 +119,169 @@
 [2025-06-08 03:02:22.956] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
 [2025-06-08 03:02:24.163] [DEBUG] [image_processor_factory] Closed all image processor instances
 [2025-06-08 03:28:49.533] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 14:35:43.364] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 14:35:43.368] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 14:35:43.665] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Extracted product code 479225 from URL using pattern /products/E?(\d{6})
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-08 14:35:43.667] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 479225, color 000
+[2025-06-08 14:35:43.667] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-08 14:35:44.618] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:45.664] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.499] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.532] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.713] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.756] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.809] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.809] [INFO] [uniqlo_image_processor] Uniqlo Browser Use fallback called for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:46.810] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:35:46.810] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 14:35:46.856] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Extracted product code 479225 from URL using pattern /products/E?(\d{6})
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-08 14:35:46.856] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 479225, color 000
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-08 14:35:46.895] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.927] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.956] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.989] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.021] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.054] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.237] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.237] [INFO] [uniqlo_image_processor] Uniqlo Browser Use fallback called for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:47.237] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:36:02.745] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:36:02.749] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:36:03.044] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:03.045] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/b0/6b/b06bda0c8c652e3c9235ac91de92749a26a85b4f.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/fc/2a/fc2a93b5d6cc51d49ca0fe2999dcef26802d55c4.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/1f/d2/1fd25d5d785529ac3fe2edd89f1ff3b48c40094e.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/0f/29/0f290e5348eb4b939356f53ba7269b427280f9da.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [INFO] [simple_transform_image_processor] Generated 4 URLs for hm (0 additional)
+[2025-06-08 14:36:03.089] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.128] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.200] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.237] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.274] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.515] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.515] [INFO] [simple_transform_image_processor] hm Browser Use fallback called for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:03.516] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:03.516] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:36:03.561] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/b0/6b/b06bda0c8c652e3c9235ac91de92749a26a85b4f.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/fc/2a/fc2a93b5d6cc51d49ca0fe2999dcef26802d55c4.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/1f/d2/1fd25d5d785529ac3fe2edd89f1ff3b48c40094e.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/0f/29/0f290e5348eb4b939356f53ba7269b427280f9da.jpg?imwidth=2160
+[2025-06-08 14:36:03.563] [INFO] [simple_transform_image_processor] Generated 4 URLs for hm (0 additional)
+[2025-06-08 14:36:03.599] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.631] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.664] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.696] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.732] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.772] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.772] [INFO] [simple_transform_image_processor] hm Browser Use fallback called for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:03.772] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:22.686] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:36:22.690] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:36:22.984] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:22.984] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:36:22.985] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:36:23.023] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.131] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.414] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.440] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.472] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.472] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:23.473] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:36:23.473] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:36:23.505] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:36:23.505] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:36:23.537] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.565] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.594] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.633] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.685] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.685] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:23.685] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:37:01.164] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:37:01.168] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 14:37:01.366] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:37:01.366] [DEBUG] [simple_transform_image_processor] Applying URL transformations for mango
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/outfit/S/87039065_05-99999999_01.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/outfit/S/87039065_05-99999999_01.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_R.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_R.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D1.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D1.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D2.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D2.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [INFO] [simple_transform_image_processor] Generated 5 URLs for mango (0 additional)
+[2025-06-08 14:37:03.386] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=90, size=134218, resolution=(1024, 1432)
+[2025-06-08 14:37:03.386] [INFO] [base_image_processor] Reconstructed image is high quality, stopping here
+[2025-06-08 14:43:03.993] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:54:28.233] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:54:58.323] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 14:54:58.326] [INFO] [base_image_processor] Starting image processing for aritzia with 5 URLs
+[2025-06-08 14:54:58.457] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 14:54:58.458] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.458] [INFO] [aritzia_image_processor] Generated 5 enhanced URLs for Aritzia
+[2025-06-08 14:54:58.637] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.674] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.710] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.753] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.791] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.829] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.870] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.870] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.870] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:54:58.870] [INFO] [base_image_processor] Starting image processing for aritzia with 5 URLs
+[2025-06-08 14:54:58.907] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 14:54:58.907] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.907] [INFO] [aritzia_image_processor] Generated 5 enhanced URLs for Aritzia
+[2025-06-08 14:54:58.936] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.973] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:59.163] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:59.202] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.238] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.293] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.323] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.323] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:59.323] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:57:28.586] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:57:34.087] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:57:40.230] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:58:04.770] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:58:04.773] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:58:04.994] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=457431, resolution=(2160, 3240)
+[2025-06-08 14:58:04.994] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 14:58:13.921] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:58:13.927] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:58:14.352] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:58:14.353] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:58:14.395] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 14:58:14.564] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 14:58:14.730] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 14:58:14.762] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 14:58:14.795] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 14:58:14.795] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:22.931] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:58:22.936] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 14:58:23.386] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=474834, resolution=(1500, 2098)
+[2025-06-08 14:58:23.386] [INFO] [base_image_processor] First extracted image is high quality, stopping here

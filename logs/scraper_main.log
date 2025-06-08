@@ -2103,3 +2103,749 @@ OPENMANUS_RESULT_START
 [2025-06-08 14:03:01.335] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-08 14:03:01.975] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
 [2025-06-08 14:03:01.975] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:35:08.723] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:35:08.724] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:35:08.725] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:35:08.726] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:35:09.284] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:35:09.284] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:35:09.285] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:35:09.289] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 14:35:09.289] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 14:35:09.289] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 14:35:09.289] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 14:35:09.289] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 14:35:09.289] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 14:35:09.290] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 14:35:09.290] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 14:35:09.290] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 14:35:09.290] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 14:35:09.290] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 14:35:09.290] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 14:35:09.290] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 14:35:09.290] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 14:35:09.290] [INFO] [__main__] Starting batch processing: batch_001_June_7th
+[2025-06-08 14:35:09.290] [INFO] [batch_processor] Starting batch batch_001_June_7th: 9 URLs with modesty level 'moderately modest'
+[2025-06-08 14:35:09.290] [INFO] [batch_processor] [1/9] Processing: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:09.290] [DEBUG] [batch_processor] [1/9] Phase 1: Processing URL
+[2025-06-08 14:35:09.291] [DEBUG] [url_processor] Processed URL: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 -> uniqlo (duplicate: False)
+[2025-06-08 14:35:09.291] [DEBUG] [batch_processor] [1/9] Phase 2: Extracting product data
+[2025-06-08 14:35:09.294] [INFO] [agent_extractor] Using markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:09.451] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:35:09.480] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:35:09.480] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:35:09.480] [INFO] [markdown_extractor] Starting markdown extraction for uniqlo: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:09.481] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:40.702] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003 (8855 tokens)
+[2025-06-08 14:35:43.363] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for uniqlo
+[2025-06-08 14:35:43.363] [INFO] [markdown_extractor] ✅ Markdown extraction successful for uniqlo in 33.88s
+[2025-06-08 14:35:43.363] [DEBUG] [agent_extractor] Uniqlo sale item without original price: Mercerized Cotton Dress
+[2025-06-08 14:35:43.364] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 14:35:43.365] [DEBUG] [agent_extractor] Validated 5 image URLs for uniqlo
+[2025-06-08 14:35:43.365] [DEBUG] [agent_extractor] Uniqlo sale item without original price - this is expected behavior
+[2025-06-08 14:35:43.365] [INFO] [agent_extractor] Validation passed for uniqlo extraction with 11 fields
+[2025-06-08 14:35:43.368] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: markdown_extractor
+[2025-06-08 14:35:43.368] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:35:43.368] [INFO] [agent_extractor] ✅ Markdown extraction successful for uniqlo in 34.08s
+[2025-06-08 14:35:43.368] [DEBUG] [batch_processor] [1/9] Phase 3: Processing images
+[2025-06-08 14:35:43.368] [INFO] [batch_processor] Processing 5 images for uniqlo using reconstruction processor
+[2025-06-08 14:35:43.368] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 14:35:43.665] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Extracted product code 479225 from URL using pattern /products/E?(\d{6})
+[2025-06-08 14:35:43.666] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-08 14:35:43.667] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 479225, color 000
+[2025-06-08 14:35:43.667] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-08 14:35:44.618] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:45.664] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.499] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.532] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.713] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.756] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.809] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:46.809] [INFO] [uniqlo_image_processor] Uniqlo Browser Use fallback called for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:46.810] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:35:46.810] [WARNING] [batch_processor] Primary processing failed for uniqlo, trying legacy fallback
+[2025-06-08 14:35:46.810] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 14:35:46.856] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Reconstructing Uniqlo image URLs from https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Extracted product code 479225 from URL using pattern /products/E?(\d{6})
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Extracted color code 000 from URL
+[2025-06-08 14:35:46.856] [INFO] [uniqlo_image_processor] Reconstructing Uniqlo URLs for product 479225, color 000
+[2025-06-08 14:35:46.856] [DEBUG] [uniqlo_image_processor] Generated 7 reconstructed URLs for Uniqlo
+[2025-06-08 14:35:46.895] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.927] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.956] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 404
+[2025-06-08 14:35:46.989] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.021] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.054] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.237] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:35:47.237] [INFO] [uniqlo_image_processor] Uniqlo Browser Use fallback called for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:47.237] [WARNING] [base_image_processor] No images successfully downloaded for uniqlo
+[2025-06-08 14:35:47.238] [DEBUG] [batch_processor] [1/9] Phase 4: Creating Shopify product
+[2025-06-08 14:35:48.377] [INFO] [shopify_manager] Created Shopify product: 14739132678514
+[2025-06-08 14:35:48.559] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132678514
+[2025-06-08 14:35:48.808] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132678514
+[2025-06-08 14:35:48.988] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132678514
+[2025-06-08 14:35:49.166] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132678514
+[2025-06-08 14:35:49.363] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132678514
+[2025-06-08 14:35:49.546] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132678514
+[2025-06-08 14:35:49.858] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132678514
+[2025-06-08 14:35:50.040] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132678514
+[2025-06-08 14:35:50.218] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132678514
+[2025-06-08 14:35:50.222] [DEBUG] [duplicate_detector] Stored product: https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:50.222] [DEBUG] [batch_processor] Stored product record for https://www.uniqlo.com/us/en/products/E479225-000/00?colorDisplayCode=00&sizeDisplayCode=003
+[2025-06-08 14:35:50.222] [INFO] [batch_processor] [1/9] Successfully created product: 14739132678514
+[2025-06-08 14:35:51.224] [INFO] [batch_processor] [2/9] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:35:51.225] [DEBUG] [batch_processor] [2/9] Phase 1: Processing URL
+[2025-06-08 14:35:51.228] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 14:35:51.228] [DEBUG] [batch_processor] [2/9] Phase 2: Extracting product data
+[2025-06-08 14:35:51.228] [INFO] [agent_extractor] Using browser agent for aritzia (direct route): https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:35:51.343] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:35:51.343] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product...
+[2025-06-08 14:35:51.343] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:35:51.344] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 14:35:51.344] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:35:51.344] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 14:35:51.344] [INFO] [batch_processor] Added to manual review: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 (extraction_failed)
+[2025-06-08 14:35:52.346] [INFO] [batch_processor] [3/9] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:35:52.346] [DEBUG] [batch_processor] [3/9] Phase 1: Processing URL
+[2025-06-08 14:35:52.349] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: False)
+[2025-06-08 14:35:52.349] [DEBUG] [batch_processor] [3/9] Phase 2: Extracting product data
+[2025-06-08 14:35:52.349] [INFO] [agent_extractor] Using markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:35:52.350] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:35:52.353] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:35:52.353] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:35:52.353] [INFO] [markdown_extractor] Starting markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:35:54.312] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:35:59.953] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www2.hm.com/en_us/productpage.1232566001.html (2835 tokens)
+[2025-06-08 14:36:02.744] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for hm
+[2025-06-08 14:36:02.745] [INFO] [markdown_extractor] ✅ Markdown extraction successful for hm in 10.39s
+[2025-06-08 14:36:02.745] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:36:02.746] [DEBUG] [agent_extractor] Validated 4 image URLs for hm
+[2025-06-08 14:36:02.746] [INFO] [agent_extractor] Validation passed for hm extraction with 11 fields
+[2025-06-08 14:36:02.749] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:36:02.749] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:36:02.749] [INFO] [agent_extractor] ✅ Markdown extraction successful for hm in 10.40s
+[2025-06-08 14:36:02.749] [DEBUG] [batch_processor] [3/9] Phase 3: Processing images
+[2025-06-08 14:36:02.749] [INFO] [batch_processor] Processing 4 images for hm using transformation processor
+[2025-06-08 14:36:02.749] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:36:03.044] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:03.045] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/b0/6b/b06bda0c8c652e3c9235ac91de92749a26a85b4f.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/fc/2a/fc2a93b5d6cc51d49ca0fe2999dcef26802d55c4.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/1f/d2/1fd25d5d785529ac3fe2edd89f1ff3b48c40094e.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/0f/29/0f290e5348eb4b939356f53ba7269b427280f9da.jpg?imwidth=2160
+[2025-06-08 14:36:03.046] [INFO] [simple_transform_image_processor] Generated 4 URLs for hm (0 additional)
+[2025-06-08 14:36:03.089] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.128] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.200] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.237] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.274] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.515] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.515] [INFO] [simple_transform_image_processor] hm Browser Use fallback called for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:03.516] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:03.516] [WARNING] [batch_processor] Primary processing failed for hm, trying legacy fallback
+[2025-06-08 14:36:03.516] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:36:03.561] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] Applying URL transformations for hm
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/b0/6b/b06bda0c8c652e3c9235ac91de92749a26a85b4f.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/fc/2a/fc2a93b5d6cc51d49ca0fe2999dcef26802d55c4.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/1f/d2/1fd25d5d785529ac3fe2edd89f1ff3b48c40094e.jpg?imwidth=2160
+[2025-06-08 14:36:03.562] [DEBUG] [simple_transform_image_processor] No transformations applied to hm URL: https://image.hm.com/assets/hm/0f/29/0f290e5348eb4b939356f53ba7269b427280f9da.jpg?imwidth=2160
+[2025-06-08 14:36:03.563] [INFO] [simple_transform_image_processor] Generated 4 URLs for hm (0 additional)
+[2025-06-08 14:36:03.599] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.631] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.664] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:03.696] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.732] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.772] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:03.772] [INFO] [simple_transform_image_processor] hm Browser Use fallback called for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:03.772] [WARNING] [base_image_processor] No images successfully downloaded for hm
+[2025-06-08 14:36:03.772] [DEBUG] [batch_processor] [3/9] Phase 4: Creating Shopify product
+[2025-06-08 14:36:04.545] [INFO] [shopify_manager] Created Shopify product: 14739132711282
+[2025-06-08 14:36:04.742] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132711282
+[2025-06-08 14:36:05.065] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132711282
+[2025-06-08 14:36:05.253] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132711282
+[2025-06-08 14:36:05.589] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132711282
+[2025-06-08 14:36:05.768] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132711282
+[2025-06-08 14:36:05.944] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132711282
+[2025-06-08 14:36:06.203] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132711282
+[2025-06-08 14:36:06.395] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132711282
+[2025-06-08 14:36:06.637] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132711282
+[2025-06-08 14:36:06.643] [DEBUG] [duplicate_detector] Stored product: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:06.643] [DEBUG] [batch_processor] Stored product record for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:36:06.644] [INFO] [batch_processor] [3/9] Successfully created product: 14739132711282
+[2025-06-08 14:36:07.645] [INFO] [batch_processor] [4/9] Processing: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 14:36:07.645] [DEBUG] [batch_processor] [4/9] Phase 1: Processing URL
+[2025-06-08 14:36:07.647] [DEBUG] [url_processor] Processed URL: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 -> urban_outfitters (duplicate: False)
+[2025-06-08 14:36:07.647] [DEBUG] [batch_processor] [4/9] Phase 2: Extracting product data
+[2025-06-08 14:36:07.647] [INFO] [agent_extractor] Using browser agent for urban_outfitters (direct route): https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 14:36:07.647] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:36:07.647] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 and extract product title, brand, price, original_price, des...
+[2025-06-08 14:36:07.647] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:07.649] [DEBUG] [pattern_learner] Recorded failure pattern for urban_outfitters: unknown_error
+[2025-06-08 14:36:07.649] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:36:07.649] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for urban_outfitters
+[2025-06-08 14:36:07.649] [INFO] [batch_processor] Added to manual review: https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1 (extraction_failed)
+[2025-06-08 14:36:08.650] [INFO] [batch_processor] [5/9] Processing: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 14:36:08.650] [DEBUG] [batch_processor] [5/9] Phase 1: Processing URL
+[2025-06-08 14:36:08.651] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 14:36:08.652] [DEBUG] [url_processor] Processed URL: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1 -> anthropologie (duplicate: False)
+[2025-06-08 14:36:08.652] [DEBUG] [batch_processor] [5/9] Phase 2: Extracting product data
+[2025-06-08 14:36:08.652] [INFO] [agent_extractor] Using browser agent for anthropologie (direct route): https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 14:36:08.652] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:36:08.652] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1 and extract product title, brand, price, original_price, description, sto...
+[2025-06-08 14:36:08.652] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:08.654] [DEBUG] [pattern_learner] Recorded failure pattern for anthropologie: unknown_error
+[2025-06-08 14:36:08.654] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:36:08.654] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for anthropologie
+[2025-06-08 14:36:08.654] [INFO] [batch_processor] Added to manual review: https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1 (extraction_failed)
+[2025-06-08 14:36:09.655] [INFO] [batch_processor] [6/9] Processing: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 14:36:09.656] [DEBUG] [batch_processor] [6/9] Phase 1: Processing URL
+[2025-06-08 14:36:09.659] [DEBUG] [url_processor] Processed URL: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001 -> nordstrom (duplicate: False)
+[2025-06-08 14:36:09.659] [DEBUG] [batch_processor] [6/9] Phase 2: Extracting product data
+[2025-06-08 14:36:09.660] [INFO] [agent_extractor] Using browser agent for nordstrom (direct route): https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001
+[2025-06-08 14:36:09.660] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:36:09.660] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001 and extract product title, brand, price, original_price, d...
+[2025-06-08 14:36:09.660] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:09.665] [DEBUG] [pattern_learner] Recorded failure pattern for nordstrom: unknown_error
+[2025-06-08 14:36:09.665] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:36:09.665] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for nordstrom
+[2025-06-08 14:36:09.665] [INFO] [batch_processor] Added to manual review: https://www.nordstrom.com/s/crewneck-midi-dress/8172887?origin=category-personalizedsort&breadcrumb=Home%2FBrands%2FNordstrom&color=001 (extraction_failed)
+[2025-06-08 14:36:10.667] [INFO] [batch_processor] [7/9] Processing: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 14:36:10.667] [DEBUG] [batch_processor] [7/9] Phase 1: Processing URL
+[2025-06-08 14:36:10.669] [DEBUG] [url_processor] Processed URL: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 -> abercrombie (duplicate: False)
+[2025-06-08 14:36:10.670] [DEBUG] [batch_processor] [7/9] Phase 2: Extracting product data
+[2025-06-08 14:36:10.670] [INFO] [agent_extractor] Using browser agent for abercrombie (direct route): https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 14:36:10.670] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:36:10.670] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 and extract product title, brand, price, original_price, description, stock statu...
+[2025-06-08 14:36:10.670] [ERROR] [agent_extractor] Browser Use extraction failed: 'BrowserSession' object has no attribute 'run'
+[2025-06-08 14:36:10.675] [DEBUG] [pattern_learner] Recorded failure pattern for abercrombie: unknown_error
+[2025-06-08 14:36:10.676] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:36:10.676] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for abercrombie
+[2025-06-08 14:36:10.676] [INFO] [batch_processor] Added to manual review: https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05 (extraction_failed)
+[2025-06-08 14:36:11.677] [INFO] [batch_processor] [8/9] Processing: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:11.678] [DEBUG] [batch_processor] [8/9] Phase 1: Processing URL
+[2025-06-08 14:36:11.680] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 -> revolve (duplicate: False)
+[2025-06-08 14:36:11.680] [DEBUG] [batch_processor] [8/9] Phase 2: Extracting product data
+[2025-06-08 14:36:11.681] [INFO] [agent_extractor] Using markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:11.682] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:36:11.685] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:36:11.685] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:36:11.685] [INFO] [markdown_extractor] Starting markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:11.685] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:20.330] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 (3575 tokens)
+[2025-06-08 14:36:22.685] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for revolve
+[2025-06-08 14:36:22.685] [INFO] [markdown_extractor] ✅ Markdown extraction successful for revolve in 11.00s
+[2025-06-08 14:36:22.686] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:36:22.686] [DEBUG] [agent_extractor] Validated 3 image URLs for revolve
+[2025-06-08 14:36:22.686] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:36:22.686] [INFO] [agent_extractor] Validation passed for revolve extraction with 11 fields
+[2025-06-08 14:36:22.690] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:36:22.690] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:36:22.690] [INFO] [agent_extractor] ✅ Markdown extraction successful for revolve in 11.01s
+[2025-06-08 14:36:22.690] [DEBUG] [batch_processor] [8/9] Phase 3: Processing images
+[2025-06-08 14:36:22.690] [INFO] [batch_processor] Processing 3 images for revolve using transformation processor
+[2025-06-08 14:36:22.690] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:36:22.984] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:22.984] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:36:22.985] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:36:22.985] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:36:23.023] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.131] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.414] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.440] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.472] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.472] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:23.473] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:36:23.473] [WARNING] [batch_processor] Primary processing failed for revolve, trying legacy fallback
+[2025-06-08 14:36:23.473] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:36:23.505] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:36:23.505] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:36:23.505] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:36:23.537] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.565] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.594] [DEBUG] [base_image_processor] Invalid image content for reconstructed image
+[2025-06-08 14:36:23.633] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.685] [DEBUG] [base_image_processor] Invalid image content for extracted_additional image
+[2025-06-08 14:36:23.685] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:23.685] [WARNING] [base_image_processor] No images successfully downloaded for revolve
+[2025-06-08 14:36:23.686] [DEBUG] [batch_processor] [8/9] Phase 4: Creating Shopify product
+[2025-06-08 14:36:24.526] [INFO] [shopify_manager] Created Shopify product: 14739132776818
+[2025-06-08 14:36:24.695] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132776818
+[2025-06-08 14:36:24.988] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132776818
+[2025-06-08 14:36:25.174] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132776818
+[2025-06-08 14:36:25.348] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132776818
+[2025-06-08 14:36:25.515] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132776818
+[2025-06-08 14:36:25.690] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132776818
+[2025-06-08 14:36:26.035] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132776818
+[2025-06-08 14:36:26.212] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132776818
+[2025-06-08 14:36:26.559] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132776818
+[2025-06-08 14:36:26.560] [DEBUG] [duplicate_detector] Stored product: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:26.560] [DEBUG] [batch_processor] Stored product record for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:36:26.560] [INFO] [batch_processor] [8/9] Successfully created product: 14739132776818
+[2025-06-08 14:36:27.562] [INFO] [batch_processor] [9/9] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:36:27.562] [DEBUG] [batch_processor] [9/9] Phase 1: Processing URL
+[2025-06-08 14:36:27.565] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: False)
+[2025-06-08 14:36:27.565] [DEBUG] [batch_processor] [9/9] Phase 2: Extracting product data
+[2025-06-08 14:36:27.565] [INFO] [agent_extractor] Using markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:36:27.566] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:36:27.568] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:36:27.568] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:36:27.569] [INFO] [markdown_extractor] Starting markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:36:27.570] [DEBUG] [markdown_extractor] Fetching markdown from Jina AI: https://r.jina.ai/https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:36:58.218] [DEBUG] [markdown_extractor] Successfully fetched markdown for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 (838 tokens)
+[2025-06-08 14:37:01.164] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for mango
+[2025-06-08 14:37:01.164] [INFO] [markdown_extractor] ✅ Markdown extraction successful for mango in 33.60s
+[2025-06-08 14:37:01.164] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:37:01.165] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 14:37:01.165] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 14:37:01.167] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:37:01.167] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:37:01.167] [INFO] [agent_extractor] ✅ Markdown extraction successful for mango in 33.60s
+[2025-06-08 14:37:01.167] [DEBUG] [batch_processor] [9/9] Phase 3: Processing images
+[2025-06-08 14:37:01.167] [INFO] [batch_processor] Processing 5 images for mango using transformation processor
+[2025-06-08 14:37:01.168] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 14:37:01.366] [DEBUG] [base_image_processor] Invalid image content for extracted_primary image
+[2025-06-08 14:37:01.366] [DEBUG] [simple_transform_image_processor] Applying URL transformations for mango
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/outfit/S/87039065_05-99999999_01.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/outfit/S/87039065_05-99999999_01.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.367] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_R.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_R.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D1.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D1.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Transformed mango URL: https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D2.jpg?imwidth=2048&imdensity=1&ts=1744713323896 -> https://shop.mango.com/assets/rcs/pics/static/T8/fotos/S/87039065_05_D2.jpg?width=1200&height=1500
+[2025-06-08 14:37:01.368] [DEBUG] [simple_transform_image_processor] Applied transformations: ['(\\.[jpg|jpeg|png]+)(\\?.*)?$ -> \\1?width=1200&height=1500']
+[2025-06-08 14:37:01.368] [INFO] [simple_transform_image_processor] Generated 5 URLs for mango (0 additional)
+[2025-06-08 14:37:03.386] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=90, size=134218, resolution=(1024, 1432)
+[2025-06-08 14:37:03.386] [INFO] [base_image_processor] Reconstructed image is high quality, stopping here
+[2025-06-08 14:37:03.386] [INFO] [batch_processor] Successfully processed 1 images for mango
+[2025-06-08 14:37:03.386] [DEBUG] [batch_processor] [9/9] Phase 4: Creating Shopify product
+[2025-06-08 14:37:04.052] [INFO] [shopify_manager] Created Shopify product: 14739132875122
+[2025-06-08 14:37:05.688] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175776670066,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739132875122,"created_at":"2025-06-08T14:37:05-04:00","updated_at":"2025-06-08T14:37:05-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242696855922","width":1024,"height":1432,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/30fbe28a9059cfaefc649bbbb4c02c92.jpg?v=1749407825","variant_ids":[]}}
+[2025-06-08 14:37:05.912] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132875122
+[2025-06-08 14:37:06.106] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132875122
+[2025-06-08 14:37:06.405] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132875122
+[2025-06-08 14:37:06.589] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132875122
+[2025-06-08 14:37:06.764] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132875122
+[2025-06-08 14:37:06.929] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132875122
+[2025-06-08 14:37:07.136] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132875122
+[2025-06-08 14:37:07.454] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132875122
+[2025-06-08 14:37:07.628] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132875122
+[2025-06-08 14:37:07.632] [DEBUG] [duplicate_detector] Stored product: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:37:07.633] [DEBUG] [batch_processor] Stored product record for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:37:07.633] [INFO] [batch_processor] [9/9] Successfully created product: 14739132875122
+[2025-06-08 14:37:08.635] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_1837.json
+[2025-06-08 14:37:08.636] [INFO] [batch_processor] Batch batch_001_June_7th completed: 4/9 successful (44.4%)
+[2025-06-08 14:37:08.637] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:37:08.637] [INFO] [__main__] Batch batch_001_June_7th completed successfully
+[2025-06-08 14:42:59.988] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:42:59.989] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:42:59.990] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:42:59.991] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:43:00.479] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:43:00.479] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:43:00.480] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:43:00.484] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 14:43:00.485] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 14:43:00.485] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 14:43:00.485] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 14:43:00.485] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 14:43:00.485] [INFO] [__main__] Starting batch processing: batch_20250608_1443
+[2025-06-08 14:43:00.485] [INFO] [batch_processor] Starting batch batch_20250608_1443: 2 URLs with modesty level 'moderately_modest'
+[2025-06-08 14:43:00.485] [INFO] [batch_processor] [1/2] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:43:00.485] [DEBUG] [batch_processor] [1/2] Phase 1: Processing URL
+[2025-06-08 14:43:00.486] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: True)
+[2025-06-08 14:43:00.486] [INFO] [batch_processor] [1/2] Duplicate detected: update
+[2025-06-08 14:43:00.489] [INFO] [agent_extractor] Using markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:43:00.644] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:43:00.673] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:43:00.673] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:43:00.673] [INFO] [markdown_extractor] Starting markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:43:00.673] [DEBUG] [markdown_extractor] Using cached markdown for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:43:03.991] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for mango
+[2025-06-08 14:43:03.992] [INFO] [markdown_extractor] ✅ Markdown extraction successful for mango in 3.32s
+[2025-06-08 14:43:03.993] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:43:03.993] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 14:43:03.993] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 14:43:03.995] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:43:03.996] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:43:03.996] [INFO] [agent_extractor] ✅ Markdown extraction successful for mango in 3.51s
+[2025-06-08 14:43:05.496] [INFO] [batch_processor] [2/2] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:43:05.497] [DEBUG] [batch_processor] [2/2] Phase 1: Processing URL
+[2025-06-08 14:43:05.498] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 14:43:05.499] [DEBUG] [batch_processor] [2/2] Phase 2: Extracting product data
+[2025-06-08 14:43:05.499] [INFO] [agent_extractor] Using browser agent for aritzia (direct route): https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:43:05.614] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:43:05.614] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product...
+[2025-06-08 14:43:08.415] [ERROR] [agent_extractor] Browser Use agent execution failed: Failed to connect to LLM. Please check your API key and network connection.
+[2025-06-08 14:43:08.417] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: network_error
+[2025-06-08 14:43:08.418] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:43:08.418] [ERROR] [agent_extractor] Both markdown and browser agent extraction failed for aritzia
+[2025-06-08 14:43:08.418] [INFO] [batch_processor] Added to manual review: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 (extraction_failed)
+[2025-06-08 14:43:09.419] [INFO] [batch_processor] Batch batch_20250608_1443 completed: 0/2 successful (0.0%)
+[2025-06-08 14:43:09.420] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:43:09.420] [INFO] [__main__] Batch batch_20250608_1443 completed successfully
+[2025-06-08 14:54:24.434] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:54:24.435] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:54:24.436] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:54:24.437] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:54:24.926] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:54:24.926] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:54:24.927] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:54:24.934] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 14:54:24.934] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 14:54:24.935] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 14:54:24.935] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 14:54:24.935] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 14:54:24.935] [INFO] [__main__] Starting batch processing: batch_20250608_1454
+[2025-06-08 14:54:24.935] [INFO] [batch_processor] Starting batch batch_20250608_1454: 2 URLs with modesty level 'moderately_modest'
+[2025-06-08 14:54:24.935] [INFO] [batch_processor] [1/2] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:54:24.935] [DEBUG] [batch_processor] [1/2] Phase 1: Processing URL
+[2025-06-08 14:54:24.935] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: True)
+[2025-06-08 14:54:24.935] [INFO] [batch_processor] [1/2] Duplicate detected: update
+[2025-06-08 14:54:24.938] [INFO] [agent_extractor] Using markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:54:25.096] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:54:25.128] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:54:25.128] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:54:25.128] [INFO] [markdown_extractor] Starting markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:54:25.130] [DEBUG] [markdown_extractor] Using cached markdown for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:54:28.232] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for mango
+[2025-06-08 14:54:28.233] [INFO] [markdown_extractor] ✅ Markdown extraction successful for mango in 3.10s
+[2025-06-08 14:54:28.233] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:54:28.235] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 14:54:28.235] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 14:54:28.238] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:54:28.239] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:54:28.239] [INFO] [agent_extractor] ✅ Markdown extraction successful for mango in 3.30s
+[2025-06-08 14:54:29.755] [INFO] [batch_processor] [2/2] Processing: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:29.756] [DEBUG] [batch_processor] [2/2] Phase 1: Processing URL
+[2025-06-08 14:54:29.760] [DEBUG] [url_processor] Processed URL: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 -> aritzia (duplicate: False)
+[2025-06-08 14:54:29.760] [DEBUG] [batch_processor] [2/2] Phase 2: Extracting product data
+[2025-06-08 14:54:29.760] [INFO] [agent_extractor] Using browser agent for aritzia (direct route): https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:29.876] [DEBUG] [agent_extractor] Browser Use imported successfully
+[2025-06-08 14:54:29.877] [DEBUG] [agent_extractor] Executing browser_use extraction: Go to https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275 and extract product title, brand, price, original_price, description, stock status, sale status, clothing type, product...
+[2025-06-08 14:54:58.323] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 14:54:58.323] [DEBUG] [agent_extractor] Validated 5 image URLs for aritzia
+[2025-06-08 14:54:58.323] [INFO] [agent_extractor] Validation passed for aritzia extraction with 11 fields
+[2025-06-08 14:54:58.325] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 14:54:58.326] [DEBUG] [cost_tracker] Tracked API call: browser_use ($0.0000) - Cached: False
+[2025-06-08 14:54:58.326] [DEBUG] [batch_processor] [2/2] Phase 3: Processing images
+[2025-06-08 14:54:58.326] [INFO] [batch_processor] Processing 5 images for aritzia using reconstruction processor
+[2025-06-08 14:54:58.326] [INFO] [base_image_processor] Starting image processing for aritzia with 5 URLs
+[2025-06-08 14:54:58.457] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 14:54:58.458] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.458] [INFO] [aritzia_image_processor] Generated 5 enhanced URLs for Aritzia
+[2025-06-08 14:54:58.637] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.674] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.710] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.753] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.791] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.829] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.870] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:58.870] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.870] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:54:58.870] [WARNING] [batch_processor] Primary processing failed for aritzia, trying legacy fallback
+[2025-06-08 14:54:58.870] [INFO] [base_image_processor] Starting image processing for aritzia with 5 URLs
+[2025-06-08 14:54:58.907] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 14:54:58.907] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:58.907] [INFO] [aritzia_image_processor] Generated 5 enhanced URLs for Aritzia
+[2025-06-08 14:54:58.936] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:58.973] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:59.163] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 14:54:59.202] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.238] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.293] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.323] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 14:54:59.323] [INFO] [aritzia_image_processor] Aritzia Browser Use fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:54:59.323] [WARNING] [base_image_processor] No images successfully downloaded for aritzia
+[2025-06-08 14:54:59.323] [DEBUG] [batch_processor] [2/2] Phase 4: Creating Shopify product
+[2025-06-08 14:55:00.282] [INFO] [shopify_manager] Created Shopify product: 14739134808434
+[2025-06-08 14:55:00.492] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739134808434
+[2025-06-08 14:55:00.735] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739134808434
+[2025-06-08 14:55:01.025] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739134808434
+[2025-06-08 14:55:01.257] [DEBUG] [shopify_manager] Created metafield product_id for product 14739134808434
+[2025-06-08 14:55:01.431] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739134808434
+[2025-06-08 14:55:01.631] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739134808434
+[2025-06-08 14:55:01.951] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739134808434
+[2025-06-08 14:55:02.306] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739134808434
+[2025-06-08 14:55:02.503] [DEBUG] [shopify_manager] Created metafield original_price for product 14739134808434
+[2025-06-08 14:55:02.507] [DEBUG] [duplicate_detector] Stored product: https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:55:02.507] [DEBUG] [batch_processor] Stored product record for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 14:55:02.508] [INFO] [batch_processor] [2/2] Successfully created product: 14739134808434
+[2025-06-08 14:55:03.509] [INFO] [batch_processor] Batch batch_20250608_1454 completed: 1/2 successful (50.0%)
+[2025-06-08 14:55:03.510] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:55:03.510] [INFO] [__main__] Batch batch_20250608_1454 completed successfully
+[2025-06-08 14:57:25.265] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:57:25.266] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:57:25.267] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:57:25.268] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:57:25.715] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:57:25.715] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:57:25.716] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:57:25.720] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 14:57:25.720] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 14:57:25.720] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 14:57:25.720] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 14:57:25.720] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 14:57:25.720] [INFO] [__main__] Starting batch processing: batch_20250608_1457
+[2025-06-08 14:57:25.720] [INFO] [batch_processor] Starting batch batch_20250608_1457: 3 URLs with modesty level 'moderately_modest'
+[2025-06-08 14:57:25.721] [INFO] [batch_processor] [1/3] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:57:25.721] [DEBUG] [batch_processor] [1/3] Phase 1: Processing URL
+[2025-06-08 14:57:25.721] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: True)
+[2025-06-08 14:57:25.721] [INFO] [batch_processor] [1/3] Duplicate detected: update
+[2025-06-08 14:57:25.724] [INFO] [agent_extractor] Using markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:57:25.872] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:25.902] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:57:25.902] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:57:25.902] [INFO] [markdown_extractor] Starting markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:57:25.902] [DEBUG] [markdown_extractor] Using cached markdown for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:57:28.585] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for hm
+[2025-06-08 14:57:28.586] [INFO] [markdown_extractor] ✅ Markdown extraction successful for hm in 2.68s
+[2025-06-08 14:57:28.586] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:57:28.586] [DEBUG] [agent_extractor] Validated 4 image URLs for hm
+[2025-06-08 14:57:28.587] [INFO] [agent_extractor] Validation passed for hm extraction with 11 fields
+[2025-06-08 14:57:28.589] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:57:28.589] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:57:28.589] [INFO] [agent_extractor] ✅ Markdown extraction successful for hm in 2.87s
+[2025-06-08 14:57:29.483] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739132711282
+[2025-06-08 14:57:29.973] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739132711282
+[2025-06-08 14:57:30.329] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739132711282
+[2025-06-08 14:57:30.680] [DEBUG] [shopify_manager] Updated metafield original_price for product 14739132711282
+[2025-06-08 14:57:30.681] [INFO] [shopify_manager] Updated Shopify product: 14739132711282
+[2025-06-08 14:57:30.681] [INFO] [batch_processor] Successfully updated existing product: 14739132711282
+[2025-06-08 14:57:31.682] [INFO] [batch_processor] [2/3] Processing: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:57:31.682] [DEBUG] [batch_processor] [2/3] Phase 1: Processing URL
+[2025-06-08 14:57:31.684] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 -> revolve (duplicate: True)
+[2025-06-08 14:57:31.684] [INFO] [batch_processor] [2/3] Duplicate detected: update
+[2025-06-08 14:57:31.685] [INFO] [agent_extractor] Using markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:57:31.685] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:31.687] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:57:31.687] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:57:31.687] [INFO] [markdown_extractor] Starting markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:57:31.688] [DEBUG] [markdown_extractor] Using cached markdown for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:57:34.086] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for revolve
+[2025-06-08 14:57:34.087] [INFO] [markdown_extractor] ✅ Markdown extraction successful for revolve in 2.40s
+[2025-06-08 14:57:34.087] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:57:34.087] [DEBUG] [agent_extractor] Validated 3 image URLs for revolve
+[2025-06-08 14:57:34.088] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:57:34.088] [INFO] [agent_extractor] Validation passed for revolve extraction with 11 fields
+[2025-06-08 14:57:34.089] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:57:34.090] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:57:34.090] [INFO] [agent_extractor] ✅ Markdown extraction successful for revolve in 2.41s
+[2025-06-08 14:57:35.040] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739132776818
+[2025-06-08 14:57:35.398] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739132776818
+[2025-06-08 14:57:35.700] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739132776818
+[2025-06-08 14:57:36.081] [DEBUG] [shopify_manager] Updated metafield original_price for product 14739132776818
+[2025-06-08 14:57:36.081] [INFO] [shopify_manager] Updated Shopify product: 14739132776818
+[2025-06-08 14:57:36.082] [INFO] [batch_processor] Successfully updated existing product: 14739132776818
+[2025-06-08 14:57:37.083] [INFO] [batch_processor] [3/3] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:57:37.084] [DEBUG] [batch_processor] [3/3] Phase 1: Processing URL
+[2025-06-08 14:57:37.086] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: True)
+[2025-06-08 14:57:37.086] [INFO] [batch_processor] [3/3] Duplicate detected: update
+[2025-06-08 14:57:37.086] [INFO] [agent_extractor] Using markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:57:37.087] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:57:37.089] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:57:37.089] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:57:37.089] [INFO] [markdown_extractor] Starting markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:57:37.090] [DEBUG] [markdown_extractor] Using cached markdown for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:57:40.230] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for mango
+[2025-06-08 14:57:40.230] [INFO] [markdown_extractor] ✅ Markdown extraction successful for mango in 3.14s
+[2025-06-08 14:57:40.230] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:57:40.230] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 14:57:40.230] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 14:57:40.231] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:57:40.231] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:57:40.231] [INFO] [agent_extractor] ✅ Markdown extraction successful for mango in 3.15s
+[2025-06-08 14:57:41.659] [INFO] [batch_processor] Batch batch_20250608_1457 completed: 2/3 successful (66.7%)
+[2025-06-08 14:57:41.660] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:57:41.660] [INFO] [__main__] Batch batch_20250608_1457 completed successfully
+[2025-06-08 14:58:01.420] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:58:01.421] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:58:01.421] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:58:01.422] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:58:01.828] [INFO] [agent_extractor] ✅ Browser Use LLM initialized
+[2025-06-08 14:58:01.828] [INFO] [agent_extractor] Extraction agents initialized
+[2025-06-08 14:58:01.829] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-08 14:58:01.833] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   asos: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   revolve: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   hm: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-08 14:58:01.833] [INFO] [batch_processor]   mango: transformation
+[2025-06-08 14:58:01.833] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-08 14:58:01.833] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-08 14:58:01.833] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-08 14:58:01.833] [INFO] [__main__] Starting batch processing: batch_20250608_1458
+[2025-06-08 14:58:01.833] [INFO] [batch_processor] Starting batch batch_20250608_1458: 3 URLs with modesty level 'moderately_modest'
+[2025-06-08 14:58:01.833] [INFO] [batch_processor] [1/3] Processing: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:01.834] [DEBUG] [batch_processor] [1/3] Phase 1: Processing URL
+[2025-06-08 14:58:01.834] [DEBUG] [url_processor] Processed URL: https://www2.hm.com/en_us/productpage.1232566001.html -> hm (duplicate: False)
+[2025-06-08 14:58:01.834] [DEBUG] [batch_processor] [1/3] Phase 2: Extracting product data
+[2025-06-08 14:58:01.837] [INFO] [agent_extractor] Using markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:02.002] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:02.031] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:58:02.031] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:58:02.031] [INFO] [markdown_extractor] Starting markdown extraction for hm: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:02.032] [DEBUG] [markdown_extractor] Using cached markdown for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:04.769] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for hm
+[2025-06-08 14:58:04.769] [INFO] [markdown_extractor] ✅ Markdown extraction successful for hm in 2.74s
+[2025-06-08 14:58:04.770] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 14:58:04.770] [DEBUG] [agent_extractor] Validated 4 image URLs for hm
+[2025-06-08 14:58:04.770] [INFO] [agent_extractor] Validation passed for hm extraction with 11 fields
+[2025-06-08 14:58:04.772] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:58:04.773] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:58:04.773] [INFO] [agent_extractor] ✅ Markdown extraction successful for hm in 2.94s
+[2025-06-08 14:58:04.773] [DEBUG] [batch_processor] [1/3] Phase 3: Processing images
+[2025-06-08 14:58:04.773] [INFO] [batch_processor] Processing 4 images for hm using transformation processor
+[2025-06-08 14:58:04.773] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 14:58:04.994] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=457431, resolution=(2160, 3240)
+[2025-06-08 14:58:04.994] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 14:58:04.994] [INFO] [batch_processor] Successfully processed 1 images for hm
+[2025-06-08 14:58:04.994] [DEBUG] [batch_processor] [1/3] Phase 4: Creating Shopify product
+[2025-06-08 14:58:06.026] [INFO] [shopify_manager] Created Shopify product: 14739135463794
+[2025-06-08 14:58:07.983] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803670898,"alt":"Rib-Knit Bodycon Dress - Black - Ladies - Image 1","position":1,"product_id":14739135463794,"created_at":"2025-06-08T14:58:07-04:00","updated_at":"2025-06-08T14:58:07-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714452338","width":1365,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/a1999e7401e272c0d1babbaae05b954f.jpg?v=1749409087","variant_ids":[]}}
+[2025-06-08 14:58:08.163] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135463794
+[2025-06-08 14:58:08.429] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135463794
+[2025-06-08 14:58:08.636] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135463794
+[2025-06-08 14:58:08.802] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135463794
+[2025-06-08 14:58:09.149] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135463794
+[2025-06-08 14:58:09.478] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135463794
+[2025-06-08 14:58:09.695] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135463794
+[2025-06-08 14:58:10.002] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135463794
+[2025-06-08 14:58:10.335] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135463794
+[2025-06-08 14:58:10.339] [DEBUG] [duplicate_detector] Stored product: https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:10.340] [DEBUG] [batch_processor] Stored product record for https://www2.hm.com/en_us/productpage.1232566001.html
+[2025-06-08 14:58:10.340] [INFO] [batch_processor] [1/3] Successfully created product: 14739135463794
+[2025-06-08 14:58:11.341] [INFO] [batch_processor] [2/3] Processing: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:11.342] [DEBUG] [batch_processor] [2/3] Phase 1: Processing URL
+[2025-06-08 14:58:11.344] [DEBUG] [url_processor] Processed URL: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05 -> revolve (duplicate: False)
+[2025-06-08 14:58:11.344] [DEBUG] [batch_processor] [2/3] Phase 2: Extracting product data
+[2025-06-08 14:58:11.344] [INFO] [agent_extractor] Using markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:11.344] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:11.346] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:58:11.346] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:58:11.346] [INFO] [markdown_extractor] Starting markdown extraction for revolve: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:11.347] [DEBUG] [markdown_extractor] Using cached markdown for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:13.920] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for revolve
+[2025-06-08 14:58:13.921] [INFO] [markdown_extractor] ✅ Markdown extraction successful for revolve in 2.57s
+[2025-06-08 14:58:13.921] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 14:58:13.921] [DEBUG] [agent_extractor] Validated 3 image URLs for revolve
+[2025-06-08 14:58:13.921] [WARNING] [agent_extractor] Original price 425.0 not higher than sale price 425.0
+[2025-06-08 14:58:13.922] [INFO] [agent_extractor] Validation passed for revolve extraction with 11 fields
+[2025-06-08 14:58:13.926] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:58:13.926] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:58:13.926] [INFO] [agent_extractor] ✅ Markdown extraction successful for revolve in 2.58s
+[2025-06-08 14:58:13.926] [DEBUG] [batch_processor] [2/3] Phase 3: Processing images
+[2025-06-08 14:58:13.926] [INFO] [batch_processor] Processing 3 images for revolve using transformation processor
+[2025-06-08 14:58:13.927] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 14:58:14.352] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 14:58:14.353] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 14:58:14.353] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 14:58:14.395] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 14:58:14.564] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 14:58:14.730] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 14:58:14.762] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 14:58:14.795] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 14:58:14.795] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:14.795] [INFO] [batch_processor] Successfully processed 1 images for revolve
+[2025-06-08 14:58:14.796] [DEBUG] [batch_processor] [2/3] Phase 4: Creating Shopify product
+[2025-06-08 14:58:15.461] [INFO] [shopify_manager] Created Shopify product: 14739135529330
+[2025-06-08 14:58:16.893] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803867506,"alt":"Sima Shirt Dress in Pine - Image 1","position":1,"product_id":14739135529330,"created_at":"2025-06-08T14:58:16-04:00","updated_at":"2025-06-08T14:58:16-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714616178","width":967,"height":1450,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/f5ceed365490a014e1f5e631a4925d32.jpg?v=1749409096","variant_ids":[]}}
+[2025-06-08 14:58:17.057] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135529330
+[2025-06-08 14:58:17.344] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135529330
+[2025-06-08 14:58:17.526] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135529330
+[2025-06-08 14:58:17.698] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135529330
+[2025-06-08 14:58:18.013] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135529330
+[2025-06-08 14:58:18.194] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135529330
+[2025-06-08 14:58:18.389] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135529330
+[2025-06-08 14:58:18.581] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135529330
+[2025-06-08 14:58:18.915] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135529330
+[2025-06-08 14:58:18.919] [DEBUG] [duplicate_detector] Stored product: https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:18.919] [DEBUG] [batch_processor] Stored product record for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 14:58:18.920] [INFO] [batch_processor] [2/3] Successfully created product: 14739135529330
+[2025-06-08 14:58:19.921] [INFO] [batch_processor] [3/3] Processing: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:19.921] [DEBUG] [batch_processor] [3/3] Phase 1: Processing URL
+[2025-06-08 14:58:19.922] [DEBUG] [url_processor] Processed URL: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065 -> mango (duplicate: False)
+[2025-06-08 14:58:19.922] [DEBUG] [batch_processor] [3/3] Phase 2: Extracting product data
+[2025-06-08 14:58:19.922] [INFO] [agent_extractor] Using markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:19.923] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 14:58:19.924] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-08 14:58:19.924] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-08 14:58:19.924] [INFO] [markdown_extractor] Starting markdown extraction for mango: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:19.925] [DEBUG] [markdown_extractor] Using cached markdown for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:22.931] [DEBUG] [markdown_extractor] Gemini Flash 2.0 extraction successful for mango
+[2025-06-08 14:58:22.931] [INFO] [markdown_extractor] ✅ Markdown extraction successful for mango in 3.01s
+[2025-06-08 14:58:22.931] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 14:58:22.931] [DEBUG] [agent_extractor] Validated 5 image URLs for mango
+[2025-06-08 14:58:22.932] [INFO] [agent_extractor] Validation passed for mango extraction with 11 fields
+[2025-06-08 14:58:22.935] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:58:22.936] [DEBUG] [cost_tracker] Tracked API call: markdown_extractor ($0.0000) - Cached: False
+[2025-06-08 14:58:22.936] [INFO] [agent_extractor] ✅ Markdown extraction successful for mango in 3.01s
+[2025-06-08 14:58:22.936] [DEBUG] [batch_processor] [3/3] Phase 3: Processing images
+[2025-06-08 14:58:22.936] [INFO] [batch_processor] Processing 5 images for mango using transformation processor
+[2025-06-08 14:58:22.936] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 14:58:23.386] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=474834, resolution=(1500, 2098)
+[2025-06-08 14:58:23.386] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 14:58:23.386] [INFO] [batch_processor] Successfully processed 1 images for mango
+[2025-06-08 14:58:23.386] [DEBUG] [batch_processor] [3/3] Phase 4: Creating Shopify product
+[2025-06-08 14:58:24.161] [INFO] [shopify_manager] Created Shopify product: 14739135594866
+[2025-06-08 14:58:25.800] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175804064114,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739135594866,"created_at":"2025-06-08T14:58:25-04:00","updated_at":"2025-06-08T14:58:25-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714747250","width":1464,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/42f853319b8e7c5b80d940d1c34cd66e.jpg?v=1749409105","variant_ids":[]}}
+[2025-06-08 14:58:25.981] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135594866
+[2025-06-08 14:58:26.255] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135594866
+[2025-06-08 14:58:26.434] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135594866
+[2025-06-08 14:58:26.619] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135594866
+[2025-06-08 14:58:26.779] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135594866
+[2025-06-08 14:58:26.948] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135594866
+[2025-06-08 14:58:27.306] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135594866
+[2025-06-08 14:58:27.481] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135594866
+[2025-06-08 14:58:27.668] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135594866
+[2025-06-08 14:58:27.673] [DEBUG] [duplicate_detector] Stored product: https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:27.673] [DEBUG] [batch_processor] Stored product record for https://shop.mango.com/us/en/p/women/dresses-and-jumpsuits/dresses/short-button-down-linen-blend-dress_87039065
+[2025-06-08 14:58:27.673] [INFO] [batch_processor] [3/3] Successfully created product: 14739135594866
+[2025-06-08 14:58:28.674] [INFO] [batch_processor] Batch batch_20250608_1458 completed: 3/3 successful (100.0%)
+[2025-06-08 14:58:28.676] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 14:58:28.676] [INFO] [__main__] Batch batch_20250608_1458 completed successfully

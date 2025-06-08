@@ -133,3 +133,97 @@
 [2025-06-08 03:01:39.585] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739055018354
 [2025-06-08 03:01:39.755] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739055018354
 [2025-06-08 03:01:39.892] [WARNING] [shopify_manager] Failed to create metafield original_price: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 14:35:48.377] [INFO] [shopify_manager] Created Shopify product: 14739132678514
+[2025-06-08 14:35:48.559] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132678514
+[2025-06-08 14:35:48.808] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132678514
+[2025-06-08 14:35:48.988] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132678514
+[2025-06-08 14:35:49.166] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132678514
+[2025-06-08 14:35:49.363] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132678514
+[2025-06-08 14:35:49.546] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132678514
+[2025-06-08 14:35:49.858] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132678514
+[2025-06-08 14:35:50.040] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132678514
+[2025-06-08 14:35:50.218] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132678514
+[2025-06-08 14:36:04.545] [INFO] [shopify_manager] Created Shopify product: 14739132711282
+[2025-06-08 14:36:04.742] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132711282
+[2025-06-08 14:36:05.065] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132711282
+[2025-06-08 14:36:05.253] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132711282
+[2025-06-08 14:36:05.589] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132711282
+[2025-06-08 14:36:05.768] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132711282
+[2025-06-08 14:36:05.944] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132711282
+[2025-06-08 14:36:06.203] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132711282
+[2025-06-08 14:36:06.395] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132711282
+[2025-06-08 14:36:06.637] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132711282
+[2025-06-08 14:36:24.526] [INFO] [shopify_manager] Created Shopify product: 14739132776818
+[2025-06-08 14:36:24.695] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132776818
+[2025-06-08 14:36:24.988] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132776818
+[2025-06-08 14:36:25.174] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132776818
+[2025-06-08 14:36:25.348] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132776818
+[2025-06-08 14:36:25.515] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132776818
+[2025-06-08 14:36:25.690] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132776818
+[2025-06-08 14:36:26.035] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132776818
+[2025-06-08 14:36:26.212] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132776818
+[2025-06-08 14:36:26.559] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132776818
+[2025-06-08 14:37:04.052] [INFO] [shopify_manager] Created Shopify product: 14739132875122
+[2025-06-08 14:37:05.688] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175776670066,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739132875122,"created_at":"2025-06-08T14:37:05-04:00","updated_at":"2025-06-08T14:37:05-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242696855922","width":1024,"height":1432,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/30fbe28a9059cfaefc649bbbb4c02c92.jpg?v=1749407825","variant_ids":[]}}
+[2025-06-08 14:37:05.912] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739132875122
+[2025-06-08 14:37:06.106] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739132875122
+[2025-06-08 14:37:06.405] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739132875122
+[2025-06-08 14:37:06.589] [DEBUG] [shopify_manager] Created metafield product_id for product 14739132875122
+[2025-06-08 14:37:06.764] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739132875122
+[2025-06-08 14:37:06.929] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739132875122
+[2025-06-08 14:37:07.136] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739132875122
+[2025-06-08 14:37:07.454] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739132875122
+[2025-06-08 14:37:07.628] [DEBUG] [shopify_manager] Created metafield original_price for product 14739132875122
+[2025-06-08 14:55:00.282] [INFO] [shopify_manager] Created Shopify product: 14739134808434
+[2025-06-08 14:55:00.492] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739134808434
+[2025-06-08 14:55:00.735] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739134808434
+[2025-06-08 14:55:01.025] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739134808434
+[2025-06-08 14:55:01.257] [DEBUG] [shopify_manager] Created metafield product_id for product 14739134808434
+[2025-06-08 14:55:01.431] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739134808434
+[2025-06-08 14:55:01.631] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739134808434
+[2025-06-08 14:55:01.951] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739134808434
+[2025-06-08 14:55:02.306] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739134808434
+[2025-06-08 14:55:02.503] [DEBUG] [shopify_manager] Created metafield original_price for product 14739134808434
+[2025-06-08 14:57:29.483] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739132711282
+[2025-06-08 14:57:29.973] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739132711282
+[2025-06-08 14:57:30.329] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739132711282
+[2025-06-08 14:57:30.680] [DEBUG] [shopify_manager] Updated metafield original_price for product 14739132711282
+[2025-06-08 14:57:30.681] [INFO] [shopify_manager] Updated Shopify product: 14739132711282
+[2025-06-08 14:57:35.040] [DEBUG] [shopify_manager] Updated metafield stock_status for product 14739132776818
+[2025-06-08 14:57:35.398] [DEBUG] [shopify_manager] Updated metafield last_updated for product 14739132776818
+[2025-06-08 14:57:35.700] [DEBUG] [shopify_manager] Updated metafield sale_status for product 14739132776818
+[2025-06-08 14:57:36.081] [DEBUG] [shopify_manager] Updated metafield original_price for product 14739132776818
+[2025-06-08 14:57:36.081] [INFO] [shopify_manager] Updated Shopify product: 14739132776818
+[2025-06-08 14:58:06.026] [INFO] [shopify_manager] Created Shopify product: 14739135463794
+[2025-06-08 14:58:07.983] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803670898,"alt":"Rib-Knit Bodycon Dress - Black - Ladies - Image 1","position":1,"product_id":14739135463794,"created_at":"2025-06-08T14:58:07-04:00","updated_at":"2025-06-08T14:58:07-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714452338","width":1365,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/a1999e7401e272c0d1babbaae05b954f.jpg?v=1749409087","variant_ids":[]}}
+[2025-06-08 14:58:08.163] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135463794
+[2025-06-08 14:58:08.429] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135463794
+[2025-06-08 14:58:08.636] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135463794
+[2025-06-08 14:58:08.802] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135463794
+[2025-06-08 14:58:09.149] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135463794
+[2025-06-08 14:58:09.478] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135463794
+[2025-06-08 14:58:09.695] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135463794
+[2025-06-08 14:58:10.002] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135463794
+[2025-06-08 14:58:10.335] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135463794
+[2025-06-08 14:58:15.461] [INFO] [shopify_manager] Created Shopify product: 14739135529330
+[2025-06-08 14:58:16.893] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175803867506,"alt":"Sima Shirt Dress in Pine - Image 1","position":1,"product_id":14739135529330,"created_at":"2025-06-08T14:58:16-04:00","updated_at":"2025-06-08T14:58:16-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714616178","width":967,"height":1450,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/f5ceed365490a014e1f5e631a4925d32.jpg?v=1749409096","variant_ids":[]}}
+[2025-06-08 14:58:17.057] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135529330
+[2025-06-08 14:58:17.344] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135529330
+[2025-06-08 14:58:17.526] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135529330
+[2025-06-08 14:58:17.698] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135529330
+[2025-06-08 14:58:18.013] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135529330
+[2025-06-08 14:58:18.194] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135529330
+[2025-06-08 14:58:18.389] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135529330
+[2025-06-08 14:58:18.581] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135529330
+[2025-06-08 14:58:18.915] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135529330
+[2025-06-08 14:58:24.161] [INFO] [shopify_manager] Created Shopify product: 14739135594866
+[2025-06-08 14:58:25.800] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54175804064114,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739135594866,"created_at":"2025-06-08T14:58:25-04:00","updated_at":"2025-06-08T14:58:25-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242714747250","width":1464,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/42f853319b8e7c5b80d940d1c34cd66e.jpg?v=1749409105","variant_ids":[]}}
+[2025-06-08 14:58:25.981] [DEBUG] [shopify_manager] Created metafield stock_status for product 14739135594866
+[2025-06-08 14:58:26.255] [DEBUG] [shopify_manager] Created metafield source_urls for product 14739135594866
+[2025-06-08 14:58:26.434] [DEBUG] [shopify_manager] Created metafield last_updated for product 14739135594866
+[2025-06-08 14:58:26.619] [DEBUG] [shopify_manager] Created metafield product_id for product 14739135594866
+[2025-06-08 14:58:26.779] [DEBUG] [shopify_manager] Created metafield modesty_level for product 14739135594866
+[2025-06-08 14:58:26.948] [DEBUG] [shopify_manager] Created metafield retailer_source for product 14739135594866
+[2025-06-08 14:58:27.306] [DEBUG] [shopify_manager] Created metafield scraping_method_used for product 14739135594866
+[2025-06-08 14:58:27.481] [DEBUG] [shopify_manager] Created metafield sale_status for product 14739135594866
+[2025-06-08 14:58:27.668] [DEBUG] [shopify_manager] Created metafield original_price for product 14739135594866

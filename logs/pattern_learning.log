@@ -346,3 +346,32 @@
 [2025-06-08 13:58:28.678] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-08 14:03:01.333] [INFO] [pattern_learner] Pattern learning database initialized
 [2025-06-08 14:03:01.335] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:35:08.725] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:35:08.726] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:35:43.368] [DEBUG] [pattern_learner] Recorded successful pattern for uniqlo: markdown_extractor
+[2025-06-08 14:35:51.344] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: unknown_error
+[2025-06-08 14:36:02.749] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:36:07.649] [DEBUG] [pattern_learner] Recorded failure pattern for urban_outfitters: unknown_error
+[2025-06-08 14:36:08.654] [DEBUG] [pattern_learner] Recorded failure pattern for anthropologie: unknown_error
+[2025-06-08 14:36:09.665] [DEBUG] [pattern_learner] Recorded failure pattern for nordstrom: unknown_error
+[2025-06-08 14:36:10.675] [DEBUG] [pattern_learner] Recorded failure pattern for abercrombie: unknown_error
+[2025-06-08 14:36:22.690] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:37:01.167] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:42:59.990] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:42:59.991] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:43:03.995] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:43:08.417] [DEBUG] [pattern_learner] Recorded failure pattern for aritzia: network_error
+[2025-06-08 14:54:24.436] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:54:24.437] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:54:28.238] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:54:58.325] [DEBUG] [pattern_learner] Recorded successful pattern for aritzia: browser_use
+[2025-06-08 14:57:25.267] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:57:25.268] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:57:28.589] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:57:34.089] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:57:40.231] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor
+[2025-06-08 14:58:01.421] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-08 14:58:01.422] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-08 14:58:04.772] [DEBUG] [pattern_learner] Recorded successful pattern for hm: markdown_extractor
+[2025-06-08 14:58:13.926] [DEBUG] [pattern_learner] Recorded successful pattern for revolve: markdown_extractor
+[2025-06-08 14:58:22.935] [DEBUG] [pattern_learner] Recorded successful pattern for mango: markdown_extractor

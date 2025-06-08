@@ -120,12 +120,28 @@ class BaseImageProcessor(ABC):
             
             async with self.session.get(url, headers=headers) as response:
                 if response.status != 200:
-                    logger.debug(f"Failed to download {source} image: HTTP {response.status}")
+                    # Special case for 403 Forbidden on image domains (from working script)
+                    if response.status == 403:
+                        domain = url.lower()
+                        if any(img_domain in domain for img_domain in ["img.", "image.", "media.", "hmgoepprod.azureedge.net", "revolveassets.com", "asos-media.com"]):
+                            logger.warning(f"403 on image domain - may be anti-scraping protection: {url}")
+                            # Continue to try download anyway
+                        else:
+                            logger.debug(f"Failed to download {source} image: HTTP {response.status}")
+                            return None
+                    else:
+                        logger.debug(f"Failed to download {source} image: HTTP {response.status}")
+                        return None
+                
+                # Check Content-Type first (from working script pattern)
+                content_type = response.headers.get("content-type", "").lower()
+                if "image" not in content_type:
+                    logger.debug(f"Invalid content-type for {source} image: {content_type}")
                     return None
                 
                 content = await response.read()
                 
-                # Validate content
+                # Validate content signatures as secondary check
                 if not self._validate_image_content(content):
                     logger.debug(f"Invalid image content for {source} image")
                     return None
@@ -265,20 +281,54 @@ class BaseImageProcessor(ABC):
         return False
     
     def _get_download_headers(self, url: str) -> Dict[str, str]:
-        """Get appropriate headers for image download"""
-        return {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-            'Accept': 'image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5',
-            'Accept-Language': 'en-US,en;q=0.5',
+        """Get appropriate headers for image download with retailer-specific anti-scraping"""
+        
+        # Base headers (working pattern from old script)
+        base_headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'image/jpeg,image/png,image/webp,*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
             'Accept-Encoding': 'gzip, deflate, br',
-            'DNT': '1',
             'Connection': 'keep-alive',
+            'DNT': '1',
             'Sec-Fetch-Dest': 'image',
             'Sec-Fetch-Mode': 'no-cors',
             'Sec-Fetch-Site': 'cross-site',
-            'Referer': self._get_retailer_referer(),
-            'Origin': self._get_retailer_origin()
         }
+        
+        # Retailer-specific headers (from working old script)
+        if self.retailer == "hm":
+            base_headers.update({
+                'Referer': 'https://www2.hm.com/',
+                'Accept': 'image/jpeg,image/png,*/*',
+            })
+        elif self.retailer == "aritzia":
+            base_headers.update({
+                'Referer': 'https://www.aritzia.com/',
+                'Origin': 'https://www.aritzia.com',
+                'Accept': 'image/jpeg,image/png,*/*',
+            })
+        elif self.retailer == "abercrombie":
+            base_headers.update({
+                'Referer': 'https://www.abercrombie.com/',
+                'sec-ch-ua': '"Chromium";v="112"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+            })
+        elif self.retailer == "revolve":
+            base_headers.update({
+                'Referer': 'https://www.revolve.com/',
+            })
+        elif self.retailer == "asos":
+            base_headers.update({
+                'Referer': 'https://www.asos.com/',
+            })
+        else:
+            # Generic referer for other retailers
+            base_headers['Referer'] = self._get_retailer_referer()
+            base_headers['Origin'] = self._get_retailer_origin()
+        
+        return base_headers
     
     @abstractmethod
     async def reconstruct_image_urls(self, product_url: str, product_data: Dict) -> List[str]:
