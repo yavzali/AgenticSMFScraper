@@ -95,7 +95,7 @@ class TestConfigurationFiles(unittest.TestCase):
             with open('config.json', 'r') as f:
                 config = json.load(f)
             self.assertIn('llm_providers', config)
-            self.assertIn('extraction_routing', config)
+            self.assertIn('shopify', config)
             print("✅ Config JSON: PASS", file=sys.stderr)
         except Exception as e:
             self.fail(f"❌ Config JSON failed: {e}")
