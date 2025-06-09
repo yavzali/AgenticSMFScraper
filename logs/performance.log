@@ -81,3 +81,7 @@ KeyboardInterrupt
 [2025-06-08 14:55:03.509] [INFO] [batch_processor] Batch batch_20250608_1454 completed: 1/2 successful (50.0%)
 [2025-06-08 14:57:41.659] [INFO] [batch_processor] Batch batch_20250608_1457 completed: 2/3 successful (66.7%)
 [2025-06-08 14:58:28.674] [INFO] [batch_processor] Batch batch_20250608_1458 completed: 3/3 successful (100.0%)
+[2025-06-08 16:47:01.327] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_2047.json
+[2025-06-08 16:47:01.329] [INFO] [batch_processor] Batch batch_001_June_7th completed: 8/9 successful (88.9%)
+[2025-06-08 18:38:30.892] [INFO] [checkpoint_manager] Checkpoint archived to logs/completed_batch_001_June_7th_20250608_2238.json
+[2025-06-08 18:38:30.893] [INFO] [batch_processor] Batch batch_001_June_7th completed: 9/9 successful (100.0%)

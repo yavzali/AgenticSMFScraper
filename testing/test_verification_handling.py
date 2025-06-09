@@ -38,13 +38,13 @@ async def test_verification_handling():
                 if 'title' in data:
                     title = data['title'][:50] + '...' if len(data.get('title', '')) > 50 else data.get('title', 'N/A')
                     print(f"  📝 Title: {title}")
-            
+                
             if result.warnings:
                 print(f"  ⚠️  Warnings: {result.warnings}")
             
             if result.errors:
                 print(f"  ❌ Errors: {result.errors}")
-                
+                    
         except Exception as e:
             print(f"  💥 Exception: {e}")
     

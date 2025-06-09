@@ -541,3 +541,186 @@ Call log:
   - waiting for locator(".product-name, .product-title") to be visible
 
 [2025-06-08 16:27:36.175] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:44:09.544] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 16:44:14.922] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54176052248946,"alt":"Mercerized Cotton Dress - Image 1","position":1,"product_id":14739143721330,"created_at":"2025-06-08T16:44:14-04:00","updated_at":"2025-06-08T16:44:14-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242852569458","width":1500,"height":2000,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/c3f9718686d5a74ddd2dd7b0988d8a47.jpg?v=1749415454","variant_ids":[]}}
+[2025-06-08 16:44:30.974] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:44:53.741] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:44:58.343] [WARNING] [shopify_manager] Image downloads/aritzia_115422_full_page.png does not meet Shopify requirements, skipping
+[2025-06-08 16:45:00.983] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 16:45:06.023] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54176052740466,"alt":"Rib-Knit Bodycon Dress - Black - Ladies - Image 1","position":1,"product_id":14739143819634,"created_at":"2025-06-08T16:45:05-04:00","updated_at":"2025-06-08T16:45:05-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242852929906","width":1365,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/a1999e7401e272c0d1babbaae05b954f.jpg?v=1749415505","variant_ids":[]}}
+[2025-06-08 16:45:09.897] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 16:45:19.903] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 16:45:28.304] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 16:45:28.304] [WARNING] [batch_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 16:45:29.062] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 16:45:32.591] [ERROR] [checkpoint_manager] Failed to save checkpoint: 'total_urls'
+[2025-06-08 16:45:33.702] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 16:45:43.712] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 16:45:54.153] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54176053690738,"alt":"Maeve Sleeveless Mini Shift Dress - Image 1","position":1,"product_id":14739143917938,"created_at":"2025-06-08T16:45:53-04:00","updated_at":"2025-06-08T16:45:53-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242853454194","width":720,"height":822,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/76fbd3d47d85446b786399e773248220.jpg?v=1749415553","variant_ids":[]}}
+[2025-06-08 16:46:08.198] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 16:46:13.016] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 16:46:13.252] [ERROR] [shopify_manager] Failed to create Shopify product: 400 - {"errors":{"price":"expected String to be a money_fuzzy"}}
+[2025-06-08 16:46:26.501] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+    25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-08 16:46:38.691] [WARNING] [base_image_processor] No images successfully downloaded for abercrombie
+[2025-06-08 16:46:38.692] [WARNING] [batch_processor] Primary processing failed for abercrombie, trying legacy fallback
+[2025-06-08 16:46:41.766] [WARNING] [base_image_processor] No images successfully downloaded for abercrombie
+[2025-06-08 16:46:45.183] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 16:46:49.954] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54176053887346,"alt":"Sima Shirt Dress in Pine - Image 1","position":1,"product_id":14739143983474,"created_at":"2025-06-08T16:46:49-04:00","updated_at":"2025-06-08T16:46:49-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242853552498","width":967,"height":1450,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/f5ceed365490a014e1f5e631a4925d32.jpg?v=1749415609","variant_ids":[]}}
+[2025-06-08 16:46:52.839] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 16:46:58.663] [ERROR] [shopify_manager] Failed to upload image 1: {"image":{"id":54176053952882,"alt":"Short button-down linen-blend dress - Image 1","position":1,"product_id":14739144016242,"created_at":"2025-06-08T16:46:58-04:00","updated_at":"2025-06-08T16:46:58-04:00","admin_graphql_api_id":"gid:\/\/shopify\/MediaImage\/46242853585266","width":1464,"height":2048,"src":"https:\/\/cdn.shopify.com\/s\/files\/1\/0901\/4974\/9106\/files\/42f853319b8e7c5b80d940d1c34cd66e.jpg?v=1749415618","variant_ids":[]}}
+[2025-06-08 16:47:01.330] [ERROR] [notification_manager] Email credentials not configured
+[2025-06-08 17:04:26.500] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:04:28.091] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 17:04:38.095] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 17:04:42.802] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 17:04:42.841] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:04:56.468] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+  -     25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-08 17:05:04.657] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:05:18.910] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 17:07:08.229] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:07:09.193] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 17:07:19.758] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 17:07:24.596] [ERROR] [playwright_agent] Failed to parse Gemini response: No JSON found in response
+[2025-06-08 17:07:24.638] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:07:37.664] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+  -     25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-08 17:07:45.528] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:07:58.378] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 17:09:22.636] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:09:35.817] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 17:09:45.354] [WARNING] [playwright_agent] playwright-stealth not available, using basic stealth
+[2025-06-08 17:09:58.436] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+  -     25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-08 18:20:47.146] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 18:26:04.259] [WARNING] [markdown_extractor] ⚠️ DeepSeek API key not found, DeepSeek disabled
+[2025-06-08 18:33:30.860] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 18:33:39.769] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:40.806] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:40.847] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:41.880] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:41.929] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:43.129] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:43.168] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:44.203] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:44.240] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:45.282] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:45.336] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:46.369] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:46.404] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:47.472] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:47.515] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:48.549] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:48.585] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:49.623] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:49.663] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:50.699] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:50.700] [WARNING] [base_image_processor] Primary processing failed for aritzia, trying legacy fallback
+[2025-06-08 18:34:02.383] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 18:34:06.817] [WARNING] [shopify_manager] Image downloads/aritzia_115422_full_page.png does not meet Shopify requirements, skipping
+[2025-06-08 18:34:50.088] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 18:35:00.646] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 18:35:11.338] [WARNING] [base_image_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 18:35:11.338] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 18:35:11.339] [WARNING] [batch_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 18:35:13.898] [WARNING] [base_image_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 18:35:13.898] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 18:35:17.756] [WARNING] [playwright_agent] ⚠️ HTTP 403 response
+[2025-06-08 18:35:28.134] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-08 18:35:55.360] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-title, .product-name - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-title, .product-name") to be visible
+
+[2025-06-08 18:36:00.288] [WARNING] [playwright_agent] No JSON found in Gemini response for nordstrom
+[2025-06-08 18:36:00.288] [ERROR] [playwright_agent] Failed to parse Gemini response for nordstrom: No JSON found in response
+[2025-06-08 18:36:01.045] [WARNING] [shopify_manager] Failed to create metafield stock_status: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 18:36:02.194] [WARNING] [shopify_manager] Failed to create metafield sale_status: {"errors":{"value":["can't be blank."]}}
+[2025-06-08 18:36:15.722] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+    25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-08 18:36:29.370] [WARNING] [shopify_manager] Image downloads/abercrombie_images/abercrombie_extracted_4_Q0_20250608_183624_a62b9601.jpg does not meet Shopify requirements, skipping
+[2025-06-08 18:38:30.894] [WARNING] [notification_manager] ⚠️ Email credentials not configured - email notifications disabled
+[2025-06-09 13:56:40.945] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-09 13:57:02.315] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+    25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-09 14:04:15.214] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-09 14:04:37.350] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+    25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+
+[2025-06-09 14:10:17.968] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+
+[2025-06-09 14:10:40.416] [WARNING] [playwright_agent] ⚠️ Wait condition failed: .product-name, .product-title - Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator(".product-name, .product-title") to be visible
+    25 × locator resolved to 2 elements. Proceeding with the first one: <div data-size="l" data-brand="anf" class="product-name product-name-font-size">…</div>
+

@@ -311,3 +311,257 @@
 [2025-06-08 16:04:14.984] [INFO] [aritzia_image_processor] Aritzia enhanced fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
 [2025-06-08 16:04:14.987] [INFO] [aritzia_image_processor] 🎭 Using Playwright screenshot fallback for Aritzia product 115422
 [2025-06-08 16:04:31.743] [INFO] [aritzia_image_processor] ✅ Playwright fallback generated 4 images
+[2025-06-08 16:44:12.370] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 16:44:12.371] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 16:44:12.734] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=95, size=120804, resolution=(1500, 2000)
+[2025-06-08 16:44:12.734] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 16:44:41.076] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 16:44:41.076] [INFO] [base_image_processor] Starting image processing for aritzia with 3 URLs
+[2025-06-08 16:44:41.532] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:44:41.532] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:44:41.533] [INFO] [aritzia_image_processor] Generated 3 enhanced URLs for Aritzia
+[2025-06-08 16:44:41.679] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:44:41.823] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:44:41.895] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:44:41.983] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:44:42.039] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:44:42.039] [INFO] [aritzia_image_processor] Aritzia enhanced fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 16:44:42.045] [INFO] [aritzia_image_processor] 🎭 Using Playwright screenshot fallback for Aritzia product 115422
+[2025-06-08 16:44:57.565] [INFO] [aritzia_image_processor] ✅ Playwright fallback generated 4 images
+[2025-06-08 16:45:03.471] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 16:45:03.471] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 16:45:03.688] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=457431, resolution=(2160, 3240)
+[2025-06-08 16:45:03.688] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 16:45:27.152] [DEBUG] [base_image_processor] Created download directory: downloads/urban_outfitters_images
+[2025-06-08 16:45:27.153] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for urban_outfitters
+[2025-06-08 16:45:27.153] [INFO] [base_image_processor] Starting image processing for urban_outfitters with 4 URLs
+[2025-06-08 16:45:27.293] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:45:27.293] [DEBUG] [simple_transform_image_processor] Applying URL transformations for urban_outfitters
+[2025-06-08 16:45:27.293] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_b?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:27.293] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_a?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:27.294] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_c?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:27.294] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_d?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:27.294] [INFO] [simple_transform_image_processor] Generated 4 URLs for urban_outfitters (0 additional)
+[2025-06-08 16:45:27.671] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:27.718] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:28.137] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:28.175] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:28.253] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:28.303] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:28.304] [INFO] [simple_transform_image_processor] urban_outfitters Browser Use fallback called for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 16:45:28.304] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 16:45:28.304] [INFO] [base_image_processor] Starting image processing for urban_outfitters with 4 URLs
+[2025-06-08 16:45:28.751] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 403
+[2025-06-08 16:45:28.752] [DEBUG] [simple_transform_image_processor] Applying URL transformations for urban_outfitters
+[2025-06-08 16:45:28.752] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_b?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:28.752] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_a?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:28.752] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_c?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:28.752] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728178_004_d?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 16:45:28.752] [INFO] [simple_transform_image_processor] Generated 4 URLs for urban_outfitters (0 additional)
+[2025-06-08 16:45:28.800] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:28.843] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:28.882] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 403
+[2025-06-08 16:45:28.929] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:29.014] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:29.062] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 403
+[2025-06-08 16:45:29.062] [INFO] [simple_transform_image_processor] urban_outfitters Browser Use fallback called for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 16:45:29.062] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 16:45:51.627] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for anthropologie
+[2025-06-08 16:45:51.627] [INFO] [base_image_processor] Starting image processing for anthropologie with 4 URLs
+[2025-06-08 16:45:51.927] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:51.927] [DEBUG] [simple_transform_image_processor] Applying URL transformations for anthropologie
+[2025-06-08 16:45:51.928] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/61935439_010_b?$a15-pdp-detail-shot$&fit=constrain&fmt=webp&qlt=80&wid=720
+[2025-06-08 16:45:51.928] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/61935439_010_a?$a15-pdp-detail-shot$&fit=constrain&fmt=webp&qlt=80&wid=720
+[2025-06-08 16:45:51.928] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/61935439_010_c?$a15-pdp-detail-shot$&fit=constrain&fmt=webp&qlt=80&wid=720
+[2025-06-08 16:45:51.928] [DEBUG] [simple_transform_image_processor] No transformations applied to anthropologie URL: https://images.urbndata.com/is/image/Anthropologie/61935439_010_d?$a15-pdp-detail-shot$&fit=constrain&fmt=webp&qlt=80&wid=720
+[2025-06-08 16:45:51.928] [INFO] [simple_transform_image_processor] Generated 4 URLs for anthropologie (0 additional)
+[2025-06-08 16:45:51.948] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.053] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.132] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.157] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.183] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.375] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=30, size=1130, resolution=(720, 822)
+[2025-06-08 16:45:52.375] [INFO] [simple_transform_image_processor] anthropologie Browser Use fallback called for https://www.anthropologie.com/shop/maeve-sleeveless-mini-shift-dress?category=dresses&color=010&type=STANDARD&quantity=1
+[2025-06-08 16:46:35.355] [DEBUG] [base_image_processor] Created download directory: downloads/abercrombie_images
+[2025-06-08 16:46:35.355] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for abercrombie
+[2025-06-08 16:46:35.355] [INFO] [base_image_processor] Starting image processing for abercrombie with 5 URLs
+[2025-06-08 16:46:35.826] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 400
+[2025-06-08 16:46:35.826] [DEBUG] [simple_transform_image_processor] Applying URL transformations for abercrombie
+[2025-06-08 16:46:35.827] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model1?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:35.827] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model2?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:35.827] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model3?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:35.827] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model4?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:35.827] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_flat?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:35.827] [INFO] [simple_transform_image_processor] Generated 5 URLs for abercrombie (0 additional)
+[2025-06-08 16:46:36.169] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:36.540] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:36.882] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:37.415] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:37.871] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:38.281] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:38.690] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:38.691] [INFO] [simple_transform_image_processor] abercrombie Browser Use fallback called for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 16:46:38.691] [WARNING] [base_image_processor] No images successfully downloaded for abercrombie
+[2025-06-08 16:46:38.692] [INFO] [base_image_processor] Starting image processing for abercrombie with 5 URLs
+[2025-06-08 16:46:39.100] [DEBUG] [base_image_processor] Failed to download extracted_primary image: HTTP 400
+[2025-06-08 16:46:39.101] [DEBUG] [simple_transform_image_processor] Applying URL transformations for abercrombie
+[2025-06-08 16:46:39.101] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model1?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:39.101] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model2?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:39.101] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model3?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:39.101] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_model4?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:39.102] [DEBUG] [simple_transform_image_processor] No transformations applied to abercrombie URL: https://img.abercrombie.com/is/image/anf/KIC_59263319_12_flat?$product-anf-v1$&wid=450&hei=563
+[2025-06-08 16:46:39.102] [INFO] [simple_transform_image_processor] Generated 5 URLs for abercrombie (0 additional)
+[2025-06-08 16:46:39.510] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:39.829] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:40.229] [DEBUG] [base_image_processor] Failed to download reconstructed image: HTTP 400
+[2025-06-08 16:46:40.628] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:40.974] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:41.355] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:41.765] [DEBUG] [base_image_processor] Failed to download extracted_additional image: HTTP 400
+[2025-06-08 16:46:41.765] [INFO] [simple_transform_image_processor] abercrombie Browser Use fallback called for https://www.abercrombie.com/shop/us/p/cowl-neck-draped-maxi-dress-59263319?categoryId=12265&faceout=model&seq=05
+[2025-06-08 16:46:41.766] [WARNING] [base_image_processor] No images successfully downloaded for abercrombie
+[2025-06-08 16:46:47.484] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 16:46:47.484] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 16:46:47.614] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 16:46:47.615] [DEBUG] [simple_transform_image_processor] Applying URL transformations for revolve
+[2025-06-08 16:46:47.615] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V1.jpg
+[2025-06-08 16:46:47.615] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V2.jpg
+[2025-06-08 16:46:47.615] [DEBUG] [simple_transform_image_processor] No transformations applied to revolve URL: https://is4.revolveassets.com/images/p4/n/z/LAGR-WD258_V3.jpg
+[2025-06-08 16:46:47.615] [INFO] [simple_transform_image_processor] Generated 5 URLs for revolve (2 additional)
+[2025-06-08 16:46:47.652] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 16:46:47.684] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 16:46:47.781] [DEBUG] [base_image_processor] Downloaded reconstructed image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 16:46:47.811] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 16:46:47.846] [DEBUG] [base_image_processor] Downloaded extracted_additional image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 16:46:47.846] [INFO] [simple_transform_image_processor] revolve Browser Use fallback called for https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/?d=Womens&vn=true&page=1&lc=5&itrownum=2&itcurrpage=1&itview=05
+[2025-06-08 16:46:55.799] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 16:46:55.799] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 16:46:56.450] [DEBUG] [base_image_processor] Downloaded extracted_primary image: quality=90, size=474834, resolution=(1500, 2098)
+[2025-06-08 16:46:56.450] [INFO] [base_image_processor] First extracted image is high quality, stopping here
+[2025-06-08 18:26:07.806] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 18:26:07.806] [INFO] [base_image_processor] Starting image processing for uniqlo with 4 URLs
+[2025-06-08 18:26:08.033] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=55, size=17204, resolution=(400, 533)
+[2025-06-08 18:26:08.089] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=25, size=2390, resolution=(200, 200)
+[2025-06-08 18:26:08.144] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=25, size=1530, resolution=(200, 200)
+[2025-06-08 18:26:08.199] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=25, size=2554, resolution=(200, 200)
+[2025-06-08 18:26:08.200] [INFO] [base_image_processor] Successfully downloaded 4 extracted images for uniqlo
+[2025-06-08 18:33:06.819] [DEBUG] [image_processor_factory] Created UniqloImageProcessor for uniqlo
+[2025-06-08 18:33:06.820] [INFO] [base_image_processor] Starting image processing for uniqlo with 5 URLs
+[2025-06-08 18:33:07.126] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=95, size=120804, resolution=(1500, 2000)
+[2025-06-08 18:33:07.409] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=60, size=88356, resolution=(1500, 2000)
+[2025-06-08 18:33:07.538] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=45, size=26364, resolution=(1500, 2000)
+[2025-06-08 18:33:07.848] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=70, size=100024, resolution=(2000, 2000)
+[2025-06-08 18:33:07.943] [DEBUG] [base_image_processor] Downloaded extracted_5 image: quality=55, size=45726, resolution=(2000, 2000)
+[2025-06-08 18:33:07.944] [INFO] [base_image_processor] Successfully downloaded 5 extracted images for uniqlo
+[2025-06-08 18:33:39.650] [DEBUG] [image_processor_factory] Created AritziaImageProcessor for aritzia
+[2025-06-08 18:33:39.651] [INFO] [base_image_processor] Starting image processing for aritzia with 5 URLs
+[2025-06-08 18:33:39.769] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:40.806] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:40.807] [DEBUG] [base_image_processor] Failed to download extracted_1 image: HTTP 403
+[2025-06-08 18:33:40.847] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:41.880] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:41.881] [DEBUG] [base_image_processor] Failed to download extracted_2 image: HTTP 403
+[2025-06-08 18:33:41.929] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:43.129] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:43.129] [DEBUG] [base_image_processor] Failed to download extracted_3 image: HTTP 403
+[2025-06-08 18:33:43.168] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:44.203] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:44.204] [DEBUG] [base_image_processor] Failed to download extracted_4 image: HTTP 403
+[2025-06-08 18:33:44.240] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:45.282] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:45.282] [DEBUG] [base_image_processor] Failed to download extracted_5 image: HTTP 403
+[2025-06-08 18:33:45.282] [DEBUG] [aritzia_image_processor] Processing Aritzia image URLs from https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 18:33:45.283] [INFO] [aritzia_image_processor] Generated 5 enhanced URLs for Aritzia
+[2025-06-08 18:33:45.336] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:46.369] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_a
+[2025-06-08 18:33:46.369] [DEBUG] [base_image_processor] Failed to download reconstructed_1 image: HTTP 403
+[2025-06-08 18:33:46.404] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:47.472] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_b
+[2025-06-08 18:33:47.473] [DEBUG] [base_image_processor] Failed to download reconstructed_2 image: HTTP 403
+[2025-06-08 18:33:47.515] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:48.549] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_c
+[2025-06-08 18:33:48.549] [DEBUG] [base_image_processor] Failed to download reconstructed_3 image: HTTP 403
+[2025-06-08 18:33:48.585] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:49.623] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_d
+[2025-06-08 18:33:49.624] [DEBUG] [base_image_processor] Failed to download reconstructed_4 image: HTTP 403
+[2025-06-08 18:33:49.663] [WARNING] [base_image_processor] 403 on image domain (attempt 1/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:50.699] [WARNING] [base_image_processor] 403 on image domain (attempt 2/2): https://assets.aritzia.com/image/upload/q_auto,f_auto,dpr_auto/s24_01_a08_115422_1275_on_e
+[2025-06-08 18:33:50.700] [DEBUG] [base_image_processor] Failed to download reconstructed_5 image: HTTP 403
+[2025-06-08 18:33:50.700] [WARNING] [base_image_processor] Primary processing failed for aritzia, trying legacy fallback
+[2025-06-08 18:33:50.700] [INFO] [aritzia_image_processor] Aritzia enhanced fallback called for https://www.aritzia.com/us/en/product/utility-dress/115422.html?color=1275
+[2025-06-08 18:33:50.705] [INFO] [aritzia_image_processor] 🎭 Using Playwright screenshot fallback for Aritzia product 115422
+[2025-06-08 18:34:06.159] [INFO] [aritzia_image_processor] ✅ Playwright fallback generated 4 images
+[2025-06-08 18:34:06.182] [INFO] [base_image_processor] Successfully got 4 fallback images for aritzia
+[2025-06-08 18:34:37.759] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for hm
+[2025-06-08 18:34:37.759] [INFO] [base_image_processor] Starting image processing for hm with 4 URLs
+[2025-06-08 18:34:37.957] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=90, size=457431, resolution=(2160, 3240)
+[2025-06-08 18:34:38.763] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=90, size=361578, resolution=(2160, 3240)
+[2025-06-08 18:34:39.603] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=90, size=404232, resolution=(2160, 3240)
+[2025-06-08 18:34:40.337] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=90, size=497816, resolution=(2160, 3240)
+[2025-06-08 18:34:40.337] [INFO] [base_image_processor] Successfully downloaded 4 extracted images for hm
+[2025-06-08 18:35:07.898] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for urban_outfitters
+[2025-06-08 18:35:07.898] [INFO] [base_image_processor] Starting image processing for urban_outfitters with 4 URLs
+[2025-06-08 18:35:08.470] [DEBUG] [base_image_processor] Failed to download extracted_1 image: HTTP 403
+[2025-06-08 18:35:08.880] [DEBUG] [base_image_processor] Failed to download extracted_2 image: HTTP 403
+[2025-06-08 18:35:09.289] [DEBUG] [base_image_processor] Failed to download extracted_3 image: HTTP 403
+[2025-06-08 18:35:09.653] [DEBUG] [base_image_processor] Failed to download extracted_4 image: HTTP 403
+[2025-06-08 18:35:09.653] [DEBUG] [simple_transform_image_processor] Applying URL transformations for urban_outfitters
+[2025-06-08 18:35:09.654] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_b?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:09.654] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_a?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:09.654] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_c?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:09.654] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_d?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:09.654] [INFO] [simple_transform_image_processor] Generated 4 URLs for urban_outfitters (0 additional)
+[2025-06-08 18:35:10.109] [DEBUG] [base_image_processor] Failed to download reconstructed_1 image: HTTP 403
+[2025-06-08 18:35:10.518] [DEBUG] [base_image_processor] Failed to download reconstructed_2 image: HTTP 403
+[2025-06-08 18:35:10.928] [DEBUG] [base_image_processor] Failed to download reconstructed_3 image: HTTP 403
+[2025-06-08 18:35:11.337] [DEBUG] [base_image_processor] Failed to download reconstructed_4 image: HTTP 403
+[2025-06-08 18:35:11.338] [WARNING] [base_image_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 18:35:11.338] [INFO] [simple_transform_image_processor] urban_outfitters Browser Use fallback called for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 18:35:11.338] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 18:35:11.339] [INFO] [base_image_processor] Starting image processing for urban_outfitters with 4 URLs
+[2025-06-08 18:35:11.711] [DEBUG] [base_image_processor] Failed to download extracted_1 image: HTTP 403
+[2025-06-08 18:35:12.156] [DEBUG] [base_image_processor] Failed to download extracted_2 image: HTTP 403
+[2025-06-08 18:35:12.524] [DEBUG] [base_image_processor] Failed to download extracted_3 image: HTTP 403
+[2025-06-08 18:35:12.976] [DEBUG] [base_image_processor] Failed to download extracted_4 image: HTTP 403
+[2025-06-08 18:35:12.976] [DEBUG] [simple_transform_image_processor] Applying URL transformations for urban_outfitters
+[2025-06-08 18:35:12.976] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_b?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:12.977] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_a?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:12.977] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_c?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:12.977] [DEBUG] [simple_transform_image_processor] No transformations applied to urban_outfitters URL: https://images.urbanoutfitters.com/is/image/UrbanOutfitters/79728128_004_d?$xlarge$&fit=constrain&fmt=webp&qlt=80&wid=768
+[2025-06-08 18:35:12.977] [INFO] [simple_transform_image_processor] Generated 4 URLs for urban_outfitters (0 additional)
+[2025-06-08 18:35:13.385] [DEBUG] [base_image_processor] Failed to download reconstructed_1 image: HTTP 403
+[2025-06-08 18:35:13.432] [DEBUG] [base_image_processor] Failed to download reconstructed_2 image: HTTP 403
+[2025-06-08 18:35:13.483] [DEBUG] [base_image_processor] Failed to download reconstructed_3 image: HTTP 403
+[2025-06-08 18:35:13.897] [DEBUG] [base_image_processor] Failed to download reconstructed_4 image: HTTP 403
+[2025-06-08 18:35:13.898] [WARNING] [base_image_processor] Primary processing failed for urban_outfitters, trying legacy fallback
+[2025-06-08 18:35:13.898] [INFO] [simple_transform_image_processor] urban_outfitters Browser Use fallback called for https://www.urbanoutfitters.com/shop/97-nyc-applique-graphic-baby-tee?category=womens-clothing-sale&color=004&type=REGULAR&quantity=1
+[2025-06-08 18:35:13.898] [WARNING] [base_image_processor] No images successfully downloaded for urban_outfitters
+[2025-06-08 18:35:35.237] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for anthropologie
+[2025-06-08 18:35:35.237] [INFO] [base_image_processor] Starting image processing for anthropologie with 4 URLs
+[2025-06-08 18:35:35.562] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=30, size=1356, resolution=(789, 900)
+[2025-06-08 18:35:35.708] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=30, size=1356, resolution=(789, 900)
+[2025-06-08 18:35:35.785] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=30, size=1356, resolution=(789, 900)
+[2025-06-08 18:35:36.042] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=30, size=1356, resolution=(789, 900)
+[2025-06-08 18:35:36.043] [INFO] [base_image_processor] Successfully downloaded 4 extracted images for anthropologie
+[2025-06-08 18:36:24.595] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for abercrombie
+[2025-06-08 18:36:24.595] [INFO] [base_image_processor] Starting image processing for abercrombie with 5 URLs
+[2025-06-08 18:36:24.682] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=65, size=76002, resolution=(800, 1000)
+[2025-06-08 18:36:24.736] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=50, size=336980, resolution=(450, 450)
+[2025-06-08 18:36:24.761] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=30, size=119312, resolution=(290, 290)
+[2025-06-08 18:36:24.784] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=0, size=2222, resolution=(200, 50)
+[2025-06-08 18:36:24.805] [DEBUG] [base_image_processor] Downloaded extracted_5 image: quality=0, size=2594, resolution=(112, 112)
+[2025-06-08 18:36:24.806] [INFO] [base_image_processor] Successfully downloaded 5 extracted images for abercrombie
+[2025-06-08 18:37:22.627] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for revolve
+[2025-06-08 18:37:22.628] [INFO] [base_image_processor] Starting image processing for revolve with 3 URLs
+[2025-06-08 18:37:22.764] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=65, size=80102, resolution=(967, 1450)
+[2025-06-08 18:37:22.798] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=65, size=70354, resolution=(967, 1450)
+[2025-06-08 18:37:22.832] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=65, size=97284, resolution=(967, 1450)
+[2025-06-08 18:37:22.832] [INFO] [base_image_processor] Successfully downloaded 3 extracted images for revolve
+[2025-06-08 18:38:19.758] [DEBUG] [image_processor_factory] Created SimpleTransformImageProcessor for mango
+[2025-06-08 18:38:19.759] [INFO] [base_image_processor] Starting image processing for mango with 5 URLs
+[2025-06-08 18:38:19.965] [DEBUG] [base_image_processor] Downloaded extracted_1 image: quality=90, size=474834, resolution=(1500, 2098)
+[2025-06-08 18:38:20.054] [DEBUG] [base_image_processor] Downloaded extracted_2 image: quality=90, size=402676, resolution=(1500, 2098)
+[2025-06-08 18:38:20.136] [DEBUG] [base_image_processor] Downloaded extracted_3 image: quality=90, size=299352, resolution=(1500, 2098)
+[2025-06-08 18:38:20.265] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=90, size=800192, resolution=(1500, 2098)
+[2025-06-08 18:38:20.366] [DEBUG] [base_image_processor] Downloaded extracted_5 image: quality=90, size=542670, resolution=(1500, 2098)
+[2025-06-08 18:38:20.366] [INFO] [base_image_processor] Successfully downloaded 5 extracted images for mango
