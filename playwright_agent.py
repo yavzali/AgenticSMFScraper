@@ -293,6 +293,10 @@ class PlaywrightMultiScreenshotAgent:
             'scroll_positions': [0, 0.5, 1.0]
         }))
         
+        # Add domain info for enhanced processing
+        strategy['domain'] = domain
+        strategy['retailer'] = retailer
+        
         logger.info(f"📋 Using strategy for {domain}: {strategy.get('anti_scraping')} anti-scraping")
         
         try:
@@ -306,7 +310,7 @@ class PlaywrightMultiScreenshotAgent:
             except Exception as e:
                 logger.warning(f"Navigation warning: {e}")
             
-            # Wait for content to load
+            # Wait for content to load (with enhanced Anthropologie support)
             await self._wait_for_content(strategy)
             
             # Handle verification challenges
@@ -314,6 +318,21 @@ class PlaywrightMultiScreenshotAgent:
             
             # Extract image URLs from DOM (before screenshots)
             dom_image_urls = await self._extract_image_urls_from_dom(retailer)
+            
+            # Enhanced image processing for Anthropologie
+            if retailer.lower() == 'anthropologie' and dom_image_urls:
+                logger.info("🎨 Applying enhanced Anthropologie image processing")
+                try:
+                    from image_processor_factory import ImageProcessorFactory
+                    processor = ImageProcessorFactory.get_processor('anthropologie')
+                    if processor and hasattr(processor, 'process_images_enhanced'):
+                        dom_image_urls = await processor.process_images_enhanced(
+                            dom_image_urls, 
+                            {'url': url, 'retailer': retailer}
+                        )
+                        logger.info(f"🎨 Enhanced processing: {len(dom_image_urls)} quality images")
+                except Exception as e:
+                    logger.warning(f"⚠️ Enhanced image processing failed: {e}")
             
             # Take strategic screenshots for content analysis
             screenshots = await self._take_strategic_screenshots(strategy, retailer)
@@ -340,9 +359,17 @@ class PlaywrightMultiScreenshotAgent:
             )
     
     async def _wait_for_content(self, strategy: Dict):
-        """Smart waiting based on retailer strategy"""
+        """Smart waiting based on retailer strategy with enhanced image loading support"""
         wait_conditions = strategy.get('wait_conditions', ['load'])
+        domain = strategy.get('domain', '')
         
+        # Special handling for Anthropologie's lazy-loading issues
+        if 'anthropologie' in domain.lower():
+            logger.info("🎨 Applying enhanced Anthropologie image loading strategy")
+            await self._wait_for_anthropologie_images(strategy)
+            return
+        
+        # Standard wait processing for other retailers
         for condition in wait_conditions:
             try:
                 if condition == 'networkidle':
@@ -358,6 +385,88 @@ class PlaywrightMultiScreenshotAgent:
             except Exception as e:
                 logger.warning(f"⚠️ Wait condition failed: {condition} - {e}")
                 continue
+    
+    async def _wait_for_anthropologie_images(self, strategy: Dict):
+        """
+        Enhanced waiting specifically for Anthropologie's lazy-loading image system
+        Addresses the color placeholder issue by ensuring images actually load
+        """
+        logger.info("🎨 Starting enhanced Anthropologie image loading sequence")
+        
+        try:
+            # Step 1: Basic page load
+            await self.page.wait_for_load_state('load', timeout=15000)
+            logger.debug("✅ Basic page load complete")
+            
+            # Step 2: Pre-scroll to trigger lazy loading
+            logger.info("📜 Pre-scrolling to trigger lazy-loaded images")
+            await self._scroll_to_position(0.3)
+            await asyncio.sleep(2)  # Allow images to start loading
+            await self._scroll_to_position(0.6)
+            await asyncio.sleep(2)  # Allow more images to load
+            await self._scroll_to_position(0)  # Back to top
+            await asyncio.sleep(1)
+            
+            # Step 3: Wait for network to settle
+            try:
+                await self.page.wait_for_load_state('networkidle', timeout=20000)
+                logger.debug("✅ Network idle achieved")
+            except Exception as e:
+                logger.warning(f"⚠️ Network idle timeout (continuing): {e}")
+            
+            # Step 4: Wait for actual Anthropologie images (not placeholders)
+            image_selectors = [
+                'img[src*="anthropologie.com"]:not([src*="placeholder"])',
+                'img[src*="assets.anthropologie.com"]',
+                'img[src*="scene7.com"]',
+                '.product-images img[src]:not([src=""])',
+                '.hero-image img[src]:not([src*="loading"])'
+            ]
+            
+            for selector in image_selectors:
+                try:
+                    await self.page.wait_for_selector(selector, timeout=8000)
+                    logger.debug(f"✅ Found images: {selector}")
+                    break
+                except Exception as e:
+                    logger.debug(f"⚠️ Image selector failed: {selector} - {e}")
+                    continue
+            
+            # Step 5: Verify images have actually loaded (not just placeholders)
+            try:
+                # Check if we have real image content loaded
+                image_count = await self.page.evaluate("""
+                    () => {
+                        const images = document.querySelectorAll('img[src*="anthropologie"], img[src*="assets.anthropologie"], img[src*="scene7"]');
+                        let loadedCount = 0;
+                        images.forEach(img => {
+                            if (img.complete && img.naturalWidth > 100 && img.naturalHeight > 100) {
+                                loadedCount++;
+                            }
+                        });
+                        return loadedCount;
+                    }
+                """)
+                
+                if image_count > 0:
+                    logger.info(f"✅ Verified {image_count} high-quality images loaded")
+                else:
+                    logger.warning("⚠️ No high-quality images detected, proceeding anyway")
+                    
+            except Exception as e:
+                logger.warning(f"⚠️ Image verification failed: {e}")
+            
+            # Step 6: Final wait for any remaining content
+            await asyncio.sleep(3)  # Allow final rendering
+            logger.info("🎨 Enhanced Anthropologie image loading complete")
+            
+        except Exception as e:
+            logger.error(f"❌ Enhanced Anthropologie waiting failed: {e}")
+            # Fallback to basic wait
+            try:
+                await self.page.wait_for_load_state('load', timeout=10000)
+            except:
+                pass
     
     async def _handle_verification_challenges(self, strategy: Dict):
         """Proactively handle verification challenges that break Browser Use"""

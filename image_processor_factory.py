@@ -7,6 +7,7 @@ from typing import Dict, Optional
 from base_image_processor import BaseImageProcessor
 from uniqlo_image_processor import UniqloImageProcessor
 from aritzia_image_processor import AritziaImageProcessor
+from anthropologie_image_processor import AnthropologieImageProcessor
 from simple_transform_image_processor import SimpleTransformImageProcessor
 from logger_config import setup_logging
 
@@ -19,13 +20,14 @@ class ImageProcessorFactory:
     RECONSTRUCTION_RETAILERS = {
         'uniqlo': UniqloImageProcessor,
         'aritzia': AritziaImageProcessor,
+        'anthropologie': AnthropologieImageProcessor,  # Enhanced lazy-loading support
         # Add more complex reconstruction retailers here as needed
         # 'abercrombie': AbercrombieImageProcessor,  # Future implementation
     }
     
     # Retailers that need simple URL transformation (modify existing URLs)
     TRANSFORMATION_RETAILERS = [
-        'asos', 'revolve', 'hm', 'nordstrom', 'anthropologie', 
+        'asos', 'revolve', 'hm', 'nordstrom', 
         'urban_outfitters', 'abercrombie', 'mango'
     ]
     
