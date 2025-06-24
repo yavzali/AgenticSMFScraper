@@ -156,6 +156,44 @@ class ShopifyManager:
             logger.error(f"Exception updating product {product_id}: {e}")
             return {'success': False, 'error': str(e)}
     
+    def _standardize_product_type(self, clothing_type: str) -> str:
+        """Standardize product type for Shopify consistency"""
+        if not clothing_type:
+            return 'Clothing'
+            
+        type_mapping = {
+            'dress': 'Dresses',
+            'dresses': 'Dresses',
+            'top': 'Tops',
+            'tops': 'Tops',
+            'shirt': 'Tops',
+            'shirts': 'Tops',
+            'blouse': 'Tops',
+            'blouses': 'Tops',
+            'bottom': 'Bottoms',
+            'bottoms': 'Bottoms',
+            'pants': 'Bottoms',
+            'jeans': 'Bottoms',
+            'skirt': 'Bottoms',
+            'skirts': 'Bottoms',
+            'outerwear': 'Outerwear',
+            'jacket': 'Outerwear',
+            'jackets': 'Outerwear',
+            'coat': 'Outerwear',
+            'coats': 'Outerwear',
+            'activewear': 'Activewear',
+            'sportswear': 'Activewear',
+            'swimwear': 'Swimwear',
+            'lingerie': 'Lingerie',
+            'underwear': 'Lingerie',
+            'accessories': 'Accessories',
+            'shoes': 'Shoes',
+            'footwear': 'Shoes'
+        }
+        
+        clothing_type_lower = clothing_type.lower().strip()
+        return type_mapping.get(clothing_type_lower, clothing_type.title())
+
     def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str) -> Dict:
         """Build Shopify product payload with proper compliance"""
         
@@ -175,7 +213,7 @@ class ShopifyManager:
                 "title": extracted_data.get('title', 'Untitled Product'),
                 "body_html": self._format_product_description(extracted_data.get('description', '')),
                 "vendor": extracted_data.get('brand', retailer_name),
-                "product_type": extracted_data.get('clothing_type', 'Clothing').title(),
+                "product_type": self._standardize_product_type(extracted_data.get('clothing_type', 'Clothing')),
                 "status": "draft",  # Always create as draft for review
                 "tags": ', '.join(tags),
                 "variants": [{
@@ -421,6 +459,31 @@ class ShopifyManager:
                 "namespace": "custom",
                 "key": "original_price",
                 "value": str(extracted_data.get('original_price', '')),
+                "type": "single_line_text_field"
+            },
+            # NEW: Visual analysis fields
+            {
+                "namespace": "clothing",
+                "key": "neckline",
+                "value": extracted_data.get('neckline', 'unknown'),
+                "type": "single_line_text_field"
+            },
+            {
+                "namespace": "clothing",
+                "key": "sleeve_length", 
+                "value": extracted_data.get('sleeve_length', 'unknown'),
+                "type": "single_line_text_field"
+            },
+            {
+                "namespace": "clothing",
+                "key": "visual_analysis_confidence",
+                "value": str(extracted_data.get('visual_analysis_confidence', '')),
+                "type": "single_line_text_field"
+            },
+            {
+                "namespace": "clothing",
+                "key": "visual_analysis_source",
+                "value": extracted_data.get('visual_analysis_source', ''),
                 "type": "single_line_text_field"
             }
         ]

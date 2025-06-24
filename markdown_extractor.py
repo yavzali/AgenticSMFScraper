@@ -450,21 +450,32 @@ REQUIRED OUTPUT (JSON format only - no explanations):
     "clothing_type": "", // e.g., "dress", "top", "bottom", "outerwear"
     "product_code": "",  // Product ID, SKU, or model number
     "image_urls": [],    // Array of high-quality product image URLs (max 5)
+    "neckline": "",      // "crew", "v-neck", "scoop", "off-shoulder", "halter", "strapless", "boat", "square", "sweetheart", "mock", "turtleneck", "cowl", "other", "unknown"
+    "sleeve_length": "", // "sleeveless", "cap", "short", "3-quarter", "long", "other", "unknown"
     "retailer": "{retailer}"
 }}
 
 CRITICAL REQUIREMENTS:
-1. IMAGE PRIORITY - Extract high-quality product images:
+1. VISUAL DETAILS EXTRACTION:
+   - Look for neckline descriptions in product title, description, or specifications
+   - Look for sleeve length mentions (sleeveless, short sleeve, long sleeve, etc.)
+   - Check for style details, fit descriptions, or feature lists
+   - Use "unknown" if not mentioned in the text
+
+2. IMAGE PRIORITY - Extract high-quality product images:
    - Look for URLs containing: 'large', 'full', 'original', 'main', 'front', 'zoom'
    - Avoid: 'thumb', 'small', 'preview' in URLs
    - For {retailer}: {self._get_image_guidance(retailer)}
 
-2. PRICING - Be precise:
+3. PRICING - Be precise:
    - Extract exact price format (e.g., "$29.99")
    - If on sale: current price in "price", original price in "original_price"
    - If not on sale: current price in "price", null in "original_price"
 
-3. VALIDATION - Ensure all fields are populated with meaningful data
+4. VALIDATION - Ensure all fields are populated with meaningful data
+
+Valid necklines: crew, v-neck, scoop, off-shoulder, halter, strapless, boat, square, sweetheart, mock, turtleneck, cowl, other, unknown
+Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
 
 Markdown Content:
 {markdown_content}"""

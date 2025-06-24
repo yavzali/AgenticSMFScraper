@@ -37,6 +37,10 @@ class ProductData:
     sizes: List[str] = None
     material: str = ""
     care_instructions: str = ""
+    neckline: str = ""
+    sleeve_length: str = ""
+    visual_analysis_confidence: Optional[float] = None
+    visual_analysis_source: str = ""
     
     def __post_init__(self):
         if self.image_urls is None:
@@ -587,35 +591,62 @@ class PlaywrightMultiScreenshotAgent:
             logger.debug(f"Scroll to {position} failed: {e}")
     
     async def _analyze_with_gemini(self, screenshots: Dict[str, bytes], url: str, retailer: str) -> ProductData:
-        """Analyze all screenshots with single Gemini 2.0 Flash call"""
-        logger.info(f"🧠 Analyzing {len(screenshots)} screenshots with Gemini 2.0 Flash")
-        
+        """Analyze screenshots with Gemini 2.0 Flash and enhanced visual analysis"""
         try:
-            # Prepare images for Gemini
+            # Convert screenshots to PIL Images
             images = []
-            screenshot_descriptions = []
+            screenshot_types = list(screenshots.keys())
             
-            for name, screenshot_bytes in screenshots.items():
-                # Convert to PIL Image and resize if too large
-                image = Image.open(io.BytesIO(screenshot_bytes))
-                
-                # Resize if too large (Gemini limits)
-                if image.width > 2048 or image.height > 2048:
-                    image.thumbnail((2048, 2048), Image.Resampling.LANCZOS)
-                
-                images.append(image)
-                screenshot_descriptions.append(name)
+            for screenshot_type, screenshot_data in screenshots.items():
+                try:
+                    image = Image.open(io.BytesIO(screenshot_data))
+                    images.append(image)
+                except Exception as e:
+                    logger.warning(f"Failed to process {screenshot_type} screenshot: {e}")
+                    continue
             
-            # Construct comprehensive prompt
-            prompt = self._build_analysis_prompt(url, retailer, screenshot_descriptions)
+            if not images:
+                raise ValueError("No valid screenshots to analyze")
             
-            # Single Gemini API call for all analysis
+            # Build analysis prompt
+            prompt = self._build_analysis_prompt(url, retailer, screenshot_types)
+            
+            # Call Gemini with all screenshots
             response = await self._call_gemini_with_images(prompt, images)
             
             # Parse response into ProductData
             product_data = self._parse_gemini_response(response, retailer)
             
-            logger.info(f"✅ Gemini analysis complete: {product_data.title}")
+            # If we have image URLs from the analysis, perform enhanced visual analysis
+            if hasattr(product_data, 'image_urls') and product_data.image_urls:
+                logger.info(f"Performing enhanced visual analysis for {retailer}")
+                enhanced_data = await self._perform_enhanced_visual_analysis(
+                    screenshots, product_data.image_urls, retailer, url
+                )
+                
+                # Create new ProductData with enhanced information
+                product_data = ProductData(
+                    title=enhanced_data.get('title', ''),
+                    brand=enhanced_data.get('brand', ''),
+                    price=enhanced_data.get('price'),
+                    original_price=enhanced_data.get('original_price'),
+                    description=enhanced_data.get('description', ''),
+                    stock_status=enhanced_data.get('stock_status', ''),
+                    sale_status=enhanced_data.get('sale_status', ''),
+                    clothing_type=enhanced_data.get('clothing_type', ''),
+                    product_code=enhanced_data.get('product_code', ''),
+                    image_urls=enhanced_data.get('image_urls', []),
+                    retailer=retailer,
+                    colors=enhanced_data.get('colors', []),
+                    sizes=enhanced_data.get('sizes', []),
+                    material=enhanced_data.get('material', ''),
+                    care_instructions=enhanced_data.get('care_instructions', ''),
+                    neckline=enhanced_data.get('neckline', ''),
+                    sleeve_length=enhanced_data.get('sleeve_length', ''),
+                    visual_analysis_confidence=enhanced_data.get('visual_analysis_confidence'),
+                    visual_analysis_source=enhanced_data.get('visual_analysis_source', '')
+                )
+            
             return product_data
             
         except Exception as e:
@@ -646,19 +677,32 @@ Extract ALL available product information and return as JSON with this exact str
     "sizes": ["XS", "S", "M", "L", "XL"],
     "material": "fabric composition",
     "care_instructions": "washing instructions",
+    "neckline": "crew/v-neck/scoop/off-shoulder/halter/strapless/boat/square/sweetheart/mock/turtleneck/cowl/other/unknown",
+    "sleeve_length": "sleeveless/cap/short/3-quarter/long/other/unknown",
     "retailer": "{retailer}"
 }}
 
 CRITICAL REQUIREMENTS:
-1. Extract ALL image URLs you can find (product images, zoom images, color variants)
-2. Rank images by importance: main product shot first, then detail views
-3. Look for hidden/lazy-loaded image URLs in data attributes
-4. Find product codes/SKUs in URLs, data attributes, or text
-5. Extract exact pricing (sale vs original)
-6. Identify all available colors and sizes
-7. Return valid JSON only, no extra text
+1. NECKLINE & SLEEVE ANALYSIS:
+   - First check if neckline/sleeve info is mentioned in text on the page
+   - If not in text, analyze the main product images carefully
+   - Use "unknown" if cannot determine with confidence
+   - Valid necklines: crew, v-neck, scoop, off-shoulder, halter, strapless, boat, square, sweetheart, mock, turtleneck, cowl, other, unknown
+   - Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
 
-Focus on extracting comprehensive product data and ALL available image URLs.
+2. IMAGE PRIORITY - Extract high-quality product images:
+   - Look for URLs containing: 'large', 'full', 'original', 'main', 'front', 'zoom'
+   - Avoid: 'thumb', 'small', 'preview' in URLs
+   - For {retailer}: Focus on main product shots showing neckline and sleeves clearly
+
+3. PRICING - Be precise:
+   - Extract exact price format (e.g., "$29.99")
+   - If on sale: current price in "price", original price in "original_price"
+   - If not on sale: current price in "price", null in "original_price"
+
+4. VALIDATION - Ensure all fields are populated with meaningful data
+
+Focus on extracting comprehensive product data and ALL available image URLs, with special attention to neckline and sleeve details.
 """
     
     async def _call_gemini_with_images(self, prompt: str, images: List[Image.Image]) -> str:
@@ -769,7 +813,11 @@ Focus on extracting comprehensive product data and ALL available image URLs.
                 colors=processed_data.get('colors', []),
                 sizes=processed_data.get('sizes', []),
                 material=processed_data.get('material', ''),
-                care_instructions=processed_data.get('care_instructions', '')
+                care_instructions=processed_data.get('care_instructions', ''),
+                neckline=processed_data.get('neckline', ''),
+                sleeve_length=processed_data.get('sleeve_length', ''),
+                visual_analysis_confidence=processed_data.get('visual_analysis_confidence'),
+                visual_analysis_source=processed_data.get('visual_analysis_source', '')
             )
             
             return product_data
@@ -1305,6 +1353,193 @@ Focus on extracting comprehensive product data and ALL available image URLs.
         # Sort by score (descending) and return URLs
         scored_images.sort(key=lambda x: x[0], reverse=True)
         return [url for score, url in scored_images]
+
+    async def _perform_enhanced_visual_analysis(self, screenshots: Dict[str, bytes], image_urls: List[str], 
+                                              retailer: str, url: str) -> Dict[str, Any]:
+        """Enhanced visual analysis with smart text + image analysis"""
+        
+        try:
+            # Step 1: Primary analysis with screenshots (includes text analysis)
+            primary_data = await self._analyze_with_gemini(screenshots, url, retailer)
+            
+            # Step 2: Check if visual details were found in text/screenshots
+            neckline = getattr(primary_data, 'neckline', '') or ''
+            sleeve_length = getattr(primary_data, 'sleeve_length', '') or ''
+            
+            # Step 3: If visual details missing and we have good product images, do focused image analysis
+            if (neckline in ['', 'unknown'] or sleeve_length in ['', 'unknown']) and image_urls:
+                logger.info(f"Visual details incomplete for {retailer}, performing focused image analysis")
+                
+                # Download and analyze the best product image
+                focused_analysis = await self._analyze_product_images_for_details(image_urls, retailer, url)
+                
+                # Merge results with confidence tracking
+                if focused_analysis:
+                    if neckline in ['', 'unknown'] and focused_analysis.get('neckline'):
+                        neckline = focused_analysis['neckline']
+                    if sleeve_length in ['', 'unknown'] and focused_analysis.get('sleeve_length'):
+                        sleeve_length = focused_analysis['sleeve_length']
+                    
+                    # Set confidence and source
+                    visual_confidence = focused_analysis.get('confidence', 0.5)
+                    visual_source = "combined" if (getattr(primary_data, 'neckline', '') not in ['', 'unknown'] or 
+                                                  getattr(primary_data, 'sleeve_length', '') not in ['', 'unknown']) else "image_analysis"
+                else:
+                    visual_confidence = 0.7 if (neckline not in ['', 'unknown'] or sleeve_length not in ['', 'unknown']) else 0.3
+                    visual_source = "webpage_text"
+            else:
+                # Found in text/screenshots
+                visual_confidence = 0.8
+                visual_source = "webpage_text"
+            
+            # Step 4: Update primary data with enhanced visual analysis
+            enhanced_data = primary_data.__dict__.copy()
+            enhanced_data.update({
+                'neckline': neckline,
+                'sleeve_length': sleeve_length,
+                'visual_analysis_confidence': visual_confidence,
+                'visual_analysis_source': visual_source
+            })
+            
+            logger.info(f"Enhanced visual analysis complete: neckline={neckline}, sleeve_length={sleeve_length}, confidence={visual_confidence}")
+            return enhanced_data
+            
+        except Exception as e:
+            logger.error(f"Enhanced visual analysis failed: {e}")
+            # Return basic data without visual enhancements
+            return primary_data.__dict__ if hasattr(primary_data, '__dict__') else {}
+
+    async def _analyze_product_images_for_details(self, image_urls: List[str], retailer: str, url: str) -> Optional[Dict]:
+        """Focused image analysis for neckline and sleeve details"""
+        
+        try:
+            # Select best image for analysis (prefer main product shots)
+            best_image_url = self._select_best_image_for_analysis(image_urls, retailer)
+            if not best_image_url:
+                return None
+            
+            # Download and prepare image
+            import aiohttp
+            from PIL import Image
+            import io
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.get(best_image_url) as response:
+                    if response.status == 200:
+                        image_data = await response.read()
+                        image = Image.open(io.BytesIO(image_data))
+                        
+                        # Resize if too large (cost optimization)
+                        max_size = (800, 800)
+                        if image.size[0] > max_size[0] or image.size[1] > max_size[1]:
+                            image.thumbnail(max_size, Image.Resampling.LANCZOS)
+                        
+                        # Focused prompt for visual details only
+                        focused_prompt = f"""
+Analyze this clothing product image and identify ONLY the neckline and sleeve length.
+
+Return JSON format:
+{{
+    "neckline": "crew/v-neck/scoop/off-shoulder/halter/strapless/boat/square/sweetheart/mock/turtleneck/cowl/other/unknown",
+    "sleeve_length": "sleeveless/cap/short/3-quarter/long/other/unknown",
+    "confidence": 0.0-1.0
+}}
+
+Focus only on what you can clearly see. Use "unknown" if unclear.
+Valid necklines: crew, v-neck, scoop, off-shoulder, halter, strapless, boat, square, sweetheart, mock, turtleneck, cowl, other, unknown
+Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
+"""
+                        
+                        # Call Gemini with single image
+                        response = await self._call_gemini_with_images(focused_prompt, [image])
+                        
+                        # Parse focused response
+                        return self._parse_focused_visual_response(response)
+            
+        except Exception as e:
+            logger.error(f"Focused image analysis failed: {e}")
+            return None
+
+    def _select_best_image_for_analysis(self, image_urls: List[str], retailer: str) -> Optional[str]:
+        """Select the best image for visual analysis"""
+        
+        if not image_urls:
+            return None
+        
+        # Scoring criteria for best analysis image
+        scored_images = []
+        
+        for url in image_urls[:3]:  # Limit to first 3 to control costs
+            score = 0
+            url_lower = url.lower()
+            
+            # Prefer main/front product shots
+            if any(keyword in url_lower for keyword in ['main', 'front', 'primary', 'hero']):
+                score += 10
+            
+            # Prefer high-res images
+            if any(keyword in url_lower for keyword in ['large', 'xl', 'full', 'zoom', '800', '1000']):
+                score += 5
+            
+            # Avoid detail shots that might not show full garment
+            if any(keyword in url_lower for keyword in ['detail', 'close', 'fabric', 'texture']):
+                score -= 5
+            
+            # Retailer-specific preferences
+            if retailer == 'asos' and '$XXL$' in url:
+                score += 3
+            elif retailer == 'uniqlo' and 'goods' in url:
+                score += 3
+            elif retailer == 'aritzia' and any(dim in url for dim in ['800', '1000']):
+                score += 3
+            
+            scored_images.append((score, url))
+        
+        # Return highest scoring image
+        if scored_images:
+            scored_images.sort(reverse=True)
+            return scored_images[0][1]
+        
+        return image_urls[0]  # Fallback to first image
+
+    def _parse_focused_visual_response(self, response: str) -> Optional[Dict]:
+        """Parse focused visual analysis response"""
+        
+        try:
+            # Extract JSON from response
+            json_start = response.find('{')
+            json_end = response.rfind('}') + 1
+            
+            if json_start == -1 or json_end == 0:
+                return None
+            
+            json_str = response[json_start:json_end]
+            data = json.loads(json_str)
+            
+            # Validate fields
+            valid_necklines = ['crew', 'v-neck', 'scoop', 'off-shoulder', 'halter', 'strapless', 
+                             'boat', 'square', 'sweetheart', 'mock', 'turtleneck', 'cowl', 'other', 'unknown']
+            valid_sleeves = ['sleeveless', 'cap', 'short', '3-quarter', 'long', 'other', 'unknown']
+            
+            neckline = data.get('neckline', 'unknown')
+            sleeve_length = data.get('sleeve_length', 'unknown')
+            confidence = float(data.get('confidence', 0.5))
+            
+            # Validate values
+            if neckline not in valid_necklines:
+                neckline = 'unknown'
+            if sleeve_length not in valid_sleeves:
+                sleeve_length = 'unknown'
+            
+            return {
+                'neckline': neckline,
+                'sleeve_length': sleeve_length,
+                'confidence': max(0.0, min(1.0, confidence))
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to parse focused visual response: {e}")
+            return None
 
 
 # Integration with existing system

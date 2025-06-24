@@ -390,7 +390,11 @@ class BatchProcessor:
                 modesty_status=processed_url.modesty_level,
                 shopify_id=shopify_result['product_id'],
                 shopify_variant_id=shopify_result.get('variant_id'),
-                scraping_method=extraction_method
+                scraping_method=extraction_method,
+                neckline=extracted_data.get('neckline', 'unknown'),
+                sleeve_length=extracted_data.get('sleeve_length', 'unknown'),
+                visual_analysis_confidence=extracted_data.get('visual_analysis_confidence'),
+                visual_analysis_source=extracted_data.get('visual_analysis_source', '')
             )
             
             logger.debug(f"Stored product record for {processed_url.clean_url}")

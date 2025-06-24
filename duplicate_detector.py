@@ -72,7 +72,11 @@ class DuplicateDetector:
                         scraping_method VARCHAR(50),
                         status VARCHAR(50),
                         image_count INTEGER DEFAULT 0,
-                        processing_notes TEXT
+                        processing_notes TEXT,
+                        neckline VARCHAR(50),
+                        sleeve_length VARCHAR(50),
+                        visual_analysis_confidence DECIMAL(3,2),
+                        visual_analysis_source VARCHAR(50)
                     )
                 """)
                 
@@ -339,8 +343,9 @@ class DuplicateDetector:
                         product_code, title, url, retailer, brand, price, original_price,
                         clothing_type, sale_status, modesty_status, stock_status,
                         shopify_id, shopify_variant_id, first_seen, last_seen, last_updated,
-                        scraping_method, status, image_count, processing_notes
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        scraping_method, status, image_count, processing_notes,
+                        neckline, sleeve_length, visual_analysis_confidence, visual_analysis_source
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     product_data.get('product_code'),
                     product_data.get('title'),
@@ -361,7 +366,11 @@ class DuplicateDetector:
                     product_data.get('scraping_method'),
                     'active',  # status
                     product_data.get('image_count', 0),
-                    product_data.get('processing_notes')
+                    product_data.get('processing_notes'),
+                    product_data.get('neckline'),
+                    product_data.get('sleeve_length'),
+                    product_data.get('visual_analysis_confidence'),
+                    product_data.get('visual_analysis_source')
                 ))
                 
                 await conn.commit()
