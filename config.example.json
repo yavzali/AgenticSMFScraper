@@ -1,8 +1,8 @@
 {
     "shopify": {
-        "store_url": "dmrggj-28.myshopify.com",
+        "store_url": "your-store.myshopify.com",
         "api_version": "2025-01", 
-        "access_token": "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"
+        "access_token": "SHOPIFY_ACCESS_TOKEN_FROM_ENV"
     },
     
     "retailers": {
@@ -209,7 +209,7 @@
     
     "notifications": {
         "email_enabled": true,
-        "email_recipients": ["Ya.Zardali@gmail.com"],
+        "email_recipients": ["your-email@example.com"],
         "notification_triggers": {
             "batch_complete": true,
             "critical_errors": true,
@@ -228,11 +228,11 @@
             "enabled": true,
             "timeout": 180,
             "max_retries": 1,
-            "installation_path": "/Users/yav/OpenManus",
-            "conda_env": "/Users/yav/miniconda3/envs/openmanus",
-            "config_file": "/Users/yav/OpenManus/config/config.toml",
-            "api_key": "AIzaSyAe-F_ROGiG610mR1rlSanBfix96ZxCS7Q",
-            "note": "CLI tool - temporarily using GPT-4o-mini for stability"
+            "installation_path": "/path/to/OpenManus",
+            "conda_env": "/path/to/miniconda3/envs/openmanus",
+            "config_file": "/path/to/OpenManus/config/config.toml",
+            "api_key": "GOOGLE_API_KEY_FROM_ENV",
+            "note": "CLI tool - using environment variable for API key"
         },
         "skyvern": {
             "enabled": false,
@@ -272,21 +272,21 @@
     
     "llm_providers": {
         "google": {
-            "api_key": "AIzaSyAe-F_ROGiG610mR1rlSanBfix96ZxCS7Q",
+            "api_key": "GOOGLE_API_KEY_FROM_ENV",
             "model": "gemini-2.0-flash-exp"
         },
         "openai": {
-            "api_key": "YOUR_OPENAI_API_KEY",
+            "api_key": "OPENAI_API_KEY_FROM_ENV",
             "model": "gpt-4o-mini"
         },
         "anthropic": {
-            "api_key": "YOUR_ANTHROPIC_API_KEY",
+            "api_key": "ANTHROPIC_API_KEY_FROM_ENV",
             "model": "claude-3-5-sonnet-20241022"
         },
         "deepseek": {
-            "api_key": "sk-3fa1957e03144fd58c84f5bb8d38f94a",
+            "api_key": "DEEPSEEK_API_KEY_FROM_ENV",
             "model": "deepseek-chat",
             "base_url": "https://api.deepseek.com"
         }
     }
-}
+} 

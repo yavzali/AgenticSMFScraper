@@ -60,3 +60,18 @@ skyvern/
 # Config files with sensitive data (if any)
 .env
 .env.local 
+
+# SECURITY: API Keys and Configuration
+config.json
+config_production.json
+config_development.json
+*.config.json
+
+# Environment files
+.env*
+!.env.example
+
+# API Keys
+*api_key*
+*access_token*
+*secret* 
