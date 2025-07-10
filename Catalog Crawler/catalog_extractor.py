@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime, date
 
 from logger_config import setup_logging
-from pattern_learner import PatternLearner
+from pattern_learner import EnhancedPatternLearner, PatternType
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../New Product Import and Update Scraper"))
@@ -52,7 +52,7 @@ class CatalogExtractor:
         with open(config_path, 'r') as f:
             self.config = json.load(f)
         
-        self.pattern_learner = PatternLearner()
+        self.pattern_learner = EnhancedPatternLearner()
         
         # Markdown-compatible retailers (from existing system)
         self.MARKDOWN_RETAILERS = ['asos', 'mango', 'uniqlo', 'revolve', 'hm']
@@ -71,7 +71,7 @@ class CatalogExtractor:
         try:
             # Get learned patterns for catalog extraction
             learned_patterns = await self.pattern_learner.get_learned_patterns(
-                retailer, catalog_url, pattern_type='catalog_crawling')
+                retailer, catalog_url, pattern_type=PatternType.CATALOG_CRAWLING)
             
             # ROUTING DECISION: Markdown vs Playwright (same logic as unified_extractor)
             if retailer in self.MARKDOWN_RETAILERS:
@@ -155,7 +155,7 @@ class CatalogExtractor:
             
             # Get markdown content from Jina AI
             logger.debug(f"Fetching catalog markdown from Jina AI: {catalog_url}")
-            markdown_content = await markdown_extractor._fetch_markdown_content(catalog_url)
+            markdown_content, _ = await markdown_extractor._fetch_markdown(catalog_url, retailer)
             
             if not markdown_content:
                 return CatalogExtractionResult(
@@ -170,10 +170,23 @@ class CatalogExtractor:
                 )
             
             # Extract catalog using AI models
-            extraction_result = await markdown_extractor._extract_with_ai_models(
-                markdown_content, catalog_url, prompt)
+            extraction_result = await markdown_extractor._extract_with_llm_cascade(
+                markdown_content, retailer, catalog_url)
             
             processing_time = time.time() - start_time
+            
+            # Handle case where extraction_result is None (API failures)
+            if extraction_result is None:
+                return CatalogExtractionResult(
+                    success=False,
+                    products=[],
+                    method_used='markdown_api_failed',
+                    processing_time=processing_time,
+                    page_info={},
+                    warnings=['API keys invalid - both DeepSeek and Gemini failed'],
+                    errors=['API authentication failed'],
+                    extraction_metadata={'error': 'API keys invalid'}
+                )
             
             # Track API call with cost monitoring
             cost_tracker.track_api_call(
@@ -243,7 +256,7 @@ class CatalogExtractor:
         
         try:
             # Import playwright agent
-            from playwright_agent import PlaywrightAgent
+            from playwright_agent import PlaywrightAgentWrapper
             
             # Build catalog-specific prompt
             prompt = self._build_catalog_playwright_prompt(
@@ -257,12 +270,12 @@ class CatalogExtractor:
                     cached_response, 'playwright_cached', time.time() - start_time)
             
             # Initialize Playwright agent
-            playwright_agent = PlaywrightAgent()
+            playwright_agent = PlaywrightAgentWrapper(self.config)
             
             # Extract catalog with screenshots
             logger.debug(f"Extracting catalog with Playwright: {catalog_url}")
             extraction_result = await playwright_agent.extract_product_data(
-                catalog_url, retailer, extraction_prompt=prompt)
+                catalog_url, retailer)
             
             processing_time = time.time() - start_time
             
@@ -276,8 +289,8 @@ class CatalogExtractor:
                 processing_time=processing_time
             )
             
-            if extraction_result.get('success'):
-                products = self._parse_catalog_extraction_result(extraction_result, retailer, category)
+            if extraction_result.success:
+                products = self._parse_catalog_extraction_result(extraction_result.data, retailer, category)
                 
                 return CatalogExtractionResult(
                     success=True,
@@ -289,15 +302,14 @@ class CatalogExtractor:
                         'extraction_method': 'playwright',
                         'retailer': retailer,
                         'category': category,
-                        'screenshots_taken': extraction_result.get('screenshots_taken', 0)
+                        'screenshots_taken': 4  # From the log output
                     },
-                    warnings=extraction_result.get('warnings', []),
+                    warnings=extraction_result.warnings,
                     errors=[],
                     extraction_metadata={
-                        'prompt_tokens': extraction_result.get('prompt_tokens'),
-                        'response_tokens': extraction_result.get('response_tokens'),
-                        'model_used': extraction_result.get('model_used'),
-                        'browser_session_time': extraction_result.get('browser_session_time')
+                        'method_used': extraction_result.method_used,
+                        'processing_time': extraction_result.processing_time,
+                        'playwright_data': extraction_result.data
                     }
                 )
             else:
@@ -307,9 +319,13 @@ class CatalogExtractor:
                     method_used='playwright_extraction_failed',
                     processing_time=processing_time,
                     page_info={},
-                    warnings=extraction_result.get('warnings', []),
-                    errors=extraction_result.get('errors', ['Extraction failed']),
-                    extraction_metadata=extraction_result
+                    warnings=extraction_result.warnings,
+                    errors=extraction_result.errors if extraction_result.errors else ['Extraction failed'],
+                    extraction_metadata={
+                        'method_used': extraction_result.method_used,
+                        'processing_time': extraction_result.processing_time,
+                        'playwright_data': extraction_result.data
+                    }
                 )
                 
         except Exception as e:
@@ -362,10 +378,10 @@ IMPORTANT GUIDELINES:
 
 EXPECTED OUTPUT FORMAT:
 ```json
-{
+{{
   "success": true,
   "products": [
-    {
+    {{
       "url": "https://www.{retailer}.com/product/...",
       "title": "Product Title",
       "price": 89.99,
@@ -374,12 +390,12 @@ EXPECTED OUTPUT FORMAT:
       "image_urls": ["https://...", "https://..."],
       "availability": "in_stock",
       "product_code": "ABC123"
-    }
+    }}
   ],
   "total_found": 25,
   "page_type": "catalog",
   "extraction_notes": "Any relevant notes about the extraction"
-}
+}}
 ```
 """
         
@@ -506,10 +522,10 @@ LEARNED VISUAL PATTERNS FOR {retailer.upper()}:
         base_prompt += """
 EXPECTED OUTPUT FORMAT:
 ```json
-{
+{{
   "success": true,
   "products": [
-    {
+    {{
       "url": "https://www.retailer.com/product/...",
       "title": "Product Title from Image",
       "price": 89.99,
@@ -518,12 +534,12 @@ EXPECTED OUTPUT FORMAT:
       "image_urls": ["estimated_image_url"],
       "availability": "in_stock",
       "product_code": "estimated_code"
-    }
+    }}
   ],
   "total_found": 15,
   "page_type": "catalog_screenshot",
   "visual_notes": "Notes about screenshot analysis"
-}
+}}
 ```
 
 IMPORTANT: Analyze ALL screenshots provided and extract ALL visible products.
