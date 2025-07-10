@@ -6,6 +6,7 @@ Cost Tracker - Tracks API usage, costs, and optimizes for cost efficiency
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import json
 import os

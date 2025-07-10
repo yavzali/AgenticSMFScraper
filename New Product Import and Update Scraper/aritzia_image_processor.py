@@ -7,6 +7,7 @@ Extends the optimized base image processor with Aritzia-specific logic
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import re
 from typing import List, Dict, Optional

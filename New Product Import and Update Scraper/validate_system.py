@@ -11,13 +11,14 @@ def test_imports():
     
     tests = []
     
+    # Add shared path for imports
+    import sys
+    import os
+    sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+    sys.path.append(os.path.dirname(__file__))
+
     # Test MarkdownExtractor
     try:
-# Add shared path for imports
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
-
         from markdown_extractor import MarkdownExtractor
         extractor = MarkdownExtractor()
         assert hasattr(extractor, 'deepseek_enabled')
@@ -72,7 +73,7 @@ def test_databases():
     # Test products.db
     try:
         import sqlite3
-        conn = sqlite3.connect('products.db')
+        conn = sqlite3.connect('../Shared/products.db')
         cursor = conn.cursor()
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursor.fetchall()
@@ -87,7 +88,7 @@ def test_databases():
     # Test patterns.db
     try:
         import sqlite3
-        conn = sqlite3.connect('patterns.db')
+        conn = sqlite3.connect('../Shared/patterns.db')
         cursor = conn.cursor()
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = cursor.fetchall()
@@ -111,7 +112,7 @@ def test_config_files():
     # Test config.json
     try:
         import json
-        with open('config.json', 'r') as f:
+        with open('../Shared/config.json', 'r') as f:
             config = json.load(f)
         assert 'llm_providers' in config
         assert 'shopify' in config  # Check for actual key instead of extraction_routing
@@ -124,7 +125,7 @@ def test_config_files():
     # Test urls.json
     try:
         import json
-        with open('urls.json', 'r') as f:
+        with open('../Shared/urls.json', 'r') as f:
             urls = json.load(f)
         assert isinstance(urls, dict)
         print("✅ URLs JSON: PASS")

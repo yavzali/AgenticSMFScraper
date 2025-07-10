@@ -2,6 +2,7 @@
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 import base64
@@ -90,7 +91,7 @@ class PlaywrightMultiScreenshotAgent:
     def _load_config(self) -> Dict:
         """Load configuration from config.json"""
         try:
-            config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+            config_path = os.path.join(os.path.dirname(__file__), '../Shared/config.json')
             with open(config_path, 'r') as f:
                 config = json.load(f)
             logger.info("✅ Configuration loaded from config.json")

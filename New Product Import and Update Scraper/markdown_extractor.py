@@ -7,6 +7,7 @@ Handles ASOS, Mango, Uniqlo, Revolve, H&M with fallback to agent extraction.
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import json
 import re
@@ -50,7 +51,7 @@ class MarkdownExtractor:
         # Load configuration
         # Get the directory where this script is located
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        config_path = os.path.join(script_dir, 'config.json')
+        config_path = os.path.join(script_dir, '../Shared/config.json')
         with open(config_path, 'r') as f:
             self.config = json.load(f)
         

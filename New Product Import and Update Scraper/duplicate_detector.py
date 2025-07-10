@@ -6,6 +6,7 @@ Duplicate Detector - Handles database operations and sophisticated duplicate det
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import os
 import aiosqlite
@@ -24,7 +25,7 @@ class DuplicateDetector:
     def __init__(self, db_path: str = None):
         if db_path is None:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            db_path = os.path.join(script_dir, 'products.db')
+            db_path = os.path.join(script_dir, '../Shared/products.db')
         self.db_path = db_path
         self.db_path = db_path
         self._init_database()

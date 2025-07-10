@@ -6,6 +6,7 @@ Batch Processor - Orchestrates the complete workflow for batches of URLs
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 from typing import List, Dict, Any

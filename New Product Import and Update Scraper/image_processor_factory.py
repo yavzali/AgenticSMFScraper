@@ -7,6 +7,7 @@ Manages the selection between reconstruction vs transformation processors
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 from typing import Dict, Optional
 from base_image_processor import BaseImageProcessor

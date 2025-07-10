@@ -7,6 +7,7 @@ Handles scheduling of catalog monitoring runs and integration with existing scra
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 import schedule
@@ -59,7 +60,7 @@ class CatalogScheduler:
         # Load configuration
         if config_path is None:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            config_path = os.path.join(script_dir, 'config.json')
+            config_path = os.path.join(script_dir, '../Shared/config.json')
         
         self.config = self._load_config(config_path)
         self.scheduler_config = self.config.get('catalog_scheduler', {})

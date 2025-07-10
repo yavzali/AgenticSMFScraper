@@ -7,6 +7,7 @@ Combines markdown extraction, Playwright multi-screenshot, pattern learning, and
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import json
 import asyncio
@@ -39,7 +40,7 @@ class UnifiedExtractor:
     def __init__(self):
         # Load configuration
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        config_path = os.path.join(script_dir, 'config.json')
+        config_path = os.path.join(script_dir, '../Shared/config.json')
         
         with open(config_path, 'r') as f:
             self.config = json.load(f)

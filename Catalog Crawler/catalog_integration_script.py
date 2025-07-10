@@ -7,6 +7,7 @@ Handles database initialization, system validation, and integration with existin
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 import os
@@ -38,7 +39,7 @@ class CatalogSystemIntegrator:
     
     def __init__(self):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
-        self.config_path = os.path.join(self.script_dir, 'config.json')
+        self.config_path = os.path.join(self.script_dir, '../Shared/config.json')
         self.backup_dir = os.path.join(self.script_dir, 'backup')
         
         logger.info("🔧 Catalog system integrator initialized")
@@ -157,7 +158,7 @@ class CatalogSystemIntegrator:
             ]
             
             # Validate products.db
-            products_db_path = os.path.join(self.script_dir, 'products.db')
+            products_db_path = os.path.join(self.script_dir, '../Shared/products.db')
             conn = sqlite3.connect(products_db_path)
             cursor = conn.cursor()
             
@@ -173,7 +174,7 @@ class CatalogSystemIntegrator:
             conn.close()
             
             # Validate patterns.db  
-            patterns_db_path = os.path.join(self.script_dir, 'patterns.db')
+            patterns_db_path = os.path.join(self.script_dir, '../Shared/patterns.db')
             conn = sqlite3.connect(patterns_db_path)
             cursor = conn.cursor()
             

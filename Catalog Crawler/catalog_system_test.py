@@ -7,6 +7,7 @@ Validates all components work together correctly before production use
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 import os
@@ -128,7 +129,7 @@ class CatalogSystemTester:
         """Test database schema validation"""
         try:
             # Test products.db extensions
-            products_db_path = os.path.join(self.script_dir, 'products.db')
+            products_db_path = os.path.join(self.script_dir, '../Shared/products.db')
             conn = sqlite3.connect(products_db_path)
             cursor = conn.cursor()
             
