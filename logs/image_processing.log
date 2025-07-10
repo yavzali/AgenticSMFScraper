@@ -565,3 +565,27 @@
 [2025-06-08 18:38:20.265] [DEBUG] [base_image_processor] Downloaded extracted_4 image: quality=90, size=800192, resolution=(1500, 2098)
 [2025-06-08 18:38:20.366] [DEBUG] [base_image_processor] Downloaded extracted_5 image: quality=90, size=542670, resolution=(1500, 2098)
 [2025-06-08 18:38:20.366] [INFO] [base_image_processor] Successfully downloaded 5 extracted images for mango
+[2025-06-09 15:36:50.196] [INFO] [anthropologie_image_processor] 🎨 Initialized AnthropologieImageProcessor for enhanced Anthropologie image processing
+[2025-06-09 15:36:50.196] [DEBUG] [image_processor_factory] Created AnthropologieImageProcessor for anthropologie
+[2025-06-09 15:36:50.196] [INFO] [anthropologie_image_processor] 🎨 Processing 5 Anthropologie images with enhanced lazy-loading support
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] 🚫 Excluded placeholder/thumbnail: https://assets.anthropologie.com/is/image/Anthropologie/placeholder_loading.svg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_330_430.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] 🚫 Excluded placeholder/thumbnail: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_thumb.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Filtered to 3 valid URLs
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://assets.anthropologie.com/is/image/Anthropo → https://assets.anthropologie.com/is/image/Anthropo
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Pattern match: _(\d+)_(\d+)\.jpg → _1094_1405.jpg
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://assets.anthropologie.com/is/image/Anthropo → https://assets.anthropologie.com/is/image/Anthropo
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Pattern match: _(\d+)_(\d+)\.jpg → _1094_1405.jpg
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://s7d2.scene7.com/is/image/Anthropologie/413 → https://s7d2.scene7.com/is/image/Anthropologie/413
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Enhanced 3 URLs for quality
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 5.0 for: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg?
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 172.7 for: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_1094_1405.
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 168.7 for: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg?wid=1
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🏆 Ranked 3 URLs by quality score
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Final selection: 3 high-quality images
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_1094_1405.
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg?wid=1
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg?
+[2025-06-09 15:36:50.197] [INFO] [anthropologie_image_processor] 🎨 Anthropologie processing complete: 3 quality images

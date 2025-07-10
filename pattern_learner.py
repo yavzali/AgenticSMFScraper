@@ -1,622 +1,873 @@
 """
-Pattern Learner - Learns from successful and failed extractions to improve future performance
+Updated Pattern Learner - Multi-Function Pattern Learning with Cross-Learning
+Supports catalog crawling, individual extraction, and product update patterns
 """
 
-import os
-import aiosqlite
+import sqlite3
 import asyncio
 import json
-import re
-from typing import Dict, List, Optional, Any
+import time
+from typing import Dict, List, Optional, Any, Set
 from datetime import datetime, timedelta
-from collections import defaultdict
-import difflib
+from dataclasses import dataclass, asdict
+from enum import Enum
+import os
 
 from logger_config import setup_logging
 
 logger = setup_logging(__name__)
 
-class PatternLearner:
+class PatternType(Enum):
+    """Types of patterns the system can learn"""
+    CATALOG_CRAWLING = "catalog_crawling"
+    INDIVIDUAL_EXTRACTION = "individual_extraction"
+    PRODUCT_UPDATES = "product_updates"
+
+@dataclass
+class PatternData:
+    """Individual pattern data structure"""
+    pattern_id: str
+    pattern_type: PatternType
+    retailer: str
+    pattern_category: str  # e.g., 'pagination_detection', 'title_selectors', 'price_change_patterns'
+    pattern_data: Dict[str, Any]
+    success_count: int = 0
+    failure_count: int = 0
+    last_used: Optional[datetime] = None
+    confidence_score: float = 0.0
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+class EnhancedPatternLearner:
+    """
+    Enhanced Pattern Learner supporting multiple pattern types with cross-learning
+    Distinguishes between catalog crawling, individual extraction, and product update patterns
+    """
+    
     def __init__(self, db_path: str = None):
         if db_path is None:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             db_path = os.path.join(script_dir, 'patterns.db')
         self.db_path = db_path
-        self.db_path = db_path
         
-        # In-memory pattern cache for performance
-        self.pattern_cache = {
-            'success_patterns': defaultdict(list),
-            'failure_patterns': defaultdict(list),
-            'image_transformations': defaultdict(list)
+        # Pattern category definitions
+        self.PATTERN_CATEGORIES = {
+            PatternType.CATALOG_CRAWLING: {
+                'pagination_detection',
+                'load_more_buttons', 
+                'infinite_scroll_triggers',
+                'product_grid_selectors',
+                'anti_bot_patterns',
+                'sort_by_newest_detection',
+                'catalog_page_structure',
+                'product_count_detection',
+                'next_page_indicators'
+            },
+            PatternType.INDIVIDUAL_EXTRACTION: {
+                'title_selectors',
+                'price_selectors', 
+                'image_selectors',
+                'description_patterns',
+                'size_variant_detection',
+                'color_variant_detection',
+                'availability_indicators',
+                'sale_badge_detection',
+                'brand_extraction',
+                'product_code_patterns'
+            },
+            PatternType.PRODUCT_UPDATES: {
+                'price_change_patterns',
+                'stock_status_indicators',
+                'sale_status_patterns', 
+                'title_update_detection',
+                'image_update_patterns',
+                'variant_availability_changes',
+                'discontinued_indicators',
+                'back_in_stock_patterns'
+            }
         }
         
-        # Initialize database and load patterns asynchronously
-        try:
-            loop = asyncio.get_running_loop()
-            # If we're already in an event loop, create a task
-            asyncio.create_task(self._async_init())
-            # For testing purposes, we'll need to call _async_init later
-            self._init_deferred = True
-        except RuntimeError:
-            # No event loop running, safe to use asyncio.run()
-            try:
-                asyncio.run(self._async_init())
-                self._init_deferred = False
-            except Exception as e:
-                logger.warning(f"Could not initialize pattern learner: {e}")
-                self._init_deferred = True
-    
-    async def _ensure_initialized(self):
-        """Ensure async initialization is complete"""
-        if getattr(self, '_init_deferred', False):
-            await self._async_init()
-            self._init_deferred = False
-    
-    async def _async_init(self):
-        """Async initialization"""
-        await self._init_pattern_database()
-        await self._load_pattern_cache()
-    
-    async def _init_pattern_database(self):
-        """Initialize pattern learning database"""
+        # Cross-learning opportunities
+        self.CROSS_LEARNING_PATTERNS = {
+            # Anti-bot patterns learned from catalog crawling help individual extraction
+            ('catalog_crawling', 'anti_bot_patterns'): [
+                ('individual_extraction', 'anti_bot_patterns'),
+                ('product_updates', 'anti_bot_patterns')
+            ],
+            # Price selectors learned from individual extraction help catalog and updates
+            ('individual_extraction', 'price_selectors'): [
+                ('catalog_crawling', 'price_detection'),
+                ('product_updates', 'price_change_patterns')
+            ],
+            # Stock indicators learned from updates help catalog and individual extraction
+            ('product_updates', 'stock_status_indicators'): [
+                ('catalog_crawling', 'availability_detection'),
+                ('individual_extraction', 'availability_indicators')
+            ]
+        }
         
+        self._init_database()
+        logger.info("✅ Enhanced pattern learner initialized with multi-function support")
+    
+    def _init_database(self):
+        """Initialize enhanced pattern learning database"""
         try:
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Success patterns table
-                await cursor.execute("""
-                    CREATE TABLE IF NOT EXISTS success_patterns (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        retailer VARCHAR(100),
-                        url_pattern VARCHAR(500),
-                        extraction_method VARCHAR(50),
-                        data_selectors TEXT,
-                        confidence_score DECIMAL(3,2),
-                        success_timestamp TIMESTAMP,
-                        usage_count INTEGER DEFAULT 1,
-                        success_rate DECIMAL(3,2) DEFAULT 1.0
-                    )
-                """)
-                
-                # Failure patterns table
-                await cursor.execute("""
-                    CREATE TABLE IF NOT EXISTS failure_patterns (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        retailer VARCHAR(100),
-                        url_pattern VARCHAR(500),
-                        extraction_method VARCHAR(50),
-                        error_type VARCHAR(100),
-                        error_details TEXT,
-                        failure_timestamp TIMESTAMP,
-                        occurrence_count INTEGER DEFAULT 1
-                    )
-                """)
-                
-                # Image transformation patterns table
-                await cursor.execute("""
-                    CREATE TABLE IF NOT EXISTS image_transformations (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        retailer VARCHAR(100),
-                        original_pattern VARCHAR(500),
-                        transformed_pattern VARCHAR(500),
-                        transformation_rule TEXT,
-                        success_count INTEGER DEFAULT 1,
-                        failure_count INTEGER DEFAULT 0,
-                        confidence DECIMAL(3,2),
-                        last_used TIMESTAMP
-                    )
-                """)
-                
-                # Create indexes
-                await cursor.execute("CREATE INDEX IF NOT EXISTS idx_retailer_success ON success_patterns(retailer, confidence_score)")
-                await cursor.execute("CREATE INDEX IF NOT EXISTS idx_retailer_failure ON failure_patterns(retailer, error_type)")
-                await cursor.execute("CREATE INDEX IF NOT EXISTS idx_image_confidence ON image_transformations(retailer, confidence)")
-                
-                await conn.commit()
-                logger.info("Pattern learning database initialized")
-        
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            # Create enhanced patterns table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS enhanced_patterns (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    pattern_id VARCHAR(100) UNIQUE NOT NULL,
+                    pattern_type VARCHAR(50) NOT NULL,
+                    retailer VARCHAR(100) NOT NULL,
+                    pattern_category VARCHAR(100) NOT NULL,
+                    pattern_data TEXT NOT NULL,
+                    success_count INTEGER DEFAULT 0,
+                    failure_count INTEGER DEFAULT 0,
+                    confidence_score DECIMAL(3,2) DEFAULT 0.0,
+                    last_used TIMESTAMP,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            
+            # Create cross-learning patterns table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS cross_learning_patterns (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    source_pattern_id VARCHAR(100) NOT NULL,
+                    target_pattern_type VARCHAR(50) NOT NULL,
+                    target_pattern_category VARCHAR(100) NOT NULL,
+                    retailer VARCHAR(100) NOT NULL,
+                    learned_data TEXT NOT NULL,
+                    confidence_transfer_score DECIMAL(3,2) DEFAULT 0.0,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (source_pattern_id) REFERENCES enhanced_patterns(pattern_id)
+                )
+            """)
+            
+            # Create pattern usage statistics table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS pattern_usage_stats (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    pattern_id VARCHAR(100) NOT NULL,
+                    usage_context VARCHAR(100) NOT NULL,
+                    success BOOLEAN NOT NULL,
+                    processing_time DECIMAL(8,2),
+                    error_details TEXT,
+                    used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (pattern_id) REFERENCES enhanced_patterns(pattern_id)
+                )
+            """)
+            
+            # Create indexes for performance
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_patterns_type_retailer ON enhanced_patterns(pattern_type, retailer)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_patterns_category ON enhanced_patterns(pattern_category)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_cross_learning_source ON cross_learning_patterns(source_pattern_id)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_usage_stats_pattern ON pattern_usage_stats(pattern_id)")
+            
+            conn.commit()
+            conn.close()
+            
+            logger.info("Enhanced pattern learning database initialized")
+            
         except Exception as e:
             logger.error(f"Failed to initialize pattern database: {e}")
             raise
     
-    async def _load_pattern_cache(self):
-        """Load recent patterns into memory cache"""
-        
-        try:
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Load recent success patterns (last 30 days)
-                await cursor.execute("""
-                    SELECT retailer, url_pattern, extraction_method, data_selectors, confidence_score
-                    FROM success_patterns 
-                    WHERE success_timestamp >= datetime('now', '-30 days')
-                    ORDER BY confidence_score DESC, usage_count DESC
-                    LIMIT 100
-                """)
-                
-                rows = await cursor.fetchall()
-                for row in rows:
-                    retailer, url_pattern, method, selectors, confidence = row
-                    self.pattern_cache['success_patterns'][retailer].append({
-                        'url_pattern': url_pattern,
-                        'method': method,
-                        'selectors': json.loads(selectors) if selectors else {},
-                        'confidence': confidence
-                    })
-                
-                # Load recent failure patterns
-                await cursor.execute("""
-                    SELECT retailer, url_pattern, extraction_method, error_type, error_details
-                    FROM failure_patterns 
-                    WHERE failure_timestamp >= datetime('now', '-7 days')
-                    ORDER BY occurrence_count DESC
-                    LIMIT 50
-                """)
-                
-                rows = await cursor.fetchall()
-                for row in rows:
-                    retailer, url_pattern, method, error_type, error_details = row
-                    self.pattern_cache['failure_patterns'][retailer].append({
-                        'url_pattern': url_pattern,
-                        'method': method,
-                        'error_type': error_type,
-                        'error_details': error_details
-                    })
-                
-                # Load image transformations
-                await cursor.execute("""
-                    SELECT retailer, original_pattern, transformed_pattern, transformation_rule, confidence
-                    FROM image_transformations 
-                    WHERE confidence > 0.7
-                    ORDER BY confidence DESC, success_count DESC
-                    LIMIT 50
-                """)
-                
-                rows = await cursor.fetchall()
-                for row in rows:
-                    retailer, original, transformed, rule, confidence = row
-                    self.pattern_cache['image_transformations'][retailer].append({
-                        'original_pattern': original,
-                        'transformed_pattern': transformed,
-                        'rule': rule,
-                        'confidence': confidence
-                    })
-                
-                logger.info("Pattern cache loaded successfully")
-        
-        except Exception as e:
-            logger.error(f"Failed to load pattern cache: {e}")
+    # =================== MAIN PATTERN LEARNING INTERFACE ===================
     
-    async def record_successful_extraction(self, retailer: str, url: str, extraction_method: str, 
-                                         extracted_data: Dict):
-        """Record successful extraction patterns"""
-        
+    async def get_learned_patterns(self, retailer: str, url: str = None, 
+                                 pattern_type: PatternType = None) -> Dict[str, Any]:
+        """
+        Get learned patterns for retailer, optionally filtered by type
+        Includes cross-learned patterns from other pattern types
+        """
         try:
-            url_pattern = self._extract_url_pattern(url)
-            data_selectors = self._analyze_data_patterns(extracted_data)
-            confidence_score = self._calculate_confidence_score(extracted_data)
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
             
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Check if pattern already exists
-                await cursor.execute("""
-                    SELECT id, usage_count, success_rate FROM success_patterns 
-                    WHERE retailer = ? AND url_pattern = ? AND extraction_method = ?
-                """, (retailer, url_pattern, extraction_method))
-                
-                existing = await cursor.fetchone()
-                
-                if existing:
-                    # Update existing pattern
-                    pattern_id, usage_count, success_rate = existing
-                    new_usage_count = usage_count + 1
-                    new_success_rate = (success_rate * usage_count + 1.0) / new_usage_count
-                    
-                    await cursor.execute("""
-                        UPDATE success_patterns 
-                        SET usage_count = ?, success_rate = ?, success_timestamp = ?, confidence_score = ?
-                        WHERE id = ?
-                    """, (new_usage_count, new_success_rate, datetime.utcnow(), confidence_score, pattern_id))
-                else:
-                    # Insert new pattern
-                    await cursor.execute("""
-                        INSERT INTO success_patterns 
-                        (retailer, url_pattern, extraction_method, data_selectors, confidence_score, success_timestamp)
-                        VALUES (?, ?, ?, ?, ?, ?)
-                    """, (retailer, url_pattern, extraction_method, json.dumps(data_selectors), 
-                         confidence_score, datetime.utcnow()))
-                
-                await conn.commit()
+            # Build query based on parameters
+            if pattern_type:
+                query = """
+                    SELECT pattern_category, pattern_data, confidence_score, last_used
+                    FROM enhanced_patterns 
+                    WHERE retailer = ? AND pattern_type = ? AND confidence_score > 0.3
+                    ORDER BY confidence_score DESC, last_used DESC
+                """
+                cursor.execute(query, (retailer, pattern_type.value))
+            else:
+                query = """
+                    SELECT pattern_type, pattern_category, pattern_data, confidence_score, last_used
+                    FROM enhanced_patterns 
+                    WHERE retailer = ? AND confidence_score > 0.3
+                    ORDER BY pattern_type, confidence_score DESC, last_used DESC
+                """
+                cursor.execute(query, (retailer,))
             
-            # Update cache
-            pattern = {
-                'url_pattern': url_pattern,
-                'method': extraction_method,
-                'selectors': data_selectors,
-                'confidence': confidence_score
-            }
+            patterns = cursor.fetchall()
             
-            self.pattern_cache['success_patterns'][retailer].append(pattern)
-            # Keep cache size manageable
-            if len(self.pattern_cache['success_patterns'][retailer]) > 20:
-                self.pattern_cache['success_patterns'][retailer] = \
-                    sorted(self.pattern_cache['success_patterns'][retailer], 
-                          key=lambda x: x['confidence'], reverse=True)[:20]
+            # Get cross-learned patterns
+            cross_patterns = await self._get_cross_learned_patterns(cursor, retailer, pattern_type)
             
-            logger.debug(f"Recorded successful pattern for {retailer}: {extraction_method}")
-        
+            conn.close()
+            
+            # Organize patterns
+            organized_patterns = self._organize_patterns(patterns, cross_patterns, pattern_type)
+            
+            logger.debug(f"Retrieved {len(patterns)} patterns + {len(cross_patterns)} cross-learned for {retailer}")
+            return organized_patterns
+            
         except Exception as e:
-            logger.error(f"Failed to record successful extraction: {e}")
+            logger.error(f"Error getting learned patterns for {retailer}: {e}")
+            return {}
     
-    async def record_failed_extraction(self, retailer: str, url: str, extraction_method: str, error_message: str):
-        """Record failed extraction patterns"""
-        
+    async def record_success(self, retailer: str, url: str, pattern_context: str,
+                           processing_time: float, extraction_metadata: Dict[str, Any],
+                           pattern_type: PatternType = None):
+        """
+        Record successful pattern usage and extract learnable patterns
+        """
         try:
-            url_pattern = self._extract_url_pattern(url)
-            error_type = self._classify_error_type(error_message)
+            # Infer pattern type from context if not provided
+            if not pattern_type:
+                pattern_type = self._infer_pattern_type(pattern_context)
             
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Check if pattern already exists
-                await cursor.execute("""
-                    SELECT id, occurrence_count FROM failure_patterns 
-                    WHERE retailer = ? AND url_pattern = ? AND extraction_method = ? AND error_type = ?
-                """, (retailer, url_pattern, extraction_method, error_type))
-                
-                existing = await cursor.fetchone()
-                
-                if existing:
-                    # Update existing pattern
-                    pattern_id, occurrence_count = existing
-                    new_occurrence_count = occurrence_count + 1
-                    
-                    await cursor.execute("""
-                        UPDATE failure_patterns 
-                        SET occurrence_count = ?, failure_timestamp = ?
-                        WHERE id = ?
-                    """, (new_occurrence_count, datetime.utcnow(), pattern_id))
-                else:
-                    # Insert new pattern
-                    await cursor.execute("""
-                        INSERT INTO failure_patterns 
-                        (retailer, url_pattern, extraction_method, error_type, error_details, failure_timestamp)
-                        VALUES (?, ?, ?, ?, ?, ?)
-                    """, (retailer, url_pattern, extraction_method, error_type, error_message, datetime.utcnow()))
-                
-                await conn.commit()
+            # Extract patterns from successful operation
+            patterns = self._extract_patterns_from_success(
+                retailer, url, pattern_context, extraction_metadata, pattern_type)
             
-            # Update cache
-            failure_pattern = {
-                'url_pattern': url_pattern,
-                'method': extraction_method,
-                'error_type': error_type,
-                'error_details': error_message
-            }
+            # Store patterns and update statistics
+            await self._store_learned_patterns(patterns)
+            await self._record_usage_stats(patterns, True, processing_time, pattern_context)
             
-            self.pattern_cache['failure_patterns'][retailer].append(failure_pattern)
-            # Keep cache size manageable
-            if len(self.pattern_cache['failure_patterns'][retailer]) > 10:
-                self.pattern_cache['failure_patterns'][retailer] = \
-                    self.pattern_cache['failure_patterns'][retailer][-10:]
+            # Check for cross-learning opportunities
+            await self._apply_cross_learning(patterns)
             
-            logger.debug(f"Recorded failure pattern for {retailer}: {error_type}")
-        
+            logger.debug(f"Recorded success for {retailer} - {pattern_context} ({len(patterns)} patterns)")
+            
         except Exception as e:
-            logger.error(f"Failed to record failed extraction: {e}")
+            logger.error(f"Error recording success for {retailer}: {e}")
     
-    async def get_learned_patterns(self, retailer: str, url: str) -> List[Dict]:
-        """Get learned patterns for retailer/URL combination"""
+    async def record_failure(self, retailer: str, url: str, pattern_context: str, 
+                           error_details: str, pattern_type: PatternType = None):
+        """
+        Record pattern failure and adjust confidence scores
+        """
+        try:
+            # Infer pattern type from context if not provided
+            if not pattern_type:
+                pattern_type = self._infer_pattern_type(pattern_context)
+            
+            # Update failure counts for related patterns
+            await self._update_pattern_failures(retailer, pattern_type, pattern_context)
+            
+            # Record usage statistics
+            await self._record_usage_stats([], False, None, pattern_context, error_details)
+            
+            logger.debug(f"Recorded failure for {retailer} - {pattern_context}")
+            
+        except Exception as e:
+            logger.error(f"Error recording failure for {retailer}: {e}")
+    
+    # =================== PATTERN TYPE SPECIFIC METHODS ===================
+    
+    async def get_catalog_crawling_patterns(self, retailer: str) -> Dict[str, Any]:
+        """Get patterns specific to catalog crawling"""
+        return await self.get_learned_patterns(retailer, pattern_type=PatternType.CATALOG_CRAWLING)
+    
+    async def get_individual_extraction_patterns(self, retailer: str) -> Dict[str, Any]:
+        """Get patterns specific to individual product extraction"""
+        return await self.get_learned_patterns(retailer, pattern_type=PatternType.INDIVIDUAL_EXTRACTION)
+    
+    async def get_product_update_patterns(self, retailer: str) -> Dict[str, Any]:
+        """Get patterns specific to product updates"""
+        return await self.get_learned_patterns(retailer, pattern_type=PatternType.PRODUCT_UPDATES)
+    
+    async def record_catalog_crawling_success(self, retailer: str, url: str, crawl_metadata: Dict):
+        """Record successful catalog crawling with specific pattern extraction"""
+        await self.record_success(
+            retailer, url, 'catalog_crawling', 
+            crawl_metadata.get('processing_time', 0.0),
+            crawl_metadata,
+            PatternType.CATALOG_CRAWLING
+        )
+    
+    async def record_extraction_success(self, retailer: str, url: str, extraction_metadata: Dict):
+        """Record successful individual product extraction"""
+        await self.record_success(
+            retailer, url, 'individual_extraction',
+            extraction_metadata.get('processing_time', 0.0),
+            extraction_metadata,
+            PatternType.INDIVIDUAL_EXTRACTION
+        )
+    
+    async def record_update_success(self, retailer: str, url: str, update_metadata: Dict):
+        """Record successful product update"""
+        await self.record_success(
+            retailer, url, 'product_update',
+            update_metadata.get('processing_time', 0.0),
+            update_metadata,
+            PatternType.PRODUCT_UPDATES
+        )
+    
+    # =================== PATTERN EXTRACTION LOGIC ===================
+    
+    def _extract_patterns_from_success(self, retailer: str, url: str, context: str,
+                                     metadata: Dict, pattern_type: PatternType) -> List[PatternData]:
+        """Extract learnable patterns from successful operations"""
+        patterns = []
         
         try:
-            await self._ensure_initialized()
+            if pattern_type == PatternType.CATALOG_CRAWLING:
+                patterns.extend(self._extract_catalog_patterns(retailer, url, metadata))
+            elif pattern_type == PatternType.INDIVIDUAL_EXTRACTION:
+                patterns.extend(self._extract_extraction_patterns(retailer, url, metadata))
+            elif pattern_type == PatternType.PRODUCT_UPDATES:
+                patterns.extend(self._extract_update_patterns(retailer, url, metadata))
             
-            url_pattern = self._extract_url_pattern(url)
+            return patterns
             
-            # Get from cache first
-            cached_patterns = self.pattern_cache['success_patterns'].get(retailer, [])
-            
-            # Filter patterns that match the URL
-            matching_patterns = []
-            for pattern in cached_patterns:
-                if self._url_matches_pattern(url, pattern['url_pattern']):
-                    matching_patterns.append(pattern)
-            
-            # Sort by confidence and return top 3
-            matching_patterns.sort(key=lambda x: x['confidence'], reverse=True)
-            return matching_patterns[:3]
-        
         except Exception as e:
-            logger.error(f"Failed to get learned patterns: {e}")
+            logger.warning(f"Error extracting patterns from success: {e}")
             return []
     
-    async def learn_image_transformation(self, retailer: str, original_url: str, high_res_url: str, success: bool):
-        """Learn image URL transformation patterns"""
+    def _extract_catalog_patterns(self, retailer: str, url: str, metadata: Dict) -> List[PatternData]:
+        """Extract catalog crawling specific patterns"""
+        patterns = []
         
         try:
-            original_pattern = self._extract_url_pattern(original_url)
-            transformed_pattern = self._extract_url_pattern(high_res_url)
-            transformation_rule = self._identify_transformation_rule(original_url, high_res_url)
-            
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Check if transformation already exists
-                await cursor.execute("""
-                    SELECT id, success_count, failure_count FROM image_transformations 
-                    WHERE retailer = ? AND original_pattern = ? AND transformed_pattern = ?
-                """, (retailer, original_pattern, transformed_pattern))
-                
-                existing = await cursor.fetchone()
-                
-                if existing:
-                    # Update existing transformation
-                    trans_id, success_count, failure_count = existing
-                    if success:
-                        new_success_count = success_count + 1
-                        new_failure_count = failure_count
-                    else:
-                        new_success_count = success_count
-                        new_failure_count = failure_count + 1
-                    
-                    new_confidence = new_success_count / (new_success_count + new_failure_count)
-                    
-                    await cursor.execute("""
-                        UPDATE image_transformations 
-                        SET success_count = ?, failure_count = ?, confidence = ?, last_used = ?
-                        WHERE id = ?
-                    """, (new_success_count, new_failure_count, new_confidence, datetime.utcnow(), trans_id))
-                else:
-                    # Insert new transformation
-                    initial_confidence = 1.0 if success else 0.0
-                    initial_success = 1 if success else 0
-                    initial_failure = 0 if success else 1
-                    
-                    await cursor.execute("""
-                        INSERT INTO image_transformations 
-                        (retailer, original_pattern, transformed_pattern, transformation_rule, 
-                         success_count, failure_count, confidence, last_used)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (retailer, original_pattern, transformed_pattern, transformation_rule,
-                         initial_success, initial_failure, initial_confidence, datetime.utcnow()))
-                
-                await conn.commit()
-                
-            logger.debug(f"Learned image transformation for {retailer}: {success}")
-        
-        except Exception as e:
-            logger.error(f"Failed to learn image transformation: {e}")
-    
-    async def apply_learned_image_patterns(self, retailer: str, image_urls: List[str]) -> List[str]:
-        """Apply learned image transformation patterns"""
-        
-        try:
-            learned_transformations = self.pattern_cache['image_transformations'].get(retailer, [])
-            
-            enhanced_urls = []
-            for url in image_urls:
-                best_transformation = None
-                best_confidence = 0
-                
-                for transformation in learned_transformations:
-                    if transformation['confidence'] > 0.8 and transformation['confidence'] > best_confidence:
-                        # Check if transformation pattern applies
-                        if self._transformation_applies(url, transformation):
-                            best_transformation = transformation
-                            best_confidence = transformation['confidence']
-                
-                if best_transformation:
-                    enhanced_url = self._apply_transformation(url, best_transformation)
-                    enhanced_urls.append(enhanced_url)
-                else:
-                    enhanced_urls.append(url)
-            
-            return enhanced_urls
-        
-        except Exception as e:
-            logger.error(f"Failed to apply image patterns: {e}")
-            return image_urls  # Return original URLs on error
-    
-    def _extract_url_pattern(self, url: str) -> str:
-        """Extract generalized pattern from URL"""
-        
-        # Remove specific product IDs and codes, keep structure
-        pattern = re.sub(r'/\d{6,}', '/[PRODUCT_ID]', url)
-        pattern = re.sub(r'/[A-Z0-9]{6,}', '/[PRODUCT_CODE]', pattern)
-        pattern = re.sub(r'product-\d+', 'product-[ID]', pattern)
-        pattern = re.sub(r'style-[A-Z0-9]+', 'style-[CODE]', pattern)
-        
-        # Remove query parameters for pattern matching
-        if '?' in pattern:
-            pattern = pattern.split('?')[0]
-        
-        return pattern
-    
-    def _analyze_data_patterns(self, extracted_data: Dict) -> Dict:
-        """Analyze successful data patterns"""
-        
-        patterns = {
-            'fields_found': list(extracted_data.keys()),
-            'data_quality': {},
-            'field_patterns': {}
-        }
-        
-        # Analyze data quality
-        for field, value in extracted_data.items():
-            if value is not None and value != '':
-                patterns['data_quality'][field] = 'good'
-                
-                # Analyze field patterns
-                if field == 'price' and isinstance(value, (int, float)):
-                    patterns['field_patterns']['price_numeric'] = True
-                elif field == 'title' and isinstance(value, str) and len(value) > 10:
-                    patterns['field_patterns']['title_substantial'] = True
-                elif field == 'image_urls' and isinstance(value, list) and len(value) > 0:
-                    patterns['field_patterns']['images_found'] = len(value)
-            else:
-                patterns['data_quality'][field] = 'poor'
-        
-        return patterns
-    
-    def _calculate_confidence_score(self, extracted_data: Dict) -> float:
-        """Calculate confidence score for extraction success"""
-        
-        required_fields = ['title', 'price', 'retailer']
-        important_fields = ['brand', 'description', 'stock_status', 'image_urls']
-        
-        score = 0.0
-        max_score = 1.0
-        
-        # Required fields (70% of score)
-        required_found = sum(1 for field in required_fields if extracted_data.get(field))
-        score += (required_found / len(required_fields)) * 0.7
-        
-        # Important fields (20% of score)
-        important_found = sum(1 for field in important_fields if extracted_data.get(field))
-        score += (important_found / len(important_fields)) * 0.2
-        
-        # Data quality (10% of score)
-        if extracted_data.get('price') and isinstance(extracted_data['price'], (int, float)):
-            score += 0.05
-        if extracted_data.get('image_urls') and len(extracted_data['image_urls']) > 0:
-            score += 0.05
-        
-        return min(score, max_score)
-    
-    def _classify_error_type(self, error_message: str) -> str:
-        """Classify error types for pattern analysis"""
-        
-        error_lower = error_message.lower()
-        
-        if 'timeout' in error_lower:
-            return 'timeout'
-        elif 'connection' in error_lower or 'network' in error_lower:
-            return 'network_error'
-        elif '404' in error_lower or 'not found' in error_lower:
-            return 'page_not_found'
-        elif '403' in error_lower or 'forbidden' in error_lower:
-            return 'access_denied'
-        elif 'captcha' in error_lower:
-            return 'captcha_challenge'
-        elif 'rate limit' in error_lower or 'too many requests' in error_lower:
-            return 'rate_limited'
-        elif 'parsing' in error_lower or 'extraction' in error_lower:
-            return 'extraction_failed'
-        else:
-            return 'unknown_error'
-    
-    def _url_matches_pattern(self, url: str, pattern: str) -> bool:
-        """Check if URL matches learned pattern"""
-        
-        url_pattern = self._extract_url_pattern(url)
-        return url_pattern == pattern or difflib.SequenceMatcher(None, url_pattern, pattern).ratio() > 0.8
-    
-    def _identify_transformation_rule(self, original: str, transformed: str) -> str:
-        """Identify the transformation rule between URLs"""
-        
-        transformations = []
-        
-        # Common transformation patterns
-        patterns = [
-            (r'_small\.jpg', '_large.jpg'),
-            (r'_150x150\.jpg', '_800x800.jpg'),
-            (r'_2xl\.jpg', '_xxl.jpg'),
-            (r'\?sw=150', '?sw=800'),
-            (r'_thumb\.', '_main.'),
-            (r'_s\.', '_l.'),
-            (r'_sm\.', '_lg.')
-        ]
-        
-        for old_pattern, new_pattern in patterns:
-            if re.search(old_pattern, original) and new_pattern.replace('\\', '') in transformed:
-                transformations.append(f"{old_pattern} -> {new_pattern}")
-        
-        return '; '.join(transformations) if transformations else 'custom_transformation'
-    
-    def _transformation_applies(self, url: str, transformation: Dict) -> bool:
-        """Check if transformation pattern applies to URL"""
-        
-        rule = transformation.get('rule', '')
-        
-        # Simple pattern matching for common transformations
-        if '_small.jpg' in rule and '_small.jpg' in url:
-            return True
-        elif '_150x150' in rule and ('150' in url or 'small' in url):
-            return True
-        elif 'sw=150' in rule and 'sw=' in url:
-            return True
-        
-        return False
-    
-    def _apply_transformation(self, url: str, transformation: Dict) -> str:
-        """Apply transformation rule to URL"""
-        
-        rule = transformation.get('rule', '')
-        
-        # Apply known transformation patterns
-        if '_small.jpg -> _large.jpg' in rule:
-            return url.replace('_small.jpg', '_large.jpg')
-        elif '_150x150.jpg -> _800x800.jpg' in rule:
-            return url.replace('_150x150.jpg', '_800x800.jpg')
-        elif '?sw=150 -> ?sw=800' in rule:
-            return url.replace('?sw=150', '?sw=800')
-        
-        return url  # Return original if no transformation applies
-    
-    async def get_stats(self) -> Dict:
-        """Get pattern learning statistics"""
-        
-        try:
-            async with aiosqlite.connect(self.db_path) as conn:
-                cursor = await conn.cursor()
-                
-                # Success patterns stats
-                await cursor.execute("SELECT COUNT(*) FROM success_patterns")
-                success_count_result = await cursor.fetchone()
-                success_count = success_count_result[0] if success_count_result else 0
-                
-                # Failure patterns stats
-                await cursor.execute("SELECT COUNT(*) FROM failure_patterns")
-                failure_count_result = await cursor.fetchone()
-                failure_count = failure_count_result[0] if failure_count_result else 0
-                
-                # Image transformations stats
-                await cursor.execute("SELECT COUNT(*) FROM image_transformations WHERE confidence > 0.7")
-                high_confidence_transforms_result = await cursor.fetchone()
-                high_confidence_transforms = high_confidence_transforms_result[0] if high_confidence_transforms_result else 0
-                
-                # Top performing retailers
-                await cursor.execute("""
-                    SELECT retailer, COUNT(*) as pattern_count
-                    FROM success_patterns 
-                    GROUP BY retailer 
-                    ORDER BY pattern_count DESC 
-                    LIMIT 5
-                """)
-                top_retailers = await cursor.fetchall()
-                
-                return {
-                    'success_patterns': success_count,
-                    'failure_patterns': failure_count,
-                    'high_confidence_transformations': high_confidence_transforms,
-                    'cache_size': {
-                        'success': sum(len(patterns) for patterns in self.pattern_cache['success_patterns'].values()),
-                        'failures': sum(len(patterns) for patterns in self.pattern_cache['failure_patterns'].values()),
-                        'transformations': sum(len(patterns) for patterns in self.pattern_cache['image_transformations'].values())
+            # Pagination detection patterns
+            if 'pagination_type' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_pagination_{int(time.time())}",
+                    pattern_type=PatternType.CATALOG_CRAWLING,
+                    retailer=retailer,
+                    pattern_category='pagination_detection',
+                    pattern_data={
+                        'pagination_type': metadata['pagination_type'],
+                        'items_per_page': metadata.get('items_per_page'),
+                        'page_parameter': metadata.get('page_parameter'),
+                        'url_pattern': url
                     },
-                    'top_retailers': [{'retailer': r[0], 'patterns': r[1]} for r in top_retailers]
-                }
-        
+                    success_count=1,
+                    confidence_score=0.7,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            # Product grid detection patterns
+            if 'total_products_found' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_grid_{int(time.time())}",
+                    pattern_type=PatternType.CATALOG_CRAWLING,
+                    retailer=retailer,
+                    pattern_category='product_grid_selectors',
+                    pattern_data={
+                        'products_found': metadata['total_products_found'],
+                        'extraction_method': metadata.get('extraction_method'),
+                        'success_rate': 1.0
+                    },
+                    success_count=1,
+                    confidence_score=0.8,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            # Anti-bot pattern detection
+            if 'anti_bot_encountered' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_antibot_{int(time.time())}",
+                    pattern_type=PatternType.CATALOG_CRAWLING,
+                    retailer=retailer,
+                    pattern_category='anti_bot_patterns',
+                    pattern_data={
+                        'verification_type': metadata.get('verification_type'),
+                        'bypass_method': metadata.get('bypass_method'),
+                        'success': metadata.get('anti_bot_success', False)
+                    },
+                    success_count=1 if metadata.get('anti_bot_success') else 0,
+                    failure_count=0 if metadata.get('anti_bot_success') else 1,
+                    confidence_score=0.9 if metadata.get('anti_bot_success') else 0.3,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            return patterns
+            
         except Exception as e:
-            logger.error(f"Failed to get pattern stats: {e}")
+            logger.warning(f"Error extracting catalog patterns: {e}")
+            return []
+    
+    def _extract_extraction_patterns(self, retailer: str, url: str, metadata: Dict) -> List[PatternData]:
+        """Extract individual product extraction patterns"""
+        patterns = []
+        
+        try:
+            # Title extraction patterns
+            if 'title_selector' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_title_{int(time.time())}",
+                    pattern_type=PatternType.INDIVIDUAL_EXTRACTION,
+                    retailer=retailer,
+                    pattern_category='title_selectors',
+                    pattern_data={
+                        'selector': metadata['title_selector'],
+                        'extraction_method': metadata.get('extraction_method'),
+                        'success_rate': 1.0
+                    },
+                    success_count=1,
+                    confidence_score=0.8,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            # Price extraction patterns
+            if 'price_selector' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_price_{int(time.time())}",
+                    pattern_type=PatternType.INDIVIDUAL_EXTRACTION,
+                    retailer=retailer,
+                    pattern_category='price_selectors',
+                    pattern_data={
+                        'selector': metadata['price_selector'],
+                        'price_format': metadata.get('price_format'),
+                        'currency_symbol': metadata.get('currency_symbol')
+                    },
+                    success_count=1,
+                    confidence_score=0.9,  # Price patterns are highly reliable
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            # Image extraction patterns
+            if 'image_selectors' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_images_{int(time.time())}",
+                    pattern_type=PatternType.INDIVIDUAL_EXTRACTION,
+                    retailer=retailer,
+                    pattern_category='image_selectors',
+                    pattern_data={
+                        'selectors': metadata['image_selectors'],
+                        'image_count': metadata.get('image_count'),
+                        'image_quality': metadata.get('image_quality')
+                    },
+                    success_count=1,
+                    confidence_score=0.7,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            return patterns
+            
+        except Exception as e:
+            logger.warning(f"Error extracting extraction patterns: {e}")
+            return []
+    
+    def _extract_update_patterns(self, retailer: str, url: str, metadata: Dict) -> List[PatternData]:
+        """Extract product update specific patterns"""
+        patterns = []
+        
+        try:
+            # Price change detection patterns
+            if 'price_change_detected' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_pricechange_{int(time.time())}",
+                    pattern_type=PatternType.PRODUCT_UPDATES,
+                    retailer=retailer,
+                    pattern_category='price_change_patterns',
+                    pattern_data={
+                        'change_indicator': metadata.get('price_change_indicator'),
+                        'old_price': metadata.get('old_price'),
+                        'new_price': metadata.get('new_price'),
+                        'change_type': metadata.get('change_type')  # increase, decrease, sale
+                    },
+                    success_count=1,
+                    confidence_score=0.8,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            # Stock status patterns
+            if 'stock_status_detected' in metadata:
+                pattern = PatternData(
+                    pattern_id=f"{retailer}_stock_{int(time.time())}",
+                    pattern_type=PatternType.PRODUCT_UPDATES,
+                    retailer=retailer,
+                    pattern_category='stock_status_indicators',
+                    pattern_data={
+                        'status_indicator': metadata.get('stock_indicator'),
+                        'status_value': metadata.get('stock_status'),
+                        'detection_method': metadata.get('detection_method')
+                    },
+                    success_count=1,
+                    confidence_score=0.85,
+                    created_at=datetime.utcnow()
+                )
+                patterns.append(pattern)
+            
+            return patterns
+            
+        except Exception as e:
+            logger.warning(f"Error extracting update patterns: {e}")
+            return []
+    
+    # =================== CROSS-LEARNING LOGIC ===================
+    
+    async def _apply_cross_learning(self, patterns: List[PatternData]):
+        """Apply cross-learning between pattern types"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            for pattern in patterns:
+                # Check if this pattern type/category has cross-learning opportunities
+                source_key = (pattern.pattern_type.value, pattern.pattern_category)
+                
+                if source_key in self.CROSS_LEARNING_PATTERNS:
+                    target_patterns = self.CROSS_LEARNING_PATTERNS[source_key]
+                    
+                    for target_type, target_category in target_patterns:
+                        # Create cross-learning pattern
+                        learned_data = self._adapt_pattern_for_cross_learning(
+                            pattern, target_type, target_category)
+                        
+                        if learned_data:
+                            cursor.execute("""
+                                INSERT OR REPLACE INTO cross_learning_patterns 
+                                (source_pattern_id, target_pattern_type, target_pattern_category, 
+                                 retailer, learned_data, confidence_transfer_score)
+                                VALUES (?, ?, ?, ?, ?, ?)
+                            """, (
+                                pattern.pattern_id, target_type, target_category,
+                                pattern.retailer, json.dumps(learned_data),
+                                pattern.confidence_score * 0.7  # Reduced confidence for cross-learning
+                            ))
+            
+            conn.commit()
+            conn.close()
+            
+        except Exception as e:
+            logger.warning(f"Error applying cross-learning: {e}")
+    
+    def _adapt_pattern_for_cross_learning(self, source_pattern: PatternData, 
+                                        target_type: str, target_category: str) -> Optional[Dict]:
+        """Adapt a pattern for use in a different context"""
+        try:
+            source_data = source_pattern.pattern_data
+            
+            # Example adaptations
+            if (source_pattern.pattern_category == 'anti_bot_patterns' and 
+                target_category == 'anti_bot_patterns'):
+                # Anti-bot patterns transfer directly
+                return {
+                    'verification_type': source_data.get('verification_type'),
+                    'bypass_method': source_data.get('bypass_method'),
+                    'adapted_from': source_pattern.pattern_type.value
+                }
+            
+            elif (source_pattern.pattern_category == 'price_selectors' and 
+                  target_category in ['price_detection', 'price_change_patterns']):
+                # Price selector patterns help price detection in other contexts
+                return {
+                    'selector': source_data.get('selector'),
+                    'price_format': source_data.get('price_format'),
+                    'adapted_for': target_type
+                }
+            
+            elif (source_pattern.pattern_category == 'stock_status_indicators' and
+                  target_category in ['availability_detection', 'availability_indicators']):
+                # Stock patterns help availability detection
+                return {
+                    'status_indicator': source_data.get('status_indicator'),
+                    'detection_method': source_data.get('detection_method'),
+                    'adapted_for': target_type
+                }
+            
+            return None
+            
+        except Exception as e:
+            logger.warning(f"Error adapting pattern for cross-learning: {e}")
+            return None
+    
+    async def _get_cross_learned_patterns(self, cursor, retailer: str, 
+                                        pattern_type: PatternType = None) -> List[Dict]:
+        """Get cross-learned patterns for retailer"""
+        try:
+            if pattern_type:
+                query = """
+                    SELECT target_pattern_category, learned_data, confidence_transfer_score
+                    FROM cross_learning_patterns 
+                    WHERE retailer = ? AND target_pattern_type = ?
+                    ORDER BY confidence_transfer_score DESC
+                """
+                cursor.execute(query, (retailer, pattern_type.value))
+            else:
+                query = """
+                    SELECT target_pattern_type, target_pattern_category, learned_data, confidence_transfer_score
+                    FROM cross_learning_patterns 
+                    WHERE retailer = ?
+                    ORDER BY target_pattern_type, confidence_transfer_score DESC
+                """
+                cursor.execute(query, (retailer,))
+            
+            return cursor.fetchall()
+            
+        except Exception as e:
+            logger.warning(f"Error getting cross-learned patterns: {e}")
+            return []
+    
+    # =================== UTILITY METHODS ===================
+    
+    def _infer_pattern_type(self, pattern_context: str) -> PatternType:
+        """Infer pattern type from context string"""
+        context_lower = pattern_context.lower()
+        
+        if any(word in context_lower for word in ['catalog', 'crawl', 'pagination', 'grid']):
+            return PatternType.CATALOG_CRAWLING
+        elif any(word in context_lower for word in ['update', 'refresh', 'change', 'stock']):
+            return PatternType.PRODUCT_UPDATES
+        else:
+            return PatternType.INDIVIDUAL_EXTRACTION
+    
+    def _organize_patterns(self, patterns: List, cross_patterns: List, 
+                         pattern_type: PatternType = None) -> Dict[str, Any]:
+        """Organize patterns into structured format"""
+        organized = {}
+        
+        try:
+            # Organize main patterns
+            for pattern in patterns:
+                if pattern_type:
+                    # Single pattern type
+                    category, data, confidence, last_used = pattern
+                    if category not in organized:
+                        organized[category] = []
+                    organized[category].append({
+                        'data': json.loads(data) if isinstance(data, str) else data,
+                        'confidence': confidence,
+                        'last_used': last_used
+                    })
+                else:
+                    # Multiple pattern types
+                    p_type, category, data, confidence, last_used = pattern
+                    if p_type not in organized:
+                        organized[p_type] = {}
+                    if category not in organized[p_type]:
+                        organized[p_type][category] = []
+                    organized[p_type][category].append({
+                        'data': json.loads(data) if isinstance(data, str) else data,
+                        'confidence': confidence,
+                        'last_used': last_used
+                    })
+            
+            # Add cross-learned patterns
+            if cross_patterns:
+                if 'cross_learned' not in organized:
+                    organized['cross_learned'] = {}
+                
+                for cross_pattern in cross_patterns:
+                    if pattern_type:
+                        category, data, confidence = cross_pattern
+                        if category not in organized['cross_learned']:
+                            organized['cross_learned'][category] = []
+                        organized['cross_learned'][category].append({
+                            'data': json.loads(data) if isinstance(data, str) else data,
+                            'confidence': confidence,
+                            'cross_learned': True
+                        })
+                    else:
+                        p_type, category, data, confidence = cross_pattern
+                        if p_type not in organized['cross_learned']:
+                            organized['cross_learned'][p_type] = {}
+                        if category not in organized['cross_learned'][p_type]:
+                            organized['cross_learned'][p_type][category] = []
+                        organized['cross_learned'][p_type][category].append({
+                            'data': json.loads(data) if isinstance(data, str) else data,
+                            'confidence': confidence,
+                            'cross_learned': True
+                        })
+            
+            return organized
+            
+        except Exception as e:
+            logger.warning(f"Error organizing patterns: {e}")
+            return {}
+    
+    async def _store_learned_patterns(self, patterns: List[PatternData]):
+        """Store learned patterns in database"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            for pattern in patterns:
+                cursor.execute("""
+                    INSERT OR REPLACE INTO enhanced_patterns 
+                    (pattern_id, pattern_type, retailer, pattern_category, pattern_data,
+                     success_count, failure_count, confidence_score, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    pattern.pattern_id, pattern.pattern_type.value, pattern.retailer,
+                    pattern.pattern_category, json.dumps(pattern.pattern_data),
+                    pattern.success_count, pattern.failure_count, pattern.confidence_score,
+                    pattern.created_at, datetime.utcnow()
+                ))
+            
+            conn.commit()
+            conn.close()
+            
+        except Exception as e:
+            logger.error(f"Error storing learned patterns: {e}")
+    
+    async def _record_usage_stats(self, patterns: List[PatternData], success: bool,
+                                processing_time: Optional[float], context: str,
+                                error_details: str = None):
+        """Record pattern usage statistics"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            for pattern in patterns:
+                cursor.execute("""
+                    INSERT INTO pattern_usage_stats 
+                    (pattern_id, usage_context, success, processing_time, error_details)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    pattern.pattern_id, context, success, processing_time, error_details
+                ))
+            
+            conn.commit()
+            conn.close()
+            
+        except Exception as e:
+            logger.warning(f"Error recording usage stats: {e}")
+    
+    async def _update_pattern_failures(self, retailer: str, pattern_type: PatternType, context: str):
+        """Update failure counts for related patterns"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute("""
+                UPDATE enhanced_patterns 
+                SET failure_count = failure_count + 1,
+                    confidence_score = CASE 
+                        WHEN confidence_score > 0.1 THEN confidence_score - 0.05
+                        ELSE 0.1
+                    END,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE retailer = ? AND pattern_type = ?
+            """, (retailer, pattern_type.value))
+            
+            conn.commit()
+            conn.close()
+            
+        except Exception as e:
+            logger.warning(f"Error updating pattern failures: {e}")
+    
+    # =================== ANALYTICS AND MANAGEMENT ===================
+    
+    async def get_pattern_statistics(self) -> Dict[str, Any]:
+        """Get comprehensive pattern learning statistics"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            # Pattern counts by type
+            cursor.execute("""
+                SELECT pattern_type, COUNT(*) as count
+                FROM enhanced_patterns
+                GROUP BY pattern_type
+            """)
+            type_counts = dict(cursor.fetchall())
+            
+            # Pattern counts by retailer
+            cursor.execute("""
+                SELECT retailer, COUNT(*) as count
+                FROM enhanced_patterns
+                GROUP BY retailer
+                ORDER BY count DESC
+            """)
+            retailer_counts = dict(cursor.fetchall())
+            
+            # Success rates by pattern type
+            cursor.execute("""
+                SELECT pattern_type, 
+                       AVG(CASE WHEN success_count > 0 THEN 
+                           CAST(success_count AS FLOAT) / (success_count + failure_count)
+                           ELSE 0 END) as success_rate
+                FROM enhanced_patterns
+                WHERE success_count + failure_count > 0
+                GROUP BY pattern_type
+            """)
+            success_rates = dict(cursor.fetchall())
+            
+            # Cross-learning statistics
+            cursor.execute("""
+                SELECT target_pattern_type, COUNT(*) as count
+                FROM cross_learning_patterns
+                GROUP BY target_pattern_type
+            """)
+            cross_learning_counts = dict(cursor.fetchall())
+            
+            conn.close()
+            
             return {
-                'success_patterns': 0,
-                'failure_patterns': 0,
-                'high_confidence_transformations': 0,
-                'cache_size': {'success': 0, 'failures': 0, 'transformations': 0},
-                'top_retailers': []
+                'total_patterns': sum(type_counts.values()),
+                'patterns_by_type': type_counts,
+                'patterns_by_retailer': retailer_counts,
+                'success_rates_by_type': success_rates,
+                'cross_learning_patterns': cross_learning_counts,
+                'pattern_types_supported': [pt.value for pt in PatternType]
             }
+            
+        except Exception as e:
+            logger.error(f"Error getting pattern statistics: {e}")
+            return {}
+    
+    async def cleanup_old_patterns(self, days_old: int = 30):
+        """Clean up old, low-confidence patterns"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cutoff_date = datetime.utcnow() - timedelta(days=days_old)
+            
+            cursor.execute("""
+                DELETE FROM enhanced_patterns 
+                WHERE created_at < ? AND confidence_score < 0.3
+            """, (cutoff_date,))
+            
+            deleted_count = cursor.rowcount
+            
+            conn.commit()
+            conn.close()
+            
+            logger.info(f"Cleaned up {deleted_count} old patterns")
+            return deleted_count
+            
+        except Exception as e:
+            logger.error(f"Error cleaning up old patterns: {e}")
+            return 0
+
+# Maintain backward compatibility with existing unified_extractor usage
+class PatternLearner(EnhancedPatternLearner):
+    """Backward compatibility class"""
+    
+    async def get_learned_patterns(self, retailer: str, url: str = None) -> Dict[str, Any]:
+        """Backward compatible method"""
+        return await super().get_learned_patterns(retailer, url, PatternType.INDIVIDUAL_EXTRACTION)
+    
+    async def record_success(self, retailer: str, url: str, method: str, 
+                           processing_time: float, metadata: Dict):
+        """Backward compatible method"""
+        await super().record_success(
+            retailer, url, method, processing_time, metadata, 
+            PatternType.INDIVIDUAL_EXTRACTION)
+    
+    async def record_failure(self, retailer: str, url: str, method: str, error: str):
+        """Backward compatible method"""
+        await super().record_failure(
+            retailer, url, method, error, PatternType.INDIVIDUAL_EXTRACTION)

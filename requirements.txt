@@ -33,6 +33,7 @@ psutil>=5.8.0
 patchright>=1.0.0
 skyvern-automate==0.4.8
 pydantic==2.10.3
+schedule>=1.2.0
 
 # External Agent Dependencies (installed separately)
 # browser-use==0.1.43  # Install separately or place in ../browser-use/

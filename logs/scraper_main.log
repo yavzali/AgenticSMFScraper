@@ -5903,3 +5903,374 @@ Call log:
 [2025-06-09 14:50:31.547] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
 [2025-06-09 14:50:31.547] [INFO] [scheduler] Running 24/7 - no time restrictions
 [2025-06-09 14:50:31.547] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-09 14:51:14.482] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:14.483] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:14.484] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:14.484] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 14:51:14.485] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:14.489] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 14:51:14.489] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 14:51:14.492] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:14.492] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:14.493] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:14.493] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:14.494] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 14:51:14.494] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:14.494] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 14:51:14.494] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 14:51:14.495] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-09 14:51:14.495] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-09 14:51:14.495] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-09 14:51:14.826] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-09 14:51:15.158] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-09 14:51:15.159] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-09 14:51:15.159] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:15.160] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:15.160] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 14:51:31.442] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:31.443] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.444] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.445] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 14:51:31.445] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:31.447] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 14:51:31.447] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 14:51:31.447] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 14:51:31.447] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 14:51:31.448] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 14:51:31.450] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:31.450] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:31.451] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.452] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.453] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 14:51:31.453] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 14:51:31.453] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   anthropologie: transformation
+[2025-06-09 14:51:31.453] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 14:51:31.454] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 14:51:31.454] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 14:51:31.454] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-09 14:51:31.454] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-09 14:51:31.454] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-09 14:51:31.689] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-09 14:51:31.895] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-09 14:51:31.895] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-09 14:51:31.896] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.897] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.897] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:35:16.096] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-09 15:35:16.440] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-09 15:35:16.440] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-09 15:35:16.447] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.448] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.448] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:35:16.534] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:35:16.535] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.535] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.536] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:35:16.536] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:35:16.544] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:35:16.544] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:35:16.545] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:35:16.548] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:35:16.549] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:35:16.550] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.551] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.551] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:35:16.552] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:35:16.552] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:35:16.552] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:35:16.552] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-09 15:35:16.552] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-09 15:35:16.552] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-09 15:36:50.196] [INFO] [anthropologie_image_processor] 🎨 Initialized AnthropologieImageProcessor for enhanced Anthropologie image processing
+[2025-06-09 15:36:50.196] [DEBUG] [image_processor_factory] Created AnthropologieImageProcessor for anthropologie
+[2025-06-09 15:36:50.196] [INFO] [anthropologie_image_processor] 🎨 Processing 5 Anthropologie images with enhanced lazy-loading support
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] 🚫 Excluded placeholder/thumbnail: https://assets.anthropologie.com/is/image/Anthropologie/placeholder_loading.svg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_330_430.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Valid Anthropologie URL: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] 🚫 Excluded placeholder/thumbnail: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_thumb.jpg
+[2025-06-09 15:36:50.196] [DEBUG] [anthropologie_image_processor] ✅ Filtered to 3 valid URLs
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://assets.anthropologie.com/is/image/Anthropo → https://assets.anthropologie.com/is/image/Anthropo
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Pattern match: _(\d+)_(\d+)\.jpg → _1094_1405.jpg
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://assets.anthropologie.com/is/image/Anthropo → https://assets.anthropologie.com/is/image/Anthropo
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Pattern match: _(\d+)_(\d+)\.jpg → _1094_1405.jpg
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🔧 Enhanced: https://s7d2.scene7.com/is/image/Anthropologie/413 → https://s7d2.scene7.com/is/image/Anthropologie/413
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Enhanced 3 URLs for quality
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 5.0 for: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg?
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 172.7 for: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_1094_1405.
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 📊 Quality score 168.7 for: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg?wid=1
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] 🏆 Ranked 3 URLs by quality score
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Final selection: 3 high-quality images
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_1094_1405.
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://s7d2.scene7.com/is/image/Anthropologie/4130370760045_1094_1405.jpg?wid=1
+[2025-06-09 15:36:50.197] [DEBUG] [anthropologie_image_processor] ✅ Validated: https://assets.anthropologie.com/is/image/Anthropologie/4130370760045_001_b.jpg?
+[2025-06-09 15:36:50.197] [INFO] [anthropologie_image_processor] 🎨 Anthropologie processing complete: 3 quality images
+[2025-06-09 15:37:58.683] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-09 15:37:59.052] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-09 15:37:59.052] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-09 15:37:59.058] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.059] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.060] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:37:59.140] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:37:59.141] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.142] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.142] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:37:59.142] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:37:59.147] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:37:59.147] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:37:59.150] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:37:59.150] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:37:59.151] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.152] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.152] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:37:59.153] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:37:59.153] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:37:59.153] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:37:59.153] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-09 15:37:59.153] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-09 15:37:59.153] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-09 15:38:49.921] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-09 15:38:50.236] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-09 15:38:50.237] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-09 15:38:50.242] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.244] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.244] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:38:50.324] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:38:50.324] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.325] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.325] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:38:50.326] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:38:50.330] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:38:50.330] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:38:50.333] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:38:50.334] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:38:50.334] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.335] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.335] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-09 15:38:50.336] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-09 15:38:50.336] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   asos: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   revolve: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   hm: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-09 15:38:50.336] [INFO] [batch_processor]   mango: transformation
+[2025-06-09 15:38:50.336] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-09 15:38:50.336] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-09 15:38:50.336] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-06-24 18:07:39.901] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-06-24 18:07:40.658] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-06-24 18:07:40.659] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-06-24 18:07:40.712] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.714] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.714] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-24 18:07:40.895] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-24 18:07:40.896] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.897] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.897] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-24 18:07:40.898] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-24 18:07:40.905] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   asos: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   revolve: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   hm: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-24 18:07:40.905] [INFO] [batch_processor]   mango: transformation
+[2025-06-24 18:07:40.910] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-24 18:07:40.911] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-24 18:07:40.912] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.913] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.913] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-06-24 18:07:40.914] [INFO] [duplicate_detector] Database initialized successfully
+[2025-06-24 18:07:40.914] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   asos: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   revolve: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   hm: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   nordstrom: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   abercrombie: transformation
+[2025-06-24 18:07:40.914] [INFO] [batch_processor]   mango: transformation
+[2025-06-24 18:07:40.914] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-06-24 18:07:40.914] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-06-24 18:07:40.914] [INFO] [notification_manager] Notification manager initialized - Email enabled: True
+[2025-07-10 02:20:01.224] [INFO] [updated_pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:20:01.224] [INFO] [updated_pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 02:20:01.224] [DEBUG] [updated_pattern_learner] Retrieved 0 patterns + 0 cross-learned for test_retailer
+[2025-07-10 02:20:01.224] [DEBUG] [updated_pattern_learner] Recorded success for test_retailer - playwright (0 patterns)
+[2025-07-10 02:20:01.225] [DEBUG] [updated_pattern_learner] Recorded failure for test_retailer - playwright
+[2025-07-10 02:20:01.225] [INFO] [updated_notification_manager] ✅ Enhanced notification manager initialized
+[2025-07-10 02:50:57.358] [INFO] [__main__] 🔧 Catalog system integrator initialized
+[2025-07-10 02:50:57.359] [INFO] [__main__] 🚀 Starting complete catalog monitoring system setup
+[2025-07-10 02:50:57.362] [INFO] [__main__] 📦 Backed up 4 files to /Users/yav/Agent Modest Scraper System/backup/backup_20250710_085057
+[2025-07-10 02:50:57.362] [INFO] [__main__] 📊 Initializing catalog monitoring databases
+[2025-07-10 02:50:57.362] [INFO] [catalog_db_manager] Catalog database initialization deferred (running in event loop)
+[2025-07-10 02:50:57.369] [INFO] [catalog_db_manager] Catalog database extensions initialized successfully
+[2025-07-10 02:50:57.370] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:50:57.374] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 02:50:57.374] [INFO] [__main__] ✅ Database validation passed: 7 tables verified
+[2025-07-10 02:50:57.375] [INFO] [__main__] ✅ Database initialization completed
+[2025-07-10 02:50:57.375] [INFO] [__main__] ⚙️ Updating system configuration
+[2025-07-10 02:50:57.375] [INFO] [__main__] ✅ Configuration updated successfully
+[2025-07-10 02:50:57.375] [INFO] [__main__] 🔍 Validating system components
+[2025-07-10 02:50:57.375] [INFO] [catalog_db_manager] Catalog database initialization deferred (running in event loop)
+[2025-07-10 02:50:57.376] [INFO] [catalog_db_manager] Catalog database extensions initialized successfully
+[2025-07-10 02:50:57.377] [INFO] [__main__]   ✅ Database manager: {'pending_reviews': 0, 'active_baselines': 0, 'recent_runs': 0, 'approved_pending_batch': 0}
+[2025-07-10 02:50:57.377] [DEBUG] [catalog_db_manager] Catalog database manager closed
+[2025-07-10 02:50:57.377] [INFO] [__main__]   ✅ Crawler factory: 10 retailers
+[2025-07-10 02:50:57.377] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:50:57.377] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 02:50:57.377] [INFO] [__main__]   ✅ Pattern learner: 0 patterns
+[2025-07-10 02:50:57.377] [INFO] [notification_manager] ✅ Enhanced notification manager initialized
+[2025-07-10 02:50:57.377] [INFO] [__main__]   ✅ Notification manager: not_configured
+[2025-07-10 02:50:57.377] [INFO] [catalog_db_manager] Catalog database initialization deferred (running in event loop)
+[2025-07-10 02:50:57.378] [INFO] [catalog_db_manager] Catalog database initialization deferred (running in event loop)
+[2025-07-10 02:50:57.378] [INFO] [change_detector] ✅ Change detector initialized with confidence threshold: 0.85
+[2025-07-10 02:50:57.378] [INFO] [notification_manager] ✅ Enhanced notification manager initialized
+[2025-07-10 02:50:57.378] [INFO] [catalog_orchestrator] ✅ Catalog orchestrator initialized for 10 retailers
+[2025-07-10 02:50:57.378] [INFO] [catalog_db_manager] Catalog database extensions initialized successfully
+[2025-07-10 02:50:57.386] [INFO] [catalog_orchestrator] Baseline validation: 0 valid, 0 need refresh, 20 missing
+[2025-07-10 02:50:57.386] [INFO] [__main__]   ✅ Orchestrator: 10 retailers
+[2025-07-10 02:50:57.386] [DEBUG] [catalog_db_manager] Catalog database manager closed
+[2025-07-10 02:50:57.386] [DEBUG] [catalog_db_manager] Catalog database manager closed
+[2025-07-10 02:50:57.386] [DEBUG] [change_detector] Change detector closed
+[2025-07-10 02:50:57.386] [INFO] [catalog_orchestrator] Catalog orchestrator closed
+[2025-07-10 02:50:57.386] [INFO] [__main__] ✅ All system components validated successfully
+[2025-07-10 02:50:57.386] [INFO] [__main__] 📋 Setting up initial data
+[2025-07-10 02:50:57.386] [INFO] [catalog_db_manager] Catalog database initialization deferred (running in event loop)
+[2025-07-10 02:50:57.387] [INFO] [catalog_db_manager] Catalog database extensions initialized successfully
+[2025-07-10 02:50:57.388] [INFO] [catalog_db_manager] Created monitoring run: 63d736f7-77d3-48b3-853f-103c0e2aa4f3 (system_setup)
+[2025-07-10 02:50:57.388] [DEBUG] [catalog_db_manager] Catalog database manager closed
+[2025-07-10 02:50:57.388] [INFO] [__main__] ✅ Initial data setup completed (run_id: 63d736f7-77d3-48b3-853f-103c0e2aa4f3)
+[2025-07-10 02:50:57.388] [INFO] [__main__] 🧪 Testing system integration
+[2025-07-10 02:50:57.389] [INFO] [__main__]   ✅ Batch file creation and reading works
+[2025-07-10 02:50:57.389] [INFO] [__main__]   ✅ Existing scraper files present
+[2025-07-10 02:50:57.389] [INFO] [__main__] ✅ System integration test completed
+[2025-07-10 02:50:57.389] [INFO] [__main__] ✅ Complete catalog monitoring system setup successful
+[2025-07-10 03:02:07.445] [INFO] [markdown_extractor] ✅ DeepSeek V3 client initialized
+[2025-07-10 03:02:08.107] [INFO] [markdown_extractor] ✅ Gemini Flash 2.0 client initialized
+[2025-07-10 03:02:08.107] [INFO] [markdown_extractor] Markdown extractor initialized for retailers: asos, mango, uniqlo, revolve, hm
+[2025-07-10 03:02:08.111] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.112] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.112] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-07-10 03:02:08.129] [INFO] [duplicate_detector] Database initialized successfully
+[2025-07-10 03:02:08.130] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.130] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.130] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-07-10 03:02:08.131] [INFO] [duplicate_detector] Database initialized successfully
+[2025-07-10 03:02:08.136] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   asos: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   revolve: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   hm: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   nordstrom: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   abercrombie: transformation
+[2025-07-10 03:02:08.136] [INFO] [batch_processor]   mango: transformation
+[2025-07-10 03:02:08.138] [INFO] [duplicate_detector] Database initialized successfully
+[2025-07-10 03:02:08.139] [INFO] [duplicate_detector] Database initialized successfully
+[2025-07-10 03:02:08.139] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.139] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.139] [INFO] [unified_extractor] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-07-10 03:02:08.140] [INFO] [duplicate_detector] Database initialized successfully
+[2025-07-10 03:02:08.140] [INFO] [batch_processor] Image processor factory supports 10 retailers:
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   uniqlo: reconstruction
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   aritzia: reconstruction
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   anthropologie: reconstruction
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   asos: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   revolve: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   hm: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   nordstrom: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   urban_outfitters: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   abercrombie: transformation
+[2025-07-10 03:02:08.140] [INFO] [batch_processor]   mango: transformation
+[2025-07-10 03:02:08.140] [INFO] [scheduler] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-07-10 03:02:08.140] [INFO] [scheduler] Running 24/7 - no time restrictions
+[2025-07-10 03:02:08.140] [INFO] [notification_manager] ✅ Enhanced notification manager initialized

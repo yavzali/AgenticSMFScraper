@@ -518,3 +518,54 @@
 [2025-06-09 14:50:31.534] [INFO] [pattern_learner] Pattern cache loaded successfully
 [2025-06-09 14:50:31.544] [INFO] [pattern_learner] Pattern learning database initialized
 [2025-06-09 14:50:31.545] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:14.483] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:14.484] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:14.493] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:14.493] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:15.159] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:15.160] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.443] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.444] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.451] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.452] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 14:51:31.896] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 14:51:31.897] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.447] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.448] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.535] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.535] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:35:16.550] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:35:16.551] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.058] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.059] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.141] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.142] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:37:59.151] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:37:59.152] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.242] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.244] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.324] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.325] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-09 15:38:50.334] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-09 15:38:50.335] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.712] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.714] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.896] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.897] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-06-24 18:07:40.912] [INFO] [pattern_learner] Pattern learning database initialized
+[2025-06-24 18:07:40.913] [INFO] [pattern_learner] Pattern cache loaded successfully
+[2025-07-10 02:20:01.224] [INFO] [updated_pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:20:01.224] [INFO] [updated_pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 02:20:01.224] [DEBUG] [updated_pattern_learner] Retrieved 0 patterns + 0 cross-learned for test_retailer
+[2025-07-10 02:20:01.224] [DEBUG] [updated_pattern_learner] Recorded success for test_retailer - playwright (0 patterns)
+[2025-07-10 02:20:01.225] [DEBUG] [updated_pattern_learner] Recorded failure for test_retailer - playwright
+[2025-07-10 02:50:57.370] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:50:57.374] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 02:50:57.377] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 02:50:57.377] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.111] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.112] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.130] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.130] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-07-10 03:02:08.139] [INFO] [pattern_learner] Enhanced pattern learning database initialized
+[2025-07-10 03:02:08.139] [INFO] [pattern_learner] ✅ Enhanced pattern learner initialized with multi-function support
