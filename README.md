@@ -52,18 +52,40 @@ The Agent Modest Scraper System consists of **two independent but complementary 
 - **Configuration**: `config.json`, API key management
 
 **System-Specific Orchestration**:
-- **New Product Import**: Individual URL processing, batch workflows, Shopify uploads
+- **New Product Import & Update**: Individual URL processing, batch workflows, Shopify uploads/updates, duplicate handling
 - **Catalog Crawler**: Full catalog scanning, change detection, baseline management
 
 ---
 
 ## 🎯 **System 1: New Product Import & Update Scraper**
 
-### **Purpose & Use Cases**
-- **Individual Product Processing**: Extract specific products from URLs
-- **Batch URL Processing**: Handle lists of product URLs efficiently
-- **Shopify Integration**: Automated product uploads with duplicate detection
-- **Manual Curation**: Process hand-picked products for immediate import
+### **Dual Functionality: Import + Update**
+
+This system provides **two distinct but integrated features**:
+
+#### 🆕 **New Product Import Feature**
+- **Purpose**: Process completely new products that don't exist in the database
+- **Workflow**: Extract → Validate → Create new Shopify product → Store in database
+- **Use Cases**: 
+  - Processing batch files with new product URLs
+  - Adding fresh inventory from retailers
+  - Expanding product catalog with new discoveries
+  - Manual curation of hand-picked products
+
+#### 🔄 **Product Update Feature**
+- **Purpose**: Update existing products already in the database/Shopify
+- **Workflow**: Detect duplicate → Extract fresh data → Update existing Shopify product → Update database record
+- **Use Cases**:
+  - Price changes and sales updates
+  - Stock status changes (in stock ↔ out of stock)
+  - Product information corrections
+  - Periodic data refreshing
+
+#### 🤖 **Intelligent Routing**
+The system **automatically decides** between import vs update:
+- **Duplicate Detection**: Advanced 7-layer matching identifies existing products
+- **Smart Actions**: `create_new`, `update_existing`, `skip_duplicate`, or `manual_review`
+- **Seamless Processing**: Handles mixed batches of new and existing products
 
 ### **Architecture**
 ```
@@ -74,8 +96,10 @@ main_scraper.py → batch_processor.py → unified_extractor.py → [markdown_ex
 
 ### **Key Components**
 - **`unified_extractor.py`**: Smart routing between markdown and Playwright extraction
-- **`batch_processor.py`**: Orchestrates multi-URL processing workflows
-- **`shopify_manager.py`**: Handles product uploads and duplicate prevention
+- **`batch_processor.py`**: Orchestrates multi-URL processing workflows with import/update logic
+- **`shopify_manager.py`**: Handles both product creation AND updates with duplicate prevention
+- **`url_processor.py`**: Duplicate detection and routing decisions (import vs update)
+- **`duplicate_detector.py`**: 7-layer matching system for existing product identification
 - **`image_processor_factory.py`**: Retailer-specific image enhancement
 
 ### **Performance Metrics**
@@ -306,12 +330,21 @@ catalog_monitoring_runs (
 
 ## 🔄 **Workflow Examples**
 
-### **New Product Import Workflow**
+### **New Product Import Workflow** (New Products)
 1. **Input**: List of product URLs in JSON batch file
-2. **Processing**: `unified_extractor.py` routes to optimal extraction method
-3. **Enhancement**: `image_processor_factory.py` optimizes product images
-4. **Validation**: Multi-layer quality checks and duplicate detection
-5. **Output**: Products uploaded to Shopify with full metadata
+2. **Duplicate Check**: `url_processor.py` determines product is new (not in database)
+3. **Processing**: `unified_extractor.py` routes to optimal extraction method
+4. **Enhancement**: `image_processor_factory.py` optimizes product images
+5. **Validation**: Multi-layer quality checks and data validation
+6. **Output**: **New** products uploaded to Shopify with full metadata
+
+### **Product Update Workflow** (Existing Products)
+1. **Input**: Product URL for existing item
+2. **Duplicate Detection**: `duplicate_detector.py` identifies existing product in database
+3. **Fresh Extraction**: `unified_extractor.py` extracts current product data
+4. **Change Comparison**: System compares new data vs existing records
+5. **Selective Update**: `shopify_manager.py` updates only changed fields (price, stock, etc.)
+6. **Output**: **Updated** Shopify product with refreshed information
 
 ### **Catalog Monitoring Workflow**
 1. **Baseline**: Establish historical catalog snapshot
