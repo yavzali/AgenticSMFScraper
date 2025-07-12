@@ -488,6 +488,47 @@ class DuplicateDetector:
                 'recent_activity': 0
             }
     
+    async def update_existing_product(self, existing_id: int, **product_data) -> bool:
+        """Update existing product in database - helper method for Product Updater"""
+        
+        await self._ensure_db_initialized()
+        
+        try:
+            async with aiosqlite.connect(self.db_path) as conn:
+                cursor = await conn.cursor()
+                
+                now = datetime.utcnow().isoformat()
+                
+                await cursor.execute("""
+                    UPDATE products SET
+                        title = ?, price = ?, original_price = ?, sale_status = ?, 
+                        stock_status = ?, last_updated = ?, scraping_method = ?,
+                        neckline = ?, sleeve_length = ?, visual_analysis_confidence = ?,
+                        visual_analysis_source = ?
+                    WHERE shopify_id = ?
+                """, (
+                    product_data.get('title'),
+                    product_data.get('price'),
+                    product_data.get('original_price'),
+                    product_data.get('sale_status'),
+                    product_data.get('stock_status'),
+                    now,
+                    product_data.get('scraping_method'),
+                    product_data.get('neckline'),
+                    product_data.get('sleeve_length'),
+                    product_data.get('visual_analysis_confidence'),
+                    product_data.get('visual_analysis_source'),
+                    existing_id
+                ))
+                
+                await conn.commit()
+                logger.debug(f"Updated existing product: {existing_id}")
+                return True
+        
+        except Exception as e:
+            logger.error(f"Failed to update existing product {existing_id}: {e}")
+            return False
+    
     async def cleanup_old_records(self, days: int = 90):
         """Clean up old inactive records"""
         

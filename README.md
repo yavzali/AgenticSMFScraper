@@ -1,116 +1,125 @@
-# 🛍️ **Agent Modest Scraper System v1.1.0**
-## *Comprehensive E-commerce Intelligence Platform*
+# 🛍️ **Agent Modest Scraper System v2.0.0**
+## *Comprehensive E-commerce Intelligence Platform - Tripartite Architecture*
 
-A sophisticated, dual-system platform combining **individual product scraping** and **catalog monitoring** for automated e-commerce intelligence, powered by AI extraction, advanced anti-bot protection, and comprehensive Shopify integration.
+A sophisticated, **tripartite system** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence, powered by AI extraction, advanced anti-bot protection, and comprehensive Shopify integration.
 
 ---
 
-## 🏗️ **System Architecture Overview**
+## 🏗️ **Tripartite System Architecture**
 
-### **🎯 Dual-System Architecture**
+### **🎯 Three-System Architecture**
 
-The Agent Modest Scraper System consists of **two independent but complementary systems**:
+The Agent Modest Scraper System consists of **three independent but complementary systems**:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    AGENT MODEST SCRAPER SYSTEM                 │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────────────────┐    ┌─────────────────────────────┐ │
-│  │  NEW PRODUCT IMPORT     │    │     CATALOG CRAWLER         │ │
-│  │  & UPDATE SCRAPER       │    │     SYSTEM                  │ │
-│  │                         │    │                             │ │
-│  │  • Individual URLs      │    │  • Full catalog monitoring  │ │
-│  │  • Targeted extraction  │    │  • New product detection    │ │
-│  │  • Shopify integration  │    │  • Baseline comparison      │ │
-│  │  • Batch processing     │    │  • Change tracking          │ │
-│  └─────────────────────────┘    └─────────────────────────────┘ │
-│              │                               │                  │
-│              └───────────┬───────────────────┘                  │
-│                          │                                      │
-│                    ┌─────▼─────┐                                │
-│                    │  SHARED   │                                │
-│                    │ COMPONENTS │                               │
-│                    │           │                                │
-│                    │ • AI APIs │                                │
-│                    │ • Extractors │                            │
-│                    │ • Databases │                             │
-│                    │ • Utilities │                             │
-│                    └───────────┘                                │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        AGENT MODEST SCRAPER SYSTEM v2.0                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
+│  │  NEW PRODUCT    │  │  PRODUCT        │  │     CATALOG CRAWLER         │ │
+│  │  IMPORTER       │  │  UPDATER        │  │     SYSTEM                  │ │
+│  │                 │  │                 │  │                             │ │
+│  │  • New products │  │  • Existing     │  │  • Full catalog monitoring  │ │
+│  │  • Shopify      │  │    products     │  │  • New product detection    │ │
+│  │    creation     │  │  • Shopify      │  │  • Baseline comparison      │ │
+│  │  • Database     │  │    updates      │  │  • Change tracking          │ │
+│  │    storage      │  │  • Database     │  │                             │ │
+│  │                 │  │    updates      │  │                             │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
+│           │                     │                         │                │
+│           └─────────────────────┼─────────────────────────┘                │
+│                                 │                                          │
+│                           ┌─────▼─────┐                                    │
+│                           │  SHARED   │                                    │
+│                           │ COMPONENTS │                                   │
+│                           │           │                                    │
+│                           │ • AI APIs │                                    │
+│                           │ • Extractors │                                │
+│                           │ • Databases │                                 │
+│                           │ • Utilities │                                 │
+│                           └───────────┘                                    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### **🔄 Shared Technology, Separate Orchestration**
+### **🔄 Shared Technology, Focused Orchestration**
 
-**Core Principle**: Both systems use the same powerful extraction technologies but with different business logic and orchestration patterns.
+**Core Principle**: All three systems use the same powerful extraction technologies but with different business logic and focused responsibilities.
 
 **Shared Components** (`/Shared/`):
 - **AI Extraction Engines**: `markdown_extractor.py`, `playwright_agent.py`
 - **Database Management**: `duplicate_detector.py`, `cost_tracker.py`
 - **Pattern Learning**: `pattern_learner.py`, `notification_manager.py`
+- **E-commerce Integration**: `shopify_manager.py`
 - **Configuration**: `config.json`, API key management
 
 **System-Specific Orchestration**:
-- **New Product Import & Update**: Individual URL processing, batch workflows, Shopify uploads/updates, duplicate handling
+- **New Product Importer**: Creates new products that don't exist in database/Shopify
+- **Product Updater**: Updates existing products with fresh data
 - **Catalog Crawler**: Full catalog scanning, change detection, baseline management
 
 ---
 
-## 🎯 **System 1: New Product Import & Update Scraper**
+## 🆕 **System 1: New Product Importer**
 
-### **Dual Functionality: Import + Update**
-
-This system provides **two distinct but integrated features**:
-
-#### 🆕 **New Product Import Feature**
-- **Purpose**: Process completely new products that don't exist in the database
+### **Purpose & Workflow**
+- **Target**: Process completely new products that don't exist in the database
 - **Workflow**: Extract → Validate → Create new Shopify product → Store in database
-- **Use Cases**: 
-  - Processing batch files with new product URLs
-  - Adding fresh inventory from retailers
-  - Expanding product catalog with new discoveries
-  - Manual curation of hand-picked products
+- **Behavior**: **SKIPS** existing products, **CREATES** new Shopify products, **STORES** new records
 
-#### 🔄 **Product Update Feature**
-- **Purpose**: Update existing products already in the database/Shopify
-- **Workflow**: Detect duplicate → Extract fresh data → Update existing Shopify product → Update database record
-- **Use Cases**:
-  - Price changes and sales updates
-  - Stock status changes (in stock ↔ out of stock)
-  - Product information corrections
-  - Periodic data refreshing
-
-#### 🤖 **Intelligent Routing**
-The system **automatically decides** between import vs update:
-- **Duplicate Detection**: Advanced 7-layer matching identifies existing products
-- **Smart Actions**: `create_new`, `update_existing`, `skip_duplicate`, or `manual_review`
-- **Seamless Processing**: Handles mixed batches of new and existing products
+### **Use Cases**
+- Processing batch files with new product URLs
+- Adding fresh inventory from retailers
+- Expanding product catalog with new discoveries
+- Manual curation of hand-picked products
 
 ### **Architecture**
 ```
-main_scraper.py → batch_processor.py → unified_extractor.py → [markdown_extractor.py | playwright_agent.py]
-                                                             ↓
-                                          image_processor_factory.py → shopify_manager.py
+new_product_importer.py → import_processor.py → unified_extractor.py → [markdown_extractor.py | playwright_agent.py]
+                                                                      ↓
+                                               image_processor_factory.py → shopify_manager.py
 ```
 
 ### **Key Components**
-- **`unified_extractor.py`**: Smart routing between markdown and Playwright extraction
-- **`batch_processor.py`**: Orchestrates multi-URL processing workflows with import/update logic
-- **`shopify_manager.py`**: Handles both product creation AND updates with duplicate prevention
-- **`url_processor.py`**: Duplicate detection and routing decisions (import vs update)
-- **`duplicate_detector.py`**: 7-layer matching system for existing product identification
-- **`image_processor_factory.py`**: Retailer-specific image enhancement
-
-### **Performance Metrics**
-- **Success Rate**: 87% across all retailers
-- **Processing Speed**: 5-180s per URL (depending on method)
-- **Cost Efficiency**: $0.02-0.08 per successful extraction
-- **Supported Retailers**: 10+ major fashion retailers
+- **`new_product_importer.py`**: CLI entry point for NEW products only
+- **`import_processor.py`**: Extracted NEW product logic with focus on creation
+- **Complete image processing**: 4-layer architecture with all processors
+- **Full extraction pipeline**: Markdown + Playwright routing
+- **Validation**: `validate_import_system.py` - ✅ 8/8 tests passed
 
 ---
 
-## 🔍 **System 2: Catalog Crawler**
+## 🔄 **System 2: Product Updater**
+
+### **Purpose & Workflow**
+- **Target**: Update existing products already in the database/Shopify
+- **Workflow**: Detect existing → Extract fresh data → Update Shopify product → Update database record
+- **Behavior**: **SKIPS** non-existing products, **UPDATES** existing Shopify products, **UPDATES** existing records
+
+### **Use Cases**
+- Price changes and sales updates
+- Stock status changes (in stock ↔ out of stock)
+- Product information corrections
+- Periodic data refreshing
+
+### **Architecture**
+```
+product_updater.py → update_processor.py → unified_extractor.py → [markdown_extractor.py | playwright_agent.py]
+                                                                ↓
+                                         duplicate_detector.py → shopify_manager.py
+```
+
+### **Key Components**
+- **`product_updater.py`**: CLI entry point for EXISTING products only
+- **`update_processor.py`**: Extracted EXISTING product logic with focus on updates
+- **Smart duplicate detection**: Identifies existing products for updates
+- **Fresh data extraction**: Re-extracts current product information
+- **Validation**: `validate_update_system.py` - ✅ 7/7 tests passed
+
+---
+
+## 🔍 **System 3: Catalog Crawler**
 
 ### **Purpose & Use Cases**
 - **Automated Catalog Monitoring**: Continuously scan retailer catalogs for new products
@@ -170,64 +179,45 @@ GMAIL_APP_PASSWORD=your-app-password
 
 ### **3. System Validation**
 ```bash
-# Test New Product Import System
-cd "New Product Import and Update Scraper"
-python validate_system.py
+# Test New Product Importer
+cd "New Product Importer"
+python validate_import_system.py
 # Expected: ✅ 8/8 tests passed
+
+# Test Product Updater
+cd "../Product Updater"
+python validate_update_system.py
+# Expected: ✅ 7/7 tests passed
 
 # Test Catalog Crawler System  
 cd "../Catalog Crawler"
 python catalog_system_test.py --components-only
 # Expected: ✅ 23/24 tests passed (95.8% success rate)
+
+# Test Complete Tripartite System
+cd ".."
+python validate_tripartite_system.py
+# Expected: ✅ 21/21 tests passed
 ```
 
 ### **4. Usage Examples**
 
-#### **New Product Import & Update Scraper**
+#### **New Product Import**
 ```bash
-# Single URL extraction
-cd "New Product Import and Update Scraper"
-python -c "
-import asyncio
-from unified_extractor import UnifiedExtractor
-
-async def extract_single():
-    extractor = UnifiedExtractor()
-    result = await extractor.extract_product_data(
-        'https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/', 
-        'revolve'
-    )
-    print(f'Success: {result.success}')
-    print(f'Title: {result.data.get(\"title\", \"N/A\")}')
-    print(f'Price: ${result.data.get(\"price\", \"N/A\")}')
-    print(f'Images: {len(result.data.get(\"image_urls\", []))}')
-
-asyncio.run(extract_single())
-"
-
-# Batch processing
-python main_scraper.py --batch-file ../Shared/batch_001_June_7th.json --modesty-level modest
+cd "New Product Importer"
+python new_product_importer.py --batch-file ../Shared/batch_001_June_7th.json --modesty-level modest
 ```
 
-#### **Catalog Crawler**
+#### **Product Updates**
 ```bash
-# Run catalog monitoring
+cd "Product Updater"
+python product_updater.py --batch-file ../Shared/existing_products.json --modesty-level modest
+```
+
+#### **Catalog Monitoring**
+```bash
 cd "Catalog Crawler"
 python catalog_main.py --retailer revolve --category dresses --max-pages 5
-
-# Check for new products
-python -c "
-import asyncio
-from catalog_orchestrator import CatalogOrchestrator
-
-async def monitor_catalog():
-    orchestrator = CatalogOrchestrator()
-    result = await orchestrator.run_monitoring_cycle('revolve', 'dresses')
-    print(f'New products found: {result.new_products_count}')
-    await orchestrator.close()
-
-asyncio.run(monitor_catalog())
-"
 ```
 
 ---
@@ -360,8 +350,12 @@ catalog_monitoring_runs (
 ### **System Validation**
 ```bash
 # New Product Import System
-cd "New Product Import and Update Scraper"
-python validate_system.py
+cd "New Product Importer"
+python validate_import_system.py
+
+# Product Updater System
+cd "Product Updater"
+python validate_update_system.py
 
 # Catalog Crawler System
 cd "Catalog Crawler" 
@@ -378,7 +372,8 @@ python -c "from markdown_extractor import MarkdownExtractor; print('✅ Shared c
 python -c "
 import sys
 sys.path.append('Shared')
-sys.path.append('New Product Import and Update Scraper')
+sys.path.append('New Product Importer')
+sys.path.append('Product Updater')
 sys.path.append('Catalog Crawler')
 
 from unified_extractor import UnifiedExtractor
@@ -441,10 +436,11 @@ print('✅ Google Gemini API: Connected')
 ## 📞 **Support & Contribution**
 
 ### **Current Status**
-- **Version**: v1.1.0 (Latest Stable)
-- **New Product Import**: ✅ 100% operational (8/8 tests passed)
+- **Version**: v2.0.0 (Latest Stable - Tripartite Architecture)
+- **New Product Importer**: ✅ 100% operational (8/8 tests passed)
+- **Product Updater**: ✅ 100% operational (7/7 tests passed)
 - **Catalog Crawler**: ✅ 95.8% operational (23/24 tests passed)
-- **Product ID Extraction**: ✅ 100% success rate across all retailers
+- **Complete Tripartite System**: ✅ 100% operational (21/21 tests passed)
 
 ### **Known Issues**
 - **Baseline Management**: Minor test artifact (UNIQUE constraint) - does not affect production
@@ -472,8 +468,10 @@ This system is designed for **legitimate e-commerce intelligence** and **competi
 
 ## 🏷️ **Version History**
 
-- **v1.1.0** (Current): Robust product ID extraction, fixed duplicate detection, comprehensive testing
-- **v1.0.0**: Initial stable release with both systems operational
+- **v2.0.0** (Current): **Tripartite System Architecture** - Split into New Product Importer, Product Updater, and Catalog Crawler with 100% functionality preservation
+- **v1.1.1**: Enhanced duplicate detection and README clarification for dual functionality
+- **v1.1.0**: Robust product ID extraction, fixed duplicate detection, comprehensive testing
+- **v1.0.0**: Initial stable release with dual-system architecture
 - **v0.9.x**: Development versions with individual system testing
 
 ---

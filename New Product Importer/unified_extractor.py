@@ -72,8 +72,8 @@ class UnifiedExtractor:
                         processing_time = time.time() - start_time
                         
                         # Record success and track cost
-                        await self.pattern_learner.record_successful_extraction(
-                            retailer, url, "markdown_extractor", markdown_result.data
+                        await self.pattern_learner.record_success(
+                            retailer, url, "markdown_extractor", processing_time, markdown_result.data
                         )
                         
                         cost_tracker.track_api_call(
@@ -140,11 +140,10 @@ class UnifiedExtractor:
             
             if result.success:
                 # Record successful pattern
-                await self.pattern_learner.record_successful_extraction(
-                    retailer, url, "playwright_agent", result.data
-                )
-                
                 processing_time = time.time() - start_time
+                await self.pattern_learner.record_success(
+                    retailer, url, "playwright_agent", processing_time, result.data
+                )
                 
                 # Track API call
                 cost_tracker.track_api_call(
@@ -160,7 +159,7 @@ class UnifiedExtractor:
                 return result
             else:
                 # Record failure
-                await self.pattern_learner.record_failed_extraction(retailer, url, "playwright_agent", str(result.errors))
+                await self.pattern_learner.record_failure(retailer, url, "playwright_agent", str(result.errors))
                 
                 # Track failed API call
                 cost_tracker.track_api_call(

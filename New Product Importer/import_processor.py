@@ -1,5 +1,6 @@
 """
-Batch Processor - Orchestrates the complete workflow for batches of URLs
+Import Processor - Handles NEW product creation workflow only
+Extracted from BatchProcessor with focus on non-duplicate products
 """
 
 # Add shared path for imports
@@ -11,30 +12,38 @@ sys.path.append(os.path.dirname(__file__))
 import asyncio
 from typing import List, Dict, Any
 from datetime import datetime
-import importlib
 import json
 from dataclasses import dataclass, asdict
-import sqlite3
 import logging
 import traceback
 
 from logger_config import setup_logging
-from url_processor import URLProcessor, ProcessedURL
-from unified_extractor import UnifiedExtractor  # Simplified: single extraction system
+from unified_extractor import UnifiedExtractor
 from shopify_manager import ShopifyManager
 from checkpoint_manager import CheckpointManager
-from duplicate_detector import DuplicateDetector
 from pattern_learner import PatternLearner
 from manual_review_manager import ManualReviewManager
 from cost_tracker import CostTracker
+from duplicate_detector import DuplicateDetector
+from markdown_extractor import MarkdownExtractor
+from playwright_agent import PlaywrightAgentWrapper
 from notification_manager import NotificationManager
 
 logger = setup_logging(__name__)
 
-class BatchProcessor:
+@dataclass
+class ProcessedURL:
+    url: str
+    retailer: str
+    clean_url: str
+    modesty_level: str
+    is_duplicate: bool = False
+    duplicate_action: str = None
+    existing_product_id: int = None
+
+class ImportProcessor:
     def __init__(self):
-        self.url_processor = URLProcessor()
-        self.unified_extractor = UnifiedExtractor()  # Single extraction system
+        self.unified_extractor = UnifiedExtractor()
         self.shopify_manager = ShopifyManager()
         self.checkpoint_manager = CheckpointManager()
         self.duplicate_detector = DuplicateDetector()
@@ -44,7 +53,7 @@ class BatchProcessor:
         self._load_image_processors()
     
     def _load_image_processors(self):
-        """Load image processors using the new factory system"""
+        """Load image processors using the factory system"""
         
         # Import the factory
         from image_processor_factory import ImageProcessorFactory
@@ -59,103 +68,65 @@ class BatchProcessor:
             processor_type = self.image_processor_factory.get_processor_type(retailer)
             logger.info(f"  {retailer}: {processor_type}")
     
-    async def process_batch(self, urls: List, modesty_level: str, batch_id: str) -> Dict[str, Any]:
-        """Process a batch of URLs with complete error handling and checkpointing"""
+    async def process_new_products_batch(self, urls: List[str], modesty_level: str, batch_id: str) -> Dict[str, Any]:
+        """Process a batch of URLs for NEW product creation only"""
         
-        batch_start = datetime.utcnow()
-        total_urls = len(urls)
+        logger.info(f"Starting NEW product import batch: {batch_id} with {len(urls)} URLs")
+        
+        # Initialize checkpoint
+        self.checkpoint_manager.initialize_batch(batch_id, urls, modesty_level)
         
         results = {
             'batch_id': batch_id,
-            'start_time': batch_start.isoformat(),
-            'total_urls': total_urls,
+            'total_urls': len(urls),
+            'processed_count': 0,
             'successful_count': 0,
             'failed_count': 0,
-            'skipped_count': 0,
-            'processing_details': [],
-            'method_performance': {},
-            'cost_tracking': {},
-            'warnings': []
+            'skipped_count': 0,  # For duplicates
+            'manual_review_count': 0,
+            'results': [],
+            'start_time': datetime.utcnow().isoformat(),
+            'end_time': None
         }
         
-        logger.info(f"Starting batch {batch_id}: {total_urls} URLs with modesty level '{modesty_level}'")
-        
         try:
-            for i, url_input in enumerate(urls, 1):
-                if self.checkpoint_manager.should_save_checkpoint(i):
-                    self.checkpoint_manager.save_batch_progress(batch_id, results, urls[i:])
+            # Process each URL - NEW PRODUCTS ONLY
+            for i, url in enumerate(urls, 1):
+                logger.info(f"Processing URL {i}/{len(urls)}: {url}")
                 
-                try:
-                    # Normalize URL input - handle both string URLs and URL objects
-                    if isinstance(url_input, dict):
-                        url = url_input.get('url', str(url_input))
-                        if not url or url == str(url_input):
-                            logger.warning(f"Invalid URL object format: {url_input}")
-                            results['failed_count'] += 1
-                            continue
-                    else:
-                        url = str(url_input)
-                    
-                    logger.info(f"[{i}/{total_urls}] Processing: {url}")
-                    
-                    # Process individual URL
-                    result = await self._process_single_url(url, modesty_level, batch_id, i, total_urls)
-                    results['processing_details'].append(result)
-                    
-                    # Update counters
-                    if result['success']:
-                        results['successful_count'] += 1
-                    else:
-                        results['failed_count'] += 1
-                    
-                    # Track method performance
-                    method = result.get('extraction_method', 'unknown')
-                    if method not in results['method_performance']:
-                        results['method_performance'][method] = {'count': 0, 'success_count': 0}
-                    
-                    results['method_performance'][method]['count'] += 1
-                    if result['success']:
-                        results['method_performance'][method]['success_count'] += 1
-                    
-                    # Brief pause between URLs
-                    await asyncio.sleep(1)
-                    
-                except Exception as e:
-                    logger.error(f"Error processing URL {url_input}: {e}")
+                result = await self._process_single_new_product(url, modesty_level, batch_id, i, len(urls))
+                
+                results['results'].append(result)
+                results['processed_count'] += 1
+                
+                if result['success']:
+                    results['successful_count'] += 1
+                elif result.get('action') == 'skipped_duplicate':
+                    results['skipped_count'] += 1
+                elif result.get('manual_review'):
+                    results['manual_review_count'] += 1
+                else:
                     results['failed_count'] += 1
-                    results['processing_details'].append({
-                        'url': str(url_input),
-                        'success': False,
-                        'error': str(e),
-                        'manual_review': True
-                    })
-                    
-                    # Add to manual review
-                    url_str = url_input.get('url', str(url_input)) if isinstance(url_input, dict) else str(url_input)
-                    await self._add_to_manual_review(url_str, 'unknown', modesty_level, 'processing_error', str(e))
+                
+                # Update checkpoint
+                self.checkpoint_manager.update_progress(result)
+                
+                # Small delay to be respectful
+                await asyncio.sleep(1)
+        
+        except Exception as e:
+            logger.error(f"Critical error in batch processing: {e}")
+            results['error'] = str(e)
         
         finally:
-            # Calculate final statistics
-            batch_end = datetime.utcnow()
-            results['end_time'] = batch_end.isoformat()
-            results['duration_minutes'] = (batch_end - batch_start).total_seconds() / 60
-            results['success_rate'] = (results['successful_count'] / total_urls * 100) if total_urls > 0 else 0
-            
-            # Calculate method success rates
-            for method, stats in results['method_performance'].items():
-                successful_with_method = sum(1 for detail in results['processing_details'] 
-                                           if detail.get('extraction_method') == method and detail.get('success'))
-                stats['success_rate'] = (successful_with_method / stats['count'] * 100) if stats['count'] > 0 else 0
-            
-            # Clear checkpoint on completion
-            self.checkpoint_manager.clear_checkpoint(batch_id)
-            
-            logger.info(f"Batch {batch_id} completed: {results['successful_count']}/{total_urls} successful ({results['success_rate']:.1f}%)")
+            results['end_time'] = datetime.utcnow().isoformat()
+            await self.cleanup()
         
+        logger.info(f"Batch {batch_id} completed: {results['successful_count']} successful, {results['skipped_count']} skipped, {results['failed_count']} failed")
         return results
     
-    async def _process_single_url(self, url: str, modesty_level: str, batch_id: str, current: int, total: int) -> Dict[str, Any]:
-        """Process a single URL through the complete workflow"""
+    async def _process_single_new_product(self, url: str, modesty_level: str, batch_id: str, current: int, total: int) -> Dict[str, Any]:
+        """Process a single URL for NEW product creation only"""
         
         start_time = datetime.utcnow()
         result = {
@@ -170,30 +141,22 @@ class BatchProcessor:
         }
         
         try:
-            # Phase 1: URL Processing and Validation
-            logger.debug(f"[{current}/{total}] Phase 1: Processing URL")
-            processed_url = await self.url_processor.process_url(url, modesty_level)
+            # Phase 1: URL Processing and Duplicate Detection
+            logger.debug(f"[{current}/{total}] Phase 1: Processing URL and checking for duplicates")
+            processed_url = await self._process_url(url, modesty_level)
             
             result['retailer'] = processed_url.retailer
             result['clean_url'] = processed_url.clean_url
             
-            # Handle duplicates
+            # CRITICAL: Skip if duplicate - NEW PRODUCTS ONLY
             if processed_url.is_duplicate:
-                logger.info(f"[{current}/{total}] Duplicate detected: {processed_url.duplicate_action}")
-                if processed_url.duplicate_action == 'update':
-                    return await self._handle_product_update(processed_url, result)
-                elif processed_url.duplicate_action == 'skip':
-                    result['success'] = True
-                    result['action'] = 'skipped_duplicate'
-                    return result
-                else:
-                    result['manual_review'] = True
-                    result['warnings'].append('Uncertain duplicate - manual review required')
-                    await self._add_to_manual_review(url, processed_url.retailer, modesty_level, 
-                                                   'duplicate_uncertain', 'Manual duplicate review required')
-                    return result
+                logger.info(f"[{current}/{total}] Skipping duplicate product: {url}")
+                result['success'] = True
+                result['action'] = 'skipped_duplicate'
+                result['reason'] = 'Product already exists in database'
+                return result
             
-            # Phase 2: Data Extraction (simplified with unified extractor)
+            # Phase 2: Data Extraction
             logger.debug(f"[{current}/{total}] Phase 2: Extracting product data")
             extraction_result = await self.unified_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
             
@@ -218,8 +181,8 @@ class BatchProcessor:
             result['images_processed'] = len(image_result['downloaded_images'])
             result['warnings'].extend(image_result['warnings'])
             
-            # Phase 4: Shopify Product Creation
-            logger.debug(f"[{current}/{total}] Phase 4: Creating Shopify product")
+            # Phase 4: Shopify Product Creation (NEW PRODUCTS ONLY)
+            logger.debug(f"[{current}/{total}] Phase 4: Creating NEW Shopify product")
             shopify_result = await self.shopify_manager.create_product(
                 extracted_data, 
                 processed_url.retailer, 
@@ -237,7 +200,7 @@ class BatchProcessor:
                 # Store in database
                 await self._store_product_record(extracted_data, processed_url, shopify_result, extraction_result.method_used)
                 
-                logger.info(f"[{current}/{total}] Successfully created product: {shopify_result['product_id']}")
+                logger.info(f"[{current}/{total}] Successfully created NEW product: {shopify_result['product_id']}")
             else:
                 result['errors'].append(shopify_result['error'])
                 result['manual_review'] = True
@@ -258,9 +221,20 @@ class BatchProcessor:
         
         return result
     
+    async def _process_url(self, url: str, modesty_level: str) -> ProcessedURL:
+        """Process URL with duplicate detection - simplified for import focus"""
+        
+        # Import URL processor
+        from url_processor import URLProcessor
+        
+        url_processor = URLProcessor()
+        processed_url = await url_processor.process_url(url, modesty_level)
+        
+        return processed_url
+    
     async def _process_images(self, retailer: str, image_urls: List[str], product_url: str, 
                             product_code: str, extracted_data: Dict = None) -> Dict:
-        """Process images using the new optimized 4-layer architecture"""
+        """Process images using the optimized 4-layer architecture - EXACT COPY from BatchProcessor"""
         
         result = {
             'downloaded_images': [],
@@ -325,7 +299,7 @@ class BatchProcessor:
         return result
     
     async def _legacy_image_fallback(self, retailer: str, image_urls: List[str], product_url: str) -> List[str]:
-        """Legacy image download fallback for backward compatibility"""
+        """Legacy image download fallback - EXACT COPY from BatchProcessor"""
         
         try:
             # Try to get a processor from the factory first
@@ -344,42 +318,9 @@ class BatchProcessor:
             logger.error(f"Legacy image fallback failed for {retailer}: {e}")
             return []
     
-    async def _handle_product_update(self, processed_url: ProcessedURL, result: Dict) -> Dict:
-        """Handle updating an existing product"""
-        
-        try:
-            # Extract new data
-            extraction_result = await self.unified_extractor.extract_product_data(processed_url.clean_url, processed_url.retailer)
-            
-            if extraction_result.success:
-                # Update product via Shopify manager
-                update_result = await self.shopify_manager.update_product(
-                    processed_url.existing_product_id,
-                    extraction_result.data,
-                    processed_url.retailer
-                )
-                
-                if update_result['success']:
-                    result['success'] = True
-                    result['action'] = 'updated'
-                    result['shopify_product_id'] = processed_url.existing_product_id
-                    logger.info(f"Successfully updated existing product: {processed_url.existing_product_id}")
-                else:
-                    result['manual_review'] = True
-                    result['errors'].append(update_result['error'])
-            else:
-                result['manual_review'] = True
-                result['errors'].extend(extraction_result.errors)
-        
-        except Exception as e:
-            result['manual_review'] = True
-            result['errors'].append(str(e))
-        
-        return result
-    
     async def _store_product_record(self, extracted_data: Dict, processed_url: ProcessedURL, 
                                   shopify_result: Dict, extraction_method: str):
-        """Store product record in database"""
+        """Store product record in database - EXACT COPY from BatchProcessor"""
         
         try:
             await self.duplicate_detector.store_product(
@@ -410,7 +351,7 @@ class BatchProcessor:
     
     async def _add_to_manual_review(self, url: str, retailer: str, modesty_level: str, 
                                   error_type: str, error_details: str, extracted_data: Dict = None):
-        """Add failed item to manual review queue"""
+        """Add failed item to manual review queue - EXACT COPY from BatchProcessor"""
         
         try:
             review_data = {
@@ -430,18 +371,16 @@ class BatchProcessor:
             logger.error(f"Failed to add to manual review: {e}")
     
     async def cleanup(self):
-        """Cleanup all processors and resources"""
+        """Cleanup all processors and resources - EXACT COPY from BatchProcessor"""
         
         # Close image processor factory instances
         if hasattr(self, 'image_processor_factory'):
             await self.image_processor_factory.close_all()
         
-        # UnifiedExtractor doesn't have a close method, so we skip it
-        
-        logger.info("BatchProcessor cleanup completed")
+        logger.info("ImportProcessor cleanup completed")
     
     def __del__(self):
-        """Cleanup on destruction - improved to avoid runtime warnings"""
+        """Cleanup on destruction"""
         if hasattr(self, 'image_processor_factory'):
             import asyncio
             try:
@@ -451,4 +390,4 @@ class BatchProcessor:
                     asyncio.create_task(self.image_processor_factory.close_all())
             except RuntimeError:
                 # No running event loop - cleanup will happen on process exit
-                pass  # Ignore cleanup errors during destruction
+                pass 
