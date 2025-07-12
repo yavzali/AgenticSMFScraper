@@ -491,9 +491,11 @@ class CatalogSystemTester:
             detector = ChangeDetector()
             
             test_urls = [
-                ('https://revolve.com/product-ABC123.html', 'revolve', 'ABC123'),
-                ('https://asos.com/prd/12345', 'asos', '12345'),
-                ('https://uniqlo.com/products/E443577-000', 'uniqlo', 'E443577'),
+                ('https://www.revolve.com/lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/', 'revolve', 'LAGR-WD258'),
+                ('https://www.asos.com/prd/1234567', 'asos', '1234567'),
+                ('https://www.uniqlo.com/us/en/products/E479225-000/00', 'uniqlo', 'E479225'),
+                ('https://www.nordstrom.com/s/crewneck-midi-dress/8172887', 'nordstrom', '8172887'),
+                ('https://www.aritzia.com/us/en/product/utility-dress/115422.html', 'aritzia', '115422'),
             ]
             
             extraction_results = []

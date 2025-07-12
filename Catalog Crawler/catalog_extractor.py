@@ -20,9 +20,6 @@ from datetime import datetime, date
 
 from logger_config import setup_logging
 from pattern_learner import EnhancedPatternLearner, PatternType
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), "../New Product Import and Update Scraper"))
 from cost_tracker import cost_tracker
 
 logger = setup_logging(__name__)
@@ -188,18 +185,26 @@ class CatalogExtractor:
                     extraction_metadata={'error': 'API keys invalid'}
                 )
             
-            # Track API call with cost monitoring
+            # Track API call with cost monitoring (convert ExtractionResult to dict)
+            response_dict = {
+                'success': extraction_result.success,
+                'data': extraction_result.data,
+                'method_used': extraction_result.method_used,
+                'processing_time': extraction_result.processing_time,
+                'warnings': extraction_result.warnings,
+                'errors': extraction_result.errors
+            }
             cost_tracker.track_api_call(
                 method="catalog_markdown", 
                 prompt=prompt, 
-                response=extraction_result,
+                response=response_dict,
                 retailer=retailer, 
                 url=catalog_url, 
                 processing_time=processing_time
             )
             
-            if extraction_result.get('success'):
-                products = self._parse_catalog_extraction_result(extraction_result, retailer, category)
+            if extraction_result.success:
+                products = self._parse_catalog_extraction_result(extraction_result.data, retailer, category)
                 
                 return CatalogExtractionResult(
                     success=True,
@@ -212,12 +217,10 @@ class CatalogExtractor:
                         'retailer': retailer,
                         'category': category
                     },
-                    warnings=extraction_result.get('warnings', []),
+                    warnings=extraction_result.warnings,
                     errors=[],
                     extraction_metadata={
-                        'prompt_tokens': extraction_result.get('prompt_tokens'),
-                        'response_tokens': extraction_result.get('response_tokens'),
-                        'model_used': extraction_result.get('model_used'),
+                        'model_used': extraction_result.method_used,
                         'markdown_length': len(markdown_content)
                     }
                 )
@@ -228,9 +231,9 @@ class CatalogExtractor:
                     method_used='markdown_extraction_failed',
                     processing_time=processing_time,
                     page_info={},
-                    warnings=extraction_result.get('warnings', []),
-                    errors=extraction_result.get('errors', ['Extraction failed']),
-                    extraction_metadata=extraction_result
+                    warnings=extraction_result.warnings,
+                    errors=extraction_result.errors if extraction_result.errors else ['Extraction failed'],
+                    extraction_metadata={'method_used': extraction_result.method_used}
                 )
                 
         except Exception as e:
@@ -279,11 +282,19 @@ class CatalogExtractor:
             
             processing_time = time.time() - start_time
             
-            # Track API call
+            # Track API call (convert ExtractionResult to dict for cost tracker)
+            response_dict = {
+                'success': extraction_result.success,
+                'data': extraction_result.data,
+                'method_used': extraction_result.method_used,
+                'processing_time': extraction_result.processing_time,
+                'warnings': extraction_result.warnings,
+                'errors': extraction_result.errors
+            }
             cost_tracker.track_api_call(
                 method="catalog_playwright", 
                 prompt=prompt, 
-                response=extraction_result,
+                response=response_dict,
                 retailer=retailer, 
                 url=catalog_url, 
                 processing_time=processing_time

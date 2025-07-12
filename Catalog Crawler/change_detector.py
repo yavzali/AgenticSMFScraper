@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(__file__))
 
 import asyncio
 import json
+import aiosqlite
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from datetime import datetime, date
@@ -295,7 +296,7 @@ class ChangeDetector:
             
             if product.product_code:
                 # Query main products database by product code
-                async with self.db_manager.db_connection() as conn:
+                async with aiosqlite.connect(self.db_manager.db_path) as conn:
                     cursor = await conn.cursor()
                     await cursor.execute("""
                         SELECT id, url, title, price FROM products 
@@ -323,7 +324,7 @@ class ChangeDetector:
             if not product.title or not product.price:
                 return None
             
-            async with self.db_manager.db_connection() as conn:
+            async with aiosqlite.connect(self.db_manager.db_path) as conn:
                 cursor = await conn.cursor()
                 
                 # Find products with similar price (within $0.01)
@@ -385,7 +386,7 @@ class ChangeDetector:
     async def _check_baseline_match(self, product: CatalogProduct, retailer: str, category: str) -> Optional[Dict]:
         """Check against catalog baseline products (including immodest items)"""
         try:
-            async with self.db_manager.db_connection() as conn:
+            async with aiosqlite.connect(self.db_manager.db_path) as conn:
                 cursor = await conn.cursor()
                 
                 # Check catalog_products table for baseline matches
@@ -430,11 +431,8 @@ class ChangeDetector:
             duplicate_detector = DuplicateDetector()
             
             # Use existing sophisticated duplicate detection
-            result = await duplicate_detector.check_for_duplicates(
-                title=product.title,
-                price=product.price,
-                retailer=retailer,
-                url=product.catalog_url
+            result = await duplicate_detector.check_duplicate(
+                product.catalog_url, retailer
             )
             
             if result.get('is_duplicate'):
@@ -474,27 +472,112 @@ class ChangeDetector:
         return normalized.rstrip('?&')
     
     def _extract_product_code_from_url(self, url: str, retailer: str) -> Optional[str]:
-        """Extract product code from URL using retailer-specific patterns"""
+        """
+        Extract product code from URL using retailer-specific patterns
+        Updated with real URL analysis and validation
+        """
+        # Enhanced patterns based on actual URLs from the system
         PRODUCT_ID_PATTERNS = {
-            'revolve': r'/([A-Z0-9-]+)\.html',
-            'asos': r'/prd/(\d+)',
-            'aritzia': r'/product/[^/]+/(\d+)\.html',
-            'hm': r'productpage\.(\d+)\.html',
-            'uniqlo': r'/products/([A-Z0-9]+)-',
-            'anthropologie': r'/products/([^?]+)',
-            'abercrombie': r'/products/([^?]+)',
-            'nordstrom': r'/s/([^?]+)',
-            'urban_outfitters': r'/products/([^?]+)',
-            'mango': r'/([0-9]+)\.html'
+            'nordstrom': [
+                r'/s/[^/]+/(\d+)',  # /s/crewneck-midi-dress/8172887
+                r'product/(\d+)',
+                r'/(\d{7,8})'
+            ],
+            'aritzia': [
+                r'/product/[^/]+/(\d+)\.html',  # /product/utility-dress/115422.html
+                r'/(\d{6})\.html',
+                r'product/([^/]+)/(\d+)'
+            ],
+            'hm': [
+                r'productpage\.(\d+)\.html',  # productpage.1232566001.html
+                r'/(\d{10})\.html',
+                r'product\.(\d+)'
+            ],
+            'uniqlo': [
+                r'/products/([A-Z]\d+)-',  # /products/E479225-000/00
+                r'/products/([A-Z]{1,2}\d{6})',
+                r'products/([A-Z0-9-]+)'
+            ],
+            'abercrombie': [
+                r'/p/[^/]+-(\d+)',  # /p/cowl-neck-draped-maxi-dress-59263319
+                r'product-(\d{8})',
+                r'/(\d{8})'
+            ],
+                         'anthropologie': [
+                 r'/shop/([^?]+)',  # Extract from slug before query params
+                 r'/([a-z0-9-]+)\?',
+                 r'product/([a-z0-9-]+)'
+             ],
+            'urban_outfitters': [
+                r'/shop/([^?]+)',  # /shop/97-nyc-applique-graphic-baby-tee
+                r'product/([a-z0-9-]+)',
+                r'/([a-z0-9-]+)\?'
+            ],
+            'mango': [
+                r'/([a-z0-9-]+)_(\d+)',  # /short-button-down-linen-blend-dress_87039065
+                r'_(\d{8})',
+                r'/(\d{8})'
+            ],
+            'revolve': [
+                r'/([a-z0-9-]+)/dp/([A-Z0-9-]+)',  # /lagence-sima-shirt-dress-in-pine/dp/LAGR-WD258/
+                r'/dp/([A-Z0-9-]+)',
+                r'product/([A-Z0-9-]+)'
+            ],
+            'asos': [
+                r'/prd/(\d+)',
+                r'product-(\d+)',
+                r'/(\d{7,})'
+            ]
         }
         
-        pattern = PRODUCT_ID_PATTERNS.get(retailer)
-        if pattern:
+        retailer_patterns = PRODUCT_ID_PATTERNS.get(retailer, [])
+        
+        for pattern in retailer_patterns:
             match = re.search(pattern, url)
             if match:
-                return match.group(1)
+                # For patterns with multiple groups, take the most specific one
+                if len(match.groups()) > 1:
+                    # Take the last group (usually the product ID)
+                    product_id = match.group(match.lastindex)
+                else:
+                    product_id = match.group(1)
+                
+                # Validate the extracted ID
+                if self._validate_product_id(product_id, retailer):
+                    return product_id
         
         return None
+    
+    def _validate_product_id(self, product_id: str, retailer: str) -> bool:
+        """
+        Validate that extracted product ID looks correct for retailer
+        """
+        if not product_id or len(product_id) < 2:
+            return False
+        
+        # Retailer-specific validation rules
+        validation_rules = {
+            'nordstrom': lambda pid: pid.isdigit() and 6 <= len(pid) <= 8,
+            'aritzia': lambda pid: pid.isdigit() and 5 <= len(pid) <= 7,
+            'hm': lambda pid: pid.isdigit() and 8 <= len(pid) <= 12,
+            'uniqlo': lambda pid: len(pid) >= 6 and any(c.isalpha() for c in pid),
+            'abercrombie': lambda pid: pid.isdigit() and 8 <= len(pid) <= 9,
+            'anthropologie': lambda pid: len(pid) >= 10 and '-' in pid,
+            'urban_outfitters': lambda pid: len(pid) >= 8 and '-' in pid,
+            'mango': lambda pid: pid.isdigit() and 6 <= len(pid) <= 8,
+            'revolve': lambda pid: len(pid) >= 6 and any(c.isupper() for c in pid),
+            'asos': lambda pid: pid.isdigit() and 6 <= len(pid) <= 8
+        }
+        
+        validator = validation_rules.get(retailer)
+        if validator:
+            try:
+                return validator(product_id)
+            except:
+                return False
+        
+        # Default validation: not empty and reasonable length
+        return 3 <= len(product_id) <= 20
     
     def _extract_image_identifier(self, image_url: str, retailer: str) -> Optional[str]:
         """Extract image identifier from image URL"""
