@@ -74,4 +74,8 @@ config_development.json
 # API Keys
 *api_key*
 *access_token*
-*secret* 
+*secret*
+
+# Browser profiles and cache (Patchright persistent context)
+browser_profiles/
+**/browser_profiles/ 
