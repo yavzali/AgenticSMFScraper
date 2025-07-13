@@ -15,7 +15,7 @@ import os
 import logging
 import re
 
-from playwright.async_api import async_playwright, Page, Browser, BrowserContext
+from patchright.async_api import async_playwright, Page, Browser, BrowserContext
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from PIL import Image
@@ -206,37 +206,57 @@ class PlaywrightMultiScreenshotAgent:
             await self._cleanup()
     
     async def _setup_stealth_browser(self):
-        """Setup Playwright browser with advanced anti-detection"""
+        """Setup Patchright browser with persistent context for enhanced anti-detection"""
         try:
             # Import stealth (install if needed)
             try:
                 from playwright_stealth import stealth_async
                 self.stealth_available = True
             except ImportError:
-                logger.warning("playwright-stealth not available, using basic stealth")
+                logger.warning("playwright-stealth not available, using Patchright's built-in stealth")
                 self.stealth_available = False
             
-            playwright = await async_playwright().start()
+            self.playwright = await async_playwright().start()
             
-            # Launch browser with anti-detection args
-            self.browser = await playwright.chromium.launch(
-                headless=True,
+            # Create profile directory for persistent context
+            profile_dir = os.path.join(os.path.dirname(__file__), "browser_profiles")
+            os.makedirs(profile_dir, exist_ok=True)
+            
+            # CRITICAL: Use launch_persistent_context (not launch) for better stealth
+            self.context = await self.playwright.chromium.launch_persistent_context(
+                user_data_dir=profile_dir,
+                channel="chrome",           # Real Chrome, not Chromium
+                headless=False,             # Headless = easily detected
+                no_viewport=True,           # Natural viewport behavior
+                
+                # Enhanced anti-detection args
                 args=[
                     '--disable-blink-features=AutomationControlled',
-                    '--disable-dev-shm-usage',
+                    '--disable-dev-shm-usage', 
                     '--no-sandbox',
                     '--disable-gpu',
                     '--disable-extensions',
                     '--disable-plugins',
-                    '--disable-images',  # Faster loading
-                    '--disable-javascript',  # Avoid verification triggers
-                    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                ]
-            )
-            
-            # Create context with realistic settings
-            self.context = await self.browser.new_context(
-                viewport={'width': 1920, 'height': 1080},
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--no-first-run',
+                    '--disable-default-apps',
+                    '--disable-sync',
+                    '--exclude-switches=enable-automation',
+                    '--disable-automation',
+                    '--disable-blink-features=AutomationControlled',
+                    '--use-fake-ui-for-media-stream',
+                    '--use-fake-device-for-media-stream',
+                    '--autoplay-policy=user-gesture-required',
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-renderer-backgrounding',
+                    '--disable-field-trial-config',
+                    '--disable-back-forward-cache',
+                    '--disable-ipc-flooding-protection',
+                ],
+                
+                # Realistic browser settings
                 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 extra_http_headers={
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -244,22 +264,60 @@ class PlaywrightMultiScreenshotAgent:
                     'Accept-Encoding': 'gzip, deflate, br',
                     'DNT': '1',
                     'Connection': 'keep-alive',
-                    'Upgrade-Insecure-Requests': '1'
-                }
+                    'Upgrade-Insecure-Requests': '1',
+                    'Sec-Fetch-Dest': 'document',
+                    'Sec-Fetch-Mode': 'navigate',
+                    'Sec-Fetch-Site': 'none',
+                    'Sec-Fetch-User': '?1'
+                },
+                
+                # Preserve existing timeouts
+                timeout=120000,
             )
+            
+            # No browser object with persistent context
+            self.browser = None
+            
+            # Create initial page
+            self.page = await self.context.new_page()
             
             # Apply stealth if available
             if self.stealth_available:
-                page = await self.context.new_page()
-                await stealth_async(page)
-                self.page = page
-            else:
-                self.page = await self.context.new_page()
+                await stealth_async(self.page)
             
-            logger.info("🥷 Stealth browser setup complete")
+            # Additional stealth measures - hide WebDriver properties
+            await self.page.add_init_script("""
+                // Remove webdriver property
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined,
+                });
+                
+                // Mock chrome object
+                window.chrome = {
+                    runtime: {},
+                    loadTimes: function() {},
+                    csi: function() {},
+                    app: {}
+                };
+                
+                // Mock plugins
+                Object.defineProperty(navigator, 'plugins', {
+                    get: () => [1, 2, 3, 4, 5],
+                });
+                
+                // Mock languages
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en'],
+                });
+                
+                // Hide automation indicators
+                delete navigator.__proto__.webdriver;
+            """)
+            
+            logger.info("🥷 Patchright persistent context setup complete - enhanced stealth enabled")
             
         except Exception as e:
-            logger.error(f"Failed to setup stealth browser: {e}")
+            logger.error(f"Failed to setup Patchright browser: {e}")
             raise
     
     async def _extract_with_retry(self, url: str, retailer: str) -> ProductData:
@@ -479,38 +537,52 @@ class PlaywrightMultiScreenshotAgent:
                 pass
     
     async def _handle_verification_challenges(self, strategy: Dict):
-        """Proactively handle verification challenges that break Browser Use"""
+        """Enhanced verification with Patchright shadow DOM support"""
         
-        # Check for common verification elements
+        # Patchright can handle closed shadow roots better
         verification_selectors = [
             'button:has-text("Press & Hold")',
+            'button:has-text("I am human")',
             'button:has-text("Verify")',
             '.captcha-container',
             '.cloudflare-browser-verification',
             '#challenge-form',
-            '[data-testid="press-hold-button"]'
+            '[data-testid="press-hold-button"]',
+            'iframe[src*="challenges.cloudflare.com"]',
+            '[aria-label*="verification"]',
+            '[aria-label*="challenge"]'
         ]
         
         for selector in verification_selectors:
             try:
-                element = await self.page.query_selector(selector)
-                if element:
-                    logger.warning(f"🛡️ Verification challenge detected: {selector}")
+                element = await self.page.locator(selector).first
+                if await element.is_visible(timeout=2000):
+                    logger.info(f"🛡️ Handling verification with Patchright: {selector}")
                     
-                    # Try gentle interaction (unlike Browser Use's aggressive approach)
-                    if 'press' in selector.lower() and 'hold' in selector.lower():
-                        await self._handle_press_and_hold(element)
+                    if "Press & Hold" in selector or "press-hold" in selector:
+                        # Enhanced press-and-hold with Patchright
+                        await element.hover()
+                        await self.page.wait_for_timeout(1000)
+                        await element.click()
+                        await self.page.wait_for_timeout(6000)  # Hold longer
+                    elif "I am human" in selector:
+                        await element.click()
+                        await self.page.wait_for_timeout(3000)
                     elif 'verify' in selector.lower():
                         await element.click()
-                        await asyncio.sleep(2)
+                        await self.page.wait_for_timeout(3000)
+                    else:
+                        # Generic verification handling
+                        await element.click()
+                        await self.page.wait_for_timeout(2000)
                     
-                    # Wait to see if challenge resolves
-                    await asyncio.sleep(3)
-                    break
+                    return True
                     
             except Exception as e:
                 logger.debug(f"Verification check failed for {selector}: {e}")
                 continue
+        
+        return False
     
     async def _handle_press_and_hold(self, element):
         """Handle press-and-hold verification (Browser Use's biggest failure)"""
@@ -1084,12 +1156,13 @@ Focus on extracting comprehensive product data and ALL available image URLs, wit
             return 'unknown'
     
     async def _cleanup(self):
-        """Clean up browser resources"""
+        """Clean up Patchright persistent context resources"""
         try:
+            # Persistent context cleanup - context handles everything
             if self.context:
                 await self.context.close()
-            if self.browser:
-                await self.browser.close()
+            if self.playwright:
+                await self.playwright.stop()
         except Exception as e:
             logger.warning(f"Cleanup failed: {e}")
     
@@ -1100,6 +1173,50 @@ Focus on extracting comprehensive product data and ALL available image URLs, wit
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit"""
         await self._cleanup()
+
+    async def test_patchright_stealth(self):
+        """Test Patchright anti-detection capabilities"""
+        try:
+            if not self.context:
+                await self._setup_stealth_browser()
+            
+            page = await self.context.new_page()
+            
+            # Test detection resistance
+            logger.info("🧪 Testing Patchright stealth capabilities...")
+            await page.goto("https://bot.sannysoft.com/")
+            await page.wait_for_timeout(3000)
+            
+            # Check results
+            title = await page.title()
+            logger.info(f"🔍 Stealth test result: {title}")
+            
+            # Check for specific detection indicators
+            try:
+                # Look for automation detection
+                automation_detected = await page.locator('text="Automated"').count()
+                headless_detected = await page.locator('text="Headless"').count()
+                webdriver_detected = await page.locator('text="WebDriver"').count()
+                
+                logger.info(f"🔍 Detection results:")
+                logger.info(f"   - Automation detected: {automation_detected > 0}")
+                logger.info(f"   - Headless detected: {headless_detected > 0}")
+                logger.info(f"   - WebDriver detected: {webdriver_detected > 0}")
+                
+                if automation_detected == 0 and headless_detected == 0 and webdriver_detected == 0:
+                    logger.info("✅ Patchright stealth test: PASSED - Not detected as bot")
+                else:
+                    logger.warning("⚠️ Patchright stealth test: Some detection indicators found")
+                    
+            except Exception as e:
+                logger.warning(f"Could not parse detection results: {e}")
+            
+            await page.close()
+            return True
+            
+        except Exception as e:
+            logger.error(f"Stealth test failed: {e}")
+            return False
 
     async def save_screenshots_as_fallback(self, url: str, retailer: str, product_code: str) -> List[str]:
         """

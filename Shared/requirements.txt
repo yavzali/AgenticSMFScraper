@@ -4,8 +4,9 @@ aiosqlite>=0.19.0
 pillow>=10.0.0
 pytz>=2023.3
 
-# Optional dependencies for fallback agents
-playwright>=1.40.0  # For Browser Use fallback
+# Browser automation with anti-detection
+patchright>=1.50.0  # Enhanced Playwright with stealth capabilities
+playwright>=1.40.0  # Fallback support
 requests>=2.31.0    # For some image processors
 
 # Development and testing (optional)
