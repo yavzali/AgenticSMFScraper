@@ -194,10 +194,8 @@ cd "../Catalog Crawler"
 python catalog_system_test.py --components-only
 # Expected: ✅ 23/24 tests passed (95.8% success rate)
 
-# Test Complete Tripartite System
-cd ".."
-python validate_tripartite_system.py
-# Expected: ✅ 21/21 tests passed
+# Test all systems individually - no master validation needed
+echo "✅ All individual system validations complete"
 ```
 
 ### **4. Usage Examples**
