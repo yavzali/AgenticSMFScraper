@@ -459,6 +459,25 @@
 
         <!-- Controls -->
         <div class="controls">
+            <!-- Review Type Tabs -->
+            <div class="filter-group" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee;">
+                <label style="font-weight: 700; color: #333; font-size: 1.1rem;">Review Type:</label>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" id="modestyReviewTab" onclick="setReviewType('modesty_assessment')" 
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        👗 Modesty Review
+                    </button>
+                    <button class="btn" id="duplicateReviewTab" onclick="setReviewType('duplicate_uncertain')"
+                            style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+                        🔍 Duplicate Check
+                    </button>
+                    <button class="btn" id="allReviewTab" onclick="setReviewType('')"
+                            style="background: linear-gradient(135deg, #888 0%, #666 100%);">
+                        📋 All Products
+                    </button>
+                </div>
+            </div>
+            
             <div class="filter-group">
                 <label for="retailerFilter">Retailer:</label>
                 <select id="retailerFilter">
@@ -547,12 +566,45 @@
         // Global variables
         let currentProducts = [];
         let currentProductForModal = null;
+        let currentReviewType = ''; // '', 'modesty_assessment', 'duplicate_uncertain'
 
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
             loadSystemStats();
             loadProducts();
+            setReviewType(''); // Start with all products
         });
+        
+        // Set review type filter
+        function setReviewType(type) {
+            currentReviewType = type;
+            
+            // Update tab styles
+            const modestyTab = document.getElementById('modestyReviewTab');
+            const duplicateTab = document.getElementById('duplicateReviewTab');
+            const allTab = document.getElementById('allReviewTab');
+            
+            // Reset all tabs
+            [modestyTab, duplicateTab, allTab].forEach(tab => {
+                tab.style.opacity = '0.6';
+                tab.style.transform = 'scale(0.95)';
+            });
+            
+            // Highlight active tab
+            if (type === 'modesty_assessment') {
+                modestyTab.style.opacity = '1';
+                modestyTab.style.transform = 'scale(1)';
+            } else if (type === 'duplicate_uncertain') {
+                duplicateTab.style.opacity = '1';
+                duplicateTab.style.transform = 'scale(1)';
+            } else {
+                allTab.style.opacity = '1';
+                allTab.style.transform = 'scale(1)';
+            }
+            
+            // Reload products with new filter
+            loadProducts();
+        }
 
         // Load system statistics
         async function loadSystemStats() {
@@ -596,7 +648,11 @@
                 const limit = document.getElementById('limitResults').value;
 
                 // Simulate API call - in real implementation, this would call the Python backend
-                const products = generateSampleProducts();
+                // Pass currentReviewType to filter by review_type
+                const products = generateSampleProducts().filter(p => {
+                    if (!currentReviewType) return true;
+                    return p.review_type === currentReviewType;
+                });
                 currentProducts = products;
 
                 if (products.length === 0) {
@@ -638,6 +694,11 @@
             
             const confidenceLabel = product.confidence_score <= 0.7 ? 'Low Confidence' :
                                   product.confidence_score <= 0.85 ? 'Medium Confidence' : 'High Confidence';
+            
+            // Determine review type badge and color
+            const reviewTypeBadge = product.review_type === 'duplicate_uncertain' ? 
+                '<span style="background: #ff9800; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🔍 DUPLICATE CHECK</span>' :
+                '<span style="background: #667eea; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">👗 MODESTY REVIEW</span>';
 
             card.innerHTML = `
                 <div class="product-header">
@@ -645,6 +706,7 @@
                     <div class="product-meta">
                         <span class="retailer-badge">${product.retailer}</span>
                         <span class="price-tag">$${product.price}</span>
+                        ${reviewTypeBadge}
                         <span class="confidence-score confidence-${confidenceClass}">
                             ${confidenceLabel} (${(product.confidence_score * 100).toFixed(0)}%)
                         </span>
@@ -695,18 +757,34 @@
                 </div>
 
                 <div class="product-actions">
-                    <button class="action-btn btn-approve" onclick="approveProduct(${product.id}, 'modest')">
-                        ✅ Modest
-                    </button>
-                    <button class="action-btn btn-approve" onclick="approveProduct(${product.id}, 'moderately_modest')">
-                        ⚪ Moderate
-                    </button>
-                    <button class="action-btn btn-reject" onclick="rejectProduct(${product.id}, 'immodest')">
-                        ❌ Immodest
-                    </button>
-                    <button class="action-btn btn-needs-review" onclick="flagForReview(${product.id})">
-                        🔍 Review
-                    </button>
+                    ${product.review_type === 'duplicate_uncertain' ? `
+                        <!-- Duplicate Check Actions -->
+                        <button class="action-btn btn-approve" onclick="approveProduct(${product.id}, 'new_product')" 
+                                style="flex: 2;">
+                            ✅ New Product (Approve)
+                        </button>
+                        <button class="action-btn btn-reject" onclick="rejectProduct(${product.id}, 'duplicate')"
+                                style="flex: 2;">
+                            🔄 Duplicate (Reject)
+                        </button>
+                        <button class="action-btn btn-needs-review" onclick="flagForReview(${product.id})">
+                            🔍 Unsure
+                        </button>
+                    ` : `
+                        <!-- Modesty Review Actions -->
+                        <button class="action-btn btn-approve" onclick="approveProduct(${product.id}, 'modest')">
+                            ✅ Modest
+                        </button>
+                        <button class="action-btn btn-approve" onclick="approveProduct(${product.id}, 'moderately_modest')">
+                            ⚪ Moderate
+                        </button>
+                        <button class="action-btn btn-reject" onclick="rejectProduct(${product.id}, 'immodest')">
+                            ❌ Immodest
+                        </button>
+                        <button class="action-btn btn-needs-review" onclick="flagForReview(${product.id})">
+                            🔍 Review
+                        </button>
+                    `}
                 </div>
             `;
 
@@ -868,6 +946,12 @@
                 const category = categories[Math.floor(Math.random() * categories.length)];
                 const confidence = Math.random();
                 
+                // Determine review_type based on confidence
+                // confidence 0.70-0.85 = duplicate_uncertain
+                // confidence >= 0.95 = modesty_assessment
+                const review_type = (confidence >= 0.70 && confidence <= 0.85) ? 
+                    'duplicate_uncertain' : 'modesty_assessment';
+                
                 const product = {
                     id: i,
                     title: `Stylish ${category.slice(0, -1)} from ${retailer} - Product ${i}`,
@@ -875,6 +959,7 @@
                     category: category,
                     price: (Math.random() * 200 + 30).toFixed(2),
                     confidence_score: confidence,
+                    review_type: review_type,
                     discovered_date: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
                     catalog_url: `https://www.${retailer}.com/product-${i}`,
                     sale_status: Math.random() > 0.7 ? 'on_sale' : 'regular',
@@ -882,13 +967,14 @@
                         `https://picsum.photos/120/160?random=${i}`,
                         `https://picsum.photos/120/160?random=${i + 100}`
                     ],
-                    similarity_matches: confidence <= 0.75 ? [
+                    similarity_matches: review_type === 'duplicate_uncertain' ? [
                         {
                             title: `Similar Product from Previous Crawl`,
                             price: (Math.random() * 200 + 30).toFixed(2),
                             similarity: 0.82,
-                            match_type: 'title_similarity',
-                            url: `https://www.${retailer}.com/existing-product`
+                            match_type: 'fuzzy_title_match',
+                            url: `https://www.${retailer}.com/existing-product`,
+                            match_details: 'Title similarity: 96%, Price differs by $5'
                         }
                     ] : null
                 };

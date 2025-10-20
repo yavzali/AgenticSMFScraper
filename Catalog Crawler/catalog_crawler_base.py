@@ -32,7 +32,7 @@ class CrawlConfig:
     sort_by_newest_url: str
     pagination_type: str  # 'pagination', 'infinite_scroll', 'hybrid'
     has_sort_by_newest: bool = True
-    early_stop_threshold: int = 3
+    early_stop_threshold: int = 5
     max_pages: int = 50
     crawl_strategy: str = 'newest_first'  # 'newest_first', 'full_catalog', 'baseline_establishment'
 

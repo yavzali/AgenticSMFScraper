@@ -17,6 +17,17 @@ from dataclasses import dataclass
 from datetime import datetime, date
 import difflib
 import re
+import io
+
+# Image hash comparison imports
+try:
+    import imagehash
+    from PIL import Image
+    import requests
+    IMAGE_HASH_AVAILABLE = True
+except ImportError:
+    IMAGE_HASH_AVAILABLE = False
+    logger = None  # Will be set after setup_logging
 
 from logger_config import setup_logging
 from catalog_db_manager import CatalogDatabaseManager, CatalogProduct, MatchResult
@@ -184,12 +195,27 @@ class ChangeDetector:
                     match_scores.append(('title_price', min(confidence, 0.88), title_price_match))
                     match_details['title_price_match'] = title_price_match
             
+            # 4.5. FUZZY TITLE MATCHING (95% threshold) - NEW ENHANCEMENT
+            if self.config.enable_title_price_matching and not title_price_match:
+                fuzzy_title_match = await self._check_fuzzy_title_match(product, retailer)
+                if fuzzy_title_match:
+                    match_scores.append(('fuzzy_title', fuzzy_title_match['confidence'], fuzzy_title_match))
+                    match_details['fuzzy_title_match'] = fuzzy_title_match
+            
             # 5. IMAGE URL MATCH
             if self.config.enable_image_url_matching and product.image_urls:
                 image_match = await self._check_image_url_match(product, retailer)
                 if image_match:
                     match_scores.append(('image_url', 0.82, image_match))
                     match_details['image_url_match'] = image_match
+            
+            # 5.5. IMAGE HASH COMPARISON (NEW ENHANCEMENT)
+            # Only if URL matching failed to avoid unnecessary API calls
+            if self.config.enable_image_url_matching and product.image_urls and not image_match:
+                image_hash_match = await self._check_image_hash_match(product, retailer)
+                if image_hash_match:
+                    match_scores.append(('image_hash', image_hash_match['confidence'], image_hash_match))
+                    match_details['image_hash_match'] = image_hash_match
             
             # 6. CATALOG BASELINE MATCH
             if self.config.enable_baseline_checking:
@@ -353,6 +379,177 @@ class ChangeDetector:
             
         except Exception as e:
             logger.warning(f"Error checking title+price match: {e}")
+            return None
+    
+    async def _check_fuzzy_title_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
+        """
+        Check for fuzzy title matching with 95% threshold
+        If fuzzy similarity >= 95% but price differs -> confidence 0.75 (manual review as duplicate_uncertain)
+        """
+        try:
+            if not product.title:
+                return None
+            
+            async with aiosqlite.connect(self.db_manager.db_path) as conn:
+                cursor = await conn.cursor()
+                
+                # Get all products from same retailer for fuzzy matching
+                await cursor.execute("""
+                    SELECT id, url, title, price FROM products 
+                    WHERE retailer = ? AND title IS NOT NULL
+                """, (retailer,))
+                
+                all_products = await cursor.fetchall()
+                
+                best_match = None
+                best_similarity = 0.0
+                
+                for match in all_products:
+                    # Use difflib.SequenceMatcher for fuzzy matching
+                    title_similarity = difflib.SequenceMatcher(
+                        None, product.title.lower(), match[2].lower()).ratio()
+                    
+                    if title_similarity >= 0.95 and title_similarity > best_similarity:
+                        best_similarity = title_similarity
+                        best_match = match
+                
+                if best_match:
+                    # Check if price matches or differs
+                    price_match = False
+                    if product.price and best_match[3]:
+                        price_match = abs(product.price - best_match[3]) < 0.01
+                    
+                    # If fuzzy similarity >= 95% but price differs -> confidence 0.75
+                    if best_similarity >= 0.95 and not price_match:
+                        confidence = 0.75  # Will trigger manual review as duplicate_uncertain
+                    elif best_similarity >= 0.95 and price_match:
+                        confidence = 0.88  # High confidence match
+                    else:
+                        confidence = 0.70 + (best_similarity - 0.95) * 0.5
+                    
+                    return {
+                        'id': best_match[0],
+                        'url': best_match[1],
+                        'title_similarity': best_similarity,
+                        'price_match': price_match,
+                        'existing_title': best_match[2],
+                        'existing_price': best_match[3],
+                        'confidence': confidence,
+                        'source': 'main_products_db'
+                    }
+            
+            return None
+            
+        except Exception as e:
+            logger.warning(f"Error checking fuzzy title match: {e}")
+            return None
+    
+    async def _check_image_hash_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
+        """
+        Check for image hash similarity using perceptual hashing (pHash)
+        If hash similarity >= 90% -> confidence 0.80 -> manual review as duplicate_uncertain
+        """
+        try:
+            if not IMAGE_HASH_AVAILABLE:
+                logger.debug("Image hash comparison not available (imagehash library not installed)")
+                return None
+            
+            if not product.image_urls:
+                return None
+            
+            # Get the first image URL for comparison
+            catalog_image_url = product.image_urls[0] if isinstance(product.image_urls, list) else product.image_urls
+            
+            # Download and hash the catalog image
+            catalog_hash = await self._get_image_hash(catalog_image_url)
+            if not catalog_hash:
+                return None
+            
+            async with aiosqlite.connect(self.db_manager.db_path) as conn:
+                cursor = await conn.cursor()
+                
+                # Get products from same retailer with images
+                # Note: This assumes we have image URLs stored in the products table
+                # For now, we'll check against catalog_products which has image_urls
+                await cursor.execute("""
+                    SELECT id, catalog_url, title, price, image_urls FROM catalog_products 
+                    WHERE retailer = ? AND image_urls IS NOT NULL
+                """, (retailer,))
+                
+                products_with_images = await cursor.fetchall()
+                
+                best_match = None
+                best_similarity = 0.0
+                
+                for match in products_with_images:
+                    # Parse image URLs from JSON
+                    try:
+                        existing_image_urls = json.loads(match[4]) if match[4] else []
+                        if not existing_image_urls:
+                            continue
+                        
+                        existing_image_url = existing_image_urls[0] if isinstance(existing_image_urls, list) else existing_image_urls
+                        
+                        # Get hash for existing product image
+                        existing_hash = await self._get_image_hash(existing_image_url)
+                        if not existing_hash:
+                            continue
+                        
+                        # Compare hashes (returns 0 for identical, higher for different)
+                        hash_difference = catalog_hash - existing_hash
+                        # Convert to similarity percentage (lower difference = higher similarity)
+                        similarity = max(0, 1 - (hash_difference / 64.0))  # 64 is max hash difference
+                        
+                        if similarity >= 0.90 and similarity > best_similarity:
+                            best_similarity = similarity
+                            best_match = match
+                            
+                    except Exception as e:
+                        logger.debug(f"Error comparing image hash: {e}")
+                        continue
+                
+                if best_match and best_similarity >= 0.90:
+                    # Image hash similarity >= 90% -> confidence 0.80 (duplicate_uncertain)
+                    return {
+                        'id': best_match[0],
+                        'url': best_match[1],
+                        'hash_similarity': best_similarity,
+                        'confidence': 0.80,  # Will trigger manual review as duplicate_uncertain
+                        'existing_title': best_match[2],
+                        'source': 'catalog_products_image_hash'
+                    }
+            
+            return None
+            
+        except Exception as e:
+            logger.warning(f"Error checking image hash match: {e}")
+            return None
+    
+    async def _get_image_hash(self, image_url: str) -> Optional[Any]:
+        """
+        Download image and compute perceptual hash
+        Returns None if image cannot be processed
+        Returns imagehash.ImageHash if successful
+        """
+        try:
+            if not IMAGE_HASH_AVAILABLE:
+                return None
+            
+            # Download image with timeout
+            response = requests.get(image_url, timeout=10, headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+            })
+            response.raise_for_status()
+            
+            # Open image and compute hash
+            image = Image.open(io.BytesIO(response.content))
+            # Use perceptual hash (pHash) for better similarity detection
+            image_hash = imagehash.phash(image)
+            
+            return image_hash
+            
+        except Exception as e:
+            logger.debug(f"Error getting image hash for {image_url}: {e}")
             return None
     
     async def _check_image_url_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
@@ -625,9 +822,18 @@ class ChangeDetector:
                                      existing_products: List[Tuple[CatalogProduct, MatchResult]],
                                      manual_review_products: List[Tuple[CatalogProduct, MatchResult]], 
                                      run_id: str):
-        """Store detection results in database"""
+        """
+        Store detection results in database with proper review_type classification
+        
+        Review Type Logic:
+        - confidence >= 0.95: 'modesty_assessment' (genuinely new products)
+        - confidence 0.70-0.85: 'duplicate_uncertain' (uncertain duplicates)
+        - confidence < 0.70: 'modesty_assessment' (very uncertain, treat as new for review)
+        """
         try:
             # Store new products for review
+            # The review_type classification is handled in catalog_db_manager.store_new_products
+            # based on the confidence score in match_result
             if new_products:
                 await self.db_manager.store_new_products(new_products, run_id)
             
@@ -635,6 +841,9 @@ class ChangeDetector:
             if manual_review_products:
                 for product, match_result in manual_review_products:
                     # Mark as needing manual review
+                    # Review type will be determined by confidence score:
+                    # - High confidence (0.95+): modesty_assessment
+                    # - Mid confidence (0.70-0.85): duplicate_uncertain
                     await self.db_manager.store_new_products(
                         [(product, match_result)], run_id)
             

@@ -123,6 +123,7 @@ class CatalogDatabaseManager:
             discovery_run_id VARCHAR(100),
             extraction_method VARCHAR(50),
             review_status VARCHAR(50) DEFAULT 'pending',
+            review_type VARCHAR(50) DEFAULT 'modesty_assessment',
             reviewed_by VARCHAR(100),
             reviewed_date TIMESTAMP,
             review_notes TEXT,
@@ -150,7 +151,7 @@ class CatalogDatabaseManager:
             sort_by_newest_url VARCHAR(1000),
             pagination_type VARCHAR(50),
             has_sort_by_newest BOOLEAN DEFAULT 1,
-            early_stop_threshold INTEGER DEFAULT 3,
+            early_stop_threshold INTEGER DEFAULT 5,
             baseline_status VARCHAR(50) DEFAULT 'active',
             last_validated TIMESTAMP,
             validation_notes TEXT,
@@ -312,8 +313,8 @@ class CatalogDatabaseManager:
                             title, price, original_price, sale_status, image_urls,
                             availability, product_code, discovered_date,
                             discovery_run_id, extraction_method, is_new_product,
-                            review_status
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            review_status, review_type
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (
                         product.catalog_url,
                         product.normalized_url,
@@ -330,7 +331,8 @@ class CatalogDatabaseManager:
                         run_id,
                         product.extraction_method,
                         0,  # baseline products are not new
-                        'baseline'  # special status for baseline products
+                        'baseline',  # special status for baseline products
+                        'modesty_assessment'  # default review type
                     ))
                     stored_count += 1
                 
@@ -568,14 +570,19 @@ class CatalogDatabaseManager:
                 for product, match_result in products_with_results:
                     if match_result.is_new_product:
                         # Store for modesty review
+                        # Determine review_type based on confidence score
+                        review_type = 'modesty_assessment'  # Default for high confidence new products
+                        if 0.70 <= match_result.confidence_score <= 0.85:
+                            review_type = 'duplicate_uncertain'  # Uncertain duplicates
+                        
                         await conn.execute("""
                             INSERT INTO catalog_products (
                                 catalog_url, normalized_url, retailer, category,
                                 title, price, original_price, sale_status, image_urls,
                                 availability, product_code, discovered_date,
                                 discovery_run_id, extraction_method, is_new_product,
-                                confidence_score, similarity_matches, review_status
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                confidence_score, similarity_matches, review_status, review_type
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """, (
                             product.catalog_url,
                             product.normalized_url,
@@ -594,7 +601,8 @@ class CatalogDatabaseManager:
                             1,  # is_new_product
                             match_result.confidence_score,
                             json.dumps(match_result.similarity_details) if match_result.similarity_details else None,
-                            'pending'  # needs modesty review
+                            'pending',  # needs modesty review
+                            review_type  # modesty_assessment or duplicate_uncertain
                         ))
                         new_products_stored += 1
                 

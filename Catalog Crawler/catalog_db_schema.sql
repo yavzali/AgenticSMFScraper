@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS catalog_products (
     
     -- Modesty Review Status
     review_status VARCHAR(50) DEFAULT 'pending',  -- 'pending', 'modest', 'moderately_modest', 'immodest', 'needs_review'
+    review_type VARCHAR(50) DEFAULT 'modesty_assessment',  -- 'modesty_assessment', 'duplicate_uncertain'
     reviewed_by VARCHAR(100),
     reviewed_date TIMESTAMP,
     review_notes TEXT,
@@ -72,7 +73,7 @@ CREATE TABLE IF NOT EXISTS catalog_baselines (
     -- Crawl Strategy
     pagination_type VARCHAR(50),           -- 'pagination', 'infinite_scroll', 'hybrid'
     has_sort_by_newest BOOLEAN DEFAULT 1,
-    early_stop_threshold INTEGER DEFAULT 3,  -- Stop after N consecutive existing products
+    early_stop_threshold INTEGER DEFAULT 5,  -- Stop after N consecutive existing products
     
     -- Status & Validation
     baseline_status VARCHAR(50) DEFAULT 'active',  -- 'active', 'needs_refresh', 'deprecated'
