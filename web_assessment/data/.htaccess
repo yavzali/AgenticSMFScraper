@@ -1,0 +1,16 @@
+# Protect database and sensitive files
+<Files "*.db">
+    Require all denied
+</Files>
+
+<Files "*.sqlite">
+    Require all denied
+</Files>
+
+<Files "*.sql">
+    Require all denied
+</Files>
+
+# Prevent directory browsing
+Options -Indexes
+
