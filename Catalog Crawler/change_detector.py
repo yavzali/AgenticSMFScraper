@@ -153,30 +153,37 @@ class ChangeDetector:
     async def _comprehensive_product_matching(self, product: CatalogProduct, 
                                             retailer: str, category: str) -> MatchResult:
         """
-        Comprehensive multi-factor product matching
+        Comprehensive multi-factor product matching - Enhanced with full match details
         Uses all available matching methods with weighted confidence scoring
         """
         
         # Initialize matching scores
         match_scores = []
         match_details = {}
+        potential_matches = []  # NEW: Store full details of all potential matches
         
         try:
             # 1. EXACT URL MATCH (highest confidence)
             exact_match = await self._check_exact_url_match(product, retailer)
             if exact_match:
+                potential_matches.append(exact_match)
                 return MatchResult(
                     is_new_product=False,
                     confidence_score=1.0,
                     match_type='exact_url',
-                    existing_product_id=exact_match['id'],
-                    similarity_details={'exact_url_match': exact_match['url']}
+                    existing_product_id=exact_match.get('shopify_id') or exact_match['id'],
+                    similarity_details={
+                        'potential_matches': [exact_match],
+                        'best_match': exact_match,
+                        'total_matches_found': 1
+                    }
                 )
             
             # 2. NORMALIZED URL MATCH
             if self.config.enable_url_normalization:
                 normalized_match = await self._check_normalized_url_match(product, retailer)
                 if normalized_match:
+                    potential_matches.append(normalized_match)
                     match_scores.append(('normalized_url', 0.95, normalized_match))
                     match_details['normalized_url_match'] = normalized_match
             
@@ -184,14 +191,17 @@ class ChangeDetector:
             if self.config.enable_product_id_extraction:
                 product_id_match = await self._check_product_id_match(product, retailer)
                 if product_id_match:
+                    potential_matches.append(product_id_match)
                     match_scores.append(('product_id', 0.93, product_id_match))
                     match_details['product_id_match'] = product_id_match
             
             # 4. TITLE + PRICE MATCH
+            title_price_match = None
             if self.config.enable_title_price_matching:
                 title_price_match = await self._check_title_price_match(product, retailer)
                 if title_price_match:
-                    confidence = 0.80 + (title_price_match['title_similarity'] - 0.85) * 0.8
+                    potential_matches.append(title_price_match)
+                    confidence = 0.80 + (title_price_match.get('similarity', 0.85) - 0.85) * 0.8
                     match_scores.append(('title_price', min(confidence, 0.88), title_price_match))
                     match_details['title_price_match'] = title_price_match
             
@@ -199,6 +209,7 @@ class ChangeDetector:
             if self.config.enable_title_price_matching and not title_price_match:
                 fuzzy_title_match = await self._check_fuzzy_title_match(product, retailer)
                 if fuzzy_title_match:
+                    potential_matches.append(fuzzy_title_match)
                     match_scores.append(('fuzzy_title', fuzzy_title_match['confidence'], fuzzy_title_match))
                     match_details['fuzzy_title_match'] = fuzzy_title_match
             
@@ -241,8 +252,13 @@ class ChangeDetector:
                     is_new_product=False,
                     confidence_score=confidence,
                     match_type=match_type,
-                    existing_product_id=match_data.get('id'),
-                    similarity_details=match_details
+                    existing_product_id=match_data.get('shopify_id') or match_data.get('id'),
+                    similarity_details={
+                        'potential_matches': potential_matches,  # NEW: All potential matches
+                        'best_match': match_data,
+                        'total_matches_found': len(potential_matches),
+                        **match_details  # Include individual match details for backward compatibility
+                    }
                 )
             else:
                 # No matches found - likely a new product
@@ -250,7 +266,10 @@ class ChangeDetector:
                     is_new_product=True,
                     confidence_score=0.95,  # High confidence it's new
                     match_type='no_match_found',
-                    similarity_details={'search_methods_used': list(match_details.keys())}
+                    similarity_details={
+                        'potential_matches': [],
+                        'search_methods_used': ['exact_url', 'normalized_url', 'product_id', 'fuzzy_title']
+                    }
                 )
                 
         except Exception as e:
@@ -265,7 +284,7 @@ class ChangeDetector:
     # =================== INDIVIDUAL MATCHING METHODS ===================
     
     async def _check_exact_url_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
-        """Check for exact URL match in main products database"""
+        """Check for exact URL match in main products database - Enhanced with full details"""
         try:
             # Check main products database
             from duplicate_detector import DuplicateDetector
@@ -274,11 +293,27 @@ class ChangeDetector:
             result = await duplicate_detector.check_duplicate(product.catalog_url, retailer)
             
             if result.get('is_duplicate') and result.get('match_type') == 'exact_url':
-                return {
-                    'id': result.get('existing_id'),
-                    'url': product.catalog_url,
-                    'source': 'main_products_db'
-                }
+                # Get full product details for the match
+                async with aiosqlite.connect(self.db_manager.db_path) as conn:
+                    cursor = await conn.cursor()
+                    await cursor.execute("""
+                        SELECT id, title, url, price, original_price, shopify_id 
+                        FROM products WHERE id = ? AND retailer = ?
+                    """, (result.get('existing_id'), retailer))
+                    
+                    match_details = await cursor.fetchone()
+                    if match_details:
+                        return {
+                            'id': match_details[0],
+                            'title': match_details[1] or 'Unknown Title',
+                            'url': match_details[2] or product.catalog_url,
+                            'price': match_details[3],
+                            'original_price': match_details[4],
+                            'shopify_id': match_details[5],
+                            'source': 'main_products_db',
+                            'match_reason': 'exact_url_match',
+                            'similarity': 1.0
+                        }
             
             return None
             
@@ -313,7 +348,7 @@ class ChangeDetector:
             return None
     
     async def _check_product_id_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
-        """Check for product ID match"""
+        """Check for product ID match - Enhanced with full details"""
         try:
             if not product.product_code:
                 # Try to extract product code from URL
@@ -325,7 +360,8 @@ class ChangeDetector:
                 async with aiosqlite.connect(self.db_manager.db_path) as conn:
                     cursor = await conn.cursor()
                     await cursor.execute("""
-                        SELECT id, url, title, price FROM products 
+                        SELECT id, title, url, price, original_price, shopify_id 
+                        FROM products 
                         WHERE product_code = ? AND retailer = ?
                     """, (product.product_code, retailer))
                     
@@ -333,9 +369,15 @@ class ChangeDetector:
                     if result:
                         return {
                             'id': result[0],
-                            'url': result[1],
-                            'product_code': product.product_code,
-                            'source': 'main_products_db'
+                            'title': result[1] or 'Unknown Title',
+                            'url': result[2] or product.catalog_url,
+                            'price': result[3],
+                            'original_price': result[4],
+                            'shopify_id': result[5],
+                            'source': 'main_products_db',
+                            'match_reason': 'product_code_match',
+                            'similarity': 0.95,
+                            'product_code': product.product_code
                         }
             
             return None
@@ -345,7 +387,7 @@ class ChangeDetector:
             return None
     
     async def _check_title_price_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
-        """Check for title + price combination match"""
+        """Check for title + price combination match - Enhanced with full details"""
         try:
             if not product.title or not product.price:
                 return None
@@ -355,7 +397,8 @@ class ChangeDetector:
                 
                 # Find products with similar price (within $0.01)
                 await cursor.execute("""
-                    SELECT id, url, title, price FROM products 
+                    SELECT id, title, url, price, original_price, shopify_id 
+                    FROM products 
                     WHERE retailer = ? AND ABS(price - ?) < 0.01
                 """, (retailer, product.price))
                 
@@ -363,16 +406,20 @@ class ChangeDetector:
                 
                 for match in price_matches:
                     title_similarity = difflib.SequenceMatcher(
-                        None, product.title.lower(), match[2].lower()).ratio()
+                        None, product.title.lower(), match[1].lower()).ratio()
                     
                     if title_similarity > 0.85:  # High title similarity threshold
                         return {
                             'id': match[0],
-                            'url': match[1],
-                            'title_similarity': title_similarity,
-                            'price_match': True,
-                            'existing_title': match[2],
-                            'source': 'main_products_db'
+                            'title': match[1] or 'Unknown Title',
+                            'url': match[2] or product.catalog_url,
+                            'price': match[3],
+                            'original_price': match[4],
+                            'shopify_id': match[5],
+                            'source': 'main_products_db',
+                            'match_reason': 'title_price_match',
+                            'similarity': title_similarity,
+                            'price_match': True
                         }
             
             return None
@@ -383,7 +430,7 @@ class ChangeDetector:
     
     async def _check_fuzzy_title_match(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
         """
-        Check for fuzzy title matching with 95% threshold
+        Check for fuzzy title matching with 95% threshold - Enhanced with full details
         If fuzzy similarity >= 95% but price differs -> confidence 0.75 (manual review as duplicate_uncertain)
         """
         try:
@@ -395,8 +442,10 @@ class ChangeDetector:
                 
                 # Get all products from same retailer for fuzzy matching
                 await cursor.execute("""
-                    SELECT id, url, title, price FROM products 
+                    SELECT id, title, url, price, original_price, shopify_id 
+                    FROM products 
                     WHERE retailer = ? AND title IS NOT NULL
+                    ORDER BY last_updated DESC LIMIT 200
                 """, (retailer,))
                 
                 all_products = await cursor.fetchall()
@@ -407,7 +456,7 @@ class ChangeDetector:
                 for match in all_products:
                     # Use difflib.SequenceMatcher for fuzzy matching
                     title_similarity = difflib.SequenceMatcher(
-                        None, product.title.lower(), match[2].lower()).ratio()
+                        None, product.title.lower(), match[1].lower()).ratio()
                     
                     if title_similarity >= 0.95 and title_similarity > best_similarity:
                         best_similarity = title_similarity
@@ -429,13 +478,16 @@ class ChangeDetector:
                     
                     return {
                         'id': best_match[0],
-                        'url': best_match[1],
-                        'title_similarity': best_similarity,
+                        'title': best_match[1] or 'Unknown Title',
+                        'url': best_match[2] or product.catalog_url,
+                        'price': best_match[3],
+                        'original_price': best_match[4],
+                        'shopify_id': best_match[5],
+                        'source': 'main_products_db',
+                        'match_reason': 'fuzzy_title_match',
+                        'similarity': best_similarity,
                         'price_match': price_match,
-                        'existing_title': best_match[2],
-                        'existing_price': best_match[3],
-                        'confidence': confidence,
-                        'source': 'main_products_db'
+                        'confidence': confidence
                     }
             
             return None
@@ -823,7 +875,11 @@ class ChangeDetector:
                                      manual_review_products: List[Tuple[CatalogProduct, MatchResult]], 
                                      run_id: str):
         """
-        Store detection results in database with proper review_type classification
+        Store detection results with conditional processing based on review_type
+        
+        COST OPTIMIZATION:
+        - modesty_assessment: Full scraping + Shopify draft creation
+        - duplicate_uncertain: Lightweight storage only (no scraping)
         
         Review Type Logic:
         - confidence >= 0.95: 'modesty_assessment' (genuinely new products)
@@ -831,30 +887,172 @@ class ChangeDetector:
         - confidence < 0.70: 'modesty_assessment' (very uncertain, treat as new for review)
         """
         try:
-            # Store new products for review
-            # The review_type classification is handled in catalog_db_manager.store_new_products
-            # based on the confidence score in match_result
+            # Import dependencies for conditional processing
+            import sys
+            import os
+            sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+            
+            # Process new products with conditional logic
             if new_products:
-                await self.db_manager.store_new_products(new_products, run_id)
+                products_for_db = []
+                
+                for product, match_result in new_products:
+                    # Determine review_type based on confidence
+                    if match_result.confidence_score >= 0.95:
+                        review_type = 'modesty_assessment'
+                    elif 0.70 <= match_result.confidence_score <= 0.85:
+                        review_type = 'duplicate_uncertain'
+                    else:
+                        review_type = 'modesty_assessment'  # Very uncertain, treat as new
+                    
+                    if review_type == 'modesty_assessment':
+                        # FULL PROCESSING: Scrape + Create Shopify draft
+                        logger.info(f"🛍️  Full processing for modesty assessment: {product.catalog_url}")
+                        
+                        try:
+                            from unified_extractor import UnifiedExtractor
+                            from shopify_manager import ShopifyManager
+                            
+                            # Extract full product data
+                            extractor = UnifiedExtractor()
+                            extraction_result = await extractor.extract_product_data(
+                                product.catalog_url, product.retailer
+                            )
+                            
+                            if extraction_result.success:
+                                # Create Shopify draft with "not-assessed" tag
+                                shopify_manager = ShopifyManager()
+                                shopify_result = await shopify_manager.create_product(
+                                    extraction_result.data, product.retailer, "pending_review",  # Triggers "not-assessed" tag
+                                    product.catalog_url, extraction_result.images or []
+                                )
+                                
+                                if shopify_result['success']:
+                                    shopify_draft_id = shopify_result['product_id']
+                                    shopify_image_urls = shopify_result.get('shopify_image_urls', [])
+                                    
+                                    # Update tracking fields
+                                    processing_stage = 'shopify_uploaded'
+                                    cost_incurred = self._estimate_extraction_cost(extraction_result)
+                                    
+                                    # Store all tracking info on product object
+                                    product.shopify_draft_id = shopify_draft_id
+                                    product.processing_stage = processing_stage
+                                    product.full_scrape_attempted = True
+                                    product.full_scrape_completed = True
+                                    product.cost_incurred = cost_incurred
+                                    product.review_type = review_type
+                                    product.shopify_image_urls = shopify_image_urls  # NEW: Store CDN URLs
+                                    
+                                    products_for_db.append((product, match_result))
+                                else:
+                                    logger.error(f"Shopify upload failed: {shopify_result.get('error')}")
+                                    # Set error state
+                                    product.processing_stage = 'shopify_failed'
+                                    product.full_scrape_attempted = True
+                                    product.full_scrape_completed = True
+                                    product.cost_incurred = self._estimate_extraction_cost(extraction_result)
+                                    product.review_type = review_type
+                                    product.shopify_image_urls = None
+                                    products_for_db.append((product, match_result))
+                            else:
+                                # Scraping failed
+                                logger.warning(f"Scraping failed for {product.catalog_url}: {extraction_result.errors}")
+                                product.processing_stage = 'scrape_failed'
+                                product.full_scrape_attempted = True
+                                product.full_scrape_completed = False
+                                product.cost_incurred = 0
+                                product.review_type = review_type
+                                product.shopify_image_urls = None
+                                products_for_db.append((product, match_result))
+                                
+                        except Exception as e:
+                            logger.error(f"Error in full processing: {e}")
+                            product.processing_stage = 'scrape_error'
+                            product.full_scrape_attempted = True
+                            product.full_scrape_completed = False
+                            product.cost_incurred = 0
+                            product.review_type = review_type
+                            product.shopify_image_urls = None
+                            products_for_db.append((product, match_result))
+                    
+                    elif review_type == 'duplicate_uncertain':
+                        # LIGHTWEIGHT PROCESSING: Store catalog info only
+                        logger.info(f"📝 Lightweight processing for duplicate review: {product.catalog_url}")
+                        
+                        products_for_db.append((
+                            product, match_result, review_type, None,
+                            'discovered', False, False, 0
+                        ))
+                
+                # Store all products in database
+                await self._store_products_with_tracking(products_for_db, run_id)
             
-            # Store manual review products with special flag
+            # Store manual review products (same conditional processing)
             if manual_review_products:
-                for product, match_result in manual_review_products:
-                    # Mark as needing manual review
-                    # Review type will be determined by confidence score:
-                    # - High confidence (0.95+): modesty_assessment
-                    # - Mid confidence (0.70-0.85): duplicate_uncertain
-                    await self.db_manager.store_new_products(
-                        [(product, match_result)], run_id)
+                # Apply same conditional logic to manual review products
+                await self._store_detection_results(manual_review_products, [], [], run_id)
             
-            # Log existing products (but don't store them as they're already in system)
-            logger.info(f"Detection results stored: {len(new_products)} new, "
+            logger.info(f"✅ Detection results stored: {len(new_products)} new, "
                        f"{len(manual_review_products)} manual review, "
                        f"{len(existing_products)} existing")
             
         except Exception as e:
             logger.error(f"Error storing detection results: {e}")
             raise
+    
+    def _estimate_extraction_cost(self, extraction_result) -> float:
+        """Estimate API cost for extraction"""
+        try:
+            method_used = getattr(extraction_result, 'method_used', 'unknown')
+            if method_used == 'playwright':
+                return 0.08  # Higher cost for Playwright
+            elif method_used == 'markdown':
+                return 0.02  # Lower cost for markdown
+            else:
+                return 0.05  # Default estimate
+        except:
+            return 0.05
+    
+    async def _store_products_with_tracking(self, products_data: List, run_id: str):
+        """Store products with enhanced tracking information"""
+        enhanced_products = []
+        
+        for item in products_data:
+            # New simplified format: just (product, match_result)
+            # Product already has all tracking attributes set
+            if len(item) == 2:
+                product, match_result = item
+                # Ensure attributes exist with defaults if not set
+                if not hasattr(product, 'review_type'):
+                    product.review_type = 'modesty_assessment'
+                if not hasattr(product, 'shopify_draft_id'):
+                    product.shopify_draft_id = None
+                if not hasattr(product, 'processing_stage'):
+                    product.processing_stage = 'discovered'
+                if not hasattr(product, 'full_scrape_attempted'):
+                    product.full_scrape_attempted = False
+                if not hasattr(product, 'full_scrape_completed'):
+                    product.full_scrape_completed = False
+                if not hasattr(product, 'cost_incurred'):
+                    product.cost_incurred = 0
+                if not hasattr(product, 'shopify_image_urls'):
+                    product.shopify_image_urls = None
+            else:  # Legacy format with tuple - should not happen anymore
+                logger.warning(f"Legacy format detected in _store_products_with_tracking: {len(item)} items")
+                product, match_result = item[0], item[1]
+                product.review_type = 'modesty_assessment'
+                product.shopify_draft_id = None
+                product.processing_stage = 'discovered'
+                product.full_scrape_attempted = False
+                product.full_scrape_completed = False
+                product.cost_incurred = 0
+                product.shopify_image_urls = None
+            
+            enhanced_products.append((product, match_result))
+        
+        # Store using existing method
+        await self.db_manager.store_new_products(enhanced_products, run_id)
     
     # =================== PUBLIC INTERFACE ===================
     

@@ -113,7 +113,7 @@ def main():
     parser = argparse.ArgumentParser(description="New Product Importer - Import new products to Shopify")
     
     parser.add_argument('--batch-file', type=str, help='JSON file containing URLs to import')
-    parser.add_argument('--modesty-level', choices=['modest', 'moderately_modest'], 
+    parser.add_argument('--modesty-level', choices=['modest', 'moderately_modest', 'not_modest'], 
                        default='modest', help='Modesty classification for products')
     parser.add_argument('--force-run-now', action='store_true', 
                        help='Ignore cost optimization and run immediately')

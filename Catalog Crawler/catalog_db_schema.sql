@@ -45,10 +45,21 @@ CREATE TABLE IF NOT EXISTS catalog_products (
     batch_created BOOLEAN DEFAULT 0,       -- Added to approved batch
     batch_file VARCHAR(200),              -- Name of created batch file
     
+    -- Shopify & Pipeline Tracking
+    shopify_draft_id BIGINT,              -- Shopify product ID if created as draft
+    processing_stage VARCHAR(50) DEFAULT 'discovered',  -- 'discovered', 'scraped', 'drafted', 'published'
+    full_scrape_attempted BOOLEAN DEFAULT 0,  -- Whether full product scraping was attempted
+    full_scrape_completed BOOLEAN DEFAULT 0,  -- Whether full product scraping succeeded
+    cost_incurred DECIMAL(8,4) DEFAULT 0,    -- API costs incurred for this product
+    shopify_image_urls TEXT,              -- JSON array of Shopify CDN URLs for web assessment
+    
     -- Timestamps
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Add index for efficient querying by shopify_draft_id
+CREATE INDEX IF NOT EXISTS idx_catalog_products_shopify_draft_id ON catalog_products(shopify_draft_id);
 
 -- 2. Catalog Baselines Table  
 -- Tracks when initial catalog reviews completed per retailer/category

@@ -259,26 +259,85 @@
             word-break: break-word;
         }
 
-        .similar-products {
-            margin-top: 15px;
+        .potential-matches {
+            margin: 15px 0;
             padding: 15px;
             background: rgba(255, 193, 7, 0.1);
             border-radius: 8px;
             border-left: 4px solid #ffc107;
         }
 
-        .similar-products h4 {
+        .potential-matches h4 {
             color: #856404;
             margin-bottom: 10px;
             font-size: 0.9rem;
         }
 
-        .similar-item {
+        .match-item {
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 8px;
-            font-size: 0.85rem;
+        }
+
+        .match-header strong {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .match-similarity {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .match-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .match-price {
+            font-weight: 600;
+            color: #2c5530;
+        }
+
+        .match-reason {
+            color: #666;
+            text-transform: capitalize;
+        }
+
+        .match-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .btn-small:hover {
+            background: #5a6fd8;
         }
 
         .product-actions {
@@ -741,17 +800,25 @@
                             </a>
                         </span>
                     </div>
-                    ${product.similarity_matches ? `
-                        <div class="similar-products">
-                            <h4>⚠️ Similar Products Detected</h4>
-                            <div class="similar-item">
-                                Found ${product.similarity_matches.length} potentially similar products. 
-                                Review carefully before approving.
-                                <button class="btn" style="margin-left: 10px; padding: 4px 8px; font-size: 0.7rem;" 
-                                        onclick="showSimilarProducts(${product.id})">
-                                    View Similar
-                                </button>
-                            </div>
+                    ${product.similarity_matches && product.similarity_matches.potential_matches && product.similarity_matches.potential_matches.length > 0 ? `
+                        <div class="potential-matches">
+                            <h4>🔍 Potential Duplicates Found (${product.similarity_matches.potential_matches.length})</h4>
+                            ${product.similarity_matches.potential_matches.map(match => `
+                                <div class="match-item">
+                                    <div class="match-header">
+                                        <strong>${match.title || 'Unknown Title'}</strong>
+                                        <span class="match-similarity">${((match.similarity || 0) * 100).toFixed(0)}% similar</span>
+                                    </div>
+                                    <div class="match-details">
+                                        <span class="match-price">$${match.price ? match.price.toFixed(2) : 'N/A'}</span>
+                                        <span class="match-reason">${(match.match_reason || 'unknown').replace(/_/g, ' ')}</span>
+                                    </div>
+                                    <div class="match-actions">
+                                        <a href="${match.url}" target="_blank" class="btn-small">View Original</a>
+                                        ${match.shopify_id ? `<a href="https://admin.shopify.com/admin/products/${match.shopify_id}" target="_blank" class="btn-small">View in Shopify</a>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     ` : ''}
                 </div>

@@ -133,9 +133,17 @@ class CatalogDatabaseManager:
             approved_for_scraping BOOLEAN DEFAULT 0,
             batch_created BOOLEAN DEFAULT 0,
             batch_file VARCHAR(200),
+            shopify_draft_id BIGINT,
+            processing_stage VARCHAR(50) DEFAULT 'discovered',
+            full_scrape_attempted BOOLEAN DEFAULT 0,
+            full_scrape_completed BOOLEAN DEFAULT 0,
+            cost_incurred DECIMAL(8,4) DEFAULT 0,
+            shopify_image_urls TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
+        
+        CREATE INDEX IF NOT EXISTS idx_catalog_products_shopify_draft_id ON catalog_products(shopify_draft_id);
         
         -- Catalog Baselines Table
         CREATE TABLE IF NOT EXISTS catalog_baselines (
@@ -313,8 +321,10 @@ class CatalogDatabaseManager:
                             title, price, original_price, sale_status, image_urls,
                             availability, product_code, discovered_date,
                             discovery_run_id, extraction_method, is_new_product,
-                            review_status, review_type
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            review_status, review_type,
+                            shopify_draft_id, processing_stage, full_scrape_attempted, 
+                            full_scrape_completed, cost_incurred
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (
                         product.catalog_url,
                         product.normalized_url,
@@ -332,7 +342,12 @@ class CatalogDatabaseManager:
                         product.extraction_method,
                         0,  # baseline products are not new
                         'baseline',  # special status for baseline products
-                        'modesty_assessment'  # default review type
+                        'modesty_assessment',  # default review type
+                        None,  # shopify_draft_id
+                        'discovered',  # processing_stage
+                        False,  # full_scrape_attempted
+                        False,  # full_scrape_completed
+                        0  # cost_incurred
                     ))
                     stored_count += 1
                 
@@ -558,9 +573,9 @@ class CatalogDatabaseManager:
     
     # =================== CATALOG PRODUCT STORAGE ===================
     
-    async def store_new_products(self, products_with_results: List[Tuple[CatalogProduct, MatchResult]], 
+    async def store_new_products(self, products_with_results: List[Tuple[CatalogProduct, Any]], 
                                run_id: str) -> int:
-        """Store newly discovered products for review"""
+        """Store newly discovered products with enhanced tracking information"""
         await self._ensure_db_initialized()
         
         new_products_stored = 0
@@ -569,11 +584,21 @@ class CatalogDatabaseManager:
             async with aiosqlite.connect(self.db_path) as conn:
                 for product, match_result in products_with_results:
                     if match_result.is_new_product:
-                        # Store for modesty review
-                        # Determine review_type based on confidence score
-                        review_type = 'modesty_assessment'  # Default for high confidence new products
-                        if 0.70 <= match_result.confidence_score <= 0.85:
-                            review_type = 'duplicate_uncertain'  # Uncertain duplicates
+                        # Extract tracking info from product (set by change_detector)
+                        shopify_draft_id = getattr(product, 'shopify_draft_id', None)
+                        processing_stage = getattr(product, 'processing_stage', 'discovered')
+                        full_scrape_attempted = getattr(product, 'full_scrape_attempted', False)
+                        full_scrape_completed = getattr(product, 'full_scrape_completed', False)
+                        cost_incurred = getattr(product, 'cost_incurred', 0)
+                        review_type = getattr(product, 'review_type', 'modesty_assessment')
+                        shopify_image_urls = getattr(product, 'shopify_image_urls', None)  # NEW
+                        
+                        # Fallback: Determine review_type from confidence if not set
+                        if not hasattr(product, 'review_type'):
+                            if 0.70 <= match_result.confidence_score <= 0.85:
+                                review_type = 'duplicate_uncertain'
+                            else:
+                                review_type = 'modesty_assessment'
                         
                         await conn.execute("""
                             INSERT INTO catalog_products (
@@ -581,8 +606,10 @@ class CatalogDatabaseManager:
                                 title, price, original_price, sale_status, image_urls,
                                 availability, product_code, discovered_date,
                                 discovery_run_id, extraction_method, is_new_product,
-                                confidence_score, similarity_matches, review_status, review_type
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                confidence_score, similarity_matches, review_status, review_type,
+                                shopify_draft_id, processing_stage, full_scrape_attempted,
+                                full_scrape_completed, cost_incurred, shopify_image_urls
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """, (
                             product.catalog_url,
                             product.normalized_url,
@@ -602,16 +629,42 @@ class CatalogDatabaseManager:
                             match_result.confidence_score,
                             json.dumps(match_result.similarity_details) if match_result.similarity_details else None,
                             'pending',  # needs modesty review
-                            review_type  # modesty_assessment or duplicate_uncertain
+                            review_type,
+                            shopify_draft_id,
+                            processing_stage,
+                            full_scrape_attempted,
+                            full_scrape_completed,
+                            cost_incurred,
+                            json.dumps(shopify_image_urls) if shopify_image_urls else None  # NEW
                         ))
                         new_products_stored += 1
                 
                 await conn.commit()
-                logger.info(f"Stored {new_products_stored} new products for review")
+                logger.info(f"✅ Stored {new_products_stored} new products with enhanced tracking")
                 return new_products_stored
                 
         except Exception as e:
             logger.error(f"Failed to store new products: {e}")
+            raise
+    
+    async def update_review_decision(self, product_id: int, decision: str, reviewer_notes: str = None):
+        """Update review decision in local database"""
+        await self._ensure_db_initialized()
+        
+        try:
+            from datetime import datetime
+            async with aiosqlite.connect(self.db_path) as conn:
+                await conn.execute("""
+                    UPDATE catalog_products 
+                    SET review_status = ?, reviewed_date = ?, review_notes = ?
+                    WHERE id = ?
+                """, (decision, datetime.utcnow(), reviewer_notes, product_id))
+                
+                await conn.commit()
+                logger.info(f"Updated review decision for product {product_id}: {decision}")
+                
+        except Exception as e:
+            logger.error(f"Error updating review decision: {e}")
             raise
     
     # =================== MONITORING RUN MANAGEMENT ===================

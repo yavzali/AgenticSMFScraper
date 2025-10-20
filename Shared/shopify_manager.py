@@ -66,10 +66,19 @@ class ShopifyManager:
                         
                         logger.info(f"Created Shopify product: {product_id}")
                         
-                        # Upload images
+                        # Upload images and collect CDN URLs
                         uploaded_images = []
+                        shopify_image_urls = []
+                        
                         if downloaded_images:
                             uploaded_images = await self._upload_images(session, product_id, downloaded_images, extracted_data.get('title', 'Product'))
+                            
+                            # Extract CDN URLs from uploaded images
+                            for image_info in uploaded_images:
+                                if isinstance(image_info, dict) and 'src' in image_info:
+                                    shopify_image_urls.append(image_info['src'])
+                                elif isinstance(image_info, str):
+                                    shopify_image_urls.append(image_info)
                         
                         # Add metafields
                         await self._add_metafields(session, product_id, extracted_data, source_url, modesty_level, retailer_name)
@@ -80,6 +89,7 @@ class ShopifyManager:
                             'variant_id': variant_id,
                             'product_url': f"https://{self.store_url}/admin/products/{product_id}",
                             'images_uploaded': len(uploaded_images),
+                            'shopify_image_urls': shopify_image_urls,  # NEW: Return CDN URLs
                             'shopify_data': product_data['product']
                         }
                     else:
@@ -87,14 +97,16 @@ class ShopifyManager:
                         logger.error(f"Failed to create Shopify product: {response.status} - {error_text}")
                         return {
                             'success': False,
-                            'error': f"Shopify API error: {response.status} - {error_text}"
+                            'error': f"Shopify API error: {response.status} - {error_text}",
+                            'shopify_image_urls': []  # Return empty list on failure
                         }
         
         except Exception as e:
             logger.error(f"Exception creating Shopify product: {e}")
             return {
                 'success': False,
-                'error': str(e)
+                'error': str(e),
+                'shopify_image_urls': []  # Return empty list on failure
             }
     
     async def update_product(self, product_id: int, new_data: Dict, retailer_name: str) -> Dict[str, Any]:
@@ -199,6 +211,15 @@ class ShopifyManager:
         
         clothing_type_lower = clothing_type.lower().strip()
         return type_mapping.get(clothing_type_lower, clothing_type.title())
+    
+    def _determine_product_status(self, modesty_level: str) -> str:
+        """Determine if product should be published or stay as draft"""
+        if modesty_level in ['modest', 'moderately_modest']:
+            return "active"  # Publish to store
+        elif modesty_level == 'not_modest':
+            return "draft"   # Keep as draft for training data
+        else:
+            return "draft"   # Default to draft for unknown levels
 
     def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str) -> Dict:
         """Build Shopify product payload with proper compliance"""
@@ -208,8 +229,16 @@ class ShopifyManager:
         if extracted_data.get('sale_status') == 'on sale' and extracted_data.get('original_price'):
             compare_at_price = str(extracted_data['original_price'])
         
-        # Build tags
+        # Build tags - Handle "not-assessed" workflow
         tags = self._build_product_tags(modesty_level, retailer_name, extracted_data)
+        
+        # For products from catalog crawler needing assessment, add "not-assessed" tag
+        if modesty_level == "pending_review":
+            tags.append("not-assessed")
+            # Keep as draft until assessed
+            effective_modesty_level = "pending_review"
+        else:
+            effective_modesty_level = modesty_level
         
         # Generate SKU if needed
         sku = extracted_data.get('product_code') or self._generate_sku(extracted_data, retailer_name)
@@ -220,7 +249,7 @@ class ShopifyManager:
                 "body_html": self._format_product_description(extracted_data.get('description', '')),
                 "vendor": extracted_data.get('brand', retailer_name),
                 "product_type": self._standardize_product_type(extracted_data.get('clothing_type', 'Clothing')),
-                "status": "draft",  # Always create as draft for review
+                "status": self._determine_product_status(effective_modesty_level),
                 "tags": ', '.join(tags),
                 "variants": [{
                     "option1": "Default",
@@ -600,3 +629,217 @@ class ShopifyManager:
     def get_admin_url(self, product_id: int) -> str:
         """Get Shopify admin URL for product"""
         return f"https://{self.store_url}/admin/products/{product_id}"
+    
+    # =================== PIPELINE SEPARATION METHODS ===================
+    
+    async def create_draft_for_review(self, extracted_data: Dict, retailer_name: str) -> Optional[int]:
+        """
+        Create Shopify draft specifically for modesty review
+        Returns shopify_product_id for tracking, or None if failed
+        """
+        try:
+            # Create draft with special "pending-modesty-review" tag
+            payload = self._build_product_payload(extracted_data, retailer_name, "pending_review")
+            
+            # Add pending-modesty-review tag
+            current_tags = payload["product"].get("tags", "")
+            if current_tags:
+                payload["product"]["tags"] = current_tags + ", pending-modesty-review"
+            else:
+                payload["product"]["tags"] = "pending-modesty-review"
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    f"{self.base_api_url}/products.json",
+                    headers=self.headers,
+                    data=json.dumps(payload)
+                ) as response:
+                    if response.status == 201:
+                        result = await response.json()
+                        shopify_id = result['product']['id']
+                        
+                        # Upload images if available
+                        if extracted_data.get('image_urls'):
+                            try:
+                                # Download and upload images
+                                image_urls = extracted_data['image_urls']
+                                if isinstance(image_urls, str):
+                                    image_urls = json.loads(image_urls) if image_urls.startswith('[') else [image_urls]
+                                
+                                # Upload first few images (limit to 5 for cost optimization)
+                                for img_url in image_urls[:5]:
+                                    await self._upload_image_from_url(session, shopify_id, img_url)
+                            except Exception as img_error:
+                                logger.warning(f"Failed to upload images for draft {shopify_id}: {img_error}")
+                        
+                        logger.info(f"Created Shopify draft for review: {shopify_id}")
+                        return shopify_id
+                    else:
+                        error_text = await response.text()
+                        logger.error(f"Failed to create Shopify draft: {error_text}")
+                        return None
+                        
+        except Exception as e:
+            logger.error(f"Exception creating Shopify draft: {e}")
+            return None
+    
+    async def _upload_image_from_url(self, session: aiohttp.ClientSession, product_id: int, image_url: str):
+        """Upload a single image from URL to Shopify product"""
+        try:
+            image_payload = {
+                "image": {
+                    "src": image_url
+                }
+            }
+            
+            async with session.post(
+                f"{self.base_api_url}/products/{product_id}/images.json",
+                headers=self.headers,
+                data=json.dumps(image_payload)
+            ) as response:
+                if response.status == 201:
+                    logger.debug(f"Uploaded image to product {product_id}")
+                else:
+                    logger.warning(f"Failed to upload image: {response.status}")
+        except Exception as e:
+            logger.warning(f"Error uploading image: {e}")
+    
+    async def update_review_decision(self, shopify_id: int, decision: str) -> bool:
+        """
+        Update draft product based on modesty review decision
+        decision: 'modest', 'moderately_modest', 'not_modest'
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                # Get current product
+                async with session.get(
+                    f"{self.base_api_url}/products/{shopify_id}.json",
+                    headers=self.headers
+                ) as response:
+                    if response.status != 200:
+                        return False
+                        
+                    result = await response.json()
+                    product = result['product']
+                    
+                    # Update tags and status
+                    current_tags = [tag.strip() for tag in product.get('tags', '').split(',') if tag.strip()]
+                    # Remove pending-modesty-review tag
+                    updated_tags = [tag for tag in current_tags if tag != 'pending-modesty-review']
+                    # Add modesty decision tag
+                    updated_tags.append(decision)
+                    
+                    # Determine new status
+                    new_status = self._determine_product_status(decision)
+                    
+                    # Update product
+                    update_payload = {
+                        "product": {
+                            "id": shopify_id,
+                            "tags": ', '.join(updated_tags),
+                            "status": new_status
+                        }
+                    }
+                    
+                    async with session.put(
+                        f"{self.base_api_url}/products/{shopify_id}.json",
+                        headers=self.headers,
+                        data=json.dumps(update_payload)
+                    ) as update_response:
+                        if update_response.status == 200:
+                            logger.info(f"Updated product {shopify_id} with decision: {decision}")
+                            return True
+                        else:
+                            error_text = await update_response.text()
+                            logger.error(f"Failed to update product: {error_text}")
+                            return False
+                        
+        except Exception as e:
+            logger.error(f"Exception updating review decision: {e}")
+            return False
+    
+    async def promote_duplicate_to_modesty_review(self, catalog_product_data: Dict, retailer_name: str) -> Optional[int]:
+        """
+        Promote a duplicate_uncertain product to full modesty review
+        Triggers full scraping + Shopify draft creation
+        """
+        try:
+            # Import here to avoid circular dependency
+            sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+            from unified_extractor import UnifiedExtractor
+            
+            # Perform full product scraping
+            extractor = UnifiedExtractor()
+            result = await extractor.extract_product_data(
+                catalog_product_data['catalog_url'], 
+                retailer_name
+            )
+            
+            if result.success:
+                # Create Shopify draft for review
+                shopify_id = await self.create_draft_for_review(result.data, retailer_name)
+                return shopify_id
+            else:
+                logger.error(f"Failed to scrape product for promotion: {result.errors}")
+                return None
+                
+        except Exception as e:
+            logger.error(f"Exception promoting duplicate to review: {e}")
+            return None
+    
+    async def update_modesty_decision(self, product_id: int, decision: str) -> bool:
+        """
+        Update product with modesty decision and remove not-assessed tag
+        decision: 'modest', 'moderately_modest', 'not_modest'
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                # Get current product
+                async with session.get(
+                    f"{self.base_api_url}/products/{product_id}.json",
+                    headers=self.headers
+                ) as response:
+                    if response.status != 200:
+                        logger.error(f"Failed to get product {product_id}: {response.status}")
+                        return False
+                        
+                    result = await response.json()
+                    product = result['product']
+                    
+                    # Update tags: remove "not-assessed", add modesty decision
+                    current_tags = [tag.strip() for tag in product.get('tags', '').split(',') if tag.strip()]
+                    updated_tags = [tag for tag in current_tags if tag != 'not-assessed']
+                    
+                    # Add the modesty decision tag if not already present
+                    if decision not in updated_tags:
+                        updated_tags.append(decision)
+                    
+                    # Determine new status based on decision
+                    new_status = self._determine_product_status(decision)
+                    
+                    # Update product
+                    update_payload = {
+                        "product": {
+                            "id": product_id,
+                            "tags": ', '.join(updated_tags),
+                            "status": new_status
+                        }
+                    }
+                    
+                    async with session.put(
+                        f"{self.base_api_url}/products/{product_id}.json",
+                        headers=self.headers,
+                        data=json.dumps(update_payload)
+                    ) as update_response:
+                        
+                        success = update_response.status == 200
+                        if success:
+                            logger.info(f"Updated product {product_id} with decision: {decision} (status: {new_status})")
+                        else:
+                            error_text = await update_response.text()
+                            logger.error(f"Failed to update product {product_id}: {error_text}")
+                        return success
+                        
+        except Exception as e:
+            logger.error(f"Exception updating modesty decision for product {product_id}: {e}")
+            return False
