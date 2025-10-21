@@ -1,0 +1,207 @@
+{
+  "test_run_time": "2025-10-21T09:53:02.517855",
+  "test_database": "test_catalog_results.db",
+  "total_results": 20,
+  "results": [
+    {
+      "retailer": "revolve",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.001736,
+      "test_time": "2025-10-21T09:53:02.505802"
+    },
+    {
+      "retailer": "revolve",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000342,
+      "test_time": "2025-10-21T09:53:02.507808"
+    },
+    {
+      "retailer": "asos",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000319,
+      "test_time": "2025-10-21T09:53:02.508258"
+    },
+    {
+      "retailer": "asos",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000429,
+      "test_time": "2025-10-21T09:53:02.509435"
+    },
+    {
+      "retailer": "mango",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "MangoCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000452,
+      "test_time": "2025-10-21T09:53:02.510345"
+    },
+    {
+      "retailer": "mango",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "MangoCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.00031,
+      "test_time": "2025-10-21T09:53:02.510894"
+    },
+    {
+      "retailer": "aritzia",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000297,
+      "test_time": "2025-10-21T09:53:02.511290"
+    },
+    {
+      "retailer": "aritzia",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000279,
+      "test_time": "2025-10-21T09:53:02.511664"
+    },
+    {
+      "retailer": "anthropologie",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000272,
+      "test_time": "2025-10-21T09:53:02.512017"
+    },
+    {
+      "retailer": "anthropologie",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000322,
+      "test_time": "2025-10-21T09:53:02.512369"
+    },
+    {
+      "retailer": "abercrombie",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.00042,
+      "test_time": "2025-10-21T09:53:02.512814"
+    },
+    {
+      "retailer": "abercrombie",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000337,
+      "test_time": "2025-10-21T09:53:02.513331"
+    },
+    {
+      "retailer": "nordstrom",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000289,
+      "test_time": "2025-10-21T09:53:02.513792"
+    },
+    {
+      "retailer": "nordstrom",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000268,
+      "test_time": "2025-10-21T09:53:02.514156"
+    },
+    {
+      "retailer": "uniqlo",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000468,
+      "test_time": "2025-10-21T09:53:02.514497"
+    },
+    {
+      "retailer": "uniqlo",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000569,
+      "test_time": "2025-10-21T09:53:02.515095"
+    },
+    {
+      "retailer": "urban_outfitters",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000316,
+      "test_time": "2025-10-21T09:53:02.515810"
+    },
+    {
+      "retailer": "urban_outfitters",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000324,
+      "test_time": "2025-10-21T09:53:02.516219"
+    },
+    {
+      "retailer": "hm",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000512,
+      "test_time": "2025-10-21T09:53:02.516656"
+    },
+    {
+      "retailer": "hm",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "BaseCatalogCrawler.crawl_catalog() missing 1 required positional argument: 'run_id'",
+      "error_type": "TypeError",
+      "duration": 0.000352,
+      "test_time": "2025-10-21T09:53:02.517295"
+    }
+  ]
+}

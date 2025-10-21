@@ -1,0 +1,197 @@
+{
+  "test_run_time": "2025-10-21T09:50:56.653583",
+  "test_database": "test_catalog_results.db",
+  "total_results": 20,
+  "results": [
+    {
+      "retailer": "revolve",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "'RevolveCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.001634,
+      "test_time": "2025-10-21T09:50:56.644309"
+    },
+    {
+      "retailer": "revolve",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "'RevolveCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000395,
+      "test_time": "2025-10-21T09:50:56.646284"
+    },
+    {
+      "retailer": "asos",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "'ASOSCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000331,
+      "test_time": "2025-10-21T09:50:56.646784"
+    },
+    {
+      "retailer": "asos",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "'ASOSCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000297,
+      "test_time": "2025-10-21T09:50:56.647198"
+    },
+    {
+      "retailer": "mango",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "'MangoCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000298,
+      "test_time": "2025-10-21T09:50:56.647567"
+    },
+    {
+      "retailer": "mango",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "'MangoCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.0003,
+      "test_time": "2025-10-21T09:50:56.647939"
+    },
+    {
+      "retailer": "aritzia",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "'AritziaCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000408,
+      "test_time": "2025-10-21T09:50:56.648361"
+    },
+    {
+      "retailer": "aritzia",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "'AritziaCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000326,
+      "test_time": "2025-10-21T09:50:56.648864"
+    },
+    {
+      "retailer": "anthropologie",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "'AnthropologieCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000301,
+      "test_time": "2025-10-21T09:50:56.649269"
+    },
+    {
+      "retailer": "anthropologie",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "'AnthropologieCrawler' object has no attribute '_build_catalog_url'",
+      "error_type": "AttributeError",
+      "duration": 0.000294,
+      "test_time": "2025-10-21T09:50:56.649644"
+    },
+    {
+      "retailer": "abercrombie",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.650327"
+    },
+    {
+      "retailer": "abercrombie",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.650615"
+    },
+    {
+      "retailer": "nordstrom",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.650899"
+    },
+    {
+      "retailer": "nordstrom",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.651222"
+    },
+    {
+      "retailer": "uniqlo",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.651867"
+    },
+    {
+      "retailer": "uniqlo",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.652344"
+    },
+    {
+      "retailer": "urban_outfitters",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.652684"
+    },
+    {
+      "retailer": "urban_outfitters",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.652984"
+    },
+    {
+      "retailer": "hm",
+      "category": "dresses",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.653280"
+    },
+    {
+      "retailer": "hm",
+      "category": "tops",
+      "success": false,
+      "products_found": 0,
+      "error": "[Errno 32] Broken pipe",
+      "error_type": "BrokenPipeError",
+      "test_time": "2025-10-21T09:50:56.653548"
+    }
+  ]
+}
