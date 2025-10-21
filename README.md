@@ -48,7 +48,7 @@ The Agent Modest Scraper System consists of **three independent but complementar
 **Core Principle**: All three systems use the same powerful extraction technologies but with different business logic and focused responsibilities.
 
 **Shared Components** (`/Shared/`):
-- **AI Extraction Engines**: `markdown_extractor.py`, `playwright_agent.py` (Patchright-enhanced)
+- **AI Extraction Engines**: `markdown_extractor.py`, `playwright_agent.py` (Patchright v1.52.5)
 - **Database Management**: `duplicate_detector.py`, `cost_tracker.py`
 - **Pattern Learning**: `pattern_learner.py`, `notification_manager.py`
 - **E-commerce Integration**: `shopify_manager.py`
@@ -266,9 +266,9 @@ python catalog_main.py --retailer revolve --category dresses --max-pages 5
 - **Confidence Scoring**: Intelligent quality assessment and routing decisions
 
 ### **🌐 Web Automation**
-- **Playwright Multi-Screenshot**: Advanced browser automation with anti-bot protection
+- **Patchright Multi-Screenshot**: Advanced browser automation with enhanced stealth (v1.52.5)
 - **Markdown Extraction**: Lightning-fast Jina AI + LLM processing (5-15s)
-- **Stealth Browsing**: Human-like behavior patterns, fingerprint masking
+- **Stealth Browsing**: Human-like behavior patterns, fingerprint masking, anti-detection
 - **Anti-Bot Mastery**: Press-and-hold, Cloudflare, CAPTCHA, checkbox verification
 
 ### **📊 Data Management**
@@ -292,13 +292,13 @@ python catalog_main.py --retailer revolve --category dresses --max-pages 5
 | Retailer | Method | Success Rate | Avg Time | Product ID Extraction | Anti-Bot Features |
 |----------|--------|-------------|----------|---------------------|-------------------|
 | **Revolve** | Markdown | 90-95% | 8-12s | ✅ `LAGR-WD258` | Basic |
-| **Aritzia** | Playwright | 75-85% | 60-120s | ✅ `115422` | Checkbox + Cloudflare |
+| **Aritzia** | Patchright | 75-85% | 60-120s | ✅ `115422` | Checkbox + Cloudflare |
 | **H&M** | Markdown | 80-85% | 12-18s | ✅ `1232566001` | Basic |
 | **Uniqlo** | Markdown | 85-90% | 10-15s | ✅ `E479225` | Basic |
-| **Anthropologie** | Playwright | 75-85% | 90-150s | ✅ `maeve-sleeveless-mini-shift-dress` | Press & Hold (4-6s) |
-| **Urban Outfitters** | Playwright | 70-80% | 90-150s | ✅ `97-nyc-applique-graphic-baby-tee` | Press & Hold (4-6s) |
-| **Abercrombie** | Playwright | 70-80% | 120-180s | ✅ `59263319` | Multi-step verification |
-| **Nordstrom** | Playwright | 75-85% | 45-90s | ✅ `8172887` | Advanced anti-bot |
+| **Anthropologie** | Patchright | 75-85% | 90-150s | ✅ `maeve-sleeveless-mini-shift-dress` | Press & Hold (4-6s) |
+| **Urban Outfitters** | Patchright | 70-80% | 90-150s | ✅ `97-nyc-applique-graphic-baby-tee` | Press & Hold (4-6s) |
+| **Abercrombie** | Patchright | 70-80% | 120-180s | ✅ `59263319` | Multi-step verification |
+| **Nordstrom** | Patchright | 75-85% | 45-90s | ✅ `8172887` | Advanced anti-bot |
 | **Mango** | Markdown | 85-90% | 8-14s | ✅ `87039065` | Basic |
 | **ASOS** | Markdown | 80-85% | 10-16s | ✅ `1234567` | Basic |
 

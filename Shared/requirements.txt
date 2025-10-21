@@ -6,8 +6,7 @@ imagehash>=4.3.1
 pytz>=2023.3
 
 # Browser automation with anti-detection
-patchright>=1.52.5  # Enhanced Playwright with stealth capabilities
-playwright>=1.40.0  # Fallback support
+patchright>=1.52.5  # Enhanced browser automation with stealth (replaces Playwright)
 requests>=2.31.0    # For some image processors
 
 # Development and testing (optional)
