@@ -3,6 +3,7 @@
 define('DB_PATH', __DIR__ . '/../data/products.db');
 
 // Shopify API configuration - UPDATE THESE WITH YOUR CREDENTIALS
+// For local development, copy this file to config.local.php and add your actual credentials
 define('SHOPIFY_STORE_URL', 'your-store.myshopify.com');
 define('SHOPIFY_ACCESS_TOKEN', 'your-shopify-access-token');
 define('SHOPIFY_API_VERSION', '2024-01');

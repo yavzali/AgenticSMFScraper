@@ -78,4 +78,7 @@ config_development.json
 
 # Browser profiles and cache (Patchright persistent context)
 browser_profiles/
-**/browser_profiles/ 
+**/browser_profiles/
+
+# Web Assessment - Local configuration with credentials
+web_assessment/api/config.local.php 
