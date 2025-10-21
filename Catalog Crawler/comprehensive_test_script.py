@@ -217,46 +217,58 @@ class ComprehensiveCatalogTest:
             
             print(f"📡 Fetching products from web...")
             
-            # Run crawl (first page only)
-            products = await crawler.crawl_catalog()
+            # Generate unique test run ID
+            test_run_id = f"test_{retailer}_{category}_{start_time.strftime('%Y%m%d_%H%M%S')}"
             
-            print(f"📦 Retrieved {len(products) if products else 0} products")
+            # Run crawl (first page only) - returns CrawlResult object
+            crawl_result = await crawler.crawl_catalog(
+                run_id=test_run_id,
+                crawl_type="baseline_establishment"  # Treat all products as new for testing
+            )
             
-            # Show sample products
-            if products:
-                print(f"\n📋 Sample Products Found:")
-                for i, product in enumerate(products[:3]):  # Show first 3
-                    print(f"   {i+1}. {product.title[:50] if product.title else 'No title'}")
-                    print(f"      Price: ${product.price if product.price else 'N/A'}")
-                    print(f"      URL: {product.catalog_url[:80]}...")
-                if len(products) > 3:
-                    print(f"   ... and {len(products) - 3} more products")
+            print(f"📦 Crawl completed: {crawl_result.total_products_crawled} products crawled")
+            print(f"   ✅ Success: {crawl_result.success}")
+            print(f"   📄 Pages crawled: {crawl_result.pages_crawled}")
             
-            # Store in test database
-            if products:
-                stored = await self._store_test_products(products, retailer, category, start_time)
-                print(f"💾 Stored {stored} products in test database")
+            if crawl_result.errors:
+                print(f"   ⚠️  Errors: {crawl_result.errors}")
+            if crawl_result.warnings:
+                print(f"   ⚠️  Warnings: {crawl_result.warnings}")
+            
+            # For baseline_establishment, the crawler doesn't use our test database
+            # So we'll just report the crawl results
+            products_found = crawl_result.total_products_crawled
+            
+            # Try to get sample product info from crawl metadata
+            sample_products = []
+            if crawl_result.crawl_metadata and 'sample_products' in crawl_result.crawl_metadata:
+                sample_products = crawl_result.crawl_metadata['sample_products'][:3]
+            
+            if products_found > 0:
+                print(f"\n📋 {products_found} products found")
+                if sample_products:
+                    print(f"   Sample products:")
+                    for i, product in enumerate(sample_products):
+                        print(f"   {i+1}. {product.get('title', 'No title')[:50]}")
+                        print(f"      Price: ${product.get('price', 'N/A')}")
+            else:
+                print(f"\n⚠️  No products found")
             
             end_time = datetime.now()
             duration = (end_time - start_time).total_seconds()
             
-            # Determine extraction method
-            extraction_method = "Unknown"
-            if products and len(products) > 0:
-                extraction_method = products[0].extraction_method or "catalog_extraction"
+            # Determine extraction method from crawl metadata
+            extraction_method = crawl_result.crawl_metadata.get('extraction_method', 'catalog_extraction')
             
             result_dict = {
                 'retailer': retailer,
                 'category': category,
-                'success': True,
-                'products_found': len(products) if products else 0,
-                'sample_products': [
-                    {
-                        'title': p.title,
-                        'price': p.price,
-                        'url': p.catalog_url
-                    } for p in (products[:3] if products else [])
-                ],
+                'success': crawl_result.success,
+                'products_found': products_found,
+                'pages_crawled': crawl_result.pages_crawled,
+                'early_stopped': crawl_result.early_stopped,
+                'errors': crawl_result.errors,
+                'warnings': crawl_result.warnings,
                 'extraction_method': extraction_method,
                 'duration': duration,
                 'test_time': start_time.isoformat(),
@@ -292,46 +304,6 @@ class ComprehensiveCatalogTest:
                 'duration': duration,
                 'test_time': start_time.isoformat()
             }
-    
-    async def _store_test_products(self, products: List, retailer: str, category: str, test_time: datetime) -> int:
-        """Store products in test database"""
-        
-        conn = sqlite3.connect(self.test_db_path)
-        cursor = conn.cursor()
-        
-        stored_count = 0
-        
-        for product in products:
-            try:
-                cursor.execute('''
-                    INSERT INTO catalog_products (
-                        catalog_url, retailer, category, title, price, original_price,
-                        sale_status, image_urls, discovered_date, extraction_method,
-                        review_status, review_type, test_run_time
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    product.catalog_url,
-                    retailer,
-                    category,
-                    product.title,
-                    product.price,
-                    product.original_price,
-                    product.sale_status,
-                    json.dumps(product.image_urls) if product.image_urls else None,
-                    datetime.now().isoformat(),
-                    product.extraction_method or 'catalog_extraction',
-                    'pending',
-                    'modesty_assessment',
-                    test_time.isoformat()
-                ))
-                stored_count += 1
-            except Exception as e:
-                logger.error(f"Failed to store product: {e}")
-        
-        conn.commit()
-        conn.close()
-        
-        return stored_count
     
     async def _show_detailed_results(self):
         """Show detailed results table"""
