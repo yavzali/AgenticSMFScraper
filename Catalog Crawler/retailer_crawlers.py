@@ -261,9 +261,9 @@ class CatalogCrawlerFactory:
     # Retailer configuration data from your provided attachment
     RETAILER_CONFIGS = {
         'revolve': {
-            'dresses_url': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses',
+            'dresses_url': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1',
             'tops_url': 'https://www.revolve.com/tops/br/db773d/?navsrc=left',
-            'sort_dresses_url': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest',
+            'sort_dresses_url': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1',
             'sort_tops_url': 'https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest',
             'pagination_type': 'pagination',
             'has_sort_by_newest': True,
@@ -406,7 +406,9 @@ class CatalogCrawlerFactory:
             pagination_type=retailer_config['pagination_type'],
             has_sort_by_newest=retailer_config['has_sort_by_newest'],
             early_stop_threshold=3 if retailer_config['has_sort_by_newest'] else 8,
-            max_pages=50,
+            max_pages=20,  # CHANGED: From 50 to 20
+            baseline_max_pages=3,  # NEW: Separate limit for baseline establishment
+            baseline_max_scrolls=3,  # NEW: For infinite scroll baselines
             crawl_strategy='newest_first' if retailer_config['has_sort_by_newest'] else 'full_catalog'
         )
         

@@ -33,7 +33,9 @@ class CrawlConfig:
     pagination_type: str  # 'pagination', 'infinite_scroll', 'hybrid'
     has_sort_by_newest: bool = True
     early_stop_threshold: int = 5
-    max_pages: int = 50
+    max_pages: int = 20  # CHANGED: Reduced from 50 to 20 for monitoring
+    baseline_max_pages: int = 3  # NEW: Separate limit for baseline establishment
+    baseline_max_scrolls: int = 3  # NEW: For infinite scroll baselines
     crawl_strategy: str = 'newest_first'  # 'newest_first', 'full_catalog', 'baseline_establishment'
 
 @dataclass
@@ -155,7 +157,10 @@ class BaseCatalogCrawler(ABC):
         
         current_page = 1
         
-        while current_page <= self.config.max_pages:
+        # Use baseline_max_pages for baseline establishment, max_pages for monitoring
+        page_limit = self.config.baseline_max_pages if crawl_type == 'baseline_establishment' else self.config.max_pages
+        
+        while current_page <= page_limit:
             try:
                 # Get page URL using retailer-specific logic
                 page_url = await self._get_page_url(start_url, current_page)
@@ -240,6 +245,9 @@ class BaseCatalogCrawler(ABC):
         
         # For infinite scroll, we'll simulate by extracting multiple "scroll positions"
         # The actual scrolling would be handled by Playwright-based crawlers
+        
+        # Use baseline_max_scrolls for baseline, higher limit for monitoring
+        scroll_limit = self.config.baseline_max_scrolls if crawl_type == 'baseline_establishment' else 10
         
         scroll_iterations = 0
         total_products = []
