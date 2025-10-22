@@ -1107,6 +1107,8 @@ Focus on extracting comprehensive product data and ALL available image URLs, wit
         
         type_mapping = {
             'dresses': 'dress',
+            'dress tops': 'dress top',        # NEW - normalize plural to singular
+            'dress-tops': 'dress top',        # NEW - handle hyphenated version
             'tops & tees': 'top',
             'blouses': 'top',
             'shirts': 'top',
