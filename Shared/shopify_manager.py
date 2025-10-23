@@ -18,6 +18,7 @@ from datetime import datetime
 from pathlib import Path
 from PIL import Image
 import os
+from dotenv import load_dotenv
 
 from logger_config import setup_logging
 
@@ -25,23 +26,39 @@ logger = setup_logging(__name__)
 
 class ShopifyManager:
     def __init__(self):
-        # Load configuration
-        # Get the directory where this script is located
+        # Load environment variables from .env file
+        # Look for .env file in project root (parent of Shared directory)
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.join(script_dir, '..')
+        env_path = os.path.join(project_root, '.env')
+        load_dotenv(env_path)
+        
+        # Load configuration
         config_path = os.path.join(script_dir, '../Shared/config.json')
         with open(config_path, 'r') as f:
             config = json.load(f)
         
         self.shopify_config = config['shopify']
-        self.store_url = self.shopify_config['store_url']
+        
+        # Load credentials from environment variables (with config.json as fallback)
+        self.store_url = os.getenv('SHOPIFY_STORE_URL') or self.shopify_config['store_url']
         self.api_version = self.shopify_config['api_version']
-        self.access_token = self.shopify_config['access_token']
+        self.access_token = os.getenv('SHOPIFY_ACCESS_TOKEN') or self.shopify_config['access_token']
+        
+        # Validate that we have actual credentials (not placeholder text)
+        if not self.access_token or self.access_token.startswith('SHOPIFY_') or self.access_token == 'YOUR_':
+            raise ValueError(
+                "Invalid Shopify credentials. Please set SHOPIFY_ACCESS_TOKEN in your .env file "
+                "or update config.json with valid credentials."
+            )
         
         self.base_api_url = f"https://{self.store_url}/admin/api/{self.api_version}"
         self.headers = {
             'X-Shopify-Access-Token': self.access_token,
             'Content-Type': 'application/json'
         }
+        
+        logger.info(f"✅ ShopifyManager initialized for store: {self.store_url}")
     
     async def create_product(self, extracted_data: Dict, retailer_name: str, modesty_level: str, 
                            source_url: str, downloaded_images: List[str]) -> Dict[str, Any]:

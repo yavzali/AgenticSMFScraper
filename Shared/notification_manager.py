@@ -725,3 +725,28 @@ class NotificationManager(EnhancedNotificationManager):
                 'recommended_actions': '',
                 'system_status_url': ''
             })
+    
+    async def send_batch_completion(self, batch_id: str, results: Dict) -> bool:
+        """Send batch completion notification (NEW METHOD)"""
+        context = {
+            'batch_id': batch_id,
+            'total_products': results.get('total_urls', 0),
+            'successful': results.get('successful_count', 0),
+            'failed': results.get('failed_count', 0),
+            'manual_review': results.get('manual_review_count', 0),
+            'processing_time': results.get('processing_time', 0),
+            'completion_time': results.get('completion_time', ''),
+            'batch_name': results.get('batch_name', batch_id)
+        }
+        return await super().send_notification(NotificationType.BATCH_COMPLETION, context)
+    
+    async def send_critical_error(self, error_message: str) -> bool:
+        """Send critical error notification (NEW METHOD)"""
+        context = {
+            'error_type': 'critical_error',
+            'severity': 'critical',
+            'error_message': error_message,
+            'timestamp': datetime.utcnow().isoformat(),
+            'requires_action': True
+        }
+        return await super().send_notification(NotificationType.BATCH_ERROR, context)

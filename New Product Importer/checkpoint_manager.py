@@ -206,6 +206,34 @@ class CheckpointManager:
         else:
             return False
     
+    def update_progress(self, result: Dict):
+        """Update progress based on processing result (NEW METHOD)"""
+        
+        try:
+            # Update counters based on result
+            self.current_state['processed_count'] = self.current_state.get('processed_count', 0) + 1
+            
+            if result.get('success'):
+                self.current_state['successful_count'] = self.current_state.get('successful_count', 0) + 1
+            elif result.get('skipped'):
+                # Don't increment anything special for skipped
+                pass
+            else:
+                self.current_state['failed_count'] = self.current_state.get('failed_count', 0) + 1
+            
+            if result.get('needs_manual_review'):
+                self.current_state['manual_review_count'] = self.current_state.get('manual_review_count', 0) + 1
+            
+            # Update last checkpoint time
+            self.current_state['last_checkpoint'] = datetime.utcnow().isoformat()
+            
+            # Save immediately if it's an important milestone
+            if self.should_save_checkpoint(self.current_state['processed_count']):
+                self.save_checkpoint_immediately()
+                
+        except Exception as e:
+            logger.error(f"Failed to update progress: {e}")
+    
     def save_batch_progress(self, batch_id: str, results: Dict, remaining_urls: List[str]):
         """Save batch progress synchronously (wrapper for async method)"""
         
