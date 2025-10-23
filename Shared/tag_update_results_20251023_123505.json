@@ -1,0 +1,331 @@
+{
+  "timestamp": "20251023_123505",
+  "total_products": 46,
+  "products_updated": 46,
+  "products_skipped": 0,
+  "products_error": 0,
+  "results": [
+    {
+      "product_id": 14817993326962,
+      "title": "AFRM Ashland Crochet Lace Dress in Painted Roses | REVOLVE",
+      "status": "updated",
+      "old_tags": "afrm, auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "afrm, Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817994310002,
+      "title": "AFRM Shailene Midi Dress in Fuchsia Rose | REVOLVE",
+      "status": "updated",
+      "old_tags": "afrm, auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "afrm, Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818003452274,
+      "title": "Alemais Surrealist Summer Ramie Shirt Dress in Multi | REVOLVE",
+      "status": "updated",
+      "old_tags": "alemais, auto-scraped, dress, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "alemais, Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14817995817330,
+      "title": "Amberly Evening Blazer Dress in Bordeaux | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, sans faff",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, sans faff"
+    },
+    {
+      "product_id": 14817993064818,
+      "title": "Burgundy Rhinestone Fishnet Midi Dress in Burgundy",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, self-portrait",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, self-portrait"
+    },
+    {
+      "product_id": 14817999454578,
+      "title": "Cala de la Cruz Isidora Dress in Barrococafe | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, cala de la cruz, dress, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, cala de la cruz, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817990377842,
+      "title": "Catherinson Maxi Dress in Oat Latte",
+      "status": "updated",
+      "old_tags": "acler, auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "acler, Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818001158514,
+      "title": "EAVES Shir Dress in Brown | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, eaves, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, eaves, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817996570994,
+      "title": "El Pez Long Dress in Mocha | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, mayle vasquez, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, mayle vasquez, Modest, Revolve"
+    },
+    {
+      "product_id": 14818001125746,
+      "title": "Ferrera Midi Dress in Black | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, simkhai",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, simkhai"
+    },
+    {
+      "product_id": 14817998602610,
+      "title": "Hathaway Midi Dress Ferrera Midi Dress in Horizon",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, simkhai",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, simkhai"
+    },
+    {
+      "product_id": 14818004959602,
+      "title": "Helia Dress in White",
+      "status": "updated",
+      "old_tags": "auto-scraped, aya muse, dress, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "Auto-Scraped, aya muse, Dress, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14818004533618,
+      "title": "Helsa Boden Cashmere Maxi Dress in Black | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, helsa, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "Auto-Scraped, Dress, helsa, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14817999782258,
+      "title": "Helsa Godet Shirt Dress in Black | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, helsa, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, helsa, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817997914482,
+      "title": "Helsa Hildie Polo Dress in Pink | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, helsa, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, helsa, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818005025138,
+      "title": "House of Harlow 1960 x REVOLVE Gabrielle Maxi Dress in Brown",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, house of harlow 1960, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "Auto-Scraped, Dress, house of harlow 1960, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14818000372082,
+      "title": "House of Harlow 1960 x REVOLVE Suki Gown in Olive Green",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, house of harlow 1960, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, house of harlow 1960, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817992999282,
+      "title": "Kearney Dress",
+      "status": "updated",
+      "old_tags": "astr the label, auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "astr the label, Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817993195890,
+      "title": "Kim Maxi Dress in Evergreen",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, seroya",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, seroya"
+    },
+    {
+      "product_id": 14817997160818,
+      "title": "Lia Dress in Black & Camel",
+      "status": "updated",
+      "old_tags": "a.l.c., auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "a.l.c., Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14817999651186,
+      "title": "LIONESS Resolution Maxi Dress in Blue | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, lioness, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, lioness, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818003845490,
+      "title": "LIONESS Resolution Midi Dress in Beige | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, lioness, low_in_stock, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, lioness, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818006040946,
+      "title": "Maxine Dress in Dark Blue",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, steve madden",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, steve madden"
+    },
+    {
+      "product_id": 14817990967666,
+      "title": "Metallic Midi Dress in Metallic Rose Gold",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, zimmermann",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, zimmermann"
+    },
+    {
+      "product_id": 14817993097586,
+      "title": "MISA Los Angeles Daphne Dress in Golden Polka Dot Mix",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, misa los angeles, modest, revolve",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, misa los angeles, Modest, Revolve"
+    },
+    {
+      "product_id": 14818001224050,
+      "title": "Muma World Phoenix Maxi Dress in La Plage",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, muma world, on-sale, revolve",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, muma world, On Sale, Revolve"
+    },
+    {
+      "product_id": 14817992442226,
+      "title": "Norma Kamali Long Sleeve Turtleneck Fishtail Gown in Autumn Leaves | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, norma kamali, revolve",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, norma kamali, Revolve"
+    },
+    {
+      "product_id": 14817993359730,
+      "title": "Opaline Dress in Melting Animal Print",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, retrofete, revolve",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, retrofete, Revolve"
+    },
+    {
+      "product_id": 14817999815026,
+      "title": "Ronny Kobo Sebastian Dress in Dark Wash | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, ronny kobo",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, ronny kobo"
+    },
+    {
+      "product_id": 14817992966514,
+      "title": "Ronny Kobo Speck Knit Dress in Chicory",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, ronny kobo",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, ronny kobo"
+    },
+    {
+      "product_id": 14818001912178,
+      "title": "ROTATE Barsha Dress in Carmine Rose",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, rotate",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, rotate"
+    },
+    {
+      "product_id": 14818001977714,
+      "title": "Rowen Rose Long Sleeve Polo Dress in Yellow | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, rowen rose",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, rowen rose"
+    },
+    {
+      "product_id": 14818002633074,
+      "title": "Rue Sophie Beca Shirt Dress in White | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, rue sophie",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, rue sophie"
+    },
+    {
+      "product_id": 14817989788018,
+      "title": "Runaway The Label Willem Maxi Dress in Zebra | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, runaway the label",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, runaway the label"
+    },
+    {
+      "product_id": 14818005352818,
+      "title": "Satin Shine Funnel Neck Midi Dress in Fierce Leopard001",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, good american, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "Auto-Scraped, Dress, good american, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14818000404850,
+      "title": "SAU LEE Irene Print Dress in Leopard | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, sau lee",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, sau lee"
+    },
+    {
+      "product_id": 14818005483890,
+      "title": "Saylor Maxi Dress in Leopard",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, runaway the label",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, runaway the label"
+    },
+    {
+      "product_id": 14818002076018,
+      "title": "Scarlett Poppies Mariposa Long Dress in Vanilla | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, scarlett poppies",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, scarlett poppies"
+    },
+    {
+      "product_id": 14818005287282,
+      "title": "SIMONMILLER Axon Dress in Distorted Stripe",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, on-sale, revolve, simonmiller",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, On Sale, Revolve, simonmiller"
+    },
+    {
+      "product_id": 14818001027442,
+      "title": "Soglio Dress in Ecru",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, solid & striped",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, solid & striped"
+    },
+    {
+      "product_id": 14818008891762,
+      "title": "The Sloane Gown in Black",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, herve leger, low_in_stock, modest, on-sale, revolve",
+      "new_tags": "Auto-Scraped, Dress, herve leger, low_in_stock, Modest, On Sale, Revolve"
+    },
+    {
+      "product_id": 14817991721330,
+      "title": "The Soglio Dress in Raisin Brown",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, solid & striped",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, solid & striped"
+    },
+    {
+      "product_id": 14817993621874,
+      "title": "Ulla Johnson Amari Jersey Long Sleeve Dress in Night Lily",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, ulla johnson",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, ulla johnson"
+    },
+    {
+      "product_id": 14818000503154,
+      "title": "Ulla Johnson Koa Jersey Turtleneck Dress in Desert Jasper | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, ulla johnson",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, ulla johnson"
+    },
+    {
+      "product_id": 14817995129202,
+      "title": "Wells Dress in Evening Blue",
+      "status": "updated",
+      "old_tags": "a.l.c., auto-scraped, dress, low_in_stock, modest, revolve",
+      "new_tags": "a.l.c., Auto-Scraped, Dress, low_in_stock, Modest, Revolve"
+    },
+    {
+      "product_id": 14818000437618,
+      "title": "Zimmermann Buttoned Midi Dress in Cream Peony | REVOLVE",
+      "status": "updated",
+      "old_tags": "auto-scraped, dress, low_in_stock, modest, revolve, zimmermann",
+      "new_tags": "Auto-Scraped, Dress, low_in_stock, Modest, Revolve, zimmermann"
+    }
+  ]
+}

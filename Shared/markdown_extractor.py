@@ -53,7 +53,8 @@ class MarkdownExtractor:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         project_root = os.path.join(script_dir, '..')
         env_path = os.path.join(project_root, '.env')
-        load_dotenv(env_path)
+        # Force override any existing environment variables with .env values
+        load_dotenv(env_path, override=True)
         
         # Load configuration
         config_path = os.path.join(script_dir, '../Shared/config.json')

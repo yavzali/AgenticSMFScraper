@@ -1,10 +1,10 @@
 {
-  "batch_id": "import_20251023_1128",
-  "batch_start_time": "2025-10-23T15:28:04.177522",
+  "batch_id": "import_20251023_1235",
+  "batch_start_time": "2025-10-23T16:35:18.439072",
   "total_urls": 50,
   "processed_count": 50,
-  "successful_count": 46,
-  "failed_count": 4,
+  "successful_count": 50,
+  "failed_count": 0,
   "manual_review_count": 0,
   "modesty_level": "modest",
   "remaining_urls": [
@@ -212,8 +212,8 @@
   "failed_urls": [],
   "completed_urls": [],
   "current_position": 0,
-  "last_checkpoint": "2025-10-23T15:52:49.505775",
-  "estimated_completion": "2025-10-23T16:05:34.177531",
+  "last_checkpoint": "2025-10-23T16:41:18.654690",
+  "estimated_completion": "2025-10-23T17:12:48.439080",
   "processing_stats": {
     "avg_time_per_url": 45.0,
     "total_processing_time": 0,

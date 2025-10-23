@@ -14,9 +14,13 @@ from dotenv import load_dotenv
 
 # Load environment variables
 script_dir = os.path.dirname(os.path.abspath(__file__))
-env_path = os.path.join(script_dir, '.env')
+# Look for .env in parent directory (project root)
+env_path = os.path.join(script_dir, '..', '.env')
 if os.path.exists(env_path):
     load_dotenv(env_path)
+    print(f"✅ Loaded credentials from {env_path}")
+else:
+    print(f"❌ .env file not found at {env_path}")
 
 # Shopify configuration
 SHOPIFY_STORE_URL = os.getenv('SHOPIFY_STORE_URL')
