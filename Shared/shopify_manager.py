@@ -357,18 +357,17 @@ class ShopifyManager:
         
         # Add sale tag if applicable
         if extracted_data.get('sale_status') == 'on sale':
-            tags.append('On-Sale')
+            tags.append('On Sale')
         
         # Add brand tag if different from retailer
         brand = extracted_data.get('brand', '')
         if brand and brand.lower() != retailer_name.lower():
             tags.append(brand.title())  # Title case for brand names
         
-        # Add stock status tag
+        # Add stock status tag (keep lowercase with underscores as is)
         stock_status = extracted_data.get('stock_status')
         if stock_status:
-            # e.g., "in stock" -> "In-Stock"
-            tags.append(stock_status.replace(' ', '-').title())
+            tags.append(stock_status)
         
         return tags
     

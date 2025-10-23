@@ -69,16 +69,11 @@ TAG_MAPPING = {
     'auto scraped': 'Auto-Scraped',
     
     # Sale tags
-    'on-sale': 'On-Sale',
-    'on sale': 'On-Sale',
+    'on-sale': 'On Sale',
+    'on sale': 'On Sale',
     
-    # Stock status
-    'in stock': 'In-Stock',
-    'in_stock': 'In-Stock',
-    'low in stock': 'Low-In-Stock',
-    'low_in_stock': 'Low-In-Stock',
-    'out of stock': 'Out-Of-Stock',
-    'out_of_stock': 'Out-Of-Stock',
+    # Stock status - keep as lowercase (no change needed)
+    # These are already in the correct format
 }
 
 
