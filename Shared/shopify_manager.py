@@ -333,27 +333,42 @@ class ShopifyManager:
         return formatted_desc
     
     def _build_product_tags(self, modesty_level: str, retailer_name: str, extracted_data: Dict) -> List[str]:
-        """Build comprehensive tag list following Shopify tagging best practices"""
+        """Build comprehensive tag list following Shopify tagging best practices with title case"""
+        
+        # Format modesty level to title case
+        # Handle underscores: modest -> Modest, moderately_modest -> Moderately Modest
+        modesty_tag = modesty_level.replace('_', ' ').title()
+        
+        # Format retailer name to title case
+        # e.g., revolve -> Revolve, urban_outfitters -> Urban Outfitters
+        retailer_tag = retailer_name.replace('_', ' ').title()
+        
+        # Format clothing type to title case
+        # e.g., "dress top" -> "Dress Top", "dress-top" -> "Dress Top"
+        clothing_type = extracted_data.get('clothing_type', 'clothing')
+        clothing_type_tag = clothing_type.replace('_', ' ').replace('-', ' ').title()
+        
         tags = [
-            modesty_level,
-            retailer_name.lower(),  # Always add retailer as tag
-            "auto-scraped",
-            extracted_data.get('clothing_type', 'clothing').lower()
+            modesty_tag,           # e.g., "Modest", "Moderately Modest", "Not Modest"
+            retailer_tag,          # e.g., "Revolve", "Asos", "Urban Outfitters"
+            "Auto-Scraped",        # System tag in title case
+            clothing_type_tag      # e.g., "Dress", "Top", "Dress Top"
         ]
         
         # Add sale tag if applicable
         if extracted_data.get('sale_status') == 'on sale':
-            tags.append('on-sale')
+            tags.append('On-Sale')
         
         # Add brand tag if different from retailer
         brand = extracted_data.get('brand', '')
         if brand and brand.lower() != retailer_name.lower():
-            tags.append(brand.lower())
+            tags.append(brand.title())  # Title case for brand names
         
         # Add stock status tag
         stock_status = extracted_data.get('stock_status')
         if stock_status:
-            tags.append(stock_status.replace(' ', '_'))
+            # e.g., "in stock" -> "In-Stock"
+            tags.append(stock_status.replace(' ', '-').title())
         
         return tags
     
