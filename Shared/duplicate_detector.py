@@ -272,8 +272,8 @@ class DuplicateDetector:
         
         return None
     
-    async def _find_similar_urls(self, cursor, url: str, retailer: str, threshold: float = 0.8) -> List:
-        """Find URLs with high similarity scores - smart comparison based on retailer"""
+    async def _find_similar_urls(self, cursor, url: str, retailer: str, threshold: float = 0.85) -> List:
+        """Find URLs with high similarity scores - smart comparison with product code validation"""
         
         await cursor.execute(
             "SELECT * FROM products WHERE retailer = ? ORDER BY last_updated DESC LIMIT 100",
@@ -283,6 +283,9 @@ class DuplicateDetector:
         recent_products = await cursor.fetchall()
         similar_urls = []
         
+        # Extract product code from new URL for validation
+        new_product_code = self._extract_product_code_from_url(url, retailer)
+        
         # For Revolve, strip query params because they use identical filter strings in batch URLs
         # For other retailers, keep full URL comparison for better variant detection
         if retailer.lower() == 'revolve':
@@ -291,24 +294,41 @@ class DuplicateDetector:
             
             for product in recent_products:
                 existing_url = product[3]  # url column
+                existing_product_code = product[1]  # product_code column
                 existing_url_base = existing_url.split('?')[0] if '?' in existing_url else existing_url
                 
                 # Compare only base URLs to avoid false positives from identical query strings
                 similarity = difflib.SequenceMatcher(None, url_base, existing_url_base).ratio()
                 
+                # CRITICAL: Only flag as similar if product codes are ALSO the same
+                # This prevents false positives from same-brand products (e.g., ALX-WD593 vs ALX-WD588)
                 if similarity >= threshold:
-                    similar_urls.append(product)
+                    if new_product_code and existing_product_code and new_product_code == existing_product_code:
+                        # Same product code + high URL similarity = true duplicate
+                        similar_urls.append(product)
+                    elif similarity >= 0.95:
+                        # Very high similarity (95%+) even without matching codes = likely duplicate
+                        similar_urls.append(product)
+                    # else: High similarity but different product codes = different product, skip
             
             # Sort by similarity (highest first)
             similar_urls.sort(key=lambda x: difflib.SequenceMatcher(None, url_base, x[3].split('?')[0] if '?' in x[3] else x[3]).ratio(), reverse=True)
         else:
-            # Original logic for other retailers - full URL comparison for better variant detection
+            # Enhanced logic for other retailers - full URL comparison with product code validation
             for product in recent_products:
                 existing_url = product[3]  # url column
+                existing_product_code = product[1]  # product_code column
                 similarity = difflib.SequenceMatcher(None, url, existing_url).ratio()
                 
+                # Apply same product code validation for all retailers
                 if similarity >= threshold:
-                    similar_urls.append(product)
+                    if new_product_code and existing_product_code and new_product_code == existing_product_code:
+                        # Same product code + high URL similarity = true duplicate
+                        similar_urls.append(product)
+                    elif similarity >= 0.95:
+                        # Very high similarity (95%+) even without matching codes = likely duplicate
+                        similar_urls.append(product)
+                    # else: High similarity but different product codes = different product, skip
             
             # Sort by similarity (highest first)
             similar_urls.sort(key=lambda x: difflib.SequenceMatcher(None, url, x[3]).ratio(), reverse=True)

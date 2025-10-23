@@ -1,123 +1,19 @@
 {
-  "batch_id": "import_20251023_1406",
-  "batch_start_time": "2025-10-23T18:06:46.886858",
-  "total_urls": 50,
-  "processed_count": 25,
-  "successful_count": 25,
+  "batch_id": "import_20251023_1442",
+  "batch_start_time": "2025-10-23T18:42:39.323662",
+  "total_urls": 9,
+  "processed_count": 8,
+  "successful_count": 8,
   "failed_count": 0,
   "manual_review_count": 0,
   "modesty_level": "modest",
   "remaining_urls": [
     {
-      "url": "https://www.revolve.com/runaway-the-label-willem-maxi-dress-in-zebra/dp/RUNR-WD126/?d=Womens&page=1&lc=3&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/acler-catherinson-maxi-dress-in-oat-latte/dp/CELR-WD169/?d=Womens&page=1&lc=1&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/zimmermann-metallic-midi-dress-in-metallic-rose-gold/dp/ZIMM-WD622/?d=Womens&page=1&lc=9&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/solid-striped-the-soglio-dress-in-raisin-brown/dp/SLST-WD144/?d=Womens&page=1&lc=13&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/norma-kamali-long-sleeve-turtleneck-fishtail-gown-in-autumn-leaves/dp/NKAM-WD788/?d=Womens&page=1&lc=15&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/ronny-kobo-speck-knit-dress-in-chicory/dp/RONR-WD811/?d=Womens&page=1&lc=16&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/astr-the-label-kearney-dress-in-black/dp/ASTR-WD813/?d=Womens&page=1&lc=18&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/selfportrait-burgundy-rhinestone-fishnet-midi-dress-in-burgundy/dp/SELF-WD318/?d=Womens&page=1&lc=19&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/misa-los-angeles-daphne-dress-in-golden-polka-dot-mix/dp/MISA-WD885/?d=Womens&page=1&lc=28&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/seroya-kim-maxi-dress-in-evergreen/dp/SERR-WD288/?d=Womens&page=1&lc=25&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/afrm-ashland-crochet-lace-dress-in-painted-roses/dp/AFFM-WD534/?d=Womens&page=1&lc=29&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/retrofete-opaline-dress-in-melting-animal-print/dp/ROFR-WD1082/?d=Womens&page=1&lc=32&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/ulla-johnson-amari-jersey-long-sleeve-dress-in-night-lily/dp/ULLA-WD553/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/afrm-shailene-midi-dress-in-fuchsia-rose/dp/AFFM-WD539/?d=Womens&page=1&lc=38&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/alc-wells-dress-in-evening-blue/dp/ALX-WD588/?d=Womens&page=1&lc=50&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/sans-faff-amberly-evening-blazer-dress-in-bordeaux/dp/SAFR-WD32/?d=Womens&page=1&lc=52&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/mayle-vasquez-el-pez-long-dress-in-mocha/dp/MVAS-WD3/?d=Womens&page=1&lc=54&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
       "url": "https://www.revolve.com/alc-lia-dress-in-black-camel/dp/ALX-WD593/?d=Womens&page=1&lc=56&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "modesty_level": "modest"
     },
     {
-      "url": "https://www.revolve.com/helsa-hildie-polo-dress-in-pink/dp/HLSA-WD233/?d=Womens&page=1&lc=61&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/simkhai-hathaway-midi-dress-ferrera-midi-dress-in-horizon/dp/JSKI-WD571/?d=Womens&page=1&lc=65&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/cala-de-la-cruz-isidora-dress-in-barrococafe/dp/CCRR-WD23/?d=Womens&page=1&lc=69&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/lioness-resolution-maxi-dress-in-blue/dp/LIOR-WD120/?d=Womens&page=1&lc=70&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/helsa-godet-shirt-dress-in-black/dp/HLSA-WD210/?d=Womens&page=1&lc=71&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
       "url": "https://www.revolve.com/ronny-kobo-sebastian-dress-in-dark-wash/dp/RONR-WD801/?d=Womens&page=1&lc=80&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/house-of-harlow-1960-x-revolve-suki-gown-in-olive-green/dp/HOOF-WD1142/?d=Womens&page=1&lc=84&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/sau-lee-irene-print-dress-in-leopard/dp/SLEE-WD461/?d=Womens&page=1&lc=88&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/zimmermann-buttoned-midi-dress-in-cream-peony/dp/ZIMM-WD608/?d=Womens&page=1&lc=93&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/ulla-johnson-koa-jersey-turtleneck-dress-in-desert-jasper/dp/ULLA-WD554/?d=Womens&page=1&lc=17&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "modesty_level": "modest"
     },
     {
@@ -129,34 +25,6 @@
       "modesty_level": "modest"
     },
     {
-      "url": "https://www.revolve.com/eaves-shir-dress-in-brown/dp/EAVR-WD2/?d=Womens&page=1&lc=72&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/muma-world-phoenix-maxi-dress-in-la-plage/dp/MUMR-WD12/?d=Womens&page=1&lc=84&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/rotate-barsha-dress-in-carmine-rose/dp/TATE-WD66/?d=Womens&page=1&lc=93&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/rowen-rose-long-sleeve-polo-dress-in-yellow/dp/ROWR-WD7/?d=Womens&page=1&lc=6&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/scarlett-poppies-mariposa-long-dress-in-vanilla/dp/SPOP-WD1/?d=Womens&page=1&lc=8&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/rue-sophie-beca-shirt-dress-in-white/dp/SRUE-WD27/?d=Womens&page=1&lc=20&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/alemais-surrealist-summer-ramie-shirt-dress-in-multi/dp/AMAI-WD44/?d=Womens&page=1&lc=37&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
       "url": "https://www.revolve.com/lioness-resolution-midi-dress-in-beige/dp/LIOR-WD119/?d=Womens&page=1&lc=42&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "modesty_level": "modest"
     },
@@ -165,43 +33,11 @@
       "modesty_level": "modest"
     },
     {
-      "url": "https://www.revolve.com/aya-muse-helia-dress-in-white/dp/AYAR-WD96/?d=Womens&page=1&lc=58&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/house-of-harlow-1960-x-revolve-gabrielle-maxi-dress-in-brown/dp/HOOF-WD1066/?d=Womens&page=1&lc=70&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/simonmiller-axon-dress-in-distorted-stripe/dp/SIMO-WD28/?d=Womens&page=1&lc=71&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/good-american-satin-shine-funnel-neck-midi-dress-in-fierce-leopard001/dp/GAME-WD64/?d=Womens&page=1&lc=79&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
       "url": "https://www.revolve.com/runaway-the-label-saylor-maxi-dress-in-leopard/dp/RUNR-WD122/?d=Womens&page=1&lc=83&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "modesty_level": "modest"
     },
     {
-      "url": "https://www.revolve.com/steve-madden-maxine-dress-in-dark-blue/dp/SMAD-WD262/?d=Womens&page=1&lc=87&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
       "url": "https://www.revolve.com/seroya-melonie-knit-maxi-dress-in-sapphire/dp/SERR-WD184/?d=Womens&page=1&lc=15&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/the-line-by-k-leticia-dress-in-red/dp/TLIN-WD54/?d=Womens&page=1&lc=22&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/herve-leger-the-sloane-gown-in-black/dp/HVLG-WD54/?d=Womens&page=1&lc=49&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
-      "modesty_level": "modest"
-    },
-    {
-      "url": "https://www.revolve.com/alemais-constance-shirt-dress-in-cream/dp/AMAI-WD26/?d=Womens&page=1&lc=62&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "modesty_level": "modest"
     },
     {
@@ -212,8 +48,8 @@
   "failed_urls": [],
   "completed_urls": [],
   "current_position": 0,
-  "last_checkpoint": "2025-10-23T18:15:17.470151",
-  "estimated_completion": "2025-10-23T18:44:16.886866",
+  "last_checkpoint": "2025-10-23T18:45:36.431186",
+  "estimated_completion": "2025-10-23T18:49:24.323667",
   "processing_stats": {
     "avg_time_per_url": 45.0,
     "total_processing_time": 0,
