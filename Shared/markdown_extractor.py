@@ -21,6 +21,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from urllib.parse import urlparse
+from dotenv import load_dotenv
 
 from logger_config import setup_logging
 from cost_tracker import cost_tracker
@@ -48,9 +49,13 @@ class MarkdownExtractionResult:
 
 class MarkdownExtractor:
     def __init__(self):
-        # Load configuration
-        # Get the directory where this script is located
+        # Load environment variables from .env file
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.join(script_dir, '..')
+        env_path = os.path.join(project_root, '.env')
+        load_dotenv(env_path)
+        
+        # Load configuration
         config_path = os.path.join(script_dir, '../Shared/config.json')
         with open(config_path, 'r') as f:
             self.config = json.load(f)

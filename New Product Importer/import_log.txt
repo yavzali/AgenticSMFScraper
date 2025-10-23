@@ -41,3 +41,24 @@
 [2025-10-22 17:24:25] [INFO] Batch import_20251022_1724 completed: 0 successful, 0 skipped, 0 failed
 [2025-10-22 17:24:25] [ERROR] Critical error in new product import: 'NotificationManager' object has no attribute 'send_batch_completion'
 [2025-10-22 17:24:25] [ERROR] Fatal error: 'NotificationManager' object has no attribute 'send_critical_error'
+[2025-10-23 11:25:25] [INFO] Enhanced pattern learning database initialized
+[2025-10-23 11:25:25] [INFO] ✅ Enhanced pattern learner initialized with multi-function support
+[2025-10-23 11:25:25] [INFO] ✅ Unified extractor initialized - Playwright + Markdown routing
+[2025-10-23 11:25:25] [INFO] ✅ ShopifyManager initialized for store: dmrggj-28.myshopify.com
+[2025-10-23 11:25:25] [INFO] Database initialized successfully
+[2025-10-23 11:25:25] [INFO] Image processor factory supports 10 retailers:
+[2025-10-23 11:25:25] [INFO]   uniqlo: reconstruction
+[2025-10-23 11:25:25] [INFO]   aritzia: reconstruction
+[2025-10-23 11:25:25] [INFO]   anthropologie: reconstruction
+[2025-10-23 11:25:25] [INFO]   asos: transformation
+[2025-10-23 11:25:25] [INFO]   revolve: transformation
+[2025-10-23 11:25:25] [INFO]   hm: transformation
+[2025-10-23 11:25:25] [INFO]   nordstrom: transformation
+[2025-10-23 11:25:25] [INFO]   urban_outfitters: transformation
+[2025-10-23 11:25:25] [INFO]   abercrombie: transformation
+[2025-10-23 11:25:25] [INFO]   mango: transformation
+[2025-10-23 11:25:25] [INFO] Cost optimizer initialized - Cost optimization: DISABLED
+[2025-10-23 11:25:25] [INFO] Running 24/7 - no time restrictions
+[2025-10-23 11:25:25] [INFO] ✅ Enhanced notification manager initialized
+[2025-10-23 11:25:25] [INFO] No checkpoint file found
+[2025-10-23 11:25:25] [ERROR] No checkpoint found to resume from

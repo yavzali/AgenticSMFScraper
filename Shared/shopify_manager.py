@@ -241,6 +241,29 @@ class ShopifyManager:
             return "draft"   # Keep as draft for training data
         else:
             return "draft"   # Default to draft for unknown levels
+    
+    def _clean_price(self, price_value: Any) -> str:
+        """Clean and format price for Shopify API"""
+        if not price_value:
+            return "0.00"
+        
+        # Convert to string if it's a number
+        price_str = str(price_value)
+        
+        # Remove currency symbols and extra whitespace
+        price_str = re.sub(r'[$£€¥\s,]', '', price_str)
+        
+        # Handle empty or invalid strings
+        if not price_str or price_str == 'None':
+            return "0.00"
+        
+        try:
+            # Convert to float and format to 2 decimal places
+            price_float = float(price_str)
+            return f"{price_float:.2f}"
+        except ValueError:
+            logger.warning(f"Could not parse price: {price_value}, defaulting to 0.00")
+            return "0.00"
 
     def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str) -> Dict:
         """Build Shopify product payload with proper compliance"""
@@ -248,7 +271,7 @@ class ShopifyManager:
         # Calculate compare at price for sales
         compare_at_price = None
         if extracted_data.get('sale_status') == 'on sale' and extracted_data.get('original_price'):
-            compare_at_price = str(extracted_data['original_price'])
+            compare_at_price = self._clean_price(extracted_data['original_price'])
         
         # Build tags - Handle "not-assessed" workflow
         tags = self._build_product_tags(modesty_level, retailer_name, extracted_data)
@@ -274,7 +297,7 @@ class ShopifyManager:
                 "tags": ', '.join(tags),
                 "variants": [{
                     "option1": "Default",
-                    "price": str(extracted_data.get('price', 0)),
+                    "price": self._clean_price(extracted_data.get('price', 0)),
                     "compare_at_price": compare_at_price,
                     "sku": sku,
                     "inventory_quantity": self._map_inventory_quantity(extracted_data.get('stock_status', 'in stock')),
