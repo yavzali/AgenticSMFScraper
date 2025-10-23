@@ -273,7 +273,7 @@ class DuplicateDetector:
         return None
     
     async def _find_similar_urls(self, cursor, url: str, retailer: str, threshold: float = 0.8) -> List:
-        """Find URLs with high similarity scores"""
+        """Find URLs with high similarity scores - smart comparison based on retailer"""
         
         await cursor.execute(
             "SELECT * FROM products WHERE retailer = ? ORDER BY last_updated DESC LIMIT 100",
@@ -283,15 +283,35 @@ class DuplicateDetector:
         recent_products = await cursor.fetchall()
         similar_urls = []
         
-        for product in recent_products:
-            existing_url = product[3]  # url column
-            similarity = difflib.SequenceMatcher(None, url, existing_url).ratio()
+        # For Revolve, strip query params because they use identical filter strings in batch URLs
+        # For other retailers, keep full URL comparison for better variant detection
+        if retailer.lower() == 'revolve':
+            # Extract base URL without query parameters
+            url_base = url.split('?')[0] if '?' in url else url
             
-            if similarity >= threshold:
-                similar_urls.append(product)
-        
-        # Sort by similarity (highest first)
-        similar_urls.sort(key=lambda x: difflib.SequenceMatcher(None, url, x[3]).ratio(), reverse=True)
+            for product in recent_products:
+                existing_url = product[3]  # url column
+                existing_url_base = existing_url.split('?')[0] if '?' in existing_url else existing_url
+                
+                # Compare only base URLs to avoid false positives from identical query strings
+                similarity = difflib.SequenceMatcher(None, url_base, existing_url_base).ratio()
+                
+                if similarity >= threshold:
+                    similar_urls.append(product)
+            
+            # Sort by similarity (highest first)
+            similar_urls.sort(key=lambda x: difflib.SequenceMatcher(None, url_base, x[3].split('?')[0] if '?' in x[3] else x[3]).ratio(), reverse=True)
+        else:
+            # Original logic for other retailers - full URL comparison for better variant detection
+            for product in recent_products:
+                existing_url = product[3]  # url column
+                similarity = difflib.SequenceMatcher(None, url, existing_url).ratio()
+                
+                if similarity >= threshold:
+                    similar_urls.append(product)
+            
+            # Sort by similarity (highest first)
+            similar_urls.sort(key=lambda x: difflib.SequenceMatcher(None, url, x[3]).ratio(), reverse=True)
         
         return similar_urls[:3]  # Return top 3 most similar
     
