@@ -1679,6 +1679,366 @@
       "retailer": "revolve",
       "url": "https://www.revolve.com/herve-leger-the-sloane-gown-in-black/dp/HVLG-WD54/?d=Womens&page=1&lc=49&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
       "processing_time": 14.953409910202026
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:00:53.076981",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/deme-by-gabriella-isla-dress-in-baby-pink/dp/DEBY-WD49/?d=Womens&page=1&lc=6&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.26516318321228
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:01:26.284221",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/hemant-and-nandita-long-dress-in-burgundy/dp/BENE-WD415/?d=Womens&page=1&lc=4&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 20.392592906951904
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:01:53.736123",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/elliatt-astrid-dress-in-multi/dp/ELLI-WD344/?d=Womens&page=1&lc=10&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 17.327598094940186
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:02:24.447050",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/norma-kamali-x-revolve-long-sleeve-turtleneck-flared-gown-in-bark/dp/NKAM-WD802/?d=Womens&page=1&lc=43&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 20.91660475730896
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:02:57.521293",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/mayle-vasquez-santa-maria-dress-in-gold-degrade/dp/MVAS-WD5/?d=Womens&page=1&lc=55&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 23.74520206451416
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:03:35.368657",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/retrofete-fenella-dress-in-gunmetal/dp/ROFR-WD867/?d=Womens&page=1&lc=62&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.9270601272583
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:04:06.888015",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/all-the-ways-belina-mini-dress-in-grey/dp/AAYR-WD150/?d=Womens&page=1&lc=94&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 21.46715807914734
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:04:36.925590",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/simkhai-odessa-midi-dress-in-pear/dp/JSKI-WD582/?d=Womens&page=1&lc=9&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 21.581878900527954
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:05:08.134002",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/lacademie-by-marianna-odelya-asymmetrical-dress-in-wine/dp/LCDE-WD924/?d=Womens&page=1&lc=12&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.624205112457275
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:05:50.441024",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/simkhai-kenlie-midi-dress-in-cypress/dp/JSKI-WD577/?d=Womens&page=1&lc=22&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 29.799843788146973
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:06:23.743946",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/bumpsuit-denim-oversized-shirt-dress-in-light-blue/dp/BUMR-WD49/?d=Womens&page=1&lc=30&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.359822988510132
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:06:59.484532",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/norma-kamali-oversized-boyfriend-shirt-dress-in-powder-blue/dp/NKAM-WD272/?d=Womens&page=1&lc=53&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.429723024368286
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:07:34.933341",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/zimmermann-ascension-midi-dress-in-green-palm/dp/ZIMM-WD614/?d=Womens&page=1&lc=77&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 26.022931814193726
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:08:19.180930",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/zimmermann-cascadian-tunic-dress-in-tan-leopard/dp/ZIMM-WD597/?d=Womens&page=1&lc=83&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 31.673915147781372
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:08:56.551094",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/elliatt-morgan-maxi-dress-in-pinkmulti/dp/ELLI-WD854/?d=Womens&page=1&lc=90&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 26.953446865081787
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:09:22.597115",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/bardot-lea-mesh-midi-dress-in-light-pink/dp/BARD-WD885/?d=Womens&page=1&lc=22&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 15.952147006988525
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:09:51.337022",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/good-american-fit-for-success-long-sleeve-midi-dress-in-indigo724/dp/GAME-WD67/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 18.661623001098633
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:10:26.049244",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/seroya-swan-gown-in-tan/dp/SERR-WD234/?d=Womens&page=1&lc=40&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.22059392929077
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:10:59.020903",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/simkhai-kenlie-midi-dress-in-ivory/dp/JSKI-WD491/?d=Womens&page=1&lc=41&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 23.842072010040283
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:11:31.491109",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/heartloom-mirella-set-in-camel/dp/HEAR-WD414/?d=Womens&page=1&lc=66&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.33411192893982
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:12:09.848583",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/steve-madden-dakoda-dress-in-medium-blue/dp/SMAD-WD252/?d=Womens&page=1&lc=85&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 25.930058002471924
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:12:40.564482",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/zimmermann-crush-flower-midi-dress-in-pink-floral/dp/ZIMM-WD561/?d=Womens&page=1&lc=90&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 21.634615182876587
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:13:14.292483",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/the-knotty-ones-medeina-dress-in-beige/dp/TKNO-WD3/?d=Womens&page=1&lc=8&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 25.13611912727356
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:13:45.932422",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/brochu-walker-looker-vee-dress-in-camel-melange-white/dp/BROC-WD14/?d=Womens&page=1&lc=13&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 23.734721183776855
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:14:20.134371",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/lovers-and-friends-ivanna-midi-dress-in-indigo-blue-tie-dye/dp/LOVF-WD2806/?d=Womens&page=1&lc=29&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.778218984603882
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:14:55.855513",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/zhivago-i-am-the-business-gown-in-gunmetal/dp/ZHIR-WD315/?d=Womens&page=1&lc=40&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 26.38052988052368
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:15:30.945158",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/bardot-hendry-floral-mini-dress-in-vintage-floral/dp/BARD-WD548/?d=Womens&page=1&lc=39&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.913959980010986
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:16:04.621991",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/bardot-lea-mesh-dress-in-tie-dye/dp/BARD-WD574/?d=Womens&page=1&lc=41&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.241822004318237
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:16:39.005143",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/nation-los-angeles-rennie-dress-in-cinnamon/dp/NATI-WD236/?d=Womens&page=1&lc=48&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 23.55646324157715
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-10-23T20:17:11.088778",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/callahan-nayeli-dress-in-cannoli-creme/dp/CAHN-WD68/?d=Womens&page=1&lc=55&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 19.852423906326294
     }
   ],
   "response_cache": {
@@ -1706,7 +2066,7 @@
         }
       },
       "timestamp": "2025-10-23T15:28:13.032142",
-      "usage_count": 87
+      "usage_count": 117
     },
     "5d58f344bcc519539195e2293aa8e2f6": {
       "response": {
@@ -1737,5 +2097,5 @@
       "usage_count": 53
     }
   },
-  "last_updated": "2025-10-23T18:22:49.145093"
+  "last_updated": "2025-10-23T20:17:11.089607"
 }

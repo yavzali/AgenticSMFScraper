@@ -61,12 +61,12 @@ class ShopifyManager:
         logger.info(f"✅ ShopifyManager initialized for store: {self.store_url}")
     
     async def create_product(self, extracted_data: Dict, retailer_name: str, modesty_level: str, 
-                           source_url: str, downloaded_images: List[str]) -> Dict[str, Any]:
+                           source_url: str, downloaded_images: List[str], product_type_override: str = None) -> Dict[str, Any]:
         """Create a new Shopify product with all data and images"""
         
         try:
             # Build product payload
-            product_payload = self._build_product_payload(extracted_data, retailer_name, modesty_level)
+            product_payload = self._build_product_payload(extracted_data, retailer_name, modesty_level, product_type_override)
             
             # Create product
             async with aiohttp.ClientSession() as session:
@@ -265,7 +265,7 @@ class ShopifyManager:
             logger.warning(f"Could not parse price: {price_value}, defaulting to 0.00")
             return "0.00"
 
-    def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str) -> Dict:
+    def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str, product_type_override: str = None) -> Dict:
         """Build Shopify product payload with proper compliance"""
         
         # Calculate compare at price for sales
@@ -273,8 +273,15 @@ class ShopifyManager:
         if extracted_data.get('sale_status') == 'on sale' and extracted_data.get('original_price'):
             compare_at_price = self._clean_price(extracted_data['original_price'])
         
+        # Determine product type - use override if provided, otherwise use AI-extracted type
+        if product_type_override:
+            product_type = product_type_override
+            logger.info(f"Using product type override: {product_type}")
+        else:
+            product_type = self._standardize_product_type(extracted_data.get('clothing_type', 'Clothing'))
+        
         # Build tags - Handle "not-assessed" workflow
-        tags = self._build_product_tags(modesty_level, retailer_name, extracted_data)
+        tags = self._build_product_tags(modesty_level, retailer_name, extracted_data, product_type)
         
         # For products from catalog crawler needing assessment, add "not-assessed" tag
         if modesty_level == "pending_review":
@@ -292,7 +299,7 @@ class ShopifyManager:
                 "title": extracted_data.get('title', 'Untitled Product'),
                 "body_html": self._format_product_description(extracted_data.get('description', '')),
                 "vendor": extracted_data.get('brand', retailer_name),
-                "product_type": self._standardize_product_type(extracted_data.get('clothing_type', 'Clothing')),
+                "product_type": product_type,
                 "status": self._determine_product_status(effective_modesty_level),
                 "tags": ', '.join(tags),
                 "variants": [{
@@ -332,7 +339,7 @@ class ShopifyManager:
         
         return formatted_desc
     
-    def _build_product_tags(self, modesty_level: str, retailer_name: str, extracted_data: Dict) -> List[str]:
+    def _build_product_tags(self, modesty_level: str, retailer_name: str, extracted_data: Dict, product_type: str = None) -> List[str]:
         """Build comprehensive tag list following Shopify tagging best practices with title case"""
         
         # Format modesty level to title case
@@ -343,16 +350,22 @@ class ShopifyManager:
         # e.g., revolve -> Revolve, urban_outfitters -> Urban Outfitters
         retailer_tag = retailer_name.replace('_', ' ').title()
         
-        # Format clothing type to title case
-        # e.g., "dress top" -> "Dress Top", "dress-top" -> "Dress Top"
-        clothing_type = extracted_data.get('clothing_type', 'clothing')
-        clothing_type_tag = clothing_type.replace('_', ' ').replace('-', ' ').title()
+        # Format product type to SINGULAR form for tag
+        # Use product_type if provided (from override), otherwise use extracted clothing_type
+        if product_type:
+            # Convert plural Shopify Product Type to singular tag
+            # e.g., "Dress Tops" -> "Dress Top", "Dresses" -> "Dress"
+            product_type_tag = self._convert_product_type_to_singular_tag(product_type)
+        else:
+            # Fallback to extracted clothing type
+            clothing_type = extracted_data.get('clothing_type', 'clothing')
+            product_type_tag = clothing_type.replace('_', ' ').replace('-', ' ').title()
         
         tags = [
             modesty_tag,           # e.g., "Modest", "Moderately Modest", "Not Modest"
             retailer_tag,          # e.g., "Revolve", "Asos", "Urban Outfitters"
             "Auto-Scraped",        # System tag in title case
-            clothing_type_tag      # e.g., "Dress", "Top", "Dress Top"
+            product_type_tag       # e.g., "Dress", "Top", "Dress Top" (singular)
         ]
         
         # Add sale tag if applicable
@@ -370,6 +383,32 @@ class ShopifyManager:
             tags.append(stock_status)
         
         return tags
+    
+    def _convert_product_type_to_singular_tag(self, product_type: str) -> str:
+        """Convert plural Product Type to singular form for tagging"""
+        # Mapping of plural product types to singular tags
+        singular_mapping = {
+            'Dresses': 'Dress',
+            'Dress Tops': 'Dress Top',
+            'Tops': 'Top',
+            'Bottoms': 'Bottom',
+            'Pants': 'Pant',
+            'Jeans': 'Jean',
+            'Skirts': 'Skirt',
+            'Shorts': 'Short',
+            'Outerwear': 'Outerwear',  # Keep as-is
+            'Jackets': 'Jacket',
+            'Coats': 'Coat',
+            'Activewear': 'Activewear',  # Keep as-is
+            'Swimwear': 'Swimwear',  # Keep as-is
+            'Lingerie': 'Lingerie',  # Keep as-is
+            'Underwear': 'Underwear',  # Keep as-is
+            'Accessories': 'Accessory',
+            'Shoes': 'Shoe',
+            'Clothing': 'Clothing'  # Keep as-is
+        }
+        
+        return singular_mapping.get(product_type, product_type)
     
     def _generate_sku(self, extracted_data: Dict, retailer_name: str) -> str:
         """Generate SKU if not available from product code"""

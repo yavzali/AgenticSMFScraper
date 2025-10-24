@@ -44,7 +44,7 @@ class NewProductImportSystem:
         self.shutdown_requested = True
         self.checkpoint_manager.save_checkpoint_immediately()
     
-    async def process_batch(self, urls_file, modesty_level, force_run=False, resume=False):
+    async def process_batch(self, urls_file, modesty_level, product_type_override=None, force_run=False, resume=False):
         """Main processing function for NEW products only"""
         try:
             if resume:
@@ -69,11 +69,14 @@ class NewProductImportSystem:
             # Process the batch - NEW PRODUCTS ONLY
             batch_id = batch_data.get('batch_id', f"import_{datetime.now().strftime('%Y%m%d_%H%M')}")
             logger.info(f"Starting NEW product import batch: {batch_id}")
+            if product_type_override:
+                logger.info(f"Product type override: {product_type_override}")
             
             results = await self.import_processor.process_new_products_batch(
                 batch_data['urls'], 
                 batch_data.get('modesty_level', modesty_level),
-                batch_id
+                batch_id,
+                product_type_override=product_type_override
             )
             
             # Send completion notification
@@ -115,6 +118,8 @@ def main():
     parser.add_argument('--batch-file', type=str, help='JSON file containing URLs to import')
     parser.add_argument('--modesty-level', choices=['modest', 'moderately_modest', 'not_modest'], 
                        default='modest', help='Modesty classification for products')
+    parser.add_argument('--product-type', type=str, default=None,
+                       help='Override product type (e.g., "Dress Tops", "Dresses"). If not provided, uses AI-extracted type')
     parser.add_argument('--force-run-now', action='store_true', 
                        help='Ignore cost optimization and run immediately')
     parser.add_argument('--schedule-optimized', action='store_true', default=True,
@@ -144,7 +149,8 @@ def main():
     try:
         asyncio.run(system.process_batch(
             args.batch_file, 
-            args.modesty_level, 
+            args.modesty_level,
+            product_type_override=args.product_type,
             force_run=force_run,
             resume=args.resume
         ))

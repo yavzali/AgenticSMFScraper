@@ -68,10 +68,12 @@ class ImportProcessor:
             processor_type = self.image_processor_factory.get_processor_type(retailer)
             logger.info(f"  {retailer}: {processor_type}")
     
-    async def process_new_products_batch(self, urls: List[str], modesty_level: str, batch_id: str) -> Dict[str, Any]:
+    async def process_new_products_batch(self, urls: List[str], modesty_level: str, batch_id: str, product_type_override: str = None) -> Dict[str, Any]:
         """Process a batch of URLs for NEW product creation only"""
         
         logger.info(f"Starting NEW product import batch: {batch_id} with {len(urls)} URLs")
+        if product_type_override:
+            logger.info(f"Product type override active: {product_type_override}")
         
         # Initialize checkpoint
         self.checkpoint_manager.initialize_batch(batch_id, urls, modesty_level)
@@ -94,7 +96,7 @@ class ImportProcessor:
             for i, url in enumerate(urls, 1):
                 logger.info(f"Processing URL {i}/{len(urls)}: {url}")
                 
-                result = await self._process_single_new_product(url, modesty_level, batch_id, i, len(urls))
+                result = await self._process_single_new_product(url, modesty_level, batch_id, i, len(urls), product_type_override)
                 
                 results['results'].append(result)
                 results['processed_count'] += 1
@@ -125,7 +127,7 @@ class ImportProcessor:
         logger.info(f"Batch {batch_id} completed: {results['successful_count']} successful, {results['skipped_count']} skipped, {results['failed_count']} failed")
         return results
     
-    async def _process_single_new_product(self, url: str, modesty_level: str, batch_id: str, current: int, total: int) -> Dict[str, Any]:
+    async def _process_single_new_product(self, url: str, modesty_level: str, batch_id: str, current: int, total: int, product_type_override: str = None) -> Dict[str, Any]:
         """Process a single URL for NEW product creation only"""
         
         start_time = datetime.utcnow()
@@ -188,7 +190,8 @@ class ImportProcessor:
                 processed_url.retailer, 
                 modesty_level, 
                 processed_url.clean_url,
-                image_result['downloaded_images']
+                image_result['downloaded_images'],
+                product_type_override=product_type_override
             )
             
             if shopify_result['success']:
