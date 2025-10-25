@@ -167,13 +167,14 @@ class CatalogExtractor:
                 )
             
             # Extract catalog using AI models
-            extraction_result = await markdown_extractor._extract_with_llm_cascade(
+            # Note: _extract_with_llm_cascade returns a dict, not an ExtractionResult object
+            extraction_dict = await markdown_extractor._extract_with_llm_cascade(
                 markdown_content, retailer, catalog_url)
             
             processing_time = time.time() - start_time
             
-            # Handle case where extraction_result is None (API failures)
-            if extraction_result is None:
+            # Handle case where extraction_dict is None (API failures)
+            if extraction_dict is None:
                 return CatalogExtractionResult(
                     success=False,
                     products=[],
@@ -185,26 +186,19 @@ class CatalogExtractor:
                     extraction_metadata={'error': 'API keys invalid'}
                 )
             
-            # Track API call with cost monitoring (convert ExtractionResult to dict)
-            response_dict = {
-                'success': extraction_result.success,
-                'data': extraction_result.data,
-                'method_used': extraction_result.method_used,
-                'processing_time': extraction_result.processing_time,
-                'warnings': extraction_result.warnings,
-                'errors': extraction_result.errors
-            }
+            # Track API call with cost monitoring
             cost_tracker.track_api_call(
                 method="catalog_markdown", 
                 prompt=prompt, 
-                response=response_dict,
+                response=extraction_dict,
                 retailer=retailer, 
                 url=catalog_url, 
                 processing_time=processing_time
             )
             
-            if extraction_result.success:
-                products = self._parse_catalog_extraction_result(extraction_result.data, retailer, category)
+            # Check if extraction was successful (dict contains 'products' or similar data)
+            if extraction_dict and isinstance(extraction_dict, dict) and len(extraction_dict) > 0:
+                products = self._parse_catalog_extraction_result(extraction_dict, retailer, category)
                 
                 return CatalogExtractionResult(
                     success=True,
@@ -217,10 +211,10 @@ class CatalogExtractor:
                         'retailer': retailer,
                         'category': category
                     },
-                    warnings=extraction_result.warnings,
+                    warnings=[],
                     errors=[],
                     extraction_metadata={
-                        'model_used': extraction_result.method_used,
+                        'model_used': extraction_dict.get('model_used', 'unknown'),
                         'markdown_length': len(markdown_content)
                     }
                 )
@@ -231,9 +225,9 @@ class CatalogExtractor:
                     method_used='markdown_extraction_failed',
                     processing_time=processing_time,
                     page_info={},
-                    warnings=extraction_result.warnings,
-                    errors=extraction_result.errors if extraction_result.errors else ['Extraction failed'],
-                    extraction_metadata={'method_used': extraction_result.method_used}
+                    warnings=['No data extracted from markdown'],
+                    errors=['Extraction returned empty or invalid data'],
+                    extraction_metadata={}
                 )
                 
         except Exception as e:
