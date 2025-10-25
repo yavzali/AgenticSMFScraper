@@ -484,14 +484,7 @@ CRITICAL REQUIREMENTS:
    - If on sale: current price in "price", original price in "original_price"
    - If not on sale: current price in "price", null in "original_price"
 
-4. CLOTHING TYPE - Be specific:
-   - Use "dress top" for mini dresses, shirt dresses, or dress-length tops (above knee)
-   - Use "dress" for midi/maxi dresses (knee length or longer)
-   - Use "top" for standard shirts, blouses, sweaters
-   - Use "bottom" for pants, skirts, shorts
-   - Use "outerwear" for jackets, coats
-
-5. VALIDATION - Ensure all fields are populated with meaningful data
+4. VALIDATION - Ensure all fields are populated with meaningful data
 
 Valid necklines: crew, v-neck, scoop, off-shoulder, halter, strapless, boat, square, sweetheart, mock, turtleneck, cowl, other, unknown
 Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
