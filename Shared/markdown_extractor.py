@@ -782,11 +782,23 @@ Markdown Content:
         # 4. Fix missing commas between array items
         json_str = re.sub(r'\]\s*\[', '],[', json_str)
         
-        # 5. Normalize whitespace
+        # 5. Fix missing commas after quoted strings before next key
+        # Pattern: "value" "key": should be "value", "key":
+        json_str = re.sub(r'"\s+"', '", "', json_str)
+        
+        # 6. Fix missing commas after numbers before next key
+        # Pattern: 123 "key": should be 123, "key":
+        json_str = re.sub(r'(\d+)\s+"', r'\1, "', json_str)
+        
+        # 7. Fix missing commas after closing brace before key
+        # Pattern: } "key": should be }, "key":
+        json_str = re.sub(r'}\s+"', '}, "', json_str)
+        
+        # 8. Normalize whitespace
         json_str = json_str.replace("\n", " ").replace("\r", " ")
         json_str = re.sub(r"(\s+)", " ", json_str)
         
-        # 6. Fix truncated JSON (missing closing brackets)
+        # 9. Fix truncated JSON (missing closing brackets)
         open_braces = json_str.count('{')
         close_braces = json_str.count('}')
         if open_braces > close_braces:
@@ -797,10 +809,10 @@ Markdown Content:
         if open_brackets > close_brackets:
             json_str += ']' * (open_brackets - close_brackets)
         
-        # 7. Fix common quote escaping issues
+        # 10. Fix common quote escaping issues
         json_str = json_str.replace('\\"', '"').replace("\\'", "'")
         
-        # 8. Remove any trailing text after final closing bracket
+        # 11. Remove any trailing text after final closing bracket
         last_close = max(json_str.rfind('}'), json_str.rfind(']'))
         if last_close > 0:
             json_str = json_str[:last_close + 1]
