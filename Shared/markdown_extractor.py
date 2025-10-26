@@ -270,11 +270,36 @@ class MarkdownExtractor:
                     'errors': ['Failed to fetch markdown content']
                 }
             
-            # Step 2: Add markdown content to the catalog prompt
+            # Step 2: Prepare markdown content with smart chunking
+            # If markdown is very large (> 40K chars), extract just the product listing section
+            if len(markdown_content) > 40000:
+                logger.info(f"Large markdown detected ({len(markdown_content)} chars), extracting product section only")
+                # Look for product listing markers (common patterns)
+                product_markers = ['product-card', 'ProductCard', 'product-item', 'data-product', 'class="product']
+                
+                # Find first occurrence of product marker
+                start_idx = -1
+                for marker in product_markers:
+                    idx = markdown_content.find(marker)
+                    if idx != -1 and (start_idx == -1 or idx < start_idx):
+                        start_idx = idx
+                
+                if start_idx > 0:
+                    # Start from marker, go back a bit for context
+                    start_idx = max(0, start_idx - 500)
+                    markdown_chunk = markdown_content[start_idx:start_idx + 40000]
+                    logger.info(f"Extracted product section: {len(markdown_chunk)} chars")
+                else:
+                    # No marker found, just take first 40K
+                    markdown_chunk = markdown_content[:40000]
+            else:
+                markdown_chunk = markdown_content[:50000]
+            
+            # Step 3: Add markdown content to the catalog prompt
             full_prompt = f"""{catalog_prompt}
 
 MARKDOWN CONTENT TO ANALYZE:
-{markdown_content[:50000]}
+{markdown_chunk}
 
 Remember: Extract ALL products as a JSON array in the format specified above."""
             
@@ -708,29 +733,79 @@ Markdown Content:
         return guidance.get(retailer, "Focus on largest available image dimensions")
     
     def _parse_json_response(self, content: str) -> Optional[Dict[str, Any]]:
-        """Parse JSON from LLM response"""
+        """Parse JSON from LLM response with robust repair logic"""
         
         try:
-            # Look for JSON pattern
-            json_pattern = r"(\{[\s\S]*\})"
+            # Look for JSON pattern (object or array)
+            json_pattern = r"(\{[\s\S]*\}|\[[\s\S]*\])"
             json_match = re.search(json_pattern, content)
             
             if json_match:
                 json_str = json_match.group(1)
-                # Clean up common formatting issues
-                json_str = re.sub(r",\s*}", "}", json_str)  # Remove trailing commas
-                json_str = json_str.replace("\n", " ").replace("\r", " ")
-                json_str = re.sub(r"(\s+)", " ", json_str)  # Normalize whitespace
                 
-                data = json.loads(json_str)
-                return data
+                # Try parsing first (might already be valid)
+                try:
+                    data = json.loads(json_str)
+                    return data
+                except json.JSONDecodeError:
+                    pass  # Continue to repair logic
                 
-        except json.JSONDecodeError as e:
-            logger.warning(f"JSON parsing failed: {e}")
+                # Apply aggressive JSON repair
+                json_str = self._repair_json(json_str)
+                
+                # Try parsing again after repair
+                try:
+                    data = json.loads(json_str)
+                    logger.info("✅ JSON successfully repaired and parsed")
+                    return data
+                except json.JSONDecodeError as e:
+                    logger.warning(f"JSON parsing failed even after repair: {e}")
+                    return None
+                
         except Exception as e:
             logger.warning(f"Response parsing error: {e}")
         
         return None
+    
+    def _repair_json(self, json_str: str) -> str:
+        """Aggressively repair common JSON formatting issues from LLMs"""
+        
+        # 1. Remove trailing commas in objects
+        json_str = re.sub(r",\s*}", "}", json_str)
+        
+        # 2. Remove trailing commas in arrays
+        json_str = re.sub(r",\s*\]", "]", json_str)
+        
+        # 3. Fix missing commas between objects in arrays (common LLM error)
+        json_str = re.sub(r'}\s*{', '},{', json_str)
+        
+        # 4. Fix missing commas between array items
+        json_str = re.sub(r'\]\s*\[', '],[', json_str)
+        
+        # 5. Normalize whitespace
+        json_str = json_str.replace("\n", " ").replace("\r", " ")
+        json_str = re.sub(r"(\s+)", " ", json_str)
+        
+        # 6. Fix truncated JSON (missing closing brackets)
+        open_braces = json_str.count('{')
+        close_braces = json_str.count('}')
+        if open_braces > close_braces:
+            json_str += '}' * (open_braces - close_braces)
+        
+        open_brackets = json_str.count('[')
+        close_brackets = json_str.count(']')
+        if open_brackets > close_brackets:
+            json_str += ']' * (open_brackets - close_brackets)
+        
+        # 7. Fix common quote escaping issues
+        json_str = json_str.replace('\\"', '"').replace("\\'", "'")
+        
+        # 8. Remove any trailing text after final closing bracket
+        last_close = max(json_str.rfind('}'), json_str.rfind(']'))
+        if last_close > 0:
+            json_str = json_str[:last_close + 1]
+        
+        return json_str
     
     def _validate_extracted_data(self, data: Dict[str, Any], retailer: str, url: str) -> List[str]:
         """Rigorous validation of extracted product data"""
