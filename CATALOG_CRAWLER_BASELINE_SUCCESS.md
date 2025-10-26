@@ -87,8 +87,18 @@ logger.info(f"📦 Page {current_page}: {len(catalog_products)} products, {len(u
 
 ---
 
-### 4. **Extended Markdown Cache from 5 to 6 Days** ✅
-**Benefit**: Reduces Jina AI usage and speeds up repeated crawls for testing and monitoring.
+### 4. **Set Markdown Cache to 3 Days** ✅
+**Purpose**: Cache is for **testing/debugging only** - not for monitoring.
+
+**Monitoring Strategy**:
+- **Weekly monitoring runs** (every 7 days)
+- **Cache expires after 3 days**
+- **Fresh markdown guaranteed** for each monitoring crawl (7 > 3)
+
+**Why 3 days, not 7?**
+- Monitoring needs **current catalog snapshot** to detect new products
+- Re-analyzing old markdown would miss newly added products
+- 3-day cache only helps during development/debugging
 
 **File**: `Shared/markdown_extractor.py`
 
@@ -228,10 +238,11 @@ New products detected will:
 - Simple pipe-separated text worked perfectly
 - Pattern-based extraction (regex) beats LLM for structured data
 
-### **4. Caching Saves Everything**
-- 6-day markdown cache eliminated repeated Jina AI calls
-- Dramatically faster testing and development
-- Reduced costs to near-zero for baseline establishment
+### **4. Smart Caching Strategy**
+- 3-day markdown cache for **development/debugging only**
+- Weekly monitoring always fetches **fresh markdown** (cache expired)
+- Dramatically faster testing (no repeated Jina AI calls within 3 days)
+- Monitoring costs remain consistent (~$0.10 per catalog page)
 
 ---
 

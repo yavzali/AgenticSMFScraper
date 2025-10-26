@@ -1267,12 +1267,12 @@ The Catalog Crawler system provides **automated monitoring and discovery** of ne
 #### **1. Markdown Extraction (Preferred)**
 - **Retailers**: Revolve, ASOS, Mango, Uniqlo, H&M
 - **Process**:
-  1. Jina AI converts catalog page to markdown (cached 6 days)
+  1. Jina AI converts catalog page to markdown (cached 3 days)
   2. Smart chunking extracts product listing section
   3. DeepSeek V3 parses using simple pipe-separated format
   4. Pattern-based product code extraction
 - **Success Rate**: ~95%
-- **Cost**: Near-zero with caching
+- **Cost**: Near-zero (Jina AI free, DeepSeek V3 ~$0.10 per catalog page)
 
 **Pipe-Separated Format** (replaced unreliable JSON):
 ```
@@ -1293,12 +1293,85 @@ PRODUCT | URL=https://retailer.com/product/CODE | TITLE=Product Name | PRICE=89.
 
 | Aspect | Baseline Establishment | Monitoring Crawls |
 |--------|----------------------|-------------------|
-| **Purpose** | Initial catalog scan | Detect new products |
-| **Pages/Scrolls** | 2-3 pages/scrolls | Up to 20 pages/10 scrolls |
-| **Deduplication** | In-memory by product_code | Database comparison |
-| **Frequency** | Once per retailer/category | Daily/weekly |
-| **Output** | All products marked as baseline | Only new products |
-| **Cost** | ~$0 with caching | Minimal (cached pages) |
+| **Purpose** | Initial catalog scan (one-time) | Detect new products added since baseline |
+| **Pages/Scrolls** | 2-3 pages/scrolls (~120 products) | Up to 20 pages/10 scrolls (~1200 products) |
+| **Deduplication** | In-memory by product_code | Compare against baseline in database |
+| **Frequency** | Once per retailer/category | **Weekly** (every 7 days) |
+| **Markdown Cache** | 3 days (for testing/debugging) | **Fresh fetch** (cache expires before next run) |
+| **Output** | All products stored as "baseline" | Only **new products** not in baseline |
+| **Cost** | ~$0.10 per category | ~$0.10-0.30 per category (fresh markdown) |
+
+**CRITICAL**: Monitoring crawls **always fetch fresh markdown** - the 3-day cache is only for development/testing. Each weekly monitoring run gets a current snapshot of the retailer's catalog to accurately detect newly added products.
+
+---
+
+### **📅 Weekly Monitoring Workflow Explained**
+
+#### **Timeline Example (Revolve Dresses)**
+
+**Week 0 - Baseline Establishment** (Oct 26, 2025)
+```
+Day 0: Run baseline crawl
+  └─> Fetch markdown from Jina AI
+  └─> Extract 119 products (DeepSeek V3)
+  └─> Store all 119 as "baseline" in database
+  └─> Markdown cached for 3 days (for debugging)
+```
+
+**Week 1 - First Monitoring Crawl** (Nov 2, 2025 - 7 days later)
+```
+Day 7: Run monitoring crawl
+  └─> Cache expired (>3 days old)
+  └─> Fetch FRESH markdown from Jina AI (current catalog state)
+  └─> Extract products (e.g., 135 products found)
+  └─> Compare against 119 baseline products in database
+  └─> Identify 16 NEW products (not in baseline)
+  └─> For each new product:
+      ├─> Run full product extraction (unified_extractor)
+      ├─> Create Shopify draft with "not-assessed" tag
+      ├─> Store in database with review_type='modesty_assessment'
+      └─> Queue for web-based modesty review
+  └─> Update baseline to include 16 new products (now 135 total)
+```
+
+**Week 2 - Second Monitoring Crawl** (Nov 9, 2025 - 7 days later)
+```
+Day 14: Run monitoring crawl
+  └─> Fetch FRESH markdown (previous cache long expired)
+  └─> Extract products (e.g., 142 products found)
+  └─> Compare against 135 products in database
+  └─> Identify 7 NEW products
+  └─> Process new products (extract, Shopify, queue for review)
+  └─> Update baseline to 142 total
+```
+
+#### **Why 3-Day Cache?**
+
+The 3-day cache serves **testing and development** purposes only:
+
+1. **Baseline Testing**: If baseline crawl fails, can re-run within 3 days without re-fetching markdown
+2. **Development**: Testing extractor changes without hitting Jina AI repeatedly
+3. **Debugging**: Analyzing parsing issues with same markdown content
+
+**The cache does NOT affect monitoring** because:
+- Weekly monitoring runs are **7 days apart**
+- Cache expires after **3 days**
+- By day 7, cache is **4 days stale** → Fresh fetch guaranteed
+
+#### **Cost Breakdown (Weekly Monitoring)**
+
+**Per Retailer/Category** (e.g., Revolve Dresses):
+- Jina AI markdown fetch: **$0.00** (free)
+- DeepSeek V3 catalog parsing: **~$0.10** (8K tokens)
+- New products found (average 10-20 per week):
+  - Full product extraction: **$0.05-0.10 each** (DeepSeek/Gemini)
+  - Total: **$0.50-2.00 per week**
+
+**For 10 Retailers × 2 Categories = 20 monitoring targets**:
+- Weekly cost: **$10-40**
+- Monthly cost: **$40-160**
+
+---
 
 ### **✅ Revolve Dresses Baseline (Oct 26, 2025)**
 

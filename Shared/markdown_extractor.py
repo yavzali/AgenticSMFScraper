@@ -34,7 +34,7 @@ MARKDOWN_RETAILERS = ["asos", "mango", "uniqlo", "revolve", "hm"]
 # Configuration
 JINA_ENDPOINT = "https://r.jina.ai/"
 TOKEN_LIMIT = 120000
-CACHE_EXPIRY_DAYS = 6  # Cache markdown for 6 days to reduce Jina AI usage
+CACHE_EXPIRY_DAYS = 3  # Cache for 3 days (weekly monitoring = fresh markdown each week)
 MARKDOWN_CACHE_FILE = "markdown_cache.pkl"
 
 @dataclass
