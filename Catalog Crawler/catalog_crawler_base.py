@@ -188,9 +188,15 @@ class BaseCatalogCrawler(ABC):
                 
                 # Detect new products vs existing
                 if crawl_type == 'baseline_establishment':
-                    # For baseline, all products are "seen" but not necessarily new
-                    total_products.extend(catalog_products)
+                    # For baseline, deduplicate across pages using product_code
+                    seen_codes = {p.product_code for p in total_products if p.product_code}
+                    unique_products = [
+                        p for p in catalog_products 
+                        if p.product_code and p.product_code not in seen_codes
+                    ]
+                    total_products.extend(unique_products)
                     self.total_products_seen += len(catalog_products)
+                    logger.info(f"📦 Page {current_page}: {len(catalog_products)} products, {len(unique_products)} unique (deduplicated)")
                 else:
                     # For monitoring, detect truly new products
                     new_products, early_stop = await self._process_page_for_new_products(
@@ -277,8 +283,15 @@ class BaseCatalogCrawler(ABC):
                 catalog_products = [self._dict_to_catalog_product(p) for p in page_products]
                 
                 if crawl_type == 'baseline_establishment':
-                    total_products.extend(catalog_products)
+                    # For baseline, deduplicate using product_code (infinite scroll may return duplicates)
+                    seen_codes = {p.product_code for p in total_products if p.product_code}
+                    unique_products = [
+                        p for p in catalog_products 
+                        if p.product_code and p.product_code not in seen_codes
+                    ]
+                    total_products.extend(unique_products)
                     self.total_products_seen += len(catalog_products)
+                    logger.info(f"📦 Scroll extraction: {len(catalog_products)} products, {len(unique_products)} unique (deduplicated)")
                 else:
                     new_products, early_stop = await self._process_page_for_new_products(
                         catalog_products, run_id)

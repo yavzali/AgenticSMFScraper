@@ -165,8 +165,6 @@ class CatalogExtractor:
                 parsed_products = self._parse_catalog_extraction_result(
                     {'products': products}, retailer, category)
                 
-                # Cache the successful response
-                cost_tracker.cache_response(prompt, extraction_result)
                 
                 # Track cost
                 cost_tracker.track_api_call(
@@ -267,8 +265,6 @@ class CatalogExtractor:
                 parsed_products = self._parse_catalog_extraction_result(
                     {'products': products}, retailer, category)
                 
-                # Cache the successful response
-                cost_tracker.cache_response(prompt, extraction_result)
                 
                 # Track cost
                 cost_tracker.track_api_call(
