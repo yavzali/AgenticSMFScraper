@@ -276,6 +276,30 @@ class CatalogOrchestrator:
                 if not crawl_result.success:
                     raise Exception(f"Crawl failed: {crawl_result.errors}")
                 
+                # For baseline establishment, record baseline metadata
+                if run_type == 'baseline_establishment':
+                    try:
+                        await self.db_manager.create_baseline(
+                            retailer=retailer,
+                            category=category,
+                            baseline_date=datetime.utcnow().date(),
+                            total_products=crawl_result.total_products_crawled,
+                            crawl_config={
+                                'crawl_pages': crawl_result.pages_crawled,
+                                'crawl_depth_reached': f"page_{crawl_result.pages_crawled}",
+                                'extraction_method': crawl_result.crawl_metadata.get('extraction_method', 'markdown'),
+                                'catalog_url': crawler.config.base_url,
+                                'sort_by_newest_url': crawler.config.sort_by_newest_url,
+                                'pagination_type': crawler.config.pagination_type,
+                                'has_sort_by_newest': crawler.config.has_sort_by_newest,
+                                'early_stop_threshold': 3,
+                                'baseline_crawl_time': crawl_result.processing_time
+                            }
+                        )
+                        logger.info(f"📊 Recorded baseline metadata for {retailer} {category}")
+                    except Exception as e:
+                        logger.error(f"Failed to record baseline metadata: {e}")
+                
                 # For monitoring runs, perform change detection
                 new_products_count = 0
                 for_review_count = 0
