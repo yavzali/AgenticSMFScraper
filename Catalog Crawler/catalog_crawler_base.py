@@ -150,10 +150,9 @@ class BaseCatalogCrawler(ABC):
         warnings = []
         early_stopped = False
         
-        # Determine starting URL
-        start_url = self.config.sort_by_newest_url if (
-            self.config.has_sort_by_newest and crawl_type != 'baseline_establishment'
-        ) else self.config.base_url
+        # Determine starting URL - ALWAYS use sort_by_newest if available
+        # Baseline establishment ESPECIALLY needs sorted URLs to capture current products
+        start_url = self.config.sort_by_newest_url if self.config.has_sort_by_newest else self.config.base_url
         
         current_page = 1
         
@@ -255,10 +254,9 @@ class BaseCatalogCrawler(ABC):
         warnings = []
         early_stopped = False
         
-        # Start with main catalog URL
-        start_url = self.config.sort_by_newest_url if (
-            self.config.has_sort_by_newest and crawl_type != 'baseline_establishment'
-        ) else self.config.base_url
+        # Start with main catalog URL - ALWAYS use sort_by_newest if available
+        # Baseline establishment ESPECIALLY needs sorted URLs to capture current products
+        start_url = self.config.sort_by_newest_url if self.config.has_sort_by_newest else self.config.base_url
         
         # For infinite scroll, we extract once and rely on the extractor to get all visible products
         # In a full implementation, this would involve actual scrolling with Playwright

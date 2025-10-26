@@ -299,6 +299,13 @@ Return a JSON array with ALL products found across all screenshots."""
             # Call Gemini Vision with all screenshots
             logger.debug("Sending screenshots to Gemini Vision for catalog extraction")
             
+            # Use Google's generative AI for vision analysis
+            import google.generativeai as genai
+            
+            # Configure Gemini API
+            api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+            genai.configure(api_key=api_key)
+            
             # Prepare image parts for Gemini
             image_parts = []
             for screenshot_bytes in screenshots:
@@ -308,8 +315,9 @@ Return a JSON array with ALL products found across all screenshots."""
                 image = Image.open(io.BytesIO(screenshot_bytes))
                 image_parts.append(image)
             
-            # Call Gemini
-            response = self.gemini.generate_content([full_prompt] + image_parts)
+            # Call Gemini Vision model
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([full_prompt] + image_parts)
             
             # Parse response
             extraction_result = None

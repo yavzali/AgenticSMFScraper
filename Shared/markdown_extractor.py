@@ -109,6 +109,7 @@ class MarkdownExtractor:
                 self.gemini_client = ChatGoogleGenerativeAI(
                     model="gemini-2.0-flash-exp",
                     temperature=0.1,
+                    max_output_tokens=8000,  # Increased for large catalog arrays
                     google_api_key=google_api_key
                 )
                 logger.info("✅ Gemini Flash 2.0 client initialized")
@@ -293,7 +294,7 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                                 {"role": "user", "content": full_prompt}
                             ],
                             temperature=0.1,
-                            max_tokens=4000  # More tokens for catalog arrays
+                            max_tokens=8000  # Increased for large catalog arrays with 50+ products
                         )
                     )
                     
