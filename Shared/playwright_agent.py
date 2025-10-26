@@ -205,6 +205,195 @@ class PlaywrightMultiScreenshotAgent:
         finally:
             await self._cleanup()
     
+    async def extract_catalog(self, catalog_url: str, retailer: str, catalog_prompt: str) -> Dict[str, Any]:
+        """
+        Extract ALL products from a catalog/listing page using Patchright screenshots + Gemini Vision
+        
+        This method is for catalog pages (multi-product listings).
+        For single product pages, use extract_product() instead.
+        
+        Args:
+            catalog_url: URL of the catalog/listing page
+            retailer: Retailer identifier
+            catalog_prompt: Pre-built catalog-specific prompt from catalog_extractor
+            
+        Returns:
+            Dict containing:
+            - success: bool
+            - products: List[Dict] - Array of product summaries
+            - total_found: int
+            - method_used: str ('patchright_gemini')
+            - processing_time: float
+            - warnings: List[str]
+            - errors: List[str]
+        """
+        start_time = time.time()
+        
+        try:
+            logger.info(f"🎭 Starting Patchright catalog extraction for {retailer}: {catalog_url}")
+            
+            # Setup stealth browser
+            await self._setup_stealth_browser()
+            
+            # Navigate to catalog page
+            logger.debug(f"Navigating to catalog page: {catalog_url}")
+            await self.page.goto(catalog_url, wait_until='networkidle', timeout=60000)
+            await asyncio.sleep(3)  # Let dynamic content load
+            
+            # Handle any verification challenges
+            strategy = {'domain': self._extract_domain(catalog_url), 'retailer': retailer}
+            await self._handle_verification_challenges(strategy)
+            
+            # Scroll to load products (for infinite scroll catalogs)
+            logger.debug("Scrolling to load catalog products")
+            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+            await asyncio.sleep(2)
+            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            await asyncio.sleep(2)
+            
+            # Take strategic screenshots of catalog
+            screenshots = []
+            screenshot_descriptions = []
+            
+            # Screenshot 1: Top of catalog page
+            await self.page.evaluate("window.scrollTo(0, 0)")
+            await asyncio.sleep(1)
+            screenshot1 = await self.page.screenshot(full_page=False)
+            screenshots.append(screenshot1)
+            screenshot_descriptions.append("Top of catalog page showing first products")
+            logger.debug(f"📸 Screenshot 1: Top of catalog")
+            
+            # Screenshot 2: Middle of catalog
+            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight / 3)")
+            await asyncio.sleep(1)
+            screenshot2 = await self.page.screenshot(full_page=False)
+            screenshots.append(screenshot2)
+            screenshot_descriptions.append("Middle section of catalog")
+            logger.debug(f"📸 Screenshot 2: Middle of catalog")
+            
+            # Screenshot 3: Lower section of catalog
+            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight * 0.6)")
+            await asyncio.sleep(1)
+            screenshot3 = await self.page.screenshot(full_page=False)
+            screenshots.append(screenshot3)
+            screenshot_descriptions.append("Lower section of catalog")
+            logger.debug(f"📸 Screenshot 3: Lower section")
+            
+            logger.info(f"✅ Captured {len(screenshots)} catalog screenshots")
+            
+            # Build Gemini prompt with screenshots
+            full_prompt = f"""{catalog_prompt}
+
+SCREENSHOT ANALYSIS INSTRUCTIONS:
+You are viewing {len(screenshots)} screenshots of a {retailer} catalog page. 
+Analyze ALL visible products across all screenshots.
+Extract EVERY product you can see.
+
+Screenshots show:
+1. {screenshot_descriptions[0]}
+2. {screenshot_descriptions[1]}
+3. {screenshot_descriptions[2]}
+
+Return a JSON array with ALL products found across all screenshots."""
+
+            # Call Gemini Vision with all screenshots
+            logger.debug("Sending screenshots to Gemini Vision for catalog extraction")
+            
+            # Prepare image parts for Gemini
+            image_parts = []
+            for screenshot_bytes in screenshots:
+                # Convert bytes to PIL Image for Gemini
+                from PIL import Image
+                import io
+                image = Image.open(io.BytesIO(screenshot_bytes))
+                image_parts.append(image)
+            
+            # Call Gemini
+            response = self.gemini.generate_content([full_prompt] + image_parts)
+            
+            # Parse response
+            extraction_result = None
+            if response and hasattr(response, 'text'):
+                content = response.text
+                
+                # Look for JSON pattern
+                import re
+                import json
+                json_pattern = r"(\{[\s\S]*\}|\[[\s\S]*\])"
+                json_match = re.search(json_pattern, content)
+                
+                if json_match:
+                    json_str = json_match.group(1)
+                    try:
+                        extraction_result = json.loads(json_str)
+                    except json.JSONDecodeError as e:
+                        logger.warning(f"Failed to parse JSON from Gemini response: {e}")
+            
+            processing_time = time.time() - start_time
+            
+            # Process results
+            if not extraction_result:
+                logger.warning(f"⚠️ Failed to extract catalog products with Patchright")
+                return {
+                    'success': False,
+                    'products': [],
+                    'total_found': 0,
+                    'method_used': 'patchright_gemini',
+                    'processing_time': processing_time,
+                    'warnings': ['Failed to parse Gemini response'],
+                    'errors': ['Could not extract product array from response']
+                }
+            
+            # Extract products array
+            products = []
+            if isinstance(extraction_result, dict):
+                if 'products' in extraction_result:
+                    products = extraction_result['products']
+                elif 'data' in extraction_result and isinstance(extraction_result['data'], list):
+                    products = extraction_result['data']
+            elif isinstance(extraction_result, list):
+                products = extraction_result
+            
+            # Validate we got an array
+            if not isinstance(products, list):
+                return {
+                    'success': False,
+                    'products': [],
+                    'total_found': 0,
+                    'method_used': 'patchright_gemini',
+                    'processing_time': processing_time,
+                    'warnings': [f'Expected array, got {type(products)}'],
+                    'errors': ['Extraction result was not in array format']
+                }
+            
+            logger.info(f"✅ Patchright catalog extraction successful: {len(products)} products found")
+            
+            return {
+                'success': True,
+                'products': products,
+                'total_found': len(products),
+                'method_used': 'patchright_gemini',
+                'processing_time': processing_time,
+                'warnings': [],
+                'errors': []
+            }
+            
+        except Exception as e:
+            processing_time = time.time() - start_time
+            logger.error(f"Patchright catalog extraction error: {e}")
+            return {
+                'success': False,
+                'products': [],
+                'total_found': 0,
+                'method_used': 'patchright_error',
+                'processing_time': processing_time,
+                'warnings': [],
+                'errors': [str(e)]
+            }
+            
+        finally:
+            await self._cleanup()
+    
     async def _setup_stealth_browser(self):
         """Setup Patchright browser with persistent context for enhanced anti-detection"""
         try:
@@ -1682,6 +1871,32 @@ class PlaywrightAgentWrapper:
         """Main interface method - replaces Browser Use extraction"""
         async with self.agent:
             return await self.agent.extract_product(url, retailer)
+    
+    async def extract_catalog_products(self, catalog_url: str, retailer: str,
+                                      catalog_prompt: str) -> Dict[str, Any]:
+        """
+        Extract ALL products from a catalog/listing page using Patchright screenshots
+        
+        This method is specifically for catalog pages (multi-product listings).
+        For single product pages, use extract_product_data() instead.
+        
+        Args:
+            catalog_url: URL of the catalog/listing page
+            retailer: Retailer identifier
+            catalog_prompt: Pre-built catalog-specific prompt from catalog_extractor
+            
+        Returns:
+            Dict containing:
+            - success: bool
+            - products: List[Dict] - Array of product summaries
+            - total_found: int
+            - method_used: str ('patchright_gemini')
+            - processing_time: float
+            - warnings: List[str]
+            - errors: List[str]
+        """
+        async with self.agent:
+            return await self.agent.extract_catalog(catalog_url, retailer, catalog_prompt)
 
 
 # Performance monitoring

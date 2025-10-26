@@ -136,7 +136,7 @@ class CatalogExtractor:
             # Import markdown extractor
             from markdown_extractor import MarkdownExtractor
             
-            # Build catalog-specific prompt
+            # Build catalog-specific prompt (method already exists)
             prompt = self._build_catalog_markdown_prompt(
                 catalog_url, retailer, category, learned_patterns, extraction_config)
             
@@ -150,84 +150,67 @@ class CatalogExtractor:
             # Initialize markdown extractor
             markdown_extractor = MarkdownExtractor()
             
-            # Get markdown content from Jina AI
-            logger.debug(f"Fetching catalog markdown from Jina AI: {catalog_url}")
-            markdown_content, _ = await markdown_extractor._fetch_markdown(catalog_url, retailer)
-            
-            if not markdown_content:
-                return CatalogExtractionResult(
-                    success=False,
-                    products=[],
-                    method_used='markdown_fetch_failed',
-                    processing_time=time.time() - start_time,
-                    page_info={},
-                    warnings=['Failed to fetch markdown content'],
-                    errors=['Markdown fetch failed'],
-                    extraction_metadata={}
-                )
-            
-            # Extract catalog using AI models
-            # Note: _extract_with_llm_cascade returns a dict, not an ExtractionResult object
-            extraction_dict = await markdown_extractor._extract_with_llm_cascade(
-                markdown_content, retailer, catalog_url)
+            # ✅ NEW: Call the catalog-specific method instead of single-product method
+            logger.info(f"🔄 Extracting catalog products with markdown for {retailer}")
+            extraction_result = await markdown_extractor.extract_catalog_products(
+                catalog_url, retailer, prompt)
             
             processing_time = time.time() - start_time
             
-            # Handle case where extraction_dict is None (API failures)
-            if extraction_dict is None:
-                return CatalogExtractionResult(
-                    success=False,
-                    products=[],
-                    method_used='markdown_api_failed',
-                    processing_time=processing_time,
-                    page_info={},
-                    warnings=['API keys invalid - both DeepSeek and Gemini failed'],
-                    errors=['API authentication failed'],
-                    extraction_metadata={'error': 'API keys invalid'}
+            # Check if extraction succeeded
+            if extraction_result['success'] and extraction_result['products']:
+                products = extraction_result['products']
+                
+                # Parse and validate products
+                parsed_products = self._parse_catalog_extraction_result(
+                    {'products': products}, retailer, category)
+                
+                # Cache the successful response
+                cost_tracker.cache_response(prompt, extraction_result)
+                
+                # Track cost
+                cost_tracker.track_api_call(
+                    method=extraction_result['method_used'],
+                    prompt=prompt,
+                    response=extraction_result,
+                    retailer=retailer,
+                    url=catalog_url,
+                    processing_time=processing_time
                 )
-            
-            # Track API call with cost monitoring
-            cost_tracker.track_api_call(
-                method="catalog_markdown", 
-                prompt=prompt, 
-                response=extraction_dict,
-                retailer=retailer, 
-                url=catalog_url, 
-                processing_time=processing_time
-            )
-            
-            # Check if extraction was successful (dict contains 'products' or similar data)
-            if extraction_dict and isinstance(extraction_dict, dict) and len(extraction_dict) > 0:
-                products = self._parse_catalog_extraction_result(extraction_dict, retailer, category)
+                
+                logger.info(f"✅ Catalog markdown extraction successful: {len(parsed_products)} products")
                 
                 return CatalogExtractionResult(
                     success=True,
-                    products=products,
+                    products=parsed_products,
                     method_used='markdown_extractor',
                     processing_time=processing_time,
                     page_info={
-                        'total_products_found': len(products),
+                        'total_products_found': len(parsed_products),
                         'extraction_method': 'markdown',
                         'retailer': retailer,
-                        'category': category
+                        'category': category,
+                        'llm_used': extraction_result['method_used']
                     },
-                    warnings=[],
+                    warnings=extraction_result['warnings'],
                     errors=[],
                     extraction_metadata={
-                        'model_used': extraction_dict.get('model_used', 'unknown'),
-                        'markdown_length': len(markdown_content)
+                        'model_used': extraction_result['method_used'],
+                        'total_found': extraction_result['total_found']
                     }
                 )
             else:
+                # Extraction failed
+                logger.warning(f"⚠️ Markdown catalog extraction failed for {retailer}")
                 return CatalogExtractionResult(
                     success=False,
                     products=[],
                     method_used='markdown_extraction_failed',
                     processing_time=processing_time,
                     page_info={},
-                    warnings=['No data extracted from markdown'],
-                    errors=['Extraction returned empty or invalid data'],
-                    extraction_metadata={}
+                    warnings=extraction_result['warnings'],
+                    errors=extraction_result['errors'],
+                    extraction_metadata={'method_used': extraction_result['method_used']}
                 )
                 
         except Exception as e:
@@ -255,7 +238,7 @@ class CatalogExtractor:
             # Import playwright agent
             from playwright_agent import PlaywrightAgentWrapper
             
-            # Build catalog-specific prompt
+            # Build catalog-specific prompt (method already exists)
             prompt = self._build_catalog_playwright_prompt(
                 catalog_url, retailer, category, learned_patterns, extraction_config)
             
@@ -266,71 +249,70 @@ class CatalogExtractor:
                 return self._process_cached_catalog_response(
                     cached_response, 'playwright_cached', time.time() - start_time)
             
-            # Initialize Playwright agent
+            # Initialize playwright agent
             playwright_agent = PlaywrightAgentWrapper(self.config)
             
-            # Extract catalog with screenshots
-            logger.debug(f"Extracting catalog with Playwright: {catalog_url}")
-            extraction_result = await playwright_agent.extract_product_data(
-                catalog_url, retailer)
+            # ✅ NEW: Call the catalog-specific method instead of single-product method
+            logger.info(f"🎭 Extracting catalog products with Patchright for {retailer}")
+            extraction_result = await playwright_agent.extract_catalog_products(
+                catalog_url, retailer, prompt)
             
             processing_time = time.time() - start_time
             
-            # Track API call (convert ExtractionResult to dict for cost tracker)
-            response_dict = {
-                'success': extraction_result.success,
-                'data': extraction_result.data,
-                'method_used': extraction_result.method_used,
-                'processing_time': extraction_result.processing_time,
-                'warnings': extraction_result.warnings,
-                'errors': extraction_result.errors
-            }
-            cost_tracker.track_api_call(
-                method="catalog_playwright", 
-                prompt=prompt, 
-                response=response_dict,
-                retailer=retailer, 
-                url=catalog_url, 
-                processing_time=processing_time
-            )
-            
-            if extraction_result.success:
-                products = self._parse_catalog_extraction_result(extraction_result.data, retailer, category)
+            # Check if extraction succeeded
+            if extraction_result['success'] and extraction_result['products']:
+                products = extraction_result['products']
+                
+                # Parse and validate products
+                parsed_products = self._parse_catalog_extraction_result(
+                    {'products': products}, retailer, category)
+                
+                # Cache the successful response
+                cost_tracker.cache_response(prompt, extraction_result)
+                
+                # Track cost
+                cost_tracker.track_api_call(
+                    method=extraction_result['method_used'],
+                    prompt=prompt,
+                    response=extraction_result,
+                    retailer=retailer,
+                    url=catalog_url,
+                    processing_time=processing_time
+                )
+                
+                logger.info(f"✅ Catalog Patchright extraction successful: {len(parsed_products)} products")
                 
                 return CatalogExtractionResult(
                     success=True,
-                    products=products,
-                    method_used='playwright_agent',
+                    products=parsed_products,
+                    method_used='patchright_extractor',
                     processing_time=processing_time,
                     page_info={
-                        'total_products_found': len(products),
-                        'extraction_method': 'playwright',
+                        'total_products_found': len(parsed_products),
+                        'extraction_method': 'patchright',
                         'retailer': retailer,
                         'category': category,
-                        'screenshots_taken': 4  # From the log output
+                        'screenshots_taken': 3
                     },
-                    warnings=extraction_result.warnings,
+                    warnings=extraction_result['warnings'],
                     errors=[],
                     extraction_metadata={
-                        'method_used': extraction_result.method_used,
-                        'processing_time': extraction_result.processing_time,
-                        'playwright_data': extraction_result.data
+                        'method_used': extraction_result['method_used'],
+                        'total_found': extraction_result['total_found']
                     }
                 )
             else:
+                # Extraction failed
+                logger.warning(f"⚠️ Patchright catalog extraction failed for {retailer}")
                 return CatalogExtractionResult(
                     success=False,
                     products=[],
-                    method_used='playwright_extraction_failed',
+                    method_used='patchright_extraction_failed',
                     processing_time=processing_time,
                     page_info={},
-                    warnings=extraction_result.warnings,
-                    errors=extraction_result.errors if extraction_result.errors else ['Extraction failed'],
-                    extraction_metadata={
-                        'method_used': extraction_result.method_used,
-                        'processing_time': extraction_result.processing_time,
-                        'playwright_data': extraction_result.data
-                    }
+                    warnings=extraction_result['warnings'],
+                    errors=extraction_result['errors'],
+                    extraction_metadata={'method_used': extraction_result['method_used']}
                 )
                 
         except Exception as e:

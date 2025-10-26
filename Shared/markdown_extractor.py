@@ -228,6 +228,162 @@ class MarkdownExtractor:
                 should_fallback=True
             )
     
+    async def extract_catalog_products(self, catalog_url: str, retailer: str, 
+                                      catalog_prompt: str) -> Dict[str, Any]:
+        """
+        Extract ALL products from a catalog/listing page using markdown extraction
+        
+        This method is specifically for catalog pages (multi-product listings).
+        For single product pages, use extract_product_data() instead.
+        
+        Args:
+            catalog_url: URL of the catalog/listing page
+            retailer: Retailer identifier (e.g., 'revolve', 'asos')
+            catalog_prompt: Pre-built catalog-specific prompt from catalog_extractor
+            
+        Returns:
+            Dict containing:
+            - success: bool
+            - products: List[Dict] - Array of product summaries
+            - total_found: int
+            - method_used: str ('deepseek_v3' or 'gemini_flash_2.0')
+            - processing_time: float
+            - warnings: List[str]
+            - errors: List[str]
+        """
+        start_time = time.time()
+        
+        try:
+            logger.info(f"Starting catalog markdown extraction for {retailer}: {catalog_url}")
+            
+            # Step 1: Fetch markdown content (reuse existing method)
+            markdown_content, final_url = await self._fetch_markdown(catalog_url, retailer)
+            if not markdown_content:
+                return {
+                    'success': False,
+                    'products': [],
+                    'total_found': 0,
+                    'method_used': 'markdown_fetch_failed',
+                    'processing_time': time.time() - start_time,
+                    'warnings': [],
+                    'errors': ['Failed to fetch markdown content']
+                }
+            
+            # Step 2: Add markdown content to the catalog prompt
+            full_prompt = f"""{catalog_prompt}
+
+MARKDOWN CONTENT TO ANALYZE:
+{markdown_content[:50000]}
+
+Remember: Extract ALL products as a JSON array in the format specified above."""
+            
+            # Step 3: Try DeepSeek V3 first
+            extraction_result = None
+            method_used = None
+            
+            if self.deepseek_enabled:
+                try:
+                    logger.debug(f"Attempting catalog extraction with DeepSeek V3")
+                    response = await asyncio.get_event_loop().run_in_executor(
+                        None,
+                        lambda: self.deepseek_client.chat.completions.create(
+                            model="deepseek-chat",
+                            messages=[
+                                {"role": "system", "content": "You are a specialized AI designed to extract structured product information from catalog pages. Extract ALL products visible and return them as a JSON array."},
+                                {"role": "user", "content": full_prompt}
+                            ],
+                            temperature=0.1,
+                            max_tokens=4000  # More tokens for catalog arrays
+                        )
+                    )
+                    
+                    if response and response.choices:
+                        content = response.choices[0].message.content
+                        extraction_result = self._parse_json_response(content)
+                        method_used = 'deepseek_v3'
+                        logger.info(f"✅ DeepSeek V3 catalog extraction successful")
+                        
+                except Exception as e:
+                    logger.warning(f"DeepSeek V3 catalog extraction failed: {e}")
+            
+            # Step 4: Fallback to Gemini Flash 2.0 if needed
+            if not extraction_result:
+                try:
+                    logger.debug(f"Attempting catalog extraction with Gemini Flash 2.0")
+                    response = await asyncio.get_event_loop().run_in_executor(
+                        None,
+                        lambda: self.gemini_client.invoke(full_prompt)
+                    )
+                    
+                    if response and hasattr(response, 'content'):
+                        extraction_result = self._parse_json_response(response.content)
+                        method_used = 'gemini_flash_2.0'
+                        logger.info(f"✅ Gemini Flash 2.0 catalog extraction successful")
+                        
+                except Exception as e:
+                    logger.warning(f"Gemini Flash 2.0 catalog extraction failed: {e}")
+            
+            # Step 5: Process results
+            processing_time = time.time() - start_time
+            
+            if not extraction_result:
+                return {
+                    'success': False,
+                    'products': [],
+                    'total_found': 0,
+                    'method_used': 'all_llms_failed',
+                    'processing_time': processing_time,
+                    'warnings': [],
+                    'errors': ['Both DeepSeek V3 and Gemini Flash 2.0 failed to extract catalog']
+                }
+            
+            # Step 6: Extract products array from result
+            products = []
+            if isinstance(extraction_result, dict):
+                if 'products' in extraction_result:
+                    products = extraction_result['products']
+                elif 'data' in extraction_result and isinstance(extraction_result['data'], list):
+                    products = extraction_result['data']
+            elif isinstance(extraction_result, list):
+                products = extraction_result
+            
+            # Validate we got an array
+            if not isinstance(products, list):
+                return {
+                    'success': False,
+                    'products': [],
+                    'total_found': 0,
+                    'method_used': method_used,
+                    'processing_time': processing_time,
+                    'warnings': [f'Expected array, got {type(products)}'],
+                    'errors': ['Extraction result was not in array format']
+                }
+            
+            logger.info(f"✅ Catalog extraction successful: {len(products)} products found")
+            
+            return {
+                'success': True,
+                'products': products,
+                'total_found': len(products),
+                'method_used': method_used,
+                'processing_time': processing_time,
+                'warnings': [],
+                'errors': []
+            }
+            
+        except Exception as e:
+            processing_time = time.time() - start_time
+            logger.error(f"Catalog markdown extraction error: {e}")
+            return {
+                'success': False,
+                'products': [],
+                'total_found': 0,
+                'method_used': 'error',
+                'processing_time': processing_time,
+                'warnings': [],
+                'errors': [str(e)]
+            }
+    
     async def _fetch_markdown(self, url: str, retailer: str, max_retries: int = 3) -> Tuple[Optional[str], Optional[str]]:
         """Fetch markdown content using Jina AI with caching"""
         
