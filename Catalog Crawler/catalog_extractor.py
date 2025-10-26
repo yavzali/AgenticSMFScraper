@@ -342,48 +342,44 @@ URL: {catalog_url}
 Retailer: {retailer}
 Category: {category}
 
-TASK: Extract ALL products visible on this catalog page and return them as a JSON array.
+TASK: Extract ALL products visible on this catalog page and list them in a simple structured format.
 
 For each product, extract:
-- url: Complete product URL (resolve relative URLs to absolute)
-- title: Product name/title
-- price: Current price (number only, e.g., 89.99)
-- original_price: Original price if on sale (number only)
-- sale_status: "on_sale", "regular", or "clearance"
-- image_urls: Array of all image URLs for this product
-- availability: "in_stock", "low_stock", "out_of_stock", or "unknown"
-- product_code: Product ID/code if visible in URL or on page
+- Product URL (complete URL, resolve relative URLs to absolute)
+- Product title/name
+- Current price (number only, e.g., 89.99)
+- Original price if on sale (number only)
+- Image URL (first/main image)
 
 IMPORTANT GUIDELINES:
 1. Extract ALL products on the page, not just the first few
 2. Handle both grid and list views
-3. Resolve relative URLs to absolute URLs with domain
-4. Clean up prices (remove $, commas, currency symbols)
-5. If multiple images per product, include all of them
-6. Focus on main product listing area, ignore navigation/ads
-7. If product appears multiple times (variants), extract each variant separately
+3. Resolve relative URLs to absolute URLs with domain (https://www.{retailer}.com/...)
+4. Clean up prices (remove $, commas, currency symbols - just the number)
+5. Focus on main product listing area, ignore navigation/ads
+6. If product appears multiple times (variants), extract each variant separately
 
-EXPECTED OUTPUT FORMAT:
-```json
-{{
-  "success": true,
-  "products": [
-    {{
-      "url": "https://www.{retailer}.com/product/...",
-      "title": "Product Title",
-      "price": 89.99,
-      "original_price": 129.99,
-      "sale_status": "on_sale",
-      "image_urls": ["https://...", "https://..."],
-      "availability": "in_stock",
-      "product_code": "ABC123"
-    }}
-  ],
-  "total_found": 25,
-  "page_type": "catalog",
-  "extraction_notes": "Any relevant notes about the extraction"
-}}
-```
+EXPECTED OUTPUT FORMAT (simple text, one product per block):
+
+===PRODUCT_START===
+URL: https://www.{retailer}.com/product-name/dp/CODE123/
+TITLE: Product Name Here
+PRICE: 89.99
+ORIGINAL_PRICE: 129.99
+IMAGE: https://image.url/photo.jpg
+===PRODUCT_END===
+
+===PRODUCT_START===
+URL: https://www.{retailer}.com/another-product/dp/CODE456/
+TITLE: Another Product Name
+PRICE: 45.00
+ORIGINAL_PRICE: 
+IMAGE: https://image.url/photo2.jpg
+===PRODUCT_END===
+
+IMPORTANT: Use exactly this format with ===PRODUCT_START=== and ===PRODUCT_END=== markers.
+Leave ORIGINAL_PRICE blank if not on sale.
+Extract ALL products you can find in the markdown.
 """
         
         # Add retailer-specific guidance

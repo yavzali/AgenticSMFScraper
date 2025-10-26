@@ -325,9 +325,11 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                     
                     if response and response.choices:
                         content = response.choices[0].message.content
-                        extraction_result = self._parse_json_response(content)
+                        # Parse simple text format instead of JSON
+                        extraction_result = self._parse_catalog_text_response(content)
                         method_used = 'deepseek_v3'
-                        logger.info(f"✅ DeepSeek V3 catalog extraction successful")
+                        if extraction_result and extraction_result.get('products'):
+                            logger.info(f"✅ DeepSeek V3 catalog extraction successful: {len(extraction_result['products'])} products")
                         
                 except Exception as e:
                     logger.warning(f"DeepSeek V3 catalog extraction failed: {e}")
@@ -342,9 +344,11 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                     )
                     
                     if response and hasattr(response, 'content'):
-                        extraction_result = self._parse_json_response(response.content)
+                        # Parse simple text format instead of JSON
+                        extraction_result = self._parse_catalog_text_response(response.content)
                         method_used = 'gemini_flash_2.0'
-                        logger.info(f"✅ Gemini Flash 2.0 catalog extraction successful")
+                        if extraction_result and extraction_result.get('products'):
+                            logger.info(f"✅ Gemini Flash 2.0 catalog extraction successful: {len(extraction_result['products'])} products")
                         
                 except Exception as e:
                     logger.warning(f"Gemini Flash 2.0 catalog extraction failed: {e}")
@@ -731,6 +735,151 @@ Markdown Content:
         }
         
         return guidance.get(retailer, "Focus on largest available image dimensions")
+    
+    def _parse_catalog_text_response(self, content: str) -> Optional[Dict[str, Any]]:
+        """Parse simple text format catalog response - NO JSON parsing needed!"""
+        try:
+            products = []
+            
+            # Split by product markers
+            product_blocks = content.split('===PRODUCT_START===')
+            
+            for block in product_blocks[1:]:  # Skip first empty split
+                if '===PRODUCT_END===' not in block:
+                    continue
+                    
+                # Extract the product data
+                product_data = block.split('===PRODUCT_END===')[0].strip()
+                
+                product = {}
+                for line in product_data.split('\n'):
+                    line = line.strip()
+                    if not line or ':' not in line:
+                        continue
+                    
+                    key, value = line.split(':', 1)
+                    key = key.strip().lower()
+                    value = value.strip()
+                    
+                    if key == 'url':
+                        product['url'] = value
+                        # Extract product code from URL using patterns
+                        product['product_code'] = self._extract_product_code_from_url(value)
+                    elif key == 'title':
+                        product['title'] = value
+                    elif key == 'price':
+                        try:
+                            # Clean and convert price
+                            price_str = value.replace('$', '').replace(',', '').strip()
+                            if price_str:
+                                product['price'] = float(price_str)
+                        except:
+                            pass
+                    elif key == 'original_price':
+                        try:
+                            price_str = value.replace('$', '').replace(',', '').strip()
+                            if price_str:
+                                product['original_price'] = float(price_str)
+                                product['sale_status'] = 'on_sale'
+                        except:
+                            pass
+                    elif key == 'image':
+                        if value:
+                            product['image_urls'] = [value]
+                
+                # Only add if we got essential data
+                if product.get('url') and product.get('title'):
+                    # Set defaults
+                    if 'sale_status' not in product:
+                        product['sale_status'] = 'regular'
+                    if 'availability' not in product:
+                        product['availability'] = 'in_stock'
+                    
+                    products.append(product)
+            
+            logger.info(f"📦 Parsed {len(products)} products from simple text format")
+            
+            return {
+                'products': products,
+                'total_found': len(products)
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to parse catalog text response: {e}")
+            return None
+    
+    def _extract_product_code_from_url(self, url: str) -> str:
+        """Extract product code from URL using retailer-specific patterns"""
+        try:
+            # Revolve: /dp/CODE/
+            if 'revolve.com' in url:
+                match = re.search(r'/dp/([A-Z0-9\-]+)/?', url)
+                if match:
+                    return match.group(1)
+            
+            # ASOS: /prd/123456
+            elif 'asos.com' in url:
+                match = re.search(r'/prd/(\d+)', url)
+                if match:
+                    return match.group(1)
+            
+            # Aritzia: last part of URL
+            elif 'aritzia.com' in url:
+                match = re.search(r'/([A-Z0-9\-]+)/?$', url)
+                if match:
+                    return match.group(1)
+            
+            # Anthropologie: /shopop/CODE
+            elif 'anthropologie.com' in url:
+                match = re.search(r'/shopop/([A-Z0-9\-]+)', url)
+                if match:
+                    return match.group(1)
+            
+            # Abercrombie: /shop/CODE
+            elif 'abercrombie.com' in url:
+                match = re.search(r'/shop/([A-Za-z0-9\-]+)/?$', url)
+                if match:
+                    return match.group(1)
+            
+            # H&M: .CODE.html
+            elif 'hm.com' in url:
+                match = re.search(r'\.([0-9]+)\.html', url)
+                if match:
+                    return match.group(1)
+            
+            # Uniqlo: /CODE
+            elif 'uniqlo.com' in url:
+                match = re.search(r'/([A-Z0-9\-]+)/?$', url)
+                if match:
+                    return match.group(1)
+            
+            # Urban Outfitters: last part
+            elif 'urbanoutfitters.com' in url:
+                match = re.search(r'/([A-Za-z0-9\-]+)/?$', url)
+                if match:
+                    return match.group(1)
+            
+            # Nordstrom: product-CODE
+            elif 'nordstrom.com' in url:
+                match = re.search(r'-(\d+)\.html', url)
+                if match:
+                    return match.group(1)
+            
+            # Mango: /CODE.html
+            elif 'mango.com' in url:
+                match = re.search(r'/([A-Z0-9\-]+)\.html', url)
+                if match:
+                    return match.group(1)
+            
+            # Fallback: try to get last segment
+            parts = url.rstrip('/').split('/')
+            if parts:
+                return parts[-1].split('?')[0].split('#')[0]
+                
+        except Exception as e:
+            logger.debug(f"Could not extract product code from {url}: {e}")
+        
+        return ""
     
     def _parse_json_response(self, content: str) -> Optional[Dict[str, Any]]:
         """Parse JSON from LLM response with robust repair logic"""
