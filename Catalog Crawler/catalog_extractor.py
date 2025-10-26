@@ -359,27 +359,19 @@ IMPORTANT GUIDELINES:
 5. Focus on main product listing area, ignore navigation/ads
 6. If product appears multiple times (variants), extract each variant separately
 
-EXPECTED OUTPUT FORMAT (simple text, one product per block):
+EXPECTED OUTPUT FORMAT (one product per line, pipe-separated):
 
-===PRODUCT_START===
-URL: https://www.{retailer}.com/product-name/dp/CODE123/
-TITLE: Product Name Here
-PRICE: 89.99
-ORIGINAL_PRICE: 129.99
-IMAGE: https://image.url/photo.jpg
-===PRODUCT_END===
+PRODUCT | URL=https://www.{retailer}.com/product-name/dp/CODE123/ | TITLE=Product Name Here | PRICE=89.99 | ORIGINAL_PRICE=129.99 | IMAGE=https://image.url/photo.jpg
+PRODUCT | URL=https://www.{retailer}.com/another-product/dp/CODE456/ | TITLE=Another Product Name | PRICE=45.00 | ORIGINAL_PRICE= | IMAGE=https://image.url/photo2.jpg
+PRODUCT | URL=https://www.{retailer}.com/third-product/ | TITLE=Third Product | PRICE=199.00 | ORIGINAL_PRICE= | IMAGE=https://image.url/photo3.jpg
 
-===PRODUCT_START===
-URL: https://www.{retailer}.com/another-product/dp/CODE456/
-TITLE: Another Product Name
-PRICE: 45.00
-ORIGINAL_PRICE: 
-IMAGE: https://image.url/photo2.jpg
-===PRODUCT_END===
-
-IMPORTANT: Use exactly this format with ===PRODUCT_START=== and ===PRODUCT_END=== markers.
-Leave ORIGINAL_PRICE blank if not on sale.
-Extract ALL products you can find in the markdown.
+CRITICAL INSTRUCTIONS:
+- Each product MUST start with "PRODUCT |" on a new line
+- Use pipe | to separate fields
+- Format: PRODUCT | URL=... | TITLE=... | PRICE=... | ORIGINAL_PRICE=... | IMAGE=...
+- Leave ORIGINAL_PRICE empty if not on sale (but still include ORIGINAL_PRICE= )
+- Extract ALL products you can find in the markdown
+- Do NOT add extra text, explanations, or code blocks - ONLY the product lines
 """
         
         # Add retailer-specific guidance

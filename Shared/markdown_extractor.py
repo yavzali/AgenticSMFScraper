@@ -737,37 +737,43 @@ Markdown Content:
         return guidance.get(retailer, "Focus on largest available image dimensions")
     
     def _parse_catalog_text_response(self, content: str) -> Optional[Dict[str, Any]]:
-        """Parse simple text format catalog response - NO JSON parsing needed!"""
+        """Parse simple pipe-separated text format - NO JSON parsing needed!"""
         try:
             products = []
             
-            # Split by product markers
-            product_blocks = content.split('===PRODUCT_START===')
+            # Split by lines and look for lines starting with "PRODUCT |"
+            lines = content.split('\n')
             
-            for block in product_blocks[1:]:  # Skip first empty split
-                if '===PRODUCT_END===' not in block:
-                    continue
-                    
-                # Extract the product data
-                product_data = block.split('===PRODUCT_END===')[0].strip()
+            for line in lines:
+                line = line.strip()
                 
+                # Look for product lines
+                if not line.startswith('PRODUCT |'):
+                    continue
+                
+                # Remove "PRODUCT |" prefix
+                line = line[9:].strip()  # Remove "PRODUCT | "
+                
+                # Parse pipe-separated fields
                 product = {}
-                for line in product_data.split('\n'):
-                    line = line.strip()
-                    if not line or ':' not in line:
+                fields = line.split('|')
+                
+                for field in fields:
+                    field = field.strip()
+                    if '=' not in field:
                         continue
                     
-                    key, value = line.split(':', 1)
-                    key = key.strip().lower()
+                    key, value = field.split('=', 1)
+                    key = key.strip().upper()
                     value = value.strip()
                     
-                    if key == 'url':
+                    if key == 'URL':
                         product['url'] = value
                         # Extract product code from URL using patterns
                         product['product_code'] = self._extract_product_code_from_url(value)
-                    elif key == 'title':
+                    elif key == 'TITLE':
                         product['title'] = value
-                    elif key == 'price':
+                    elif key == 'PRICE':
                         try:
                             # Clean and convert price
                             price_str = value.replace('$', '').replace(',', '').strip()
@@ -775,7 +781,7 @@ Markdown Content:
                                 product['price'] = float(price_str)
                         except:
                             pass
-                    elif key == 'original_price':
+                    elif key == 'ORIGINAL_PRICE':
                         try:
                             price_str = value.replace('$', '').replace(',', '').strip()
                             if price_str:
@@ -783,7 +789,7 @@ Markdown Content:
                                 product['sale_status'] = 'on_sale'
                         except:
                             pass
-                    elif key == 'image':
+                    elif key == 'IMAGE':
                         if value:
                             product['image_urls'] = [value]
                 
@@ -797,7 +803,10 @@ Markdown Content:
                     
                     products.append(product)
             
-            logger.info(f"📦 Parsed {len(products)} products from simple text format")
+            if products:
+                logger.info(f"📦 Parsed {len(products)} products from pipe-separated format")
+            else:
+                logger.warning(f"⚠️ No products found in response. Response preview: {content[:500]}")
             
             return {
                 'products': products,
