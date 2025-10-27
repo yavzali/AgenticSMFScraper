@@ -278,6 +278,7 @@ class CatalogCrawlerFactory:
             'sort_tops_url': 'https://www.asos.com/us/women/tops/cat/?cid=4169&currentpricerange=5-300&sort=freshness',
             'pagination_type': 'infinite_scroll',
             'has_sort_by_newest': True,
+            'items_per_page': 72,  # Typically loads ~72 products per scroll
             'special_notes': 'infinite_scroll_with_load_more_button',
             'extraction_method': 'markdown'
         },
@@ -288,8 +289,9 @@ class CatalogCrawlerFactory:
             'sort_tops_url': None,
             'pagination_type': 'infinite_scroll',
             'has_sort_by_newest': False,
+            'items_per_page': 48,  # Typically loads ~48 products per scroll
             'special_notes': 'grid_layout_options_no_sort_by_newest',
-            'extraction_method': 'playwright'
+            'extraction_method': 'markdown'  # FIXED: Mango uses markdown extraction
         },
         'aritzia': {
             'dresses_url': 'https://www.aritzia.com/us/en/clothing/dresses',
@@ -338,6 +340,7 @@ class CatalogCrawlerFactory:
             'sort_tops_url': 'https://www.uniqlo.com/us/en/women/tops?sort=1',
             'pagination_type': 'infinite_scroll',
             'has_sort_by_newest': True,
+            'items_per_page': 40,  # Typically loads ~40 products per scroll
             'special_notes': 'lightweight_scrolling',
             'extraction_method': 'markdown'
         },
@@ -358,6 +361,7 @@ class CatalogCrawlerFactory:
             'sort_tops_url': 'https://www2.hm.com/en_us/women/products/tops.html?sort=newProduct',
             'pagination_type': 'hybrid',
             'has_sort_by_newest': True,
+            'items_per_page': 36,  # Typically loads ~36 products per page/scroll
             'special_notes': 'pagination_plus_load_more_button',
             'extraction_method': 'markdown'
         }
