@@ -1227,7 +1227,7 @@ The Catalog Crawler system provides **automated monitoring and discovery** of ne
 - **Baseline Establishment**: Initial scan to catalog existing products (~120 per retailer/category)
 - **Change Detection**: Identifies new products, price changes, stock status updates
 - **Intelligent Deduplication**: Prevents duplicate processing across pages
-- **Cost Optimized**: Uses markdown extraction with 6-day caching
+- **Cost Optimized**: Uses markdown extraction with 2-day caching (testing only)
 - **Modesty Integration**: New products automatically queued for assessment
 
 ### **🏗️ Architecture**
@@ -1267,7 +1267,7 @@ The Catalog Crawler system provides **automated monitoring and discovery** of ne
 #### **1. Markdown Extraction (Preferred)**
 - **Retailers**: Revolve, ASOS, Mango, Uniqlo, H&M
 - **Process**:
-  1. Jina AI converts catalog page to markdown (cached 3 days)
+  1. Jina AI converts catalog page to markdown (cached 2 days for testing)
   2. Smart chunking extracts product listing section
   3. DeepSeek V3 parses using simple pipe-separated format
   4. Pattern-based product code extraction
@@ -1296,12 +1296,12 @@ PRODUCT | URL=https://retailer.com/product/CODE | TITLE=Product Name | PRICE=89.
 | **Purpose** | Initial catalog scan (one-time) | Detect new products added since baseline |
 | **Pages/Scrolls** | 2-3 pages/scrolls (~120 products) | Up to 20 pages/10 scrolls (~1200 products) |
 | **Deduplication** | In-memory by product_code | Compare against baseline in database |
-| **Frequency** | Once per retailer/category | **Weekly** (every 7 days) |
-| **Markdown Cache** | 3 days (for testing/debugging) | **Fresh fetch** (cache expires before next run) |
+| **Frequency** | Once per retailer/category | **Weekly** (every 7 days) or **Every 3 days** (Revolve) |
+| **Markdown Cache** | 2 days (for testing/debugging only) | **Fresh fetch** (cache expires before next run) |
 | **Output** | All products stored as "baseline" | Only **new products** not in baseline |
 | **Cost** | ~$0.10 per category | ~$0.10-0.30 per category (fresh markdown) |
 
-**CRITICAL**: Monitoring crawls **always fetch fresh markdown** - the 3-day cache is only for development/testing. Each weekly monitoring run gets a current snapshot of the retailer's catalog to accurately detect newly added products.
+**CRITICAL**: Monitoring crawls **always fetch fresh markdown** - the 2-day cache is only for development/testing. Each monitoring run gets a current snapshot of the retailer's catalog to accurately detect newly added products.
 
 ---
 
@@ -1315,13 +1315,13 @@ Day 0: Run baseline crawl
   └─> Fetch markdown from Jina AI
   └─> Extract 119 products (DeepSeek V3)
   └─> Store all 119 as "baseline" in database
-  └─> Markdown cached for 3 days (for debugging)
+  └─> Markdown cached for 2 days (for debugging/testing only)
 ```
 
 **Week 1 - First Monitoring Crawl** (Nov 2, 2025 - 7 days later)
 ```
 Day 7: Run monitoring crawl
-  └─> Cache expired (>3 days old)
+  └─> Cache expired (>2 days old)
   └─> Fetch FRESH markdown from Jina AI (current catalog state)
   └─> Extract products (e.g., 135 products found)
   └─> Compare against 119 baseline products in database
@@ -1345,18 +1345,18 @@ Day 14: Run monitoring crawl
   └─> Update baseline to 142 total
 ```
 
-#### **Why 3-Day Cache?**
+#### **Why 2-Day Cache?**
 
-The 3-day cache serves **testing and development** purposes only:
+The 2-day cache serves **testing and development** purposes only:
 
-1. **Baseline Testing**: If baseline crawl fails, can re-run within 3 days without re-fetching markdown
+1. **Baseline Testing**: If baseline crawl fails, can re-run within 2 days without re-fetching markdown
 2. **Development**: Testing extractor changes without hitting Jina AI repeatedly
 3. **Debugging**: Analyzing parsing issues with same markdown content
 
 **The cache does NOT affect monitoring** because:
-- Weekly monitoring runs are **7 days apart**
-- Cache expires after **3 days**
-- By day 7, cache is **4 days stale** → Fresh fetch guaranteed
+- Monitoring runs are **3-7 days apart** (Revolve = 3 days, others = 7 days)
+- Cache expires after **2 days**
+- By day 3+, cache is **stale** → Fresh fetch guaranteed
 
 #### **Cost Breakdown (Weekly Monitoring)**
 
@@ -1387,7 +1387,7 @@ The 3-day cache serves **testing and development** purposes only:
 1. **Corrected pagination type**: Revolve uses `infinite_scroll`, not `pagination`
 2. **Added deduplication**: Products deduplicated by code across pages
 3. **Removed invalid CostTracker calls**: Fixed `cache_response()` AttributeError
-4. **Extended cache**: Markdown cache increased to 6 days
+4. **Optimized cache**: Markdown cache set to 2 days (testing only)
 
 ### **📊 Pagination Types by Retailer**
 
@@ -1498,13 +1498,401 @@ python catalog_main.py --monitor-all
 - [x] Baseline established for Revolve dresses (119 products)
 - [x] Deduplication verified (0 duplicates)
 - [x] Data completeness validated (100%)
-- [x] Markdown caching working (6-day cache)
+- [x] Markdown caching working (2-day cache)
 - [x] Pagination types corrected for all retailers
 - [x] Shopify integration tested
 - [x] Database schema extended with shopify_image_urls
 - [x] Change detection logic verified
+- [x] Baseline metadata tracking (last scan dates)
 - [ ] Baselines established for remaining 9 retailers (pending)
 - [ ] Monitoring schedule configured (pending)
 - [ ] Web assessment interface deployed (pending)
+
+---
+
+### **📚 Best Practices & Operational Guidelines**
+
+#### **🔄 Per-Retailer Monitoring Frequency**
+
+**High-Frequency Retailers (Every 3 Days)**
+
+**Revolve** - Frequent catalog updates
+- **Recommended Frequency**: Every 3 days (Monday, Thursday, Sunday)
+- **Rationale**: 
+  - Adds new products 3-5 times per week
+  - Frequent drops of limited-quantity items
+  - High competition for modest styles
+- **Baseline Status**: ✅ Dresses (119 products)
+- **Performance**: 4-5 minutes per category
+- **Manual Command**:
+  ```bash
+  cd "Catalog Crawler"
+  python catalog_main.py --monitor revolve dresses
+  python catalog_main.py --monitor revolve tops
+  ```
+
+**Standard Frequency Retailers (Weekly)**
+
+**ASOS, H&M, Uniqlo, Mango** - Predictable updates
+- **Recommended Frequency**: Weekly (e.g., Monday 9am)
+- **Rationale**:
+  - Predictable weekly product drops
+  - Large existing inventory
+  - Less competitive for modest styles
+- **Performance**: 3-5 minutes per retailer
+- **Command**: `python catalog_main.py --monitor [retailer] [category]`
+
+**Low-Frequency Retailers (Bi-Weekly)**
+
+**Aritzia, Anthropologie, Urban Outfitters, Abercrombie, Nordstrom**
+- **Recommended Frequency**: Bi-weekly (1st and 15th of month)
+- **Rationale**:
+  - Less frequent product updates
+  - Patchright extraction slower (60-120s)
+  - Higher cost per product ($0.10-0.30)
+- **Note**: Start with baselines only, monitor performance before scheduling
+
+#### **💾 Markdown Cache Guidelines**
+
+**Current Configuration**: 2 days
+
+**Purpose**: Debug and testing ONLY
+- ✅ Speeds up testing (4-5s vs 20-30s)
+- ✅ Saves costs during development
+- ❌ NOT used for production monitoring runs
+
+**Cache Behavior**:
+- **Monitoring Runs**: Always fetch fresh markdown (bypasses cache)
+- **Testing**: Cache used to avoid repeated Jina AI calls
+- **Cleanup**: Automatic cleanup every 2 days
+
+**Why 2 Days?**
+- Shorter than smallest monitoring interval (Revolve = 3 days)
+- Long enough for testing multiple times in a day
+- Short enough to stay accurate (catalog pages change)
+
+**Per-Retailer Cache?** ❌ NO
+- Adds complexity with minimal benefit
+- Cache is for testing only, not production
+- Global 2-day expiry is simpler and sufficient
+
+#### **🎯 Catalog Crawler vs. Product Updater**
+
+**⚠️ IMPORTANT: Do NOT Run Together**
+
+**Common Mistake**: "Should I run Product Updater before Catalog Crawler?"
+
+**Answer**: ❌ **NO - Keep them separate**
+
+| Issue | Impact |
+|-------|--------|
+| **Different purposes** | Catalog = NEW products, Updater = EXISTING products |
+| **Performance** | Updater takes 30-60 min, Crawler takes 5 min |
+| **Database conflicts** | Both write to `products.db` simultaneously |
+| **Cost explosion** | Updater does full scrapes (AI + images) |
+| **Complexity** | Difficult to debug when combined |
+
+**Correct Approach**: Separate schedules
+
+**Catalog Monitoring** (Discover NEW products):
+```bash
+# Revolve - Every 3 days
+Monday 9am: python catalog_main.py --monitor revolve dresses
+Thursday 9am: python catalog_main.py --monitor revolve dresses
+Sunday 9am: python catalog_main.py --monitor revolve dresses
+```
+
+**Product Updates** (Update EXISTING products):
+```bash
+# Revolve - Weekly (different day)
+Wednesday 2am: python product_updater.py --retailer revolve
+```
+
+**Smart Update Strategy** (Recommended)
+
+Instead of updating ALL products weekly, use **conditional updates**:
+
+1. **On Sale** - Prices change frequently
+2. **Low Stock** - May sell out
+3. **Not Updated in 7+ Days** - Stale data
+4. **High Traffic** - Popular products
+
+```sql
+SELECT * FROM products 
+WHERE retailer = 'revolve'
+AND (
+    sale_status = 'on sale'
+    OR stock_status = 'low stock'
+    OR last_updated < datetime('now', '-7 days')
+)
+ORDER BY sale_status DESC, last_updated ASC
+LIMIT 50;
+```
+
+#### **📊 Recommended Weekly Schedule (Manual Execution)**
+
+**Monday (Primary Monitoring Day)**
+- **9:00 AM**: Run catalog monitoring for standard retailers
+  ```bash
+  python catalog_main.py --monitor asos dresses
+  python catalog_main.py --monitor hm dresses
+  python catalog_main.py --monitor uniqlo dresses
+  python catalog_main.py --monitor mango dresses
+  python catalog_main.py --monitor revolve dresses  # If not run on weekend
+  ```
+- **Expected Time**: 20-25 minutes total
+- **Cost**: ~$0.50-1.00
+
+**Thursday (Revolve Extra Run)**
+- **9:00 AM**: Revolve monitoring only
+  ```bash
+  python catalog_main.py --monitor revolve dresses
+  python catalog_main.py --monitor revolve tops
+  ```
+- **Expected Time**: 10 minutes
+- **Cost**: ~$0.20
+
+**Sunday (Revolve Extra Run)**
+- **9:00 AM**: Revolve monitoring only
+- **Expected Time**: 10 minutes
+- **Cost**: ~$0.20
+
+**Wednesday (Product Updates)**
+- **2:00 AM**: Smart product updates (separate from monitoring)
+  ```bash
+  python product_updater.py --retailer revolve --smart-update
+  ```
+- **Expected Time**: 30-60 minutes
+- **Cost**: ~$2-5 (depends on # of products)
+
+**Total Weekly Cost**:
+- **Monitoring**: ~$0.90-1.40/week
+- **Updates**: ~$2-5/week
+- **Total**: ~$3-6.50/week
+
+#### **🚀 Baseline Establishment Guidelines**
+
+**When to Establish Baselines**
+
+**New Retailers**:
+- Run baseline before any monitoring
+- Test with one category first (dresses)
+- Verify results before adding second category
+
+**Existing Retailers**:
+- Re-establish if catalog structure changes
+- Re-establish if filters change (e.g., new modest filters added)
+- Archive old baseline, keep as reference
+
+**Baseline Limits** (Already Configured):
+- **Markdown retailers**: 2-3 pages/scrolls (~120-200 products)
+- **Patchright retailers**: 2 pages (~60-100 products)
+- **Reasoning**: Balance between coverage and cost
+
+**Verification Steps**:
+
+After baseline establishment:
+```bash
+# 1. Check status
+cd "Catalog Crawler"
+python check_status.py
+
+# 2. Verify product count matches expectations
+# 3. Check sample products in database
+# 4. Run first monitoring crawl to test (should find 0 new products)
+```
+
+#### **🔍 Monitoring & Status Checking**
+
+**Check Baseline Status**:
+```bash
+cd "Catalog Crawler"
+python check_status.py
+```
+
+**Output**:
+```
+📊 BASELINE STATUS:
++----------+----------+---------------+----------+--------+-----------+
+| Retailer | Category | Baseline Date | Products | Status | Age       |
++==========+==========+===============+==========+========+===========+
+| Revolve  | Dresses  | 2025-10-26    | 119      | ACTIVE | 0 days ago|
++----------+----------+---------------+----------+--------+-----------+
+
+💡 NEXT STEPS:
+  📍 1 baseline(s) ready for monitoring:
+      python catalog_main.py --monitor revolve dresses
+```
+
+**Key Metrics to Track**:
+
+**Per-Retailer**:
+- New products found per run
+- Products needing modesty review
+- Products needing duplicate review
+- Extraction success rate
+- Average run time
+- API costs
+
+**System-Wide**:
+- Total baselines established
+- Total monitoring runs completed
+- Products in review queue
+- Shopify drafts created
+- Total cost (weekly/monthly)
+
+**Alert Thresholds**:
+
+⚠️ **Warning**:
+- 0 new products found in 3+ consecutive runs (catalog may have changed)
+- Extraction success rate < 80%
+- Run time > 10 minutes for markdown retailers
+- Cost > $0.50 per monitoring run
+
+🚨 **Critical**:
+- Baseline missing for active monitoring
+- Database errors
+- Shopify API failures
+- Cost > $2.00 per monitoring run
+
+#### **💡 Performance Optimization**
+
+**Markdown Extraction** (Fast):
+- **Average Time**: 3-5 minutes per retailer/category
+- **Retailers**: ASOS, Mango, Uniqlo, Revolve, H&M
+- **Cost**: ~$0.10-0.20 per run
+- **Optimization**: Already optimal, uses DeepSeek V3
+
+**Patchright Extraction** (Slow):
+- **Average Time**: 60-120 seconds per retailer/category
+- **Retailers**: Aritzia, Anthropologie, Urban Outfitters, Abercrombie, Nordstrom
+- **Cost**: ~$0.20-0.50 per run
+- **Optimization**: 
+  - Run during off-peak hours (2-6 AM)
+  - Bi-weekly instead of weekly
+  - Start with one category per retailer
+
+**Database Performance**:
+- SQLite handles catalog monitoring efficiently
+- Indexes on `retailer`, `category`, `review_status`, `shopify_draft_id`
+- Regular cleanup of old monitoring runs (30+ days)
+
+#### **📝 Common Scenarios & Solutions**
+
+**Scenario 1: Revolve Adds 20 New Dresses**
+
+**What happens**:
+1. Monitoring run detects 20 new products
+2. Change detector flags all for modesty review
+3. Shopify drafts created with "not-assessed" tag
+4. Notification sent: "20 new Revolve dresses need review"
+
+**Next steps**:
+- Review via web assessment interface
+- Make modesty decisions
+- System removes "not-assessed" tag, publishes products
+
+**Scenario 2: 0 New Products Found (Expected)**
+
+**What happens**:
+1. Monitoring run completes successfully
+2. 0 new products found
+3. No action needed
+
+**Is this normal?**
+- ✅ YES for most weekly runs
+- ✅ YES if retailer hasn't added new modest items
+- ⚠️ Check if 3+ consecutive runs have 0 results
+
+**Scenario 3: Catalog Structure Changed**
+
+**What happens**:
+1. Monitoring run fails or finds 0 products
+2. Logs show extraction errors
+
+**Solution**:
+1. Manually check catalog URL (may have changed)
+2. Re-establish baseline with updated URL
+3. Update `retailer_crawlers.py` if needed
+
+**Scenario 4: Need to Add New Filters**
+
+**Example**: Revolve adds new modest attribute filters
+
+**Steps**:
+1. Find new filtered URL from Revolve website
+2. Update `retailer_crawlers.py`:
+   ```python
+   'sort_dresses_url': 'https://www.revolve.com/...[NEW_FILTERS]'
+   ```
+3. Re-establish baseline
+4. Archive old baseline for reference
+
+#### **🎓 Learning from Revolve Success**
+
+**What Worked Well**:
+- ✅ Filtered URLs (only modest products)
+- ✅ Sorted by newest (efficient monitoring)
+- ✅ Markdown extraction (fast, cheap)
+- ✅ 2-3 page baseline (good coverage)
+- ✅ 3-day monitoring frequency (catches drops)
+
+**Apply to Other Retailers**:
+1. Find filtered URLs for other retailers (if available)
+2. Use sort by newest wherever possible
+3. Start with markdown retailers (easier, cheaper)
+4. Test one category before adding second
+5. Monitor frequency based on retailer update patterns
+
+#### **🔒 Safety & Backup**
+
+**Database Backups**:
+- **Automatic**: Every baseline establishment
+- **Location**: `Shared/backup/backup_YYYYMMDD_HHMMSS/`
+- **Retention**: Keep 3 most recent backups
+
+**Rollback Procedure**:
+
+If monitoring run causes issues:
+```bash
+# 1. Stop any running crawls
+# 2. Restore database from backup
+cp "Shared/backup/backup_20251026_131500/products.db" "Shared/products.db"
+# 3. Investigate logs
+tail -f "Catalog Crawler/logs/scraper_main.log"
+# 4. Fix issue
+# 5. Resume monitoring
+```
+
+**Testing Changes**:
+
+Before applying to production:
+1. Test with `comprehensive_test_script.py`
+2. Use separate test database (`test_catalog_results.db`)
+3. Verify results
+4. Apply to production
+
+#### **✅ Quick Reference Commands**
+
+**Establish Baseline**:
+```bash
+cd "Catalog Crawler"
+python catalog_main.py --establish-baseline revolve dresses
+```
+
+**Run Monitoring**:
+```bash
+python catalog_main.py --monitor revolve dresses
+```
+
+**Check Status**:
+```bash
+python check_status.py
+```
+
+**View Logs**:
+```bash
+tail -f logs/scraper_main.log
+```
 
 --- 
