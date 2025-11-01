@@ -1213,6 +1213,502 @@ manual_curation_workflow = {
 
 ---
 
+## 🔄 **Product Updater - Existing Product Maintenance**
+
+### **📋 Overview**
+
+The Product Updater system provides **automated re-scraping and updating** of products already in your Shopify store. While the New Product Importer handles initial product creation and the Catalog Crawler discovers new products, the Product Updater ensures existing products stay current with fresh prices, stock status, and availability data.
+
+**Status**: ✅ **Production Ready** (Enhanced with automated batch generation - Nov 1, 2025)
+
+### **🎯 Key Capabilities**
+
+- **Existing Product Focus**: Only updates products already in Shopify (`shopify_id IS NOT NULL`)
+- **Automated Batch Generation**: Smart query system generates update batches automatically
+- **Priority-Based Updates**: Multiple strategies for selecting which products to update
+- **Fresh Data Extraction**: Re-scrapes original URLs using unified extractor
+- **Shopify Synchronization**: Updates existing Shopify entries with fresh data
+- **Checkpoint Recovery**: Resume capability if updates are interrupted
+- **Cost Optimization**: Smart scheduling and batch sizing
+
+### **🏗️ Architecture**
+
+```
+📋 Batch Generator (generate_update_batches.py) - NEW!
+    ├── Query Database (products.db)
+    ├── Apply Smart Filters
+    │   ├── By Retailer (all Revolve products)
+    │   ├── By Age (not updated in 7+ days)
+    │   ├── By Status (on sale, low stock)
+    │   └── Smart Priority (balanced heuristics)
+    └── Generate Batch File (.json)
+    ↓
+📱 Product Updater (product_updater.py)
+    ├── Load Batch File
+    ├── Validate URLs
+    └── Process Each URL
+    ↓
+🔄 Update Processor (update_processor.py)
+    ├── Check Database for Existing Product
+    ├── Re-scrape URL (Unified Extractor)
+    ├── Compare Changes (price, stock, images)
+    └── Update Shopify Entry
+    ↓
+💾 Checkpoint Manager (checkpoint_manager.py)
+    ├── Save Progress Every 5 URLs
+    ├── Resume Capability
+    └── Graceful Shutdown Support
+    ↓
+🏪 Shopify Manager (shopify_manager.py)
+    └── Update Existing Product
+```
+
+### **⚡ Batch Generation Methods**
+
+The automated batch generator (`generate_update_batches.py`) provides multiple intelligent strategies for selecting products to update:
+
+#### **1. By Retailer** (Most Common)
+Updates all products from a specific retailer currently in Shopify.
+
+```bash
+python generate_update_batches.py --retailer revolve
+```
+
+**Use Case**: Monthly/quarterly refresh of all products from a specific brand
+**Example Output**: `revolve_update_20251101_1920.json` (125 products)
+
+#### **2. By Age** (Maintenance Strategy)
+Updates products that haven't been refreshed in X days.
+
+```bash
+python generate_update_batches.py --by-age 7
+python generate_update_batches.py --by-age 30 --max-products 100
+```
+
+**Use Case**: Keep product data fresh, prioritize stale listings
+**Heuristic**: Products not updated in 7+ days likely have stale prices/stock
+
+#### **3. By Status** (Priority Updates)
+Updates products based on current status flags.
+
+```bash
+python generate_update_batches.py --by-status on_sale      # Price changes frequent
+python generate_update_batches.py --by-status low_stock    # May sell out soon
+python generate_update_batches.py --by-status out_of_stock # Check restocking
+```
+
+**Use Case**: Urgent updates for time-sensitive changes
+**Priority Order**: on_sale > low_stock > out_of_stock
+
+#### **4. Smart Batch** (Automated Heuristics)
+Intelligently selects products using priority scoring.
+
+```bash
+python generate_update_batches.py --smart --priority balanced
+python generate_update_batches.py --smart --priority stale --max-products 150
+python generate_update_batches.py --smart --priority sale
+```
+
+**Priority Modes**:
+- **`stale`**: Oldest updates first (not refreshed longest)
+- **`sale`**: On-sale items first (prices change frequently)
+- **`balanced`**: Mixed strategy (sale items + stale + low stock)
+
+**Balanced Priority Scoring**:
+```python
+Score 0: On sale (highest priority)
+Score 1: Low stock
+Score 2: Never updated
+Score 3: Not updated in 7+ days
+Score 4: Recently updated (lowest priority)
+```
+
+### **📊 Batch File Format**
+
+The batch generator creates properly formatted JSON files compatible with Product Updater:
+
+```json
+{
+  "batch_name": "Revolve Product Update - November 01, 2025",
+  "created_date": "2025-11-01",
+  "created_time": "2025-11-01 19:18:00",
+  "batch_id": "revolve_update_20251101_1918",
+  "modesty_level": "modest",
+  "total_urls": 125,
+  "generation_metadata": {
+    "generation_method": "by_retailer",
+    "retailer": "revolve",
+    "modesty_breakdown": {
+      "modest": 85,
+      "moderately_modest": 40
+    }
+  },
+  "urls": [
+    "https://www.revolve.com/product1/dp/CODE1/",
+    "https://www.revolve.com/product2/dp/CODE2/",
+    ...
+  ]
+}
+```
+
+**Key Requirements**:
+- `urls` must be a **simple array of strings** (not objects)
+- Each URL must correspond to a product with `shopify_id IS NOT NULL` in database
+- Batch generator automatically ensures correct format
+
+### **🔄 Update Workflow**
+
+#### **Step 1: Generate Batch**
+```bash
+cd "Product Updater"
+python generate_update_batches.py --retailer revolve
+```
+
+**Output**: `revolve_update_20251101_1920.json`
+
+#### **Step 2: Run Product Updater**
+```bash
+python product_updater.py --batch-file revolve_update_20251101_1920.json --force-run-now
+```
+
+**Or Auto-Run**:
+```bash
+python generate_update_batches.py --retailer revolve --auto-run
+```
+
+#### **Step 3: Processing**
+For each URL:
+1. Check database for existing product (`shopify_id IS NOT NULL`)
+2. Re-scrape URL using unified extractor (markdown or Playwright)
+3. Extract fresh data (price, stock, images, description)
+4. Compare with current database values
+5. Update Shopify product if changes detected
+6. Update database with new values and timestamp
+7. Save checkpoint every 5 products
+
+#### **Step 4: Monitoring Progress**
+```bash
+# Check if running
+ps aux | grep product_updater.py
+
+# View logs
+tail -f logs/scraper_main.log
+
+# Check progress in checkpoint
+cat processing_state.json
+```
+
+### **📈 Performance & Timing**
+
+**Per Product**:
+- Extraction time: 30-60 seconds (markdown) or 60-120 seconds (Playwright)
+- Shopify API calls: 1-2 per product
+- Database operations: 3-5 queries per product
+
+**Batch Estimates** (Revolve example - 125 products):
+- Total time: 1-2 hours
+- Markdown extraction: ~45 seconds/product average
+- Cost: $2-5 per batch (depends on extraction method mix)
+- Checkpoint saves: Every 5 products (25 checkpoints total)
+
+**Optimization**:
+- Uses markdown extraction for compatible retailers (faster, cheaper)
+- Automatic fallback to Playwright if markdown fails
+- 1-second delay between products (rate limiting)
+- Checkpoint recovery minimizes rework on interruption
+
+### **💾 Database Integration**
+
+The Product Updater **only processes products in Shopify**:
+
+```sql
+-- Products eligible for updates
+SELECT url, retailer, modesty_status, shopify_id, last_updated
+FROM products 
+WHERE shopify_id IS NOT NULL
+ORDER BY last_updated ASC;
+```
+
+**Key Fields Updated**:
+- `price` - Current selling price
+- `original_price` - Full retail price
+- `sale_status` - 'on_sale' or 'regular'
+- `stock_status` - 'in_stock', 'low_stock', 'out_of_stock'
+- `image_urls` - Product image URLs (JSON array)
+- `last_updated` - Timestamp of last refresh
+- `processing_notes` - Any issues during update
+
+**Excluded Products**:
+- Products without `shopify_id` (never uploaded to Shopify)
+- "not_modest" products (assessed but rejected)
+- Deleted or archived products
+
+### **🔐 Safety Features**
+
+#### **Checkpoint Recovery**
+Automatic state saving every 5 products enables resume:
+
+```bash
+# Resume from last checkpoint
+python product_updater.py --resume
+```
+
+**Checkpoint Contents** (`processing_state.json`):
+```json
+{
+  "batch_id": "revolve_update_20251101_1918",
+  "processed_count": 45,
+  "successful_count": 42,
+  "failed_count": 3,
+  "remaining_urls": ["url46", "url47", ...],
+  "last_checkpoint": "2025-11-01T20:30:15Z"
+}
+```
+
+#### **Graceful Shutdown**
+Handles interruptions (Ctrl+C, system shutdown):
+1. Catches SIGTERM/SIGINT signals
+2. Saves current progress immediately
+3. Closes database connections
+4. Exits cleanly
+
+```bash
+# Safe to interrupt at any time
+^C
+[INFO] Received signal 2, initiating graceful shutdown...
+[INFO] Emergency checkpoint saved for graceful shutdown
+```
+
+#### **Error Handling**
+- **Not Found**: Product no longer exists on retailer site → Mark as unavailable
+- **Extraction Failed**: Temporary issue → Add to manual review queue
+- **Shopify API Error**: Retry with exponential backoff → Continue to next if persistent
+- **Database Error**: Critical → Save checkpoint and exit
+
+### **📊 Update Statistics**
+
+View current update status:
+
+```bash
+python generate_update_batches.py --stats
+```
+
+**Output**:
+```
+============================================================
+📊 PRODUCT UPDATE STATISTICS
+============================================================
+Total products in Shopify: 125
+
+By Retailer:
+  revolve: 125
+  asos: 0
+  mango: 0
+
+Products needing attention:
+  Not updated in 7+ days: 117
+  Not updated in 30+ days: 95
+  On sale: 0
+  Low stock: 0
+============================================================
+```
+
+### **🔗 Integration with Other Systems**
+
+#### **Catalog Crawler Integration**
+After Catalog Crawler finds new products:
+1. New products imported to Shopify
+2. **Trigger Product Updater** for existing products from same retailer
+3. Ensures entire retailer catalog is fresh
+
+**Workflow**:
+```bash
+# 1. Catalog monitoring finds new products
+python catalog_main.py --monitor revolve dresses
+
+# 2. Update existing products after new ones added
+python generate_update_batches.py --retailer revolve --auto-run
+```
+
+#### **New Product Importer Integration**
+Product Updater handles **only existing products**:
+- New Product Importer: Creates products initially
+- Product Updater: Maintains them over time
+- Separate concerns, no overlap
+
+#### **Shopify Manager Integration**
+Uses shared Shopify manager:
+- Same API credentials and connection
+- Update operations (not create)
+- Handles rate limiting automatically
+- Manages API errors gracefully
+
+### **🚀 Usage Examples**
+
+#### **Example 1: Monthly Revolve Refresh**
+```bash
+cd "Product Updater"
+
+# Generate batch for all Revolve products
+python generate_update_batches.py --retailer revolve
+
+# Run update (1-2 hours for 125 products)
+python product_updater.py --batch-file revolve_update_20251101_1920.json --force-run-now
+```
+
+#### **Example 2: Weekly Stale Product Cleanup**
+```bash
+# Update products not refreshed in 7+ days (any retailer)
+python generate_update_batches.py --by-age 7 --max-products 100 --auto-run
+```
+
+#### **Example 3: Priority Sale Items**
+```bash
+# Update on-sale products (prices change frequently)
+python generate_update_batches.py --by-status on_sale --auto-run
+```
+
+#### **Example 4: Smart Balanced Update**
+```bash
+# Smart selection: sale items + stale + low stock
+python generate_update_batches.py --smart --priority balanced --max-products 150 --auto-run
+```
+
+#### **Example 5: Resume After Interruption**
+```bash
+# System crashed or manually stopped - resume where left off
+python product_updater.py --resume
+```
+
+### **⚠️ Best Practices**
+
+#### **Update Frequency Guidelines**
+
+**High-Frequency Retailers** (Revolve, ASOS):
+- **Recommended**: Every 14-30 days
+- **Rationale**: Fast inventory turnover, frequent sales
+
+**Standard Retailers** (Mango, Uniqlo, H&M):
+- **Recommended**: Every 30-60 days  
+- **Rationale**: Stable pricing, slower turnover
+
+**Premium Retailers** (Aritzia, Nordstrom, Anthropologie):
+- **Recommended**: Every 60-90 days
+- **Rationale**: Stable inventory, less frequent changes
+
+#### **Batch Sizing**
+
+**Small Batches** (< 50 products):
+- Run during business hours
+- Complete in < 1 hour
+- Easy to monitor
+
+**Medium Batches** (50-150 products):
+- Run during off-hours (evening)
+- Complete in 1-3 hours
+- Use checkpoint recovery
+
+**Large Batches** (150+ products):
+- Run overnight
+- Complete in 3-6 hours
+- Essential to use checkpoint recovery
+- Consider splitting into multiple batches
+
+#### **Cost Optimization**
+
+**Markdown-First Strategy**:
+- Revolve, ASOS, Mango, Uniqlo, H&M → Fast & cheap
+- ~$0.02-0.05 per product
+- 125 products = $2.50-6.25
+
+**Playwright Fallback**:
+- Aritzia, Anthropologie, Abercrombie → Slower & expensive
+- ~$0.10-0.30 per product
+- 125 products = $12.50-37.50
+
+**Recommendation**: Group updates by extraction method
+
+#### **Separation from Catalog Crawler**
+
+**❌ Don't**: Run Product Updater before Catalog Crawler  
+**❌ Don't**: Run both simultaneously on same retailer  
+**✅ Do**: Run them on separate schedules  
+**✅ Do**: Run Product Updater after Catalog Crawler finds new products
+
+**Recommended Schedule**:
+```
+Monday 9am:    Catalog Crawler (Revolve dresses) - Find new products
+Monday 10am:   Product Updater (Revolve) - Update existing products
+```
+
+### **🐛 Troubleshooting**
+
+#### **Issue: "No products found" Error**
+```bash
+❌ No batch file generated (no products found matching criteria)
+```
+
+**Causes**:
+- No products from that retailer in Shopify
+- Filter too restrictive (e.g., `--by-age 90` but all products updated recently)
+- Database query error
+
+**Solution**:
+```bash
+# Check statistics first
+python generate_update_batches.py --stats
+
+# Try broader filter
+python generate_update_batches.py --smart --priority balanced
+```
+
+#### **Issue: Batch Generation Creates Wrong Format**
+**Symptom**: `'dict' object has no attribute 'startswith'`
+
+**Cause**: Old batch file format (dict objects instead of strings)
+
+**Solution**: Regenerate batch with updated generator (Nov 1, 2025+)
+
+#### **Issue: Update Stuck/Frozen**
+**Symptom**: No progress for 5+ minutes
+
+**Solution**:
+```bash
+# Check if process is alive
+ps aux | grep product_updater.py
+
+# Check logs for errors
+tail -20 logs/scraper_main.log
+
+# Safe to interrupt and resume
+^C
+python product_updater.py --resume
+```
+
+#### **Issue: Many Products Failing**
+**Symptom**: High `failed_count` in checkpoint
+
+**Causes**:
+- Retailer site changes (HTML structure)
+- Network issues
+- Rate limiting (going too fast)
+
+**Solution**:
+1. Check failed products in manual review queue
+2. Test single URL manually with unified extractor
+3. May need to update extraction logic for that retailer
+
+### **✅ Recent Enhancements (Nov 1, 2025)**
+
+1. **✅ Automated Batch Generator** - No more manual batch file creation
+2. **✅ Smart Query System** - Multiple strategies for selecting products
+3. **✅ Checkpoint Manager Fix** - Added missing `update_progress()` method
+4. **✅ Notification Error Handling** - Graceful handling of missing fields
+5. **✅ Proper Batch Format** - Simple URL string arrays (not dict objects)
+6. **✅ Integration Ready** - Seamless workflow with Catalog Crawler
+
+---
+
 ## 🔍 **Catalog Crawler - Automated Product Discovery**
 
 ### **📋 Overview**

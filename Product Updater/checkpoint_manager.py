@@ -84,6 +84,27 @@ class CheckpointManager:
         except Exception as e:
             logger.error(f"Failed to save checkpoint: {e}")
     
+    def update_progress(self, result: Dict[str, Any]):
+        """Update progress after processing a single URL"""
+        try:
+            self.current_state['processed_count'] = self.current_state.get('processed_count', 0) + 1
+            
+            if result.get('success'):
+                self.current_state['successful_count'] = self.current_state.get('successful_count', 0) + 1
+            elif result.get('manual_review'):
+                self.current_state['manual_review_count'] = self.current_state.get('manual_review_count', 0) + 1
+            else:
+                self.current_state['failed_count'] = self.current_state.get('failed_count', 0) + 1
+            
+            # Save checkpoint every 5 URLs
+            if self.current_state['processed_count'] % 5 == 0:
+                with open(self.checkpoint_file, 'w') as f:
+                    json.dump(self.current_state, f, indent=2)
+                logger.debug(f"Progress checkpoint saved: {self.current_state['processed_count']} processed")
+        
+        except Exception as e:
+            logger.error(f"Failed to update progress: {e}")
+    
     def save_checkpoint_immediately(self):
         """Save current state immediately (for graceful shutdown)"""
         

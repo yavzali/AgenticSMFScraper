@@ -1,0 +1,153 @@
+{
+  "api_calls": [
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": false,
+      "timestamp": "2025-11-01T23:19:54.461255",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/runaway-the-label-willem-maxi-dress-in-zebra/dp/RUNR-WD126/?d=Womens&page=1&lc=3&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 19.449604034423828
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:20:20.463740",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/acler-catherinson-maxi-dress-in-oat-latte/dp/CELR-WD169/?d=Womens&page=1&lc=1&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 22.921610116958618
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:20:46.341336",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/zimmermann-metallic-midi-dress-in-metallic-rose-gold/dp/ZIMM-WD622/?d=Womens&page=1&lc=9&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 23.01636815071106
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:21:33.508536",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/solid-striped-the-soglio-dress-in-raisin-brown/dp/SLST-WD144/?d=Womens&page=1&lc=13&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 44.32672691345215
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:22:02.797672",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/norma-kamali-long-sleeve-turtleneck-fishtail-gown-in-autumn-leaves/dp/NKAM-WD788/?d=Womens&page=1&lc=15&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 26.38356900215149
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:22:38.436315",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/ronny-kobo-speck-knit-dress-in-chicory/dp/RONR-WD811/?d=Womens&page=1&lc=16&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 32.77721810340881
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:23:05.536995",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/astr-the-label-kearney-dress-in-black/dp/ASTR-WD813/?d=Womens&page=1&lc=18&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.25755786895752
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:23:33.095676",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/selfportrait-burgundy-rhinestone-fishnet-midi-dress-in-burgundy/dp/SELF-WD318/?d=Womens&page=1&lc=19&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 24.744304180145264
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:24:01.345026",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/misa-los-angeles-daphne-dress-in-golden-polka-dot-mix/dp/MISA-WD885/?d=Womens&page=1&lc=28&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 25.138174057006836
+    },
+    {
+      "method": "markdown_extractor",
+      "prompt_hash": "bfe5085f037bc0ec6ef730ec0d147665",
+      "tokens_used": null,
+      "cost": 0.0,
+      "success": true,
+      "response_cached": true,
+      "timestamp": "2025-11-01T23:24:30.894819",
+      "retailer": "revolve",
+      "url": "https://www.revolve.com/seroya-kim-maxi-dress-in-evergreen/dp/SERR-WD288/?d=Womens&page=1&lc=25&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "processing_time": 26.63602900505066
+    }
+  ],
+  "response_cache": {
+    "bfe5085f037bc0ec6ef730ec0d147665": {
+      "response": {
+        "success": true,
+        "data": {
+          "title": "Runaway The Label Willem Maxi Dress in Zebra",
+          "brand": "Runaway The Label",
+          "price": "$151",
+          "original_price": null,
+          "description": "Fully lined, hidden back zipper closure, lightweight jersey fabric. Self: 95% polyester, 5% spandex. Lining: 87% nylon, 13% spandex. Machine wash. Made in China.",
+          "stock_status": "low in stock",
+          "sale_status": "not on sale",
+          "clothing_type": "dress",
+          "product_code": "RUNR-WD126",
+          "image_urls": [
+            "https://is4.revolveassets.com/images/p4/n/z/RUNR-WD126_V1.jpg",
+            "https://is4.revolveassets.com/images/p4/n/z/RUNR-WD126_V2.jpg",
+            "https://is4.revolveassets.com/images/p4/n/z/RUNR-WD126_V3.jpg"
+          ],
+          "neckline": "unknown",
+          "sleeve_length": "long",
+          "retailer": "revolve"
+        }
+      },
+      "timestamp": "2025-11-01T23:19:54.461255",
+      "usage_count": 10
+    }
+  },
+  "last_updated": "2025-11-01T23:24:30.894879"
+}
