@@ -25,6 +25,12 @@ class UpdateBatchGenerator:
     """
     Generates update batches from database based on intelligent criteria
     Ensures proper format for Product Updater compatibility
+    
+    Smart filtering prioritizes:
+    1. Products on sale (change frequently)
+    2. Low stock products (need monitoring)
+    3. Recently added products (< 30 days, high churn)
+    4. Stale products (not updated in X days)
     """
     
     def __init__(self, db_path: str = None):
@@ -336,6 +342,178 @@ class UpdateBatchGenerator:
             logger.error(f"Error generating smart batch: {e}")
             return None
     
+    def generate_priority_batch(self, retailer: Optional[str] = None,
+                               max_products: int = 100,
+                               modesty_level: str = "modest",
+                               output_dir: str = None) -> Optional[str]:
+        """
+        Generate batch with intelligent priority scoring
+        
+        Priority levels (highest to lowest):
+        1. On sale + low stock (price & availability changing)
+        2. On sale (price changes frequently)
+        3. Low stock (availability changes)
+        4. Stale (not updated in 7+ days)
+        5. Very stale (not updated in 14+ days)
+        
+        Args:
+            retailer: Optional retailer filter
+            max_products: Maximum products per batch
+            modesty_level: Default modesty level
+            output_dir: Directory to save batch file
+        
+        Returns:
+            Path to generated batch file with priority breakdown
+        """
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            # Complex priority query
+            where_clause = "shopify_id IS NOT NULL"
+            if retailer:
+                where_clause += f" AND retailer = '{retailer}'"
+            
+            query = f"""
+                SELECT 
+                    url,
+                    CASE 
+                        WHEN sale_status = 'on sale' AND stock_status = 'low in stock' THEN 1
+                        WHEN sale_status = 'on sale' THEN 2
+                        WHEN stock_status = 'low in stock' THEN 3
+                        WHEN stock_status = 'out of stock' THEN 4
+                        WHEN last_updated < datetime('now', '-14 days') THEN 5
+                        WHEN last_updated < datetime('now', '-7 days') THEN 6
+                        WHEN last_updated IS NULL THEN 7
+                        ELSE 8
+                    END as priority,
+                    sale_status,
+                    stock_status,
+                    last_updated
+                FROM products 
+                WHERE {where_clause}
+                ORDER BY priority ASC, last_updated ASC
+                LIMIT {max_products}
+            """
+            
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            conn.close()
+            
+            if not rows:
+                logger.info("No products found for priority batch")
+                return None
+            
+            urls = [row[0] for row in rows]
+            
+            # Count by priority for metadata
+            priority_breakdown = {}
+            for row in rows:
+                priority = row[1]
+                priority_breakdown[priority] = priority_breakdown.get(priority, 0) + 1
+            
+            logger.info(f"Generated priority batch with {len(urls)} products")
+            logger.info(f"Priority breakdown: {priority_breakdown}")
+            
+            # Create batch file
+            batch_file = self._create_batch_file(
+                urls=urls,
+                batch_name=f"Priority Update - {retailer or 'All'} - {datetime.now().strftime('%B %d, %Y')}",
+                batch_id=f"priority_{retailer or 'all'}_{datetime.now().strftime('%Y%m%d_%H%M')}",
+                modesty_level=modesty_level,
+                metadata={
+                    'generation_method': 'priority_batch',
+                    'retailer_filter': retailer or 'all',
+                    'priority_breakdown': priority_breakdown,
+                    'priority_levels': {
+                        '1': 'on_sale + low_stock',
+                        '2': 'on_sale',
+                        '3': 'low_stock',
+                        '4': 'out_of_stock',
+                        '5': 'very_stale (14+ days)',
+                        '6': 'stale (7+ days)',
+                        '7': 'never_updated',
+                        '8': 'recent'
+                    }
+                },
+                output_dir=output_dir
+            )
+            
+            logger.info(f"✅ Generated priority batch file: {batch_file}")
+            return batch_file
+            
+        except Exception as e:
+            logger.error(f"Error generating priority batch: {e}")
+            return None
+    
+    def generate_recent_additions_batch(self, days: int = 30,
+                                       retailer: Optional[str] = None,
+                                       max_products: int = 50,
+                                       modesty_level: str = "modest",
+                                       output_dir: str = None) -> Optional[str]:
+        """
+        Generate batch for recently added products (high churn period)
+        
+        New products often have:
+        - Rapid price changes (introductory pricing)
+        - Stock fluctuations (testing demand)
+        - Description/image updates
+        
+        Args:
+            days: Consider products added in last N days
+            retailer: Optional retailer filter
+            max_products: Maximum products per batch
+            modesty_level: Default modesty level
+            output_dir: Directory to save batch file
+        """
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cutoff_date = datetime.now() - timedelta(days=days)
+            
+            where_clause = f"shopify_id IS NOT NULL AND first_seen >= '{cutoff_date.isoformat()}'"
+            if retailer:
+                where_clause += f" AND retailer = '{retailer}'"
+            
+            query = f"""
+                SELECT url FROM products 
+                WHERE {where_clause}
+                ORDER BY first_seen DESC
+                LIMIT {max_products}
+            """
+            
+            cursor.execute(query)
+            urls = [row[0] for row in cursor.fetchall()]
+            conn.close()
+            
+            if not urls:
+                logger.info(f"No products added in last {days} days")
+                return None
+            
+            logger.info(f"Found {len(urls)} products added in last {days} days")
+            
+            # Create batch file
+            batch_file = self._create_batch_file(
+                urls=urls,
+                batch_name=f"Recent Additions ({days}d) - {retailer or 'All'} - {datetime.now().strftime('%B %d, %Y')}",
+                batch_id=f"recent_{days}d_{retailer or 'all'}_{datetime.now().strftime('%Y%m%d_%H%M')}",
+                modesty_level=modesty_level,
+                metadata={
+                    'generation_method': 'recent_additions',
+                    'days_lookback': days,
+                    'retailer_filter': retailer or 'all'
+                },
+                output_dir=output_dir
+            )
+            
+            logger.info(f"✅ Generated recent additions batch: {batch_file}")
+            return batch_file
+            
+        except Exception as e:
+            logger.error(f"Error generating recent additions batch: {e}")
+            return None
+    
     def _create_batch_file(self, urls: List[str], batch_name: str, batch_id: str,
                           modesty_level: str, metadata: Dict,
                           output_dir: str = None) -> str:
@@ -443,6 +621,12 @@ Examples:
   # Generate batch for on-sale products
   python generate_update_batches.py --by-status on_sale
   
+  # NEW: Generate priority batch (intelligent scoring)
+  python generate_update_batches.py --priority-batch --retailer revolve --max-products 100
+  
+  # NEW: Generate batch for recent additions (< 30 days)
+  python generate_update_batches.py --recent-additions 30 --retailer revolve
+  
   # Show statistics about products needing updates
   python generate_update_batches.py --stats
         """
@@ -456,6 +640,10 @@ Examples:
                        help='Generate batch by product status')
     parser.add_argument('--smart', action='store_true',
                        help='Generate smart batch with priority heuristics')
+    parser.add_argument('--priority-batch', action='store_true',
+                       help='Generate batch with intelligent priority scoring (NEW)')
+    parser.add_argument('--recent-additions', type=int, metavar='DAYS',
+                       help='Generate batch for products added in last X days (NEW)')
     
     # Options
     parser.add_argument('--priority', type=str, choices=['stale', 'sale', 'balanced'],
@@ -475,7 +663,8 @@ Examples:
     args = parser.parse_args()
     
     # Validate arguments
-    if not any([args.retailer, args.by_age, args.by_status, args.smart, args.stats]):
+    if not any([args.retailer, args.by_age, args.by_status, args.smart, args.priority_batch, 
+                args.recent_additions, args.stats]):
         parser.print_help()
         return
     
@@ -525,6 +714,21 @@ Examples:
         batch_file = generator.generate_smart_batch(
             retailer=None,
             priority=args.priority,
+            max_products=args.max_products,
+            modesty_level=args.modesty_level,
+            output_dir=args.output_dir
+        )
+    elif args.priority_batch:
+        batch_file = generator.generate_priority_batch(
+            retailer=args.retailer if args.retailer else None,
+            max_products=args.max_products,
+            modesty_level=args.modesty_level,
+            output_dir=args.output_dir
+        )
+    elif args.recent_additions:
+        batch_file = generator.generate_recent_additions_batch(
+            days=args.recent_additions,
+            retailer=args.retailer if args.retailer else None,
             max_products=args.max_products,
             modesty_level=args.modesty_level,
             output_dir=args.output_dir
