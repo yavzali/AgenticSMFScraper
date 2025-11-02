@@ -729,22 +729,38 @@ class NotificationManager(EnhancedNotificationManager):
     async def send_batch_completion(self, batch_id: str, results: Dict) -> bool:
         """Send batch completion notification (NEW METHOD)"""
         try:
-            # Calculate success rate
+            # Calculate success rate and processing time
             total = results.get('total_urls', results.get('processed_count', 0))
             successful = results.get('successful_count', results.get('updated_count', 0))
             success_rate = (successful / total * 100) if total > 0 else 0
             
+            # Calculate processing time if not provided
+            processing_time = results.get('processing_time', 0)
+            if processing_time == 0 and 'start_time' in results and 'end_time' in results:
+                try:
+                    from datetime import datetime
+                    start = datetime.fromisoformat(results['start_time'])
+                    end = datetime.fromisoformat(results['end_time'])
+                    processing_time = (end - start).total_seconds() / 60  # minutes
+                except:
+                    processing_time = 0
+            
+            # Build context with ALL fields the template expects (with safe defaults)
             context = {
                 'batch_id': batch_id,
+                'batch_name': results.get('batch_name', batch_id),
                 'total_products': total,
                 'urls_processed': results.get('processed_count', 0),
                 'successful': successful,
                 'failed': results.get('failed_count', 0),
                 'manual_review': results.get('manual_review_count', 0),
+                'manual_review_count': results.get('manual_review_count', 0),  # Template uses this
                 'success_rate': success_rate,
-                'processing_time': results.get('processing_time', 0),
+                'processing_time': processing_time,
                 'completion_time': results.get('completion_time', results.get('end_time', '')),
-                'batch_name': results.get('batch_name', batch_id)
+                'total_cost': results.get('total_cost', 0.0),  # Default to 0 if not tracked
+                'products_uploaded': successful,  # Template expects this
+                'batch_file': results.get('batch_file', 'N/A')  # Template expects this
             }
             return await super().send_notification(NotificationType.BATCH_COMPLETION, context)
         except Exception as e:
