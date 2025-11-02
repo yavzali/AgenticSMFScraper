@@ -674,23 +674,83 @@ class ChangeDetector:
             return None
     
     async def _check_main_products_db(self, product: CatalogProduct, retailer: str) -> Optional[Dict]:
-        """Check against main products database using existing duplicate detector"""
+        """
+        Check against main products database (Shopify products)
+        Enhanced with title+price fuzzy matching for retailers with unstable URLs/codes
+        """
         try:
-            from duplicate_detector import DuplicateDetector
-            duplicate_detector = DuplicateDetector()
-            
-            # Use existing sophisticated duplicate detection
-            result = await duplicate_detector.check_duplicate(
-                product.catalog_url, retailer
-            )
-            
-            if result.get('is_duplicate'):
-                return {
-                    'id': result.get('existing_id'),
-                    'match_confidence': result.get('confidence', 0.8),
-                    'match_method': result.get('match_type'),
-                    'source': 'main_products_db_enhanced'
-                }
+            async with aiosqlite.connect(self.db_manager.db_path) as conn:
+                cursor = await conn.cursor()
+                
+                # 1. Try exact URL match first
+                await cursor.execute("""
+                    SELECT id, title, url, price, product_code, shopify_id 
+                    FROM products 
+                    WHERE url = ? AND retailer = ? AND shopify_id IS NOT NULL
+                """, (product.catalog_url, retailer))
+                
+                exact_match = await cursor.fetchone()
+                if exact_match:
+                    return {
+                        'id': exact_match[0],
+                        'title': exact_match[1],
+                        'url': exact_match[2],
+                        'shopify_id': exact_match[5],
+                        'match_confidence': 1.0,
+                        'match_method': 'exact_url',
+                        'source': 'main_products_db'
+                    }
+                
+                # 2. Try product code match
+                if product.product_code:
+                    await cursor.execute("""
+                        SELECT id, title, url, price, product_code, shopify_id 
+                        FROM products 
+                        WHERE product_code = ? AND retailer = ? AND shopify_id IS NOT NULL
+                    """, (product.product_code, retailer))
+                    
+                    code_match = await cursor.fetchone()
+                    if code_match:
+                        return {
+                            'id': code_match[0],
+                            'title': code_match[1],
+                            'url': code_match[2],
+                            'shopify_id': code_match[5],
+                            'match_confidence': 0.93,
+                            'match_method': 'product_code',
+                            'source': 'main_products_db',
+                            'product_code': product.product_code
+                        }
+                
+                # 3. CRITICAL: Title + Price fuzzy matching (catches URL/code changes)
+                if product.title and product.price:
+                    await cursor.execute("""
+                        SELECT id, title, url, price, product_code, shopify_id 
+                        FROM products 
+                        WHERE retailer = ? AND ABS(price - ?) < 1.0 AND shopify_id IS NOT NULL
+                    """, (retailer, product.price))
+                    
+                    price_matches = await cursor.fetchall()
+                    
+                    for match in price_matches:
+                        title_similarity = difflib.SequenceMatcher(
+                            None, 
+                            product.title.lower(), 
+                            match[1].lower()
+                        ).ratio()
+                        
+                        if title_similarity > 0.90:  # 90%+ similarity
+                            confidence = 0.85 + (title_similarity - 0.90) * 0.5  # 0.85-0.90
+                            return {
+                                'id': match[0],
+                                'title': match[1],
+                                'url': match[2],
+                                'shopify_id': match[5],
+                                'match_confidence': min(confidence, 0.92),
+                                'match_method': 'title_price_fuzzy',
+                                'source': 'main_products_db',
+                                'title_similarity': title_similarity
+                            }
             
             return None
             
