@@ -57,6 +57,9 @@ class NewProductImportSystem:
                 with open(urls_file, 'r') as f:
                     batch_data = json.load(f)
                 
+                # Deduplicate URLs within batch
+                batch_data['urls'] = self._deduplicate_urls(batch_data.get('urls', []))
+                
                 # Validate input
                 if not self._validate_batch_data(batch_data, modesty_level):
                     return False
@@ -89,6 +92,49 @@ class NewProductImportSystem:
             logger.error(f"Critical error in new product import: {e}")
             await self.notification_manager.send_critical_error(str(e))
             return False
+    
+    def _deduplicate_urls(self, urls: list) -> list:
+        """
+        Deduplicate URLs within batch by normalizing for Revolve's changing query params
+        Keeps first occurrence of each unique product
+        """
+        import re
+        from urllib.parse import urlparse
+        
+        seen_products = {}  # product_code -> first_url
+        deduplicated = []
+        duplicates_removed = 0
+        
+        for url in urls:
+            # Extract product code for deduplication
+            product_code = None
+            
+            # Revolve: /dp/CODE/
+            if 'revolve.com' in url.lower():
+                match = re.search(r'/dp/([A-Z0-9\-]+)/?', url)
+                if match:
+                    product_code = match.group(1)
+            
+            # For other retailers, use base URL (no query params)
+            if not product_code:
+                parsed = urlparse(url)
+                product_code = f"{parsed.netloc}{parsed.path}"
+            
+            # Check if we've seen this product
+            if product_code in seen_products:
+                duplicates_removed += 1
+                logger.debug(f"Duplicate URL removed: {url} (same as {seen_products[product_code]})")
+            else:
+                seen_products[product_code] = url
+                deduplicated.append(url)
+        
+        if duplicates_removed > 0:
+            logger.info(f"🔍 In-batch deduplication: Removed {duplicates_removed} duplicate URLs")
+            logger.info(f"   Original count: {len(urls)}, Deduplicated count: {len(deduplicated)}")
+        else:
+            logger.info(f"✅ No duplicate URLs found in batch ({len(urls)} unique URLs)")
+        
+        return deduplicated
     
     def _validate_batch_data(self, batch_data, modesty_level):
         """Validate batch data structure"""
