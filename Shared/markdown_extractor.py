@@ -562,20 +562,31 @@ Markdown Content (first 15000 chars):
         return None
     
     async def _extract_with_llm_cascade(self, markdown_content: str, retailer: str, url: str) -> Optional[Dict[str, Any]]:
-        """Extract product data using DeepSeek V3 -> Gemini Flash 2.0 cascade"""
+        """Extract product data using DeepSeek V3 -> Gemini Flash 2.0 cascade with validation"""
         
         # Step 1: Try DeepSeek V3 first
         if self.deepseek_enabled:
             deepseek_result = await self._extract_with_deepseek(markdown_content, retailer)
             if deepseek_result:
-                logger.debug(f"DeepSeek V3 extraction successful for {retailer}")
-                return deepseek_result
+                # Validate DeepSeek result before accepting it
+                validation_issues = self._validate_extracted_data(deepseek_result, retailer, url)
+                if not validation_issues:
+                    logger.debug(f"DeepSeek V3 extraction successful for {retailer}")
+                    return deepseek_result
+                else:
+                    logger.debug(f"DeepSeek V3 returned data but validation failed: {', '.join(validation_issues)}")
+                    logger.debug(f"Falling back to Gemini Flash 2.0 for {retailer}")
         
         # Step 2: Fallback to Gemini Flash 2.0
         gemini_result = await self._extract_with_gemini(markdown_content, retailer)
         if gemini_result:
-            logger.debug(f"Gemini Flash 2.0 extraction successful for {retailer}")
-            return gemini_result
+            # Validate Gemini result before accepting it
+            validation_issues = self._validate_extracted_data(gemini_result, retailer, url)
+            if not validation_issues:
+                logger.debug(f"Gemini Flash 2.0 extraction successful for {retailer}")
+                return gemini_result
+            else:
+                logger.debug(f"Gemini Flash 2.0 returned data but validation failed: {', '.join(validation_issues)}")
         
         logger.warning(f"Both DeepSeek V3 and Gemini Flash 2.0 failed for {retailer}")
         return None
