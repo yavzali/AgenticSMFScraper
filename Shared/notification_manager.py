@@ -729,13 +729,19 @@ class NotificationManager(EnhancedNotificationManager):
     async def send_batch_completion(self, batch_id: str, results: Dict) -> bool:
         """Send batch completion notification (NEW METHOD)"""
         try:
+            # Calculate success rate
+            total = results.get('total_urls', results.get('processed_count', 0))
+            successful = results.get('successful_count', results.get('updated_count', 0))
+            success_rate = (successful / total * 100) if total > 0 else 0
+            
             context = {
                 'batch_id': batch_id,
-                'total_products': results.get('total_urls', results.get('processed_count', 0)),
+                'total_products': total,
                 'urls_processed': results.get('processed_count', 0),
-                'successful': results.get('successful_count', results.get('updated_count', 0)),
+                'successful': successful,
                 'failed': results.get('failed_count', 0),
                 'manual_review': results.get('manual_review_count', 0),
+                'success_rate': success_rate,
                 'processing_time': results.get('processing_time', 0),
                 'completion_time': results.get('completion_time', results.get('end_time', '')),
                 'batch_name': results.get('batch_name', batch_id)
