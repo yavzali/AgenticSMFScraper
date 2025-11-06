@@ -2403,8 +2403,10 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
     
     async def _extract_catalog_product_links_from_dom(self, retailer: str) -> List[Dict]:
         """
-        Extract product URLs and product codes from DOM (Gemini Vision can't read these!)
-        Returns list of {url, product_code, position}
+        Extract product URLs, codes, AND validation data from DOM
+        - URLs/codes: Critical for deduplication (Gemini can't read these)
+        - Titles/prices: Optional validation data to double-check Gemini's visual extraction
+        Returns list of {url, product_code, position, dom_title, dom_price}
         """
         try:
             product_links = []
@@ -2447,10 +2449,53 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                                 extractor = MarkdownExtractor()
                                 product_code = extractor._extract_product_code_from_url(href)
                                 
+                                # ENHANCEMENT: Try to extract title and price from DOM for validation
+                                dom_title = None
+                                dom_price = None
+                                
+                                try:
+                                    # Try to find parent product card container
+                                    parent = link
+                                    for _ in range(3):  # Search up to 3 levels
+                                        parent = await parent.evaluate_handle('el => el.parentElement')
+                                        if parent:
+                                            # Try common title selectors within card
+                                            title_selectors = ['.title', '.product-title', '.name', 'h2', 'h3', '[data-testid*="title"]']
+                                            for title_sel in title_selectors:
+                                                try:
+                                                    title_el = await parent.query_selector(title_sel)
+                                                    if title_el:
+                                                        dom_title = (await title_el.inner_text()).strip()
+                                                        if len(dom_title) > 5:
+                                                            break
+                                                except:
+                                                    continue
+                                            
+                                            # Try common price selectors within card
+                                            price_selectors = ['.price', '.product-price', '[data-testid*="price"]', '.cost']
+                                            for price_sel in price_selectors:
+                                                try:
+                                                    price_el = await parent.query_selector(price_sel)
+                                                    if price_el:
+                                                        price_text = (await price_el.inner_text()).strip()
+                                                        if '$' in price_text or price_text.replace('.', '').replace(',', '').isdigit():
+                                                            dom_price = price_text
+                                                            break
+                                                except:
+                                                    continue
+                                            
+                                            # If we found both, stop searching
+                                            if dom_title and dom_price:
+                                                break
+                                except Exception as e:
+                                    logger.debug(f"Failed to extract validation data for URL {href}: {e}")
+                                
                                 product_links.append({
                                     'url': href.split('?')[0],  # Remove query params for cleaner URLs
                                     'product_code': product_code,
-                                    'position': idx + 1
+                                    'position': idx + 1,
+                                    'dom_title': dom_title,  # For validation (optional)
+                                    'dom_price': dom_price   # For validation (optional)
                                 })
                         
                         # Record successful selector for learning
@@ -2473,6 +2518,11 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                     seen_urls.add(link['url'])
                     unique_links.append(link)
             
+            # Log validation data statistics
+            with_titles = sum(1 for l in unique_links if l.get('dom_title'))
+            with_prices = sum(1 for l in unique_links if l.get('dom_price'))
+            logger.debug(f"DOM validation data: {with_titles}/{len(unique_links)} titles, {with_prices}/{len(unique_links)} prices")
+            
             return unique_links
             
         except Exception as e:
@@ -2481,16 +2531,22 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
     
     def _merge_catalog_dom_with_gemini(self, dom_links: List[Dict], gemini_products: List[Dict], retailer: str) -> List[Dict]:
         """
-        Merge DOM URLs/codes with Gemini visual data
-        Strategy: Match by position, or by title similarity if positions don't align
+        Merge DOM URLs/codes with Gemini visual data + VALIDATE Gemini with DOM
+        Strategy: 
+        1. Match by position or title similarity
+        2. Validate Gemini's title/price against DOM data
+        3. Flag mismatches for review
         """
         try:
             merged = []
+            validations_performed = 0
+            mismatches_found = 0
             
             # If counts match, do positional matching (simplest)
             if len(dom_links) == len(gemini_products):
-                logger.debug(f"Counts match ({len(dom_links)}), doing positional merge")
+                logger.debug(f"Counts match ({len(dom_links)}), doing positional merge with validation")
                 for dom_link, gemini_product in zip(dom_links, gemini_products):
+                    # Base merge
                     merged_product = {
                         'url': dom_link['url'],
                         'product_code': dom_link['product_code'],
@@ -2501,6 +2557,56 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                         'sale_status': gemini_product.get('sale_status', 'regular'),
                         'availability': gemini_product.get('availability', 'in_stock')
                     }
+                    
+                    # VALIDATION: Compare Gemini vs DOM data
+                    validation_result = {}
+                    
+                    # Validate title
+                    if dom_link.get('dom_title') and gemini_product.get('title'):
+                        title_similarity = self._calculate_similarity(
+                            dom_link['dom_title'].lower(),
+                            gemini_product['title'].lower()
+                        )
+                        validation_result['title_match'] = title_similarity > 0.7
+                        validation_result['title_similarity'] = title_similarity
+                        validations_performed += 1
+                        
+                        if title_similarity < 0.7:
+                            mismatches_found += 1
+                            logger.warning(f"⚠️ Title mismatch: DOM='{dom_link['dom_title'][:30]}' vs Gemini='{gemini_product['title'][:30]}' ({title_similarity:.0%})")
+                            merged_product['validation_warning'] = 'title_mismatch'
+                            # Use DOM title if confidence is very low
+                            if title_similarity < 0.5:
+                                merged_product['title'] = dom_link['dom_title']
+                                merged_product['title_source'] = 'dom_override'
+                    
+                    # Validate price
+                    if dom_link.get('dom_price') and gemini_product.get('price'):
+                        # Extract numeric price from DOM text
+                        import re
+                        dom_price_match = re.search(r'[\d,]+\.?\d*', dom_link['dom_price'].replace(',', ''))
+                        if dom_price_match:
+                            try:
+                                dom_price_num = float(dom_price_match.group(0))
+                                gemini_price_num = float(gemini_product['price'])
+                                price_diff = abs(dom_price_num - gemini_price_num)
+                                validation_result['price_match'] = price_diff < 1.0
+                                validations_performed += 1
+                                
+                                if price_diff >= 1.0:
+                                    mismatches_found += 1
+                                    logger.warning(f"⚠️ Price mismatch: DOM=${dom_price_num} vs Gemini=${gemini_price_num}")
+                                    merged_product['validation_warning'] = merged_product.get('validation_warning', '') + '_price_mismatch'
+                                    # Use DOM price if significant difference
+                                    if price_diff >= 5.0:
+                                        merged_product['price'] = dom_price_num
+                                        merged_product['price_source'] = 'dom_override'
+                            except:
+                                pass
+                    
+                    if validation_result:
+                        merged_product['validation'] = validation_result
+                    
                     merged.append(merged_product)
             
             # If counts don't match, do fuzzy title matching
@@ -2557,6 +2663,14 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                         })
             
             logger.debug(f"Merged {len(merged)} products (DOM URLs + Gemini visual data)")
+            
+            # Log validation summary
+            if validations_performed > 0:
+                validation_rate = ((validations_performed - mismatches_found) / validations_performed * 100)
+                logger.info(f"✅ Validation: {validations_performed} checks, {mismatches_found} mismatches ({validation_rate:.0%} accuracy)")
+                if mismatches_found > 0:
+                    logger.info(f"   💡 {mismatches_found} products corrected using DOM data")
+            
             return merged
             
         except Exception as e:
