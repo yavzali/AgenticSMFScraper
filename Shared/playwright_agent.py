@@ -932,6 +932,88 @@ If NO verification challenge: {"verification_found": false}"""
             
             logger.info(f"🎯 Gemini found {result['type']} verification: '{result.get('text', 'unknown')}'")
             
+            # Check if verification is in an iframe
+            frames = self.page.frames
+            if len(frames) > 1:
+                logger.info(f"🖼️ Found {len(frames)} frames - checking for captcha iframe...")
+                
+                # Ask Gemini to analyze each frame
+                for i, frame in enumerate(frames):
+                    if frame == self.page.main_frame:
+                        continue
+                    
+                    try:
+                        # Screenshot the iframe
+                        frame_element = await self.page.query_selector(f'iframe:nth-of-type({i})')
+                        if frame_element:
+                            frame_screenshot = await frame_element.screenshot(type='png')
+                            frame_image = Image.open(io.BytesIO(frame_screenshot))
+                            
+                            iframe_prompt = """Is this iframe the verification challenge (press & hold button)?
+                            
+Return ONLY valid JSON:
+{
+    "is_verification": true/false,
+    "button_position": {"x_percent": 50, "y_percent": 50}
+}"""
+                            
+                            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+                            iframe_response = model.generate_content([iframe_prompt, frame_image])
+                            iframe_text = iframe_response.text.strip()
+                            
+                            if '```json' in iframe_text:
+                                iframe_text = iframe_text.split('```json')[1].split('```')[0].strip()
+                            elif '```' in iframe_text:
+                                iframe_text = iframe_text.split('```')[1].split('```')[0].strip()
+                            
+                            iframe_result = json.loads(iframe_text)
+                            
+                            if iframe_result.get('is_verification'):
+                                logger.info(f"✅ Found verification in iframe {i}")
+                                # Click inside the iframe
+                                iframe_pos = iframe_result.get('button_position', {})
+                                box = await frame_element.bounding_box()
+                                
+                                if box:
+                                    # Calculate click position relative to iframe
+                                    iframe_x = box['x'] + (box['width'] * (iframe_pos.get('x_percent', 50) / 100.0))
+                                    iframe_y = box['y'] + (box['height'] * (iframe_pos.get('y_percent', 50) / 100.0))
+                                    
+                                    logger.info(f"📍 Clicking iframe at ({iframe_x:.0f}, {iframe_y:.0f})")
+                                    
+                                    if result['type'] == 'press_hold' or result.get('requires_hold'):
+                                        hold_duration = result.get('hold_duration_seconds', 8) * 1000
+                                        logger.info(f"🖱️ Performing press & hold in iframe for {hold_duration/1000}s...")
+                                        await self.page.mouse.move(iframe_x, iframe_y)
+                                        await self.page.mouse.down()
+                                        await self.page.wait_for_timeout(hold_duration)
+                                        await self.page.mouse.up()
+                                        logger.info("✅ Press & hold completed via Gemini Vision (iframe)")
+                                    else:
+                                        await self.page.mouse.click(iframe_x, iframe_y)
+                                        await self.page.wait_for_timeout(2000)
+                                        logger.info("✅ Click completed via Gemini Vision (iframe)")
+                                    
+                                    # Wait for page to load
+                                    await self.page.wait_for_timeout(3000)
+                                    logger.info("⏱️ Waited 3s for page to load after verification")
+                                    
+                                    # Save debug HTML
+                                    try:
+                                        page_html = await self.page.content()
+                                        debug_path = "/tmp/anthropologie_after_verification.html"
+                                        with open(debug_path, 'w', encoding='utf-8') as f:
+                                            f.write(page_html)
+                                        logger.info(f"📝 Saved post-verification HTML to {debug_path}")
+                                    except:
+                                        pass
+                                    
+                                    return True
+                    except Exception as e:
+                        logger.debug(f"Could not analyze iframe {i}: {e}")
+                        continue
+            
+            # Fallback: Click on main page if no iframe found
             # Calculate actual coordinates from percentages
             position = result.get('position', {})
             x = viewport['width'] * (position.get('x_percent', 50) / 100.0)
@@ -953,6 +1035,20 @@ If NO verification challenge: {"verification_found": false}"""
                 await self.page.mouse.click(x, y)
                 await self.page.wait_for_timeout(2000)
                 logger.info("✅ Click completed via Gemini Vision")
+            
+            # Wait for page to load after verification
+            await self.page.wait_for_timeout(3000)
+            logger.info("⏱️ Waited 3s for page to load after verification")
+            
+            # DEBUG: Save HTML to see what we got
+            try:
+                page_html = await self.page.content()
+                debug_path = "/tmp/anthropologie_after_verification.html"
+                with open(debug_path, 'w', encoding='utf-8') as f:
+                    f.write(page_html)
+                logger.info(f"📝 Saved post-verification HTML to {debug_path}")
+            except Exception as e:
+                logger.debug(f"Could not save debug HTML: {e}")
             
             return True
             
