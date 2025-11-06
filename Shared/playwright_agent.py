@@ -267,18 +267,21 @@ class PlaywrightMultiScreenshotAgent:
             await asyncio.sleep(4)
             
             # Try learned patterns first, then common selectors
-            learned_selectors = self.structure_learner.get_best_patterns(
-                retailer, 'catalog', ['url_selector']
-            ) if hasattr(self, 'structure_learner') else []
+            learned_patterns = []
+            if hasattr(self, 'structure_learner'):
+                try:
+                    learned_patterns = self.structure_learner.get_best_patterns(retailer, 'url')
+                except Exception as e:
+                    logger.debug(f"Could not load learned patterns: {e}")
             
             product_loaded = False
             selectors_to_try = []
             
             # Add learned selectors first (highest priority)
-            if learned_selectors:
-                for pattern in learned_selectors:
-                    if pattern.get('url_selector'):
-                        selectors_to_try.append(pattern['url_selector'])
+            if learned_patterns:
+                for pattern in learned_patterns:
+                    if pattern.get('selector'):
+                        selectors_to_try.append(pattern['selector'])
             
             # Add common fallback selectors
             selectors_to_try.extend([
