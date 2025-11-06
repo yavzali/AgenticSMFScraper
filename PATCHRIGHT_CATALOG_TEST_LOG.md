@@ -39,10 +39,10 @@ Skip to simpler retailer (Abercrombie) to test core DOM extraction logic first.
 
 ---
 
-## Test 2: Abercrombie (PARTIAL SUCCESS - Fixes Applied)
+## Test 2: Abercrombie (✅ SUCCESS - All Issues Fixed!)
 **Date**: 2025-11-06  
-**Status**: ⚠️ PARTIAL SUCCESS  
-**Reason**: Gemini extracted products but DOM found no URLs
+**Status**: ✅ **SUCCESS**  
+**Reason**: 36 products extracted successfully with hybrid Gemini+DOM extraction!
 
 ### Why Abercrombie:
 - ✅ No verification challenges
@@ -51,26 +51,33 @@ Skip to simpler retailer (Abercrombie) to test core DOM extraction logic first.
 - ✅ Clean product card structure
 - ✅ Sort by newest available
 
-### Actual Results:
+### Final Results:
 ```
 ✅ Navigate to catalog successfully (no verification)
-❌ Extract 0 product URLs from DOM (selectors didn't work)
-❌ Extract 0 product codes
-✅ Gemini extracted 12 products visually
-❌ DOM validation: 0 titles/prices (no DOM data)
-❌ Merge: 12 products WITHOUT URLs (failed parsing)
-❌ Final result: 0 products stored
+✅ Extract 90 product URLs from DOM (selector worked!)
+✅ Extract 41 unique product URLs (after deduplication)
+✅ Gemini extracted 12 products visually per page
+✅ DOM validation: Title/price extraction attempted
+✅ Merge: 12 products WITH complete URLs
+✅ Final result: 36 products stored (3 pages)
 ```
 
-### Issues Found:
-1. **DOM selectors failed** - None of the common patterns matched Abercrombie
-2. **3-screenshot strategy incomplete** - User observed: "page exceeded three scrolls"
-3. **Parsing rejected URL-less products** - Cleaned 0/12 products (all had `url=None`)
+### 9 Iterations of Fixes:
+1. ✅ **Gemini import** → Moved to module level
+2. ✅ **DOM→Gemini order** → Corrected to Gemini-first
+3. ✅ **3 scrolls for pagination** → Full-page screenshot
+4. ✅ **Hardcoded array indices** → Dynamic screenshot descriptions  
+5. ✅ **WebP 16383px limit** → Resize images before Gemini
+6. ✅ **Missing selector** → Added `a[data-testid="product-card-link"]`
+7. ✅ **JS timing issue** → Wait for product cards to load
+8. ✅ **Threshold >5 links** → Changed to >0 (accept any links)
+9. ✅ **`get_attribute('href')` = None** → **Extract from JS property `el.href`!**
 
-### Fixes Applied:
-1. ✅ **Full-page screenshot** - Changed from 3 viewports to ONE `full_page=True` screenshot
-2. ✅ **Better parsing logic** - Made URLs optional but skip URL-less products with warning
-3. ⏳ **DOM selector improvement needed** - Need to inspect Abercrombie's HTML
+### Root Cause (Final):
+**Abercrombie is a JavaScript-heavy SPA where link hrefs are set as JS properties, not HTML attributes!**
+- Standard `get_attribute('href')` returned `None` for all 90 links
+- Solution: Fallback to `evaluate('el => el.href')` to read JS property
+- This is THE critical fix for modern SPAs!
 
 ### Success Criteria:
 - **URLs**: 100% extraction (critical path)
