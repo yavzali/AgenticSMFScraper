@@ -243,7 +243,8 @@ class PlaywrightMultiScreenshotAgent:
             
             # Navigate to catalog page
             logger.debug(f"Navigating to catalog page: {catalog_url}")
-            await self.page.goto(catalog_url, wait_until='networkidle', timeout=60000)
+            # Use 'domcontentloaded' instead of 'networkidle' for sites with verification/infinite loading
+            await self.page.goto(catalog_url, wait_until='domcontentloaded', timeout=60000)
             await asyncio.sleep(3)  # Let dynamic content load
             
             # Handle any verification challenges
