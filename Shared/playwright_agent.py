@@ -867,8 +867,92 @@ Return a JSON array with ALL products found across all screenshots."""
         
         return dismissed_count > 0
     
+    async def _gemini_handle_verification(self) -> bool:
+        """Use Gemini Vision to detect and handle verification challenges"""
+        try:
+            # Take screenshot of current page
+            screenshot_bytes = await self.page.screenshot(type='png')
+            image = Image.open(io.BytesIO(screenshot_bytes))
+            
+            # Get viewport dimensions for coordinate mapping
+            viewport = self.page.viewport_size
+            
+            prompt = """Analyze this page for verification challenges.
+
+LOOK FOR:
+1. "Press & Hold" buttons
+2. "I am human" checkboxes
+3. CAPTCHA challenges
+4. Verification buttons
+5. "Continue" or "Verify" buttons
+
+If you find a verification element:
+- Report its TYPE (press_hold, checkbox, button, captcha)
+- Report its POSITION as percentage (0-100) from top-left corner
+  Format: {"x_percent": 50, "y_percent": 30} means 50% from left, 30% from top
+- Report the TEXT on the button/element
+
+Return ONLY valid JSON:
+{
+    "verification_found": true/false,
+    "type": "press_hold | checkbox | button | captcha | none",
+    "text": "exact text on button",
+    "position": {"x_percent": 50, "y_percent": 30},
+    "requires_hold": true/false,
+    "hold_duration_seconds": 5
+}
+
+If NO verification challenge: {"verification_found": false}"""
+
+            # Call Gemini
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([prompt, image])
+            
+            # Parse response
+            response_text = response.text.strip()
+            if '```json' in response_text:
+                response_text = response_text.split('```json')[1].split('```')[0].strip()
+            elif '```' in response_text:
+                response_text = response_text.split('```')[1].split('```')[0].strip()
+            
+            result = json.loads(response_text)
+            
+            if not result.get('verification_found'):
+                logger.debug("Gemini: No verification challenge detected")
+                return False
+            
+            logger.info(f"🎯 Gemini found {result['type']} verification: '{result.get('text', 'unknown')}'")
+            
+            # Calculate actual coordinates from percentages
+            position = result.get('position', {})
+            x = viewport['width'] * (position.get('x_percent', 50) / 100.0)
+            y = viewport['height'] * (position.get('y_percent', 50) / 100.0)
+            
+            logger.info(f"📍 Clicking at ({x:.0f}, {y:.0f})")
+            
+            # Perform action based on type
+            if result['type'] == 'press_hold' or result.get('requires_hold'):
+                hold_duration = result.get('hold_duration_seconds', 8) * 1000
+                logger.info(f"🖱️ Performing press & hold for {hold_duration/1000}s...")
+                await self.page.mouse.move(x, y)
+                await self.page.mouse.down()
+                await self.page.wait_for_timeout(hold_duration)
+                await self.page.mouse.up()
+                logger.info("✅ Press & hold completed via Gemini Vision")
+            else:
+                # Simple click
+                await self.page.mouse.click(x, y)
+                await self.page.wait_for_timeout(2000)
+                logger.info("✅ Click completed via Gemini Vision")
+            
+            return True
+            
+        except Exception as e:
+            logger.warning(f"Gemini verification handling failed: {e}")
+            return False
+    
     async def _handle_verification_challenges(self, strategy: Dict):
-        """Enhanced verification with Patchright shadow DOM support"""
+        """Enhanced verification using Gemini Vision (Patchright approach)"""
         
         # First, dismiss any popups that might be blocking
         await self._dismiss_popups()
@@ -879,7 +963,12 @@ Return a JSON array with ALL products found across all screenshots."""
             ['press and hold', 'press & hold', 'verification', 'captcha', 'challenge', 'cloudflare'])
         
         if is_verification_page:
-            logger.info("🛡️ Verification page detected - attempting to bypass...")
+            logger.info("🛡️ Verification page detected - using Gemini Vision to locate button...")
+            # Use Gemini Vision to find the verification button
+            verification_handled = await self._gemini_handle_verification()
+            if verification_handled:
+                logger.info("✅ Gemini Vision successfully handled verification!")
+                return True
         
         # Then handle verification challenges
         verification_selectors = [
