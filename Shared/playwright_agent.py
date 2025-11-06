@@ -251,25 +251,60 @@ class PlaywrightMultiScreenshotAgent:
             strategy = {'domain': self._extract_domain(catalog_url), 'retailer': retailer}
             await self._handle_verification_challenges(strategy)
             
-            # CRITICAL: Wait for product cards to load (especially for JS-heavy SPAs like Abercrombie)
-            # Try common selectors in order of likelihood
+            # After verification: Wait naturally for page to fully load (mimic human behavior)
+            # This is critical for JavaScript-heavy SPAs that render products dynamically
+            logger.info("⏱️ Waiting for page to fully render after verification...")
+            
+            # Try to wait for network idle (page finished loading)
+            try:
+                await self.page.wait_for_load_state('networkidle', timeout=15000)
+                logger.info("✅ Page network idle - content loaded")
+            except:
+                logger.info("⏱️ Network still active, waiting fixed duration...")
+            
+            # Additional natural wait for JavaScript to render (mimic human page viewing)
+            # Humans take 3-5 seconds to scan a page after it loads
+            await asyncio.sleep(4)
+            
+            # Try learned patterns first, then common selectors
+            learned_selectors = self.structure_learner.get_best_patterns(
+                retailer, 'catalog', ['url_selector']
+            ) if hasattr(self, 'structure_learner') else []
+            
             product_loaded = False
-            for wait_selector in ['[data-testid="product-card-link"]', 'a[href*="/p/"]', '.product-card', '[data-product-id]']:
+            selectors_to_try = []
+            
+            # Add learned selectors first (highest priority)
+            if learned_selectors:
+                for pattern in learned_selectors:
+                    if pattern.get('url_selector'):
+                        selectors_to_try.append(pattern['url_selector'])
+            
+            # Add common fallback selectors
+            selectors_to_try.extend([
+                'a[href*="/shop/"]',  # Anthropologie pattern
+                'a[data-testid="product-card-link"]',  # Abercrombie
+                'a[href*="/p/"]',  # Generic /p/ pattern
+                'a[href*="/product/"]',  # Generic /product/ pattern
+                '.product-card a',  # Common class
+                '[data-product-id]'  # Data attribute
+            ])
+            
+            # Try selectors with short timeout (products should be loaded by now)
+            for wait_selector in selectors_to_try:
                 try:
-                    await self.page.wait_for_selector(wait_selector, timeout=10000, state='visible')
-                    logger.info(f"✅ Product cards loaded (selector: {wait_selector})")
+                    await self.page.wait_for_selector(wait_selector, timeout=3000, state='visible')
+                    logger.info(f"✅ Product cards detected with selector: {wait_selector}")
                     product_loaded = True
                     break
-                except Exception as e:
-                    logger.info(f"⚠️ Selector {wait_selector} not found, trying next...")
+                except:
+                    continue
             
-            if product_loaded:
-                await asyncio.sleep(2)  # Let remaining products finish rendering
-            else:
-                logger.warning("⚠️ No product cards detected, proceeding anyway")
+            if not product_loaded:
+                logger.info("⚠️ No standard product selectors detected, relying on Gemini Vision")
             
-            # Wait for page to fully load (no scrolling needed - full_page screenshot captures everything)
-            await asyncio.sleep(3)
+            # Brief pause to let any final animations complete (natural behavior)
+            await asyncio.sleep(2)
             
             # Take FULL PAGE screenshot to capture ALL products (not just viewport)
             screenshots = []
