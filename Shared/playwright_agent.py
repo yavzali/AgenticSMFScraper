@@ -876,6 +876,10 @@ Return a JSON array with ALL products found across all screenshots."""
             
             # Get viewport dimensions for coordinate mapping
             viewport = self.page.viewport_size
+            if not viewport:
+                # Fallback to default viewport
+                viewport = {'width': 1920, 'height': 1080}
+                logger.debug("Using default viewport size for coordinate mapping")
             
             prompt = """Analyze this page for verification challenges.
 
