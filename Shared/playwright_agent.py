@@ -273,37 +273,37 @@ class PlaywrightMultiScreenshotAgent:
             
             logger.info(f"✅ Captured full-page catalog screenshot")
             
-            # STEP 1: Extract product URLs and codes from DOM first (Gemini can't read these from screenshots)
-            logger.info("🔍 Step 1: Extracting product URLs and codes from DOM")
-            dom_product_links = await self._extract_catalog_product_links_from_dom(retailer)
-            logger.info(f"✅ DOM found {len(dom_product_links)} product URLs with codes")
+            # STEP 1: Gemini extracts ALL visual data FIRST
+            logger.info("🔍 Step 1: Gemini Vision extracting product data from screenshot")
             
             # Build Gemini prompt with screenshots
+            screenshot_list = "\n".join([f"{i+1}. {desc}" for i, desc in enumerate(screenshot_descriptions)])
+            
             full_prompt = f"""{catalog_prompt}
 
 SCREENSHOT ANALYSIS INSTRUCTIONS:
-You are viewing {len(screenshots)} screenshots of a {retailer} catalog page. 
+You are viewing {len(screenshots)} screenshot(s) of a {retailer} catalog page. 
 Analyze ALL visible products across all screenshots.
 Extract EVERY product you can see.
 
 Screenshots show:
-1. {screenshot_descriptions[0]}
-2. {screenshot_descriptions[1]}
-3. {screenshot_descriptions[2]}
+{screenshot_list}
 
-IMPORTANT: We have already extracted {len(dom_product_links)} product URLs from the DOM.
-Your job is to extract VISUAL information for each product:
+IMPORTANT: Extract ALL visual information you can see for each product:
 - Product title (as shown in the image)
 - Current price (visible in screenshot)
-- Original price if on sale
-- Product image URL (visible in screenshot)
+- Original price if on sale (if product is on sale)
+- Product image URL (visible in screenshot, if available)
+- Sale status (on_sale or regular)
+- Any other visual details you can identify
 
-We will match your visual data with the DOM URLs after extraction.
+NOTE: You cannot read URLs or product codes from screenshots. 
+We will extract those separately using DOM after you provide the visual data.
 
 Return a JSON array with ALL products found across all screenshots."""
 
             # Call Gemini Vision with all screenshots
-            logger.debug("Sending screenshots to Gemini Vision for catalog extraction")
+            logger.debug("Sending full-page screenshot to Gemini Vision for catalog extraction")
             
             # Configure Gemini API
             api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
@@ -379,10 +379,15 @@ Return a JSON array with ALL products found across all screenshots."""
             
             logger.info(f"✅ Gemini extracted {len(products)} products visually")
             
-            # STEP 2: Merge DOM URLs with Gemini visual data
-            logger.info("🔗 Step 2: Matching DOM URLs with Gemini visual data")
+            # STEP 2: DOM extracts URLs + validates Gemini's work (guided by Gemini's visual data)
+            logger.info("🔗 Step 2: DOM extracting URLs and validating Gemini data")
+            dom_product_links = await self._extract_catalog_product_links_from_dom(retailer)
+            logger.info(f"✅ DOM found {len(dom_product_links)} product URLs")
+            
+            # STEP 3: Merge DOM URLs with Gemini visual data + validate
+            logger.info("🔗 Step 3: Merging DOM URLs with Gemini visual data + validation")
             merged_products, validation_stats = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
-            logger.info(f"✅ Merged result: {len(merged_products)} products with URLs and visual data")
+            logger.info(f"✅ Merged result: {len(merged_products)} products with complete data")
             
             # Use merged products for final result
             products = merged_products
