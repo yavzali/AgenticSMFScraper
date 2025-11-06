@@ -250,6 +250,23 @@ class PlaywrightMultiScreenshotAgent:
             strategy = {'domain': self._extract_domain(catalog_url), 'retailer': retailer}
             await self._handle_verification_challenges(strategy)
             
+            # CRITICAL: Wait for product cards to load (especially for JS-heavy SPAs like Abercrombie)
+            # Try common selectors in order of likelihood
+            product_loaded = False
+            for wait_selector in ['[data-testid="product-card-link"]', 'a[href*="/p/"]', '.product-card', '[data-product-id]']:
+                try:
+                    await self.page.wait_for_selector(wait_selector, timeout=10000, state='visible')
+                    logger.debug(f"✅ Product cards loaded (selector: {wait_selector})")
+                    product_loaded = True
+                    break
+                except Exception as e:
+                    logger.debug(f"Selector {wait_selector} not found, trying next...")
+            
+            if product_loaded:
+                await asyncio.sleep(2)  # Let remaining products finish rendering
+            else:
+                logger.warning("⚠️ No product cards detected, proceeding anyway")
+            
             # Wait for page to fully load (no scrolling needed - full_page screenshot captures everything)
             await asyncio.sleep(3)
             
