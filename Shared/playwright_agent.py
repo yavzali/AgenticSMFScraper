@@ -250,24 +250,20 @@ class PlaywrightMultiScreenshotAgent:
             strategy = {'domain': self._extract_domain(catalog_url), 'retailer': retailer}
             await self._handle_verification_challenges(strategy)
             
-            # Scroll to load products (for infinite scroll catalogs)
-            logger.debug("Scrolling to load catalog products")
-            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
-            await asyncio.sleep(2)
-            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            await asyncio.sleep(2)
+            # Wait for page to fully load (no scrolling needed - full_page screenshot captures everything)
+            await asyncio.sleep(3)
             
             # Take FULL PAGE screenshot to capture ALL products (not just viewport)
             screenshots = []
             screenshot_descriptions = []
             
-            # Scroll to top first
+            # Scroll to top first for clean screenshot
             await self.page.evaluate("window.scrollTo(0, 0)")
             await asyncio.sleep(1)
             
-            # Take ONE full-page screenshot that captures everything
-            logger.debug(f"📸 Taking full-page screenshot (captures all products on page)")
-            full_page_screenshot = await self.page.screenshot(full_page=True)
+            # Take ONE full-page PNG screenshot (PNG has no size limit, WebP limited to 16383px)
+            logger.debug(f"📸 Taking full-page PNG screenshot (captures all products on page)")
+            full_page_screenshot = await self.page.screenshot(full_page=True, type='png')
             screenshots.append(full_page_screenshot)
             screenshot_descriptions.append("Full catalog page showing all products")
             
