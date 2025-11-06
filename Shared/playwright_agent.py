@@ -733,10 +733,82 @@ Return a JSON array with ALL products found across all screenshots."""
             except:
                 pass
     
+    async def _dismiss_popups(self):
+        """Dismiss common popups: notifications, cookie banners, email signup, ads"""
+        dismissed_count = 0
+        
+        # Common popup close button patterns (generalized across retailers)
+        close_selectors = [
+            # X buttons and close icons
+            'button[aria-label*="close" i]',
+            'button[aria-label*="dismiss" i]',
+            'button[title*="close" i]',
+            '[class*="close-button" i]',
+            '[class*="close-btn" i]',
+            '[class*="modal-close" i]',
+            '[id*="close-button" i]',
+            '.close-icon',
+            
+            # Text-based close buttons
+            'button:has-text("Close")',
+            'button:has-text("No Thanks")',
+            'button:has-text("No thanks")',
+            'button:has-text("Maybe Later")',
+            'button:has-text("Not Now")',
+            'button:has-text("Dismiss")',
+            'button:has-text("Continue")',
+            'button:has-text("Accept")',
+            
+            # Cookie banners
+            'button:has-text("Accept All")',
+            'button:has-text("Accept Cookies")',
+            'button:has-text("I Agree")',
+            '[id*="cookie-accept"]',
+            '[class*="cookie-accept"]',
+            
+            # Email signup dismissal
+            '[data-testid*="close"]',
+            '[data-testid*="dismiss"]',
+            '.email-signup-close',
+            '.newsletter-close',
+            
+            # Modal overlays (last resort - click overlay itself)
+            '.modal-overlay',
+            '.popup-overlay',
+            '[class*="overlay"][class*="modal"]'
+        ]
+        
+        for selector in close_selectors:
+            try:
+                # Check if element exists and is visible
+                elements = await self.page.locator(selector).all()
+                
+                for element in elements:
+                    try:
+                        if await element.is_visible(timeout=500):
+                            await element.click(timeout=1000)
+                            dismissed_count += 1
+                            logger.info(f"✅ Dismissed popup: {selector}")
+                            await asyncio.sleep(0.5)  # Let popup close animation finish
+                    except:
+                        continue
+                        
+            except Exception as e:
+                logger.debug(f"Popup check failed for {selector}: {e}")
+                continue
+        
+        if dismissed_count > 0:
+            logger.info(f"🧹 Dismissed {dismissed_count} popups total")
+        
+        return dismissed_count > 0
+    
     async def _handle_verification_challenges(self, strategy: Dict):
         """Enhanced verification with Patchright shadow DOM support"""
         
-        # Patchright can handle closed shadow roots better
+        # First, dismiss any popups that might be blocking
+        await self._dismiss_popups()
+        
+        # Then handle verification challenges
         verification_selectors = [
             'button:has-text("Press & Hold")',
             'button:has-text("I am human")',
