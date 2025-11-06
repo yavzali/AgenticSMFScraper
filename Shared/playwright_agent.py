@@ -873,32 +873,80 @@ Return a JSON array with ALL products found across all screenshots."""
         # First, dismiss any popups that might be blocking
         await self._dismiss_popups()
         
+        # Check if we're on a verification page (look for common indicators)
+        page_content = await self.page.content()
+        is_verification_page = any(keyword in page_content.lower() for keyword in 
+            ['press and hold', 'press & hold', 'verification', 'captcha', 'challenge', 'cloudflare'])
+        
+        if is_verification_page:
+            logger.info("🛡️ Verification page detected - attempting to bypass...")
+        
         # Then handle verification challenges
         verification_selectors = [
+            # Press & Hold specific (Anthropologie, Urban Outfitters)
             'button:has-text("Press & Hold")',
+            'button:has-text("Press and Hold")',
+            'button:has-text("PRESS & HOLD")',
+            '[class*="press"][class*="hold"]',
+            '[id*="press-hold"]',
+            '[data-testid="press-hold-button"]',
+            # Generic human verification
             'button:has-text("I am human")',
             'button:has-text("Verify")',
+            'button:has-text("Continue")',
+            # Captcha/Cloudflare
             '.captcha-container',
             '.cloudflare-browser-verification',
             '#challenge-form',
-            '[data-testid="press-hold-button"]',
             'iframe[src*="challenges.cloudflare.com"]',
             '[aria-label*="verification"]',
             '[aria-label*="challenge"]'
         ]
         
+        # Only add aggressive fallback if we confirmed it's a verification page
+        if is_verification_page:
+            verification_selectors.extend([
+                'button[type="button"]',  # Try any button as last resort
+                'button',  # Ultimate fallback
+                'div[role="button"]'
+            ])
+        
         for selector in verification_selectors:
             try:
+                logger.debug(f"🔍 Checking verification selector: {selector}")
                 element = await self.page.locator(selector).first
                 if await element.is_visible(timeout=2000):
+                    logger.info(f"✅ Found verification element: {selector}")
                     logger.info(f"🛡️ Handling verification with Patchright: {selector}")
                     
-                    if "Press & Hold" in selector or "press-hold" in selector:
-                        # Enhanced press-and-hold with Patchright
-                        await element.hover()
-                        await self.page.wait_for_timeout(1000)
-                        await element.click()
-                        await self.page.wait_for_timeout(6000)  # Hold longer
+                    # Determine if this is a press & hold verification
+                    is_press_hold = ("Press & Hold" in selector or "press-hold" in selector or 
+                                    "press" in selector.lower() or 
+                                    (is_verification_page and selector in ['button', 'button[type="button"]', 'div[role="button"]']))
+                    
+                    if is_press_hold:
+                        # Enhanced press-and-hold with actual mouse down/up
+                        logger.info("🖱️ Performing press & hold action (8 second hold)...")
+                        try:
+                            box = await element.bounding_box()
+                            if box:
+                                # Move to element center and hold mouse down
+                                await self.page.mouse.move(box['x'] + box['width']/2, box['y'] + box['height']/2)
+                                await self.page.mouse.down()
+                                await self.page.wait_for_timeout(8000)  # Hold for 8 seconds
+                                await self.page.mouse.up()
+                                logger.info("✅ Press & hold completed (8s)")
+                            else:
+                                # Fallback: hover + click + wait
+                                await element.hover()
+                                await self.page.wait_for_timeout(500)
+                                await element.click()
+                                await self.page.wait_for_timeout(8000)
+                                logger.info("✅ Press & hold fallback completed (8s)")
+                        except Exception as e:
+                            logger.warning(f"Press & hold error: {e}, trying simple click")
+                            await element.click()
+                            await self.page.wait_for_timeout(8000)
                     elif "I am human" in selector:
                         await element.click()
                         await self.page.wait_for_timeout(3000)
