@@ -286,6 +286,11 @@ class PlaywrightMultiScreenshotAgent:
             
             logger.info(f"✅ Captured {len(screenshots)} catalog screenshots")
             
+            # STEP 1: Extract product URLs and codes from DOM first (Gemini can't read these from screenshots)
+            logger.info("🔍 Step 1: Extracting product URLs and codes from DOM")
+            dom_product_links = await self._extract_catalog_product_links_from_dom(retailer)
+            logger.info(f"✅ DOM found {len(dom_product_links)} product URLs with codes")
+            
             # Build Gemini prompt with screenshots
             full_prompt = f"""{catalog_prompt}
 
@@ -298,6 +303,15 @@ Screenshots show:
 1. {screenshot_descriptions[0]}
 2. {screenshot_descriptions[1]}
 3. {screenshot_descriptions[2]}
+
+IMPORTANT: We have already extracted {len(dom_product_links)} product URLs from the DOM.
+Your job is to extract VISUAL information for each product:
+- Product title (as shown in the image)
+- Current price (visible in screenshot)
+- Original price if on sale
+- Product image URL (visible in screenshot)
+
+We will match your visual data with the DOM URLs after extraction.
 
 Return a JSON array with ALL products found across all screenshots."""
 
@@ -378,6 +392,16 @@ Return a JSON array with ALL products found across all screenshots."""
                     'warnings': [f'Expected array, got {type(products)}'],
                     'errors': ['Extraction result was not in array format']
                 }
+            
+            logger.info(f"✅ Gemini extracted {len(products)} products visually")
+            
+            # STEP 2: Merge DOM URLs with Gemini visual data
+            logger.info("🔗 Step 2: Matching DOM URLs with Gemini visual data")
+            merged_products = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
+            logger.info(f"✅ Merged result: {len(merged_products)} products with URLs and visual data")
+            
+            # Use merged products for final result
+            products = merged_products
             
             logger.info(f"✅ Patchright catalog extraction successful: {len(products)} products found")
             
@@ -2376,3 +2400,166 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
             logger.info(f"✅ Learned from extraction")
         except Exception as e:
             logger.debug(f"Learning failed: {e}")
+    
+    async def _extract_catalog_product_links_from_dom(self, retailer: str) -> List[Dict]:
+        """
+        Extract product URLs and product codes from DOM (Gemini Vision can't read these!)
+        Returns list of {url, product_code, position}
+        """
+        try:
+            product_links = []
+            
+            # Retailer-specific product link selectors (learned patterns + common patterns)
+            selectors = []
+            
+            # Get learned patterns first
+            learned_patterns = self.structure_learner.get_best_patterns(retailer, element_type='product_link')
+            if learned_patterns:
+                selectors.extend([p['pattern_data'] for p in learned_patterns if p['confidence_score'] > 0.7])
+            
+            # Add common catalog product link patterns
+            selectors.extend([
+                'a[href*="/product"]', 'a[href*="/p/"]', 'a[href*="/dp/"]',
+                '.product-card a', '.product-item a', '[data-product-id]',
+                'a.product-link', 'a.product-tile', 'a[data-product-url]',
+                'a[href*="/shop/"]', 'a[href*="/item/"]', 'a[href*="/goods/"]'
+            ])
+            
+            # Try each selector
+            for selector in selectors:
+                try:
+                    links = await self.page.query_selector_all(selector)
+                    if links and len(links) > 5:  # If we found a good set of product links
+                        logger.debug(f"Found {len(links)} product links with selector: {selector}")
+                        
+                        for idx, link in enumerate(links[:100]):  # Limit to 100 products per page
+                            href = await link.get_attribute('href')
+                            if href:
+                                # Make absolute URL if relative
+                                if href.startswith('/'):
+                                    parsed = urlparse(await self.page.url)
+                                    href = f"{parsed.scheme}://{parsed.netloc}{href}"
+                                elif not href.startswith('http'):
+                                    continue  # Skip invalid URLs
+                                
+                                # Extract product code from URL
+                                from markdown_extractor import MarkdownExtractor
+                                extractor = MarkdownExtractor()
+                                product_code = extractor._extract_product_code_from_url(href)
+                                
+                                product_links.append({
+                                    'url': href.split('?')[0],  # Remove query params for cleaner URLs
+                                    'product_code': product_code,
+                                    'position': idx + 1
+                                })
+                        
+                        # Record successful selector for learning
+                        if product_links:
+                            self.structure_learner.record_successful_extraction(
+                                retailer, 'product_link', selector
+                            )
+                        
+                        break  # Found good results, stop trying selectors
+                        
+                except Exception as e:
+                    logger.debug(f"Selector {selector} failed: {e}")
+                    continue
+            
+            # Deduplicate by URL
+            seen_urls = set()
+            unique_links = []
+            for link in product_links:
+                if link['url'] not in seen_urls:
+                    seen_urls.add(link['url'])
+                    unique_links.append(link)
+            
+            return unique_links
+            
+        except Exception as e:
+            logger.warning(f"Failed to extract catalog product links from DOM: {e}")
+            return []
+    
+    def _merge_catalog_dom_with_gemini(self, dom_links: List[Dict], gemini_products: List[Dict], retailer: str) -> List[Dict]:
+        """
+        Merge DOM URLs/codes with Gemini visual data
+        Strategy: Match by position, or by title similarity if positions don't align
+        """
+        try:
+            merged = []
+            
+            # If counts match, do positional matching (simplest)
+            if len(dom_links) == len(gemini_products):
+                logger.debug(f"Counts match ({len(dom_links)}), doing positional merge")
+                for dom_link, gemini_product in zip(dom_links, gemini_products):
+                    merged_product = {
+                        'url': dom_link['url'],
+                        'product_code': dom_link['product_code'],
+                        'title': gemini_product.get('title', ''),
+                        'price': gemini_product.get('price', 0),
+                        'original_price': gemini_product.get('original_price'),
+                        'image_urls': gemini_product.get('image_urls', []),
+                        'sale_status': gemini_product.get('sale_status', 'regular'),
+                        'availability': gemini_product.get('availability', 'in_stock')
+                    }
+                    merged.append(merged_product)
+            
+            # If counts don't match, do fuzzy title matching
+            else:
+                logger.debug(f"Counts differ (DOM:{len(dom_links)}, Gemini:{len(gemini_products)}), doing title matching")
+                
+                # First, try to match by title similarity
+                for gemini_product in gemini_products:
+                    gemini_title = gemini_product.get('title', '').lower()
+                    
+                    best_match = None
+                    best_similarity = 0
+                    
+                    for dom_link in dom_links:
+                        # Try to extract title from URL for matching
+                        url_parts = dom_link['url'].lower().split('/')
+                        url_title = url_parts[-1] if url_parts else ''
+                        
+                        # Simple similarity check
+                        similarity = self._calculate_similarity(gemini_title, url_title)
+                        if similarity > best_similarity and similarity > 0.5:
+                            best_similarity = similarity
+                            best_match = dom_link
+                    
+                    if best_match:
+                        merged_product = {
+                            'url': best_match['url'],
+                            'product_code': best_match['product_code'],
+                            'title': gemini_product.get('title', ''),
+                            'price': gemini_product.get('price', 0),
+                            'original_price': gemini_product.get('original_price'),
+                            'image_urls': gemini_product.get('image_urls', []),
+                            'sale_status': gemini_product.get('sale_status', 'regular'),
+                            'availability': gemini_product.get('availability', 'in_stock'),
+                            'match_confidence': best_similarity
+                        }
+                        merged.append(merged_product)
+                    else:
+                        # No match found, add Gemini product without URL
+                        gemini_product['url'] = None
+                        gemini_product['product_code'] = None
+                        merged.append(gemini_product)
+                
+                # Add any DOM links that weren't matched (with placeholder data)
+                matched_urls = {p['url'] for p in merged if p.get('url')}
+                for dom_link in dom_links:
+                    if dom_link['url'] not in matched_urls:
+                        merged.append({
+                            'url': dom_link['url'],
+                            'product_code': dom_link['product_code'],
+                            'title': f"[URL only: {dom_link['url'].split('/')[-1]}]",
+                            'price': 0,
+                            'needs_reprocessing': True
+                        })
+            
+            logger.debug(f"Merged {len(merged)} products (DOM URLs + Gemini visual data)")
+            return merged
+            
+        except Exception as e:
+            logger.error(f"Failed to merge catalog DOM and Gemini data: {e}")
+            # Fallback: return Gemini products as-is
+            return gemini_products
