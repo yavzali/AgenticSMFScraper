@@ -931,6 +931,7 @@ If NO verification challenge: {"verification_found": false}"""
                 return False
             
             logger.info(f"🎯 Gemini found {result['type']} verification: '{result.get('text', 'unknown')}'")
+            logger.info(f"📊 Gemini response: {json.dumps(result, indent=2)}")
             
             # Check if verification is in an iframe
             frames = self.page.frames
@@ -1013,22 +1014,123 @@ Return ONLY valid JSON:
                         logger.debug(f"Could not analyze iframe {i}: {e}")
                         continue
             
-            # Fallback: Click on main page if no iframe found
+            # Fallback: Try to find actual button element first
+            logger.info("🔍 Attempting to find Press & Hold button element...")
+            button_element = None
+            button_selectors = [
+                '.px-captcha-error-button',
+                'div.px-captcha-error-button',
+                'div:has-text("Press & Hold")',
+                'button:has-text("Press & Hold")',
+                '[class*="captcha"][class*="button"]'
+            ]
+            
+            for selector in button_selectors:
+                try:
+                    element = self.page.locator(selector).first
+                    if await element.is_visible(timeout=2000):
+                        button_element = element
+                        logger.info(f"✅ Found button with selector: {selector}")
+                        break
+                except:
+                    continue
+            
+            if button_element:
+                # Click the actual element
+                logger.info("🖱️ Clicking actual button element with press & hold simulation...")
+                try:
+                    # Get button position
+                    box = await button_element.bounding_box()
+                    if box:
+                        btn_x = box['x'] + box['width'] / 2
+                        btn_y = box['y'] + box['height'] / 2
+                        logger.info(f"📍 Button center: ({btn_x:.0f}, {btn_y:.0f})")
+                        
+                        # Try keyboard approach (TAB to focus + Space to press)
+                        logger.info("⌨️ Trying keyboard approach (TAB + SPACE)...")
+                        
+                        # Press TAB multiple times to focus the button
+                        for i in range(10):
+                            await self.page.keyboard.press('Tab')
+                            await self.page.wait_for_timeout(300)
+                        
+                        # Hold space for 10 seconds
+                        logger.info("⏱️ Holding SPACE for 10s...")
+                        await self.page.keyboard.down('Space')
+                        await self.page.wait_for_timeout(10000)
+                        await self.page.keyboard.up('Space')
+                        logger.info("✅ Keyboard press & hold completed!")
+                        
+                        # Wait for page to load
+                        await self.page.wait_for_timeout(3000)
+                        logger.info("⏱️ Waited 3s for page to load after verification")
+                        
+                        # Save debug HTML
+                        try:
+                            page_html = await self.page.content()
+                            with open('/tmp/anthropologie_after_verification.html', 'w', encoding='utf-8') as f:
+                                f.write(page_html)
+                            logger.info(f"📝 Saved post-verification HTML")
+                        except:
+                            pass
+                        
+                        return True
+                except Exception as e:
+                    logger.warning(f"Failed to interact with button element: {e}")
+            
+            # Final fallback: Click on coordinates from Gemini
             # Calculate actual coordinates from percentages
             position = result.get('position', {})
             x = viewport['width'] * (position.get('x_percent', 50) / 100.0)
             y = viewport['height'] * (position.get('y_percent', 50) / 100.0)
             
-            logger.info(f"📍 Clicking at ({x:.0f}, {y:.0f})")
+            logger.info(f"📍 Fallback to Gemini coordinates: ({x:.0f}, {y:.0f})")
             
             # Perform action based on type
             if result['type'] == 'press_hold' or result.get('requires_hold'):
-                hold_duration = result.get('hold_duration_seconds', 8) * 1000
+                hold_duration = result.get('hold_duration_seconds', 10) * 1000  # Increased to 10s
                 logger.info(f"🖱️ Performing press & hold for {hold_duration/1000}s...")
-                await self.page.mouse.move(x, y)
+                
+                # Move mouse in a more human-like way (from random start point)
+                import random
+                start_x = random.randint(100, 500)
+                start_y = random.randint(100, 500)
+                await self.page.mouse.move(start_x, start_y)
+                await self.page.wait_for_timeout(random.randint(100, 300))
+                
+                # Move to target with some slight randomness
+                final_x = x + random.randint(-5, 5)
+                final_y = y + random.randint(-5, 5)
+                await self.page.mouse.move(final_x, final_y)
+                await self.page.wait_for_timeout(random.randint(200, 500))
+                
+                logger.info(f"🖱️ Mouse positioned at ({final_x:.0f}, {final_y:.0f}), holding down...")
+                
+                # DEBUG: Screenshot before press
+                try:
+                    before_screenshot = await self.page.screenshot(type='png')
+                    with open('/tmp/anthropologie_before_press.png', 'wb') as f:
+                        f.write(before_screenshot)
+                    logger.info("📸 Saved screenshot before press")
+                except:
+                    pass
+                
                 await self.page.mouse.down()
+                logger.info(f"⏱️ Holding for {hold_duration/1000}s...")
                 await self.page.wait_for_timeout(hold_duration)
                 await self.page.mouse.up()
+                logger.info("✅ Mouse released")
+                
+                # DEBUG: Screenshot after press
+                await self.page.wait_for_timeout(2000)
+                try:
+                    after_screenshot = await self.page.screenshot(type='png')
+                    with open('/tmp/anthropologie_after_press.png', 'wb') as f:
+                        f.write(after_screenshot)
+                    logger.info("📸 Saved screenshot after press")
+                except:
+                    pass
+                
                 logger.info("✅ Press & hold completed via Gemini Vision")
             else:
                 # Simple click
@@ -1073,6 +1175,13 @@ Return ONLY valid JSON:
             verification_handled = await self._gemini_handle_verification()
             if verification_handled:
                 logger.info("✅ Gemini Vision successfully handled verification!")
+                # Wait for actual page to load (verification might take time to process)
+                try:
+                    logger.info("⏱️ Waiting for product page to load...")
+                    await self.page.wait_for_load_state('networkidle', timeout=15000)
+                    logger.info("✅ Product page loaded!")
+                except:
+                    logger.info("⏱️ Timeout waiting for networkidle, proceeding anyway...")
                 return True
         
         # Then handle verification challenges
