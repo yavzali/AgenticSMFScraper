@@ -387,6 +387,18 @@ Return a JSON array with ALL products found across all screenshots."""
             
             # STEP 2: DOM extracts URLs + validates Gemini's work (guided by Gemini's visual data)
             logger.info("🔗 Step 2: DOM extracting URLs and validating Gemini data")
+            
+            # DEBUG: Save page HTML to inspect selectors (temporary)
+            if len(products) > 0 and retailer == 'abercrombie':
+                try:
+                    page_html = await self.page.content()
+                    debug_file = f"/tmp/{retailer}_catalog_debug.html"
+                    with open(debug_file, 'w', encoding='utf-8') as f:
+                        f.write(page_html)
+                    logger.info(f"🐛 DEBUG: Saved page HTML to {debug_file}")
+                except Exception as e:
+                    logger.debug(f"Failed to save debug HTML: {e}")
+            
             dom_product_links = await self._extract_catalog_product_links_from_dom(retailer)
             logger.info(f"✅ DOM found {len(dom_product_links)} product URLs")
             
@@ -2004,6 +2016,9 @@ Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
             
             # Add common catalog product link patterns
             selectors.extend([
+                # Abercrombie specific
+                'a[data-testid="product-card-link"]',
+                # Generic patterns
                 'a[href*="/product"]', 'a[href*="/p/"]', 'a[href*="/dp/"]',
                 '.product-card a', '.product-item a', '[data-product-id]',
                 'a.product-link', 'a.product-tile', 'a[data-product-url]',
