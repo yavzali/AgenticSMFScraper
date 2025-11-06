@@ -589,22 +589,23 @@ Return a JSON array with ALL products found across all screenshots."""
             # Take strategic screenshots for content analysis
             screenshots = await self._take_strategic_screenshots(strategy, retailer)
             
-            # STEP 1: Gemini analyzes screenshots first (gets visual layout understanding)
-            logger.info("🔍 Step 1: Gemini analyzing screenshots for visual layout")
+            # STEP 1: Gemini extracts ALL product data from screenshots (PRIMARY)
+            logger.info("🔍 Step 1: Gemini extracting ALL product data from screenshots")
+            product_data = await self._analyze_with_gemini(screenshots, url, retailer)
+            
+            # STEP 2: Gemini analyzes page structure for DOM guidance
+            logger.info("🗺️ Step 2: Gemini analyzing page structure for DOM hints")
             gemini_visual_analysis = await self._gemini_analyze_page_structure(screenshots, url, retailer)
             
-            # STEP 2: Use Gemini's insights to guide targeted DOM extraction
-            logger.info("🎯 Step 2: Using Gemini insights to guide DOM extraction")
+            # STEP 3: DOM fills gaps and validates Gemini's work (SECONDARY)
+            logger.info("🎯 Step 3: DOM filling gaps & validating (guided by Gemini)")
             dom_extraction_result = await self._guided_dom_extraction(
-                retailer, 
+                retailer,
+                product_data=product_data,  # Pass Gemini's results
                 gemini_visual_hints=gemini_visual_analysis.get('visual_hints', {})
             )
             
-            # STEP 3: Gemini extracts remaining data from screenshots
-            logger.info("📊 Step 3: Gemini extracting product data")
-            product_data = await self._analyze_with_gemini(screenshots, url, retailer)
-            
-            # STEP 4: Merge DOM and Gemini results intelligently
+            # STEP 4: Merge results (Gemini primary, DOM fills gaps/validates)
             product_data = self._merge_extraction_results(
                 product_data,
                 dom_extraction_result,
@@ -2060,39 +2061,206 @@ class PlaywrightPerformanceMonitor:
             logger.warning(f"⚠️ Page structure analysis failed: {e}")
             return {'visual_hints': {}, 'dom_hints': {}}
     
-    async def _guided_dom_extraction(self, retailer: str, gemini_visual_hints: Dict) -> Dict:
-        """STEP 2: Use Gemini hints to guide DOM extraction"""
-        result = {'title': None, 'price': None, 'images': [], 'selectors_used': {}}
+    async def _guided_dom_extraction(self, retailer: str, product_data: ProductData, gemini_visual_hints: Dict) -> Dict:
+        """
+        STEP 3: DOM fills gaps & validates Gemini's work (guided by Gemini Vision)
+        Only extracts what Gemini missed or validates suspicious data
+        """
+        result = {
+            'title': None, 
+            'price': None, 
+            'images': [], 
+            'selectors_used': {},
+            'validations': {},
+            'gaps_filled': []
+        }
         
         try:
             learned_patterns = self.structure_learner.get_best_patterns(retailer)
             
-            # Title extraction with learned patterns
-            title_selectors = [p['pattern_data'] for p in learned_patterns if p['element_type'] == 'title' and p['confidence_score'] > 0.7]
-            title_selectors.extend(['h1', '.product-title', '.product-name'])
-            
-            for selector in title_selectors:
+            # TITLE: Only extract if Gemini missed it or for validation
+            if not product_data.title or len(product_data.title) < 5:
+                logger.debug("Title missing from Gemini, DOM extracting...")
+                title_selectors = [p['pattern_data'] for p in learned_patterns 
+                                 if p['element_type'] == 'title' and p['confidence_score'] > 0.7]
+                title_selectors.extend(['h1', '.product-title', '.product-name', '[data-testid="product-title"]'])
+                
+                for selector in title_selectors:
+                    try:
+                        element = await self.page.query_selector(selector)
+                        if element:
+                            dom_title = await element.inner_text()
+                            if dom_title and len(dom_title) > 5:
+                                result['title'] = dom_title.strip()
+                                result['selectors_used']['title'] = selector
+                                result['gaps_filled'].append('title')
+                                self.structure_learner.record_successful_extraction(retailer, 'title', selector)
+                                logger.info(f"✅ DOM filled gap: title")
+                                break
+                    except:
+                        continue
+            else:
+                # Gemini has title, validate it with DOM
                 try:
-                    element = await self.page.query_selector(selector)
-                    if element:
-                        result['title'] = await element.inner_text()
-                        result['selectors_used']['title'] = selector
-                        self.structure_learner.record_successful_extraction(retailer, 'title', selector)
-                        break
+                    validation_selectors = [p['pattern_data'] for p in learned_patterns 
+                                          if p['element_type'] == 'title' and p['confidence_score'] > 0.8][:2]
+                    for selector in validation_selectors:
+                        element = await self.page.query_selector(selector)
+                        if element:
+                            dom_title = (await element.inner_text()).strip()
+                            similarity = self._calculate_similarity(product_data.title, dom_title)
+                            result['validations']['title'] = {
+                                'gemini': product_data.title[:50],
+                                'dom': dom_title[:50],
+                                'similarity': similarity,
+                                'validated': similarity > 0.8
+                            }
+                            if similarity > 0.8:
+                                logger.debug(f"✅ DOM validated title ({similarity:.0%} match)")
+                            else:
+                                logger.warning(f"⚠️ Title mismatch: Gemini vs DOM ({similarity:.0%})")
+                            break
                 except:
-                    continue
+                    pass
             
-            logger.info(f"🎯 Guided extraction: title={bool(result['title'])}")
+            # PRICE: Only extract if missing
+            if not product_data.price or product_data.price == 0:
+                logger.debug("Price missing from Gemini, DOM extracting...")
+                price_selectors = [p['pattern_data'] for p in learned_patterns 
+                                 if p['element_type'] == 'price' and p['confidence_score'] > 0.7]
+                price_selectors.extend(['.price', '.product-price', '[data-testid="price"]', 
+                                      '.sale-price', '.current-price'])
+                
+                for selector in price_selectors:
+                    try:
+                        element = await self.page.query_selector(selector)
+                        if element:
+                            price_text = await element.inner_text()
+                            if price_text and '$' in price_text:
+                                result['price'] = price_text.strip()
+                                result['selectors_used']['price'] = selector
+                                result['gaps_filled'].append('price')
+                                self.structure_learner.record_successful_extraction(retailer, 'price', selector)
+                                logger.info(f"✅ DOM filled gap: price")
+                                break
+                    except:
+                        continue
+            
+            # IMAGES: Only extract if Gemini found < 2 images
+            if not product_data.image_urls or len(product_data.image_urls) < 2:
+                logger.debug(f"Images missing from Gemini ({len(product_data.image_urls or [])}), DOM extracting...")
+                image_selectors = ['img.product-image', '.product-images img', 
+                                 '.image-gallery img', '[data-testid="product-image"]']
+                
+                for selector in image_selectors:
+                    try:
+                        images = await self.page.query_selector_all(selector)
+                        for img in images[:5]:
+                            src = await img.get_attribute('src') or await img.get_attribute('data-src')
+                            if src and 'http' in src and 'icon' not in src.lower():
+                                result['images'].append(src)
+                        
+                        if result['images']:
+                            result['selectors_used']['images'] = selector
+                            result['gaps_filled'].append('images')
+                            logger.info(f"✅ DOM filled gap: {len(result['images'])} images")
+                            break
+                    except:
+                        continue
+            
+            gaps_msg = f"{len(result['gaps_filled'])} gaps filled" if result['gaps_filled'] else "no gaps"
+            val_msg = f"{len(result['validations'])} validations" if result['validations'] else "no validations"
+            logger.info(f"🎯 DOM complete: {gaps_msg}, {val_msg}")
+            
             return result
+            
         except Exception as e:
-            logger.error(f"❌ Guided extraction failed: {e}")
+            logger.error(f"❌ Guided DOM extraction failed: {e}")
             return result
     
+    def _calculate_similarity(self, str1: str, str2: str) -> float:
+        """Calculate string similarity (0.0-1.0)"""
+        try:
+            from difflib import SequenceMatcher
+            return SequenceMatcher(None, str1.lower(), str2.lower()).ratio()
+        except:
+            return 0.0
+    
     def _merge_extraction_results(self, product_data: ProductData, dom_result: Dict, gemini_analysis: Dict) -> ProductData:
-        """STEP 4: Merge DOM and Gemini results"""
-        if dom_result.get('title'):
-            product_data.title = dom_result['title']
-        return product_data
+        """
+        STEP 4: Merge results - Gemini PRIMARY, DOM fills gaps/validates
+        DOM only overwrites if Gemini missed something
+        """
+        try:
+            # Title: Use DOM only if Gemini missed it
+            if dom_result.get('title') and (not product_data.title or len(product_data.title) < 5):
+                product_data.title = dom_result['title']
+                logger.debug("Using DOM title (Gemini missed it)")
+            elif product_data.title:
+                logger.debug("Using Gemini title (primary)")
+            
+            # Price: Use DOM only if Gemini missed it
+            if dom_result.get('price') and (not product_data.price or product_data.price == 0):
+                # Parse DOM price text to float
+                price_text = dom_result['price']
+                try:
+                    import re
+                    price_match = re.search(r'\$?(\d+\.?\d*)', price_text)
+                    if price_match:
+                        product_data.price = float(price_match.group(1))
+                        logger.debug("Using DOM price (Gemini missed it)")
+                except:
+                    pass
+            elif product_data.price:
+                logger.debug(f"Using Gemini price: ${product_data.price}")
+            
+            # Images: Merge both, Gemini first, then DOM fills gaps
+            gemini_images = product_data.image_urls or []
+            dom_images = dom_result.get('images', [])
+            
+            if len(gemini_images) < 2 and dom_images:
+                # Gemini didn't find enough, use DOM
+                all_images = []
+                seen_bases = set()
+                
+                # Add Gemini images first (higher quality from screenshots)
+                for img in gemini_images:
+                    base = img.split('?')[0]
+                    if base not in seen_bases:
+                        all_images.append(img)
+                        seen_bases.add(base)
+                
+                # Fill with DOM images
+                for img in dom_images:
+                    base = img.split('?')[0]
+                    if base not in seen_bases:
+                        all_images.append(img)
+                        seen_bases.add(base)
+                
+                product_data.image_urls = all_images[:5]
+                logger.debug(f"Merged images: {len(gemini_images)} Gemini + {len(dom_images)} DOM = {len(product_data.image_urls)} total")
+            else:
+                logger.debug(f"Using Gemini images: {len(gemini_images)} found")
+            
+            # Log what happened
+            gaps_filled = dom_result.get('gaps_filled', [])
+            if gaps_filled:
+                logger.info(f"✅ DOM filled gaps: {', '.join(gaps_filled)}")
+            else:
+                logger.info("✅ Gemini extracted everything (DOM not needed)")
+            
+            # Log validations if any
+            validations = dom_result.get('validations', {})
+            if validations:
+                for field, val_data in validations.items():
+                    if not val_data.get('validated', True):
+                        logger.warning(f"⚠️ {field} validation issue: {val_data.get('similarity', 0):.0%} match")
+            
+            return product_data
+            
+        except Exception as e:
+            logger.error(f"❌ Result merging failed: {e}")
+            return product_data
     
     async def _learn_from_extraction(self, retailer: str, dom_result: Dict, gemini_analysis: Dict, final_product_data: ProductData, url: str):
         """STEP 5: Learn from extraction"""
