@@ -381,6 +381,23 @@ Return a JSON array with ALL products found across all screenshots."""
             
             logger.info(f"✅ Patchright catalog extraction successful: {len(products)} products found")
             
+            # Record catalog extraction performance for learning
+            try:
+                self.structure_learner.record_extraction_performance(
+                    retailer=retailer,
+                    gemini_success=True,
+                    gemini_time=processing_time,
+                    gemini_completeness=1.0 if len(products) > 5 else 0.7,  # Rough estimate
+                    dom_needed=False,  # Catalog extraction is Gemini-only
+                    dom_gaps=[],
+                    dom_time=0.0,
+                    total_time=processing_time,
+                    final_completeness=1.0 if len(products) > 5 else 0.7,
+                    method_used='patchright_catalog_gemini'
+                )
+            except Exception as e:
+                logger.debug(f"Failed to record catalog performance: {e}")
+            
             return {
                 'success': True,
                 'products': products,
