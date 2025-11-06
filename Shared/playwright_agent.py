@@ -20,6 +20,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from PIL import Image
 import io
+import google.generativeai as genai
 
 from logger_config import setup_logging
 from page_structure_learner import PageStructureLearner
@@ -317,9 +318,6 @@ Return a JSON array with ALL products found across all screenshots."""
 
             # Call Gemini Vision with all screenshots
             logger.debug("Sending screenshots to Gemini Vision for catalog extraction")
-            
-            # Use Google's generative AI for vision analysis
-            import google.generativeai as genai
             
             # Configure Gemini API
             api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
@@ -2421,7 +2419,6 @@ Return ONLY valid JSON:
 
 Focus on providing actionable CSS selectors that DOM can immediately use."""
             
-            import google.generativeai as genai
             api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
             genai.configure(api_key=api_key)
             
