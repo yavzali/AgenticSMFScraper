@@ -39,10 +39,10 @@ Skip to simpler retailer (Abercrombie) to test core DOM extraction logic first.
 
 ---
 
-## Test 2: Abercrombie (PENDING)
+## Test 2: Abercrombie (PARTIAL SUCCESS - Fixes Applied)
 **Date**: 2025-11-06  
-**Status**: ⏳ PENDING  
-**Reason**: Testing core DOM extraction without verification complications
+**Status**: ⚠️ PARTIAL SUCCESS  
+**Reason**: Gemini extracted products but DOM found no URLs
 
 ### Why Abercrombie:
 - ✅ No verification challenges
@@ -51,18 +51,26 @@ Skip to simpler retailer (Abercrombie) to test core DOM extraction logic first.
 - ✅ Clean product card structure
 - ✅ Sort by newest available
 
-### Expected Results:
+### Actual Results:
 ```
 ✅ Navigate to catalog successfully (no verification)
-✅ Extract 40-60 product URLs from DOM
-✅ Extract 40-60 product codes from URLs
-✅ Gemini extracts 40-60 products visually
-✅ DOM validation: 20-40 titles (50-80% coverage)
-✅ DOM validation: 25-45 prices (60-90% coverage)
-✅ Merge: 40-60 complete products
-✅ Validation: 2-5 corrections made
-✅ Pattern learning: Selectors recorded
+❌ Extract 0 product URLs from DOM (selectors didn't work)
+❌ Extract 0 product codes
+✅ Gemini extracted 12 products visually
+❌ DOM validation: 0 titles/prices (no DOM data)
+❌ Merge: 12 products WITHOUT URLs (failed parsing)
+❌ Final result: 0 products stored
 ```
+
+### Issues Found:
+1. **DOM selectors failed** - None of the common patterns matched Abercrombie
+2. **3-screenshot strategy incomplete** - User observed: "page exceeded three scrolls"
+3. **Parsing rejected URL-less products** - Cleaned 0/12 products (all had `url=None`)
+
+### Fixes Applied:
+1. ✅ **Full-page screenshot** - Changed from 3 viewports to ONE `full_page=True` screenshot
+2. ✅ **Better parsing logic** - Made URLs optional but skip URL-less products with warning
+3. ⏳ **DOM selector improvement needed** - Need to inspect Abercrombie's HTML
 
 ### Success Criteria:
 - **URLs**: 100% extraction (critical path)

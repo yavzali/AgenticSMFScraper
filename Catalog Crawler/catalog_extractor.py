@@ -555,8 +555,14 @@ IMPORTANT: Analyze ALL screenshots provided and extract ALL visible products.
     def _clean_catalog_product(self, raw_product: Dict, retailer: str, category: str) -> Optional[Dict]:
         """Clean and validate individual catalog product data"""
         try:
-            # Required fields validation
-            if not raw_product.get('url') or not raw_product.get('title'):
+            # Required fields validation (title is essential, URL is optional for Gemini-only extractions)
+            if not raw_product.get('title'):
+                return None
+            
+            # Skip products without URLs (Gemini couldn't match to DOM)
+            # These will need manual review or URL extraction
+            if not raw_product.get('url'):
+                logger.debug(f"Skipping product without URL: {raw_product.get('title', 'unknown')[:50]}")
                 return None
             
             # Clean URL

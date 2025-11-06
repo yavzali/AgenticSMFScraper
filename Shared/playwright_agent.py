@@ -257,35 +257,21 @@ class PlaywrightMultiScreenshotAgent:
             await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await asyncio.sleep(2)
             
-            # Take strategic screenshots of catalog
+            # Take FULL PAGE screenshot to capture ALL products (not just viewport)
             screenshots = []
             screenshot_descriptions = []
             
-            # Screenshot 1: Top of catalog page
+            # Scroll to top first
             await self.page.evaluate("window.scrollTo(0, 0)")
             await asyncio.sleep(1)
-            screenshot1 = await self.page.screenshot(full_page=False)
-            screenshots.append(screenshot1)
-            screenshot_descriptions.append("Top of catalog page showing first products")
-            logger.debug(f"📸 Screenshot 1: Top of catalog")
             
-            # Screenshot 2: Middle of catalog
-            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight / 3)")
-            await asyncio.sleep(1)
-            screenshot2 = await self.page.screenshot(full_page=False)
-            screenshots.append(screenshot2)
-            screenshot_descriptions.append("Middle section of catalog")
-            logger.debug(f"📸 Screenshot 2: Middle of catalog")
+            # Take ONE full-page screenshot that captures everything
+            logger.debug(f"📸 Taking full-page screenshot (captures all products on page)")
+            full_page_screenshot = await self.page.screenshot(full_page=True)
+            screenshots.append(full_page_screenshot)
+            screenshot_descriptions.append("Full catalog page showing all products")
             
-            # Screenshot 3: Lower section of catalog
-            await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight * 0.6)")
-            await asyncio.sleep(1)
-            screenshot3 = await self.page.screenshot(full_page=False)
-            screenshots.append(screenshot3)
-            screenshot_descriptions.append("Lower section of catalog")
-            logger.debug(f"📸 Screenshot 3: Lower section")
-            
-            logger.info(f"✅ Captured {len(screenshots)} catalog screenshots")
+            logger.info(f"✅ Captured full-page catalog screenshot")
             
             # STEP 1: Extract product URLs and codes from DOM first (Gemini can't read these from screenshots)
             logger.info("🔍 Step 1: Extracting product URLs and codes from DOM")
