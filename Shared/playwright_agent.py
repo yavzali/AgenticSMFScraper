@@ -256,11 +256,11 @@ class PlaywrightMultiScreenshotAgent:
             for wait_selector in ['[data-testid="product-card-link"]', 'a[href*="/p/"]', '.product-card', '[data-product-id]']:
                 try:
                     await self.page.wait_for_selector(wait_selector, timeout=10000, state='visible')
-                    logger.debug(f"✅ Product cards loaded (selector: {wait_selector})")
+                    logger.info(f"✅ Product cards loaded (selector: {wait_selector})")
                     product_loaded = True
                     break
                 except Exception as e:
-                    logger.debug(f"Selector {wait_selector} not found, trying next...")
+                    logger.info(f"⚠️ Selector {wait_selector} not found, trying next...")
             
             if product_loaded:
                 await asyncio.sleep(2)  # Let remaining products finish rendering
@@ -2046,17 +2046,32 @@ Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
             for selector in selectors:
                 try:
                     links = await self.page.query_selector_all(selector)
-                    if links and len(links) > 5:  # If we found a good set of product links
-                        logger.debug(f"Found {len(links)} product links with selector: {selector}")
+                    logger.info(f"🔍 Selector '{selector}' found {len(links) if links else 0} links")
+                    if links and len(links) > 0:  # If we found ANY product links (changed from >5)
+                        logger.info(f"✅ Found {len(links)} product links with selector: {selector}")
                         
                         for idx, link in enumerate(links[:100]):  # Limit to 100 products per page
-                            href = await link.get_attribute('href')
+                            try:
+                                # Try multiple ways to get href (JS-heavy SPAs might use properties not attributes)
+                                href = await link.get_attribute('href')
+                                if not href:
+                                    # Try getting it from the JavaScript property instead
+                                    href = await link.evaluate('el => el.href')
+                            except Exception as e:
+                                logger.warning(f"Failed to get href for link {idx}: {e}")
+                                continue
+                            
+                            if not href:
+                                logger.info(f"⚠️ Link {idx} has no href (tried attribute and property)")
+                                continue
+                            
                             if href:
                                 # Make absolute URL if relative
                                 if href.startswith('/'):
                                     parsed = urlparse(await self.page.url)
                                     href = f"{parsed.scheme}://{parsed.netloc}{href}"
                                 elif not href.startswith('http'):
+                                    logger.info(f"⚠️ Skipping invalid URL (doesn't start with http): {href[:100]}")
                                     continue  # Skip invalid URLs
                                 
                                 # Extract product code from URL
@@ -2114,6 +2129,7 @@ Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
                                 })
                         
                         # Record successful selector for learning
+                        logger.info(f"📦 Extracted {len(product_links)} product URLs from DOM")
                         if product_links:
                             self.structure_learner.record_successful_extraction(
                                 retailer, 'product_link', selector
