@@ -312,6 +312,16 @@ Return a JSON array with ALL products found across all screenshots."""
                 from PIL import Image
                 import io
                 image = Image.open(io.BytesIO(screenshot_bytes))
+                
+                # Resize if height exceeds Gemini's WebP limit (16383px)
+                # Gemini converts to WebP internally, so we must stay under the limit
+                max_height = 16000  # Stay under 16383 limit with buffer
+                if image.height > max_height:
+                    scale_factor = max_height / image.height
+                    new_width = int(image.width * scale_factor)
+                    logger.info(f"📐 Resizing screenshot from {image.width}x{image.height} to {new_width}x{max_height} (Gemini WebP limit)")
+                    image = image.resize((new_width, max_height), Image.Resampling.LANCZOS)
+                
                 image_parts.append(image)
             
             # Call Gemini Vision model
