@@ -22,6 +22,7 @@ from PIL import Image
 import io
 
 from logger_config import setup_logging
+from page_structure_learner import PageStructureLearner
 
 logger = setup_logging(__name__)
 
@@ -87,6 +88,10 @@ class PlaywrightMultiScreenshotAgent:
         # Anti-scraping settings
         self.stealth_enabled = True
         self.max_retries = 3
+        
+        # Initialize Page Structure Learner
+        self.structure_learner = PageStructureLearner()
+        logger.info("✅ Page Structure Learner initialized")
         
     def _load_config(self) -> Dict:
         """Load configuration from config.json"""
@@ -581,35 +586,39 @@ Return a JSON array with ALL products found across all screenshots."""
             # Handle verification challenges
             await self._handle_verification_challenges(strategy)
             
-            # Extract image URLs from DOM (before screenshots)
-            dom_image_urls = await self._extract_image_urls_from_dom(retailer)
-            
-            # Enhanced image processing for Anthropologie
-            if retailer.lower() == 'anthropologie' and dom_image_urls:
-                logger.info("🎨 Applying enhanced Anthropologie image processing")
-                try:
-                    from image_processor_factory import ImageProcessorFactory
-                    processor = ImageProcessorFactory.get_processor('anthropologie')
-                    if processor and hasattr(processor, 'process_images_enhanced'):
-                        dom_image_urls = await processor.process_images_enhanced(
-                            dom_image_urls, 
-                            {'url': url, 'retailer': retailer}
-                        )
-                        logger.info(f"🎨 Enhanced processing: {len(dom_image_urls)} quality images")
-                except Exception as e:
-                    logger.warning(f"⚠️ Enhanced image processing failed: {e}")
-            
             # Take strategic screenshots for content analysis
             screenshots = await self._take_strategic_screenshots(strategy, retailer)
             
-            # Analyze with Gemini
+            # STEP 1: Gemini analyzes screenshots first (gets visual layout understanding)
+            logger.info("🔍 Step 1: Gemini analyzing screenshots for visual layout")
+            gemini_visual_analysis = await self._gemini_analyze_page_structure(screenshots, url, retailer)
+            
+            # STEP 2: Use Gemini's insights to guide targeted DOM extraction
+            logger.info("🎯 Step 2: Using Gemini insights to guide DOM extraction")
+            dom_extraction_result = await self._guided_dom_extraction(
+                retailer, 
+                gemini_visual_hints=gemini_visual_analysis.get('visual_hints', {})
+            )
+            
+            # STEP 3: Gemini extracts remaining data from screenshots
+            logger.info("📊 Step 3: Gemini extracting product data")
             product_data = await self._analyze_with_gemini(screenshots, url, retailer)
             
-            # Combine DOM-extracted images with Gemini analysis
-            if dom_image_urls and len(dom_image_urls) > len(product_data.image_urls):
-                logger.info(f"🖼️ DOM extracted {len(dom_image_urls)} images, adding to product data")
-                # Use DOM images if we got more than Gemini found
-                product_data.image_urls = dom_image_urls[:5]  # Limit to 5 best images
+            # STEP 4: Merge DOM and Gemini results intelligently
+            product_data = self._merge_extraction_results(
+                product_data,
+                dom_extraction_result,
+                gemini_visual_analysis
+            )
+            
+            # STEP 5: Learn from successful extraction
+            await self._learn_from_extraction(
+                retailer,
+                dom_extraction_result,
+                gemini_visual_analysis,
+                product_data,
+                url
+            )
             
             return product_data
             
@@ -2023,3 +2032,83 @@ class PlaywrightPerformanceMonitor:
                 'cost_savings': "~50% less expensive (no multiple LLM calls)"
             }
         } 
+    async def _gemini_analyze_page_structure(self, screenshots: Dict[str, bytes], 
+                                             url: str, retailer: str) -> Dict:
+        """STEP 1: Gemini analyzes page structure visually"""
+        try:
+            first_screenshot = next(iter(screenshots.values()))
+            image = Image.open(io.BytesIO(first_screenshot))
+            
+            prompt = f"""Analyze this {retailer} product page layout. Return JSON with visual hints about element locations and likely DOM selectors."""
+            
+            import google.generativeai as genai
+            api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+            genai.configure(api_key=api_key)
+            
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([prompt, image])
+            
+            import re
+            json_match = re.search(r'\{[\s\S]*\}', response.text)
+            if json_match:
+                result = json.loads(json_match.group(0))
+                logger.info(f"✅ Page structure analyzed")
+                return result
+            
+            return {'visual_hints': {}, 'dom_hints': {}}
+        except Exception as e:
+            logger.warning(f"⚠️ Page structure analysis failed: {e}")
+            return {'visual_hints': {}, 'dom_hints': {}}
+    
+    async def _guided_dom_extraction(self, retailer: str, gemini_visual_hints: Dict) -> Dict:
+        """STEP 2: Use Gemini hints to guide DOM extraction"""
+        result = {'title': None, 'price': None, 'images': [], 'selectors_used': {}}
+        
+        try:
+            learned_patterns = self.structure_learner.get_best_patterns(retailer)
+            
+            # Title extraction with learned patterns
+            title_selectors = [p['pattern_data'] for p in learned_patterns if p['element_type'] == 'title' and p['confidence_score'] > 0.7]
+            title_selectors.extend(['h1', '.product-title', '.product-name'])
+            
+            for selector in title_selectors:
+                try:
+                    element = await self.page.query_selector(selector)
+                    if element:
+                        result['title'] = await element.inner_text()
+                        result['selectors_used']['title'] = selector
+                        self.structure_learner.record_successful_extraction(retailer, 'title', selector)
+                        break
+                except:
+                    continue
+            
+            logger.info(f"🎯 Guided extraction: title={bool(result['title'])}")
+            return result
+        except Exception as e:
+            logger.error(f"❌ Guided extraction failed: {e}")
+            return result
+    
+    def _merge_extraction_results(self, product_data: ProductData, dom_result: Dict, gemini_analysis: Dict) -> ProductData:
+        """STEP 4: Merge DOM and Gemini results"""
+        if dom_result.get('title'):
+            product_data.title = dom_result['title']
+        return product_data
+    
+    async def _learn_from_extraction(self, retailer: str, dom_result: Dict, gemini_analysis: Dict, final_product_data: ProductData, url: str):
+        """STEP 5: Learn from extraction"""
+        try:
+            import hashlib
+            selectors_str = json.dumps(dom_result.get('selectors_used', {}), sort_keys=True)
+            dom_hash = hashlib.md5(selectors_str.encode()).hexdigest()
+            
+            self.structure_learner.save_page_snapshot(
+                retailer=retailer,
+                dom_structure_hash=dom_hash,
+                visual_layout_hash=dom_hash,
+                key_selectors=dom_result.get('selectors_used', {}),
+                layout_description="learned",
+                screenshot_metadata={'url': url}
+            )
+            logger.info(f"✅ Learned from extraction")
+        except Exception as e:
+            logger.debug(f"Learning failed: {e}")

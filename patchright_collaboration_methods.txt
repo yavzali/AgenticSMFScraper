@@ -1,0 +1,270 @@
+# New methods to add to PlaywrightMultiScreenshotAgent class
+# Add these before the final closing brace
+
+    async def _gemini_analyze_page_structure(self, screenshots: Dict[str, bytes], 
+                                             url: str, retailer: str) -> Dict:
+        """
+        STEP 1: Gemini analyzes page structure visually
+        Returns visual hints about where elements are located
+        """
+        try:
+            # Convert first screenshot to PIL Image
+            first_screenshot = next(iter(screenshots.values()))
+            image = Image.open(io.BytesIO(first_screenshot))
+            
+            prompt = f"""Analyze this {retailer} product page and describe the visual layout.
+
+Focus on LOCATION and APPEARANCE of key elements:
+1. Product title - where is it? (top/middle/bottom, left/right), what style? (large/bold/color)
+2. Price - where is it? what color/size? any sale indicators?
+3. Main product image - where? how big?
+4. Description - where? how much text?
+5. Add to cart button - where? what color?
+
+Return JSON:
+{{
+    "visual_hints": {{
+        "title": {{"location": "top-left", "style": "large bold black text"}},
+        "price": {{"location": "top-right", "style": "red bold", "sale_indicator": "strikethrough original"}},
+        "main_image": {{"location": "center-left", "size": "large"}},
+        "description": {{"location": "middle-right"}},
+        "add_to_cart": {{"location": "bottom-right", "color": "black"}}
+    }},
+    "layout_type": "two-column" or "single-column" or "grid",
+    "dom_hints": {{
+        "title_likely_tags": ["h1", "h2", ".product-name"],
+        "price_likely_classes": [".price", ".product-price", ".cost"],
+        "image_container": [".product-images", ".gallery"]
+    }}
+}}"""
+            
+            # Call Gemini Vision
+            import google.generativeai as genai
+            api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+            genai.configure(api_key=api_key)
+            
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([prompt, image])
+            
+            # Parse response
+            import re
+            json_match = re.search(r'\{[\s\S]*\}', response.text)
+            if json_match:
+                result = json.loads(json_match.group(0))
+                logger.info(f"✅ Gemini analyzed page structure: {result.get('layout_type', 'unknown')} layout")
+                return result
+            
+            return {'visual_hints': {}, 'layout_type': 'unknown', 'dom_hints': {}}
+            
+        except Exception as e:
+            logger.warning(f"⚠️ Gemini page structure analysis failed: {e}")
+            return {'visual_hints': {}, 'layout_type': 'unknown', 'dom_hints': {}}
+    
+    async def _guided_dom_extraction(self, retailer: str, 
+                                    gemini_visual_hints: Dict) -> Dict:
+        """
+        STEP 2: Use Gemini's visual hints to guide DOM extraction
+        More targeted, faster, more accurate
+        """
+        result = {
+            'title': None,
+            'price': None,
+            'original_price': None,
+            'images': [],
+            'description': None,
+            'selectors_used': {},
+            'confidence': {}
+        }
+        
+        try:
+            # Get learned patterns from previous successful extractions
+            learned_patterns = self.structure_learner.get_best_patterns(retailer)
+            
+            # Combine learned patterns with Gemini's hints
+            dom_hints = gemini_visual_hints.get('dom_hints', {})
+            
+            # TITLE EXTRACTION - Try learned patterns first, then Gemini hints
+            title_selectors = []
+            
+            # Add high-confidence learned selectors
+            for pattern in learned_patterns:
+                if pattern['element_type'] == 'title' and pattern['confidence_score'] > 0.7:
+                    title_selectors.append(pattern['pattern_data'])
+            
+            # Add Gemini's suggestions
+            title_selectors.extend(dom_hints.get('title_likely_tags', []))
+            
+            # Add fallback generic selectors
+            title_selectors.extend([
+                'h1.product-title', 'h1.product-name', 'h1',
+                '.product-title', '.product-name', '[data-testid="product-title"]'
+            ])
+            
+            # Try each selector until one works
+            for selector in title_selectors:
+                try:
+                    element = await self.page.query_selector(selector)
+                    if element:
+                        result['title'] = await element.inner_text()
+                        result['selectors_used']['title'] = selector
+                        result['confidence']['title'] = 0.9 if selector in [p['pattern_data'] for p in learned_patterns] else 0.7
+                        logger.debug(f"✅ Title found with selector: {selector}")
+                        
+                        # Record success for learning
+                        visual_hint = gemini_visual_hints.get('visual_hints', {}).get('title')
+                        self.structure_learner.record_successful_extraction(
+                            retailer, 'title', selector, visual_hint
+                        )
+                        break
+                except:
+                    continue
+            
+            # PRICE EXTRACTION - Similar approach
+            price_selectors = []
+            for pattern in learned_patterns:
+                if pattern['element_type'] == 'price' and pattern['confidence_score'] > 0.7:
+                    price_selectors.append(pattern['pattern_data'])
+            
+            price_selectors.extend(dom_hints.get('price_likely_classes', []))
+            price_selectors.extend([
+                '.price', '.product-price', '[data-testid="price"]',
+                '.sale-price', '.current-price', '.price-now'
+            ])
+            
+            for selector in price_selectors:
+                try:
+                    element = await self.page.query_selector(selector)
+                    if element:
+                        price_text = await element.inner_text()
+                        result['price'] = price_text
+                        result['selectors_used']['price'] = selector
+                        result['confidence']['price'] = 0.9 if selector in [p['pattern_data'] for p in learned_patterns] else 0.7
+                        logger.debug(f"✅ Price found with selector: {selector}")
+                        
+                        visual_hint = gemini_visual_hints.get('visual_hints', {}).get('price')
+                        self.structure_learner.record_successful_extraction(
+                            retailer, 'price', selector, visual_hint
+                        )
+                        break
+                except:
+                    continue
+            
+            # IMAGE EXTRACTION
+            image_container_selectors = dom_hints.get('image_container', []) + [
+                '.product-images', '.image-gallery', '[data-testid="product-images"]',
+                '.carousel', '.product-gallery'
+            ]
+            
+            for selector in image_container_selectors:
+                try:
+                    images = await self.page.query_selector_all(f"{selector} img")
+                    if images:
+                        for img in images[:5]:  # Limit to 5
+                            src = await img.get_attribute('src')
+                            if src and 'http' in src:
+                                result['images'].append(src)
+                        
+                        if result['images']:
+                            result['selectors_used']['images'] = selector
+                            result['confidence']['images'] = 0.8
+                            logger.debug(f"✅ Found {len(result['images'])} images with: {selector}")
+                            break
+                except:
+                    continue
+            
+            logger.info(f"🎯 Guided DOM extraction: title={bool(result['title'])}, price={bool(result['price'])}, images={len(result['images'])}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"❌ Guided DOM extraction failed: {e}")
+            return result
+    
+    def _merge_extraction_results(self, product_data: ProductData,
+                                  dom_result: Dict,
+                                  gemini_analysis: Dict) -> ProductData:
+        """
+        STEP 4: Intelligently merge DOM and Gemini results
+        DOM data takes priority when confidence is high
+        """
+        try:
+            # Title: Use DOM if found with high confidence, else Gemini
+            if dom_result.get('title') and dom_result.get('confidence', {}).get('title', 0) > 0.8:
+                product_data.title = dom_result['title']
+                logger.debug("Using DOM title (high confidence)")
+            elif not product_data.title:
+                logger.debug("Using Gemini title (DOM not found)")
+            
+            # Price: Prefer DOM for accuracy
+            if dom_result.get('price'):
+                # DOM prices are more reliable (exact text)
+                product_data.price = self._clean_price_format(dom_result['price'], product_data.retailer)
+                logger.debug("Using DOM price (more accurate)")
+            
+            # Images: Merge both sources, prioritize DOM (high-res URLs)
+            dom_images = dom_result.get('images', [])
+            gemini_images = product_data.image_urls or []
+            
+            # Combine and deduplicate
+            all_images = []
+            seen_bases = set()
+            
+            for img in dom_images + gemini_images:
+                # Extract base URL (without query params) for deduplication
+                base = img.split('?')[0] if '?' in img else img
+                if base not in seen_bases:
+                    all_images.append(img)
+                    seen_bases.add(base)
+            
+            product_data.image_urls = all_images[:5]  # Limit to 5
+            logger.debug(f"Merged images: {len(product_data.image_urls)} total")
+            
+            return product_data
+            
+        except Exception as e:
+            logger.error(f"❌ Result merging failed: {e}")
+            return product_data
+    
+    async def _learn_from_extraction(self, retailer: str,
+                                    dom_result: Dict,
+                                    gemini_analysis: Dict,
+                                    final_product_data: ProductData,
+                                    url: str):
+        """
+        STEP 5: Learn from this extraction for future improvements
+        Saves page snapshot and updates pattern confidence
+        """
+        try:
+            # Calculate DOM structure hash (simple hash of key selectors)
+            import hashlib
+            selectors_str = json.dumps(dom_result.get('selectors_used', {}), sort_keys=True)
+            dom_hash = hashlib.md5(selectors_str.encode()).hexdigest()
+            
+            # Calculate visual layout hash
+            layout_str = json.dumps(gemini_analysis.get('visual_hints', {}), sort_keys=True)
+            visual_hash = hashlib.md5(layout_str.encode()).hexdigest()
+            
+            # Save page snapshot
+            self.structure_learner.save_page_snapshot(
+                retailer=retailer,
+                dom_structure_hash=dom_hash,
+                visual_layout_hash=visual_hash,
+                key_selectors=dom_result.get('selectors_used', {}),
+                layout_description=f"{gemini_analysis.get('layout_type', 'unknown')} layout",
+                screenshot_metadata={'url': url, 'timestamp': datetime.utcnow().isoformat()}
+            )
+            
+            # Check for page structure changes
+            change_detection = self.structure_learner.detect_page_structure_change(
+                retailer, dom_hash, visual_hash
+            )
+            
+            if change_detection['changed']:
+                logger.warning(f"⚠️ Page structure change detected for {retailer}: {change_detection['severity']}")
+                for rec in change_detection['recommendations']:
+                    logger.info(f"   💡 {rec}")
+            
+            logger.info(f"✅ Learned from extraction for {retailer}")
+            
+        except Exception as e:
+            logger.error(f"❌ Learning from extraction failed: {e}")
+
