@@ -86,10 +86,30 @@ class PageStructureLearner:
                 )
             """)
             
+            # Table for tracking extraction method performance (Patchright-specific)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS extraction_performance (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    retailer TEXT NOT NULL,
+                    extraction_date TEXT NOT NULL,
+                    gemini_success BOOLEAN,
+                    gemini_extraction_time REAL,
+                    gemini_completeness REAL,
+                    dom_needed BOOLEAN,
+                    dom_gaps_filled TEXT,
+                    dom_extraction_time REAL,
+                    total_time REAL,
+                    final_completeness REAL,
+                    method_used TEXT
+                )
+            """)
+            
             # Indexes for performance
             conn.execute("CREATE INDEX IF NOT EXISTS idx_patterns_retailer ON page_patterns(retailer)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_patterns_confidence ON page_patterns(confidence_score DESC)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_snapshots_retailer ON page_snapshots(retailer)")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_extraction_retailer ON extraction_performance(retailer)")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_extraction_date ON extraction_performance(extraction_date DESC)")
             
             conn.commit()
         
@@ -310,6 +330,77 @@ class PageStructureLearner:
                 'last_snapshot_date': None,
                 'recommendations': [f'Error checking: {e}']
             }
+    
+    def record_extraction_performance(self,
+                                      retailer: str,
+                                      gemini_success: bool,
+                                      gemini_time: float,
+                                      gemini_completeness: float,
+                                      dom_needed: bool,
+                                      dom_gaps: List[str],
+                                      dom_time: float,
+                                      total_time: float,
+                                      final_completeness: float,
+                                      method_used: str):
+        """Record performance metrics for Patchright extraction"""
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                now = datetime.utcnow().isoformat()
+                
+                conn.execute("""
+                    INSERT INTO extraction_performance
+                    (retailer, extraction_date, gemini_success, gemini_extraction_time,
+                     gemini_completeness, dom_needed, dom_gaps_filled, dom_extraction_time,
+                     total_time, final_completeness, method_used)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (retailer, now, gemini_success, gemini_time, gemini_completeness,
+                     dom_needed, json.dumps(dom_gaps), dom_time, total_time,
+                     final_completeness, method_used))
+                
+                conn.commit()
+                logger.debug(f"Recorded extraction performance for {retailer}")
+                
+        except Exception as e:
+            logger.error(f"Failed to record extraction performance: {e}")
+    
+    def get_extraction_stats(self, retailer: str, days: int = 30) -> Dict:
+        """Get extraction performance stats for a retailer"""
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                from datetime import timedelta
+                cutoff_date = (datetime.utcnow() - timedelta(days=days)).isoformat()
+                
+                cursor = conn.execute("""
+                    SELECT 
+                        COUNT(*) as total_extractions,
+                        AVG(CASE WHEN gemini_success THEN 1 ELSE 0 END) as gemini_success_rate,
+                        AVG(gemini_completeness) as avg_gemini_completeness,
+                        AVG(CASE WHEN dom_needed THEN 1 ELSE 0 END) as dom_needed_rate,
+                        AVG(total_time) as avg_total_time,
+                        AVG(final_completeness) as avg_final_completeness
+                    FROM extraction_performance
+                    WHERE retailer = ? AND extraction_date > ?
+                """, (retailer, cutoff_date))
+                
+                row = cursor.fetchone()
+                
+                if row and row[0] > 0:
+                    return {
+                        'retailer': retailer,
+                        'period_days': days,
+                        'total_extractions': row[0],
+                        'gemini_success_rate': round(row[1] * 100, 1) if row[1] else 0,
+                        'avg_gemini_completeness': round(row[2] * 100, 1) if row[2] else 0,
+                        'dom_assistance_rate': round(row[3] * 100, 1) if row[3] else 0,
+                        'avg_extraction_time': round(row[4], 1) if row[4] else 0,
+                        'avg_final_completeness': round(row[5] * 100, 1) if row[5] else 0
+                    }
+                
+                return {'retailer': retailer, 'total_extractions': 0}
+                
+        except Exception as e:
+            logger.error(f"Failed to get extraction stats: {e}")
+            return {}
     
     def get_stats(self, retailer: Optional[str] = None) -> Dict:
         """Get statistics about learned patterns"""

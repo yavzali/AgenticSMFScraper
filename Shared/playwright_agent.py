@@ -2035,12 +2035,58 @@ class PlaywrightPerformanceMonitor:
         } 
     async def _gemini_analyze_page_structure(self, screenshots: Dict[str, bytes], 
                                              url: str, retailer: str) -> Dict:
-        """STEP 1: Gemini analyzes page structure visually"""
+        """
+        STEP 2: Gemini analyzes page structure to GUIDE DOM extraction
+        Provides visual hints and likely CSS selectors for DOM to use
+        """
         try:
             first_screenshot = next(iter(screenshots.values()))
             image = Image.open(io.BytesIO(first_screenshot))
             
-            prompt = f"""Analyze this {retailer} product page layout. Return JSON with visual hints about element locations and likely DOM selectors."""
+            prompt = f"""Analyze this {retailer} product page and provide DOM guidance.
+
+Look at the page visually and tell the DOM scraper WHERE to look and WHAT selectors to try.
+
+For each element, provide:
+1. Visual location (top/middle/bottom, left/center/right)
+2. Visual style (color, size, prominence)
+3. Likely CSS selectors or classes you can see
+4. Likely HTML tags
+
+Return ONLY valid JSON:
+{{
+    "visual_hints": {{
+        "title": {{
+            "location": "top-left corner",
+            "style": "large bold black text, 24px+",
+            "prominence": "most prominent text"
+        }},
+        "price": {{
+            "location": "top-right or near title",
+            "style": "red or bold, dollar sign visible",
+            "prominence": "second most prominent"
+        }},
+        "images": {{
+            "location": "left side or center",
+            "count": "3-5 images visible",
+            "layout": "carousel or grid"
+        }},
+        "description": {{
+            "location": "middle-right or below images",
+            "style": "paragraph text, smaller font"
+        }}
+    }},
+    "dom_hints": {{
+        "title_selectors": ["h1", ".product-title", ".product-name", "[data-product-title]"],
+        "price_selectors": [".price", ".product-price", ".sale-price", "[data-price]"],
+        "image_selectors": [".product-images img", ".image-gallery img", ".carousel img"],
+        "description_selectors": [".product-description", ".description", "[data-description]"]
+    }},
+    "layout_type": "two-column | single-column | grid",
+    "page_complexity": "simple | moderate | complex"
+}}
+
+Focus on providing actionable CSS selectors that DOM can immediately use."""
             
             import google.generativeai as genai
             api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
@@ -2053,9 +2099,10 @@ class PlaywrightPerformanceMonitor:
             json_match = re.search(r'\{[\s\S]*\}', response.text)
             if json_match:
                 result = json.loads(json_match.group(0))
-                logger.info(f"✅ Page structure analyzed")
+                logger.info(f"✅ Gemini provided DOM guidance: {result.get('layout_type', 'unknown')} layout, {len(result.get('dom_hints', {}))} hint sets")
                 return result
             
+            logger.warning("Gemini structure analysis returned no JSON")
             return {'visual_hints': {}, 'dom_hints': {}}
         except Exception as e:
             logger.warning(f"⚠️ Page structure analysis failed: {e}")
@@ -2081,8 +2128,20 @@ class PlaywrightPerformanceMonitor:
             # TITLE: Only extract if Gemini missed it or for validation
             if not product_data.title or len(product_data.title) < 5:
                 logger.debug("Title missing from Gemini, DOM extracting...")
-                title_selectors = [p['pattern_data'] for p in learned_patterns 
-                                 if p['element_type'] == 'title' and p['confidence_score'] > 0.7]
+                title_selectors = []
+                
+                # 1. Try learned patterns first (highest confidence)
+                title_selectors.extend([p['pattern_data'] for p in learned_patterns 
+                                       if p['element_type'] == 'title' and p['confidence_score'] > 0.7])
+                
+                # 2. Add Gemini's visual hints (DOM guidance from Step 2)
+                dom_hints = gemini_visual_hints.get('dom_hints', {})
+                gemini_title_selectors = dom_hints.get('title_selectors', [])
+                if gemini_title_selectors:
+                    logger.debug(f"Using Gemini's DOM hints: {gemini_title_selectors}")
+                    title_selectors.extend(gemini_title_selectors)
+                
+                # 3. Fallback generic selectors
                 title_selectors.extend(['h1', '.product-title', '.product-name', '[data-testid="product-title"]'])
                 
                 for selector in title_selectors:
@@ -2126,8 +2185,19 @@ class PlaywrightPerformanceMonitor:
             # PRICE: Only extract if missing
             if not product_data.price or product_data.price == 0:
                 logger.debug("Price missing from Gemini, DOM extracting...")
-                price_selectors = [p['pattern_data'] for p in learned_patterns 
-                                 if p['element_type'] == 'price' and p['confidence_score'] > 0.7]
+                price_selectors = []
+                
+                # 1. Learned patterns first
+                price_selectors.extend([p['pattern_data'] for p in learned_patterns 
+                                       if p['element_type'] == 'price' and p['confidence_score'] > 0.7])
+                
+                # 2. Gemini's DOM hints
+                gemini_price_selectors = gemini_visual_hints.get('dom_hints', {}).get('price_selectors', [])
+                if gemini_price_selectors:
+                    logger.debug(f"Using Gemini's price hints: {gemini_price_selectors}")
+                    price_selectors.extend(gemini_price_selectors)
+                
+                # 3. Fallback generic
                 price_selectors.extend(['.price', '.product-price', '[data-testid="price"]', 
                                       '.sale-price', '.current-price'])
                 
@@ -2149,8 +2219,17 @@ class PlaywrightPerformanceMonitor:
             # IMAGES: Only extract if Gemini found < 2 images
             if not product_data.image_urls or len(product_data.image_urls) < 2:
                 logger.debug(f"Images missing from Gemini ({len(product_data.image_urls or [])}), DOM extracting...")
-                image_selectors = ['img.product-image', '.product-images img', 
-                                 '.image-gallery img', '[data-testid="product-image"]']
+                image_selectors = []
+                
+                # Add Gemini's image selector hints
+                gemini_image_selectors = gemini_visual_hints.get('dom_hints', {}).get('image_selectors', [])
+                if gemini_image_selectors:
+                    logger.debug(f"Using Gemini's image hints: {gemini_image_selectors}")
+                    image_selectors.extend(gemini_image_selectors)
+                
+                # Fallback generic selectors
+                image_selectors.extend(['img.product-image', '.product-images img', 
+                                       '.image-gallery img', '[data-testid="product-image"]'])
                 
                 for selector in image_selectors:
                     try:
