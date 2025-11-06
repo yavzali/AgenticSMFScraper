@@ -904,7 +904,12 @@ Return ONLY valid JSON:
 
 If NO verification challenge: {"verification_found": false}"""
 
-            # Call Gemini
+            # Call Gemini (reuse existing setup)
+            google_api_key = os.getenv("GOOGLE_API_KEY") or self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+            if not google_api_key:
+                raise ValueError("Google API key not found")
+            
+            genai.configure(api_key=google_api_key)
             model = genai.GenerativeModel('gemini-2.0-flash-exp')
             response = model.generate_content([prompt, image])
             
