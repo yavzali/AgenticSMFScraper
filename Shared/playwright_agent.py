@@ -397,7 +397,7 @@ Return a JSON array with ALL products found across all screenshots."""
             
             # STEP 2: Merge DOM URLs with Gemini visual data
             logger.info("🔗 Step 2: Matching DOM URLs with Gemini visual data")
-            merged_products = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
+            merged_products, validation_stats = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
             logger.info(f"✅ Merged result: {len(merged_products)} products with URLs and visual data")
             
             # Use merged products for final result
@@ -405,19 +405,20 @@ Return a JSON array with ALL products found across all screenshots."""
             
             logger.info(f"✅ Patchright catalog extraction successful: {len(products)} products found")
             
-            # Record catalog extraction performance for learning
+            # Record catalog extraction performance for learning (with validation stats)
             try:
                 self.structure_learner.record_extraction_performance(
                     retailer=retailer,
                     gemini_success=True,
                     gemini_time=processing_time,
-                    gemini_completeness=1.0 if len(products) > 5 else 0.7,  # Rough estimate
-                    dom_needed=False,  # Catalog extraction is Gemini-only
-                    dom_gaps=[],
+                    gemini_completeness=1.0 if len(products) > 5 else 0.7,
+                    dom_needed=True,  # We use DOM for URLs and validation
+                    dom_gaps=['urls', 'product_codes'],  # DOM fills these gaps
                     dom_time=0.0,
                     total_time=processing_time,
                     final_completeness=1.0 if len(products) > 5 else 0.7,
-                    method_used='patchright_catalog_gemini'
+                    method_used='patchright_catalog_gemini_dom_hybrid',
+                    validation_stats=validation_stats  # Pass validation metrics
                 )
             except Exception as e:
                 logger.debug(f"Failed to record catalog performance: {e}")
@@ -2529,18 +2530,22 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
             logger.warning(f"Failed to extract catalog product links from DOM: {e}")
             return []
     
-    def _merge_catalog_dom_with_gemini(self, dom_links: List[Dict], gemini_products: List[Dict], retailer: str) -> List[Dict]:
+    def _merge_catalog_dom_with_gemini(self, dom_links: List[Dict], gemini_products: List[Dict], retailer: str) -> tuple[List[Dict], Dict]:
         """
         Merge DOM URLs/codes with Gemini visual data + VALIDATE Gemini with DOM
         Strategy: 
         1. Match by position or title similarity
         2. Validate Gemini's title/price against DOM data
         3. Flag mismatches for review
+        
+        Returns: (merged_products, validation_stats)
         """
         try:
             merged = []
             validations_performed = 0
             mismatches_found = 0
+            title_validations = 0
+            price_validations = 0
             
             # If counts match, do positional matching (simplest)
             if len(dom_links) == len(gemini_products):
@@ -2570,6 +2575,7 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                         validation_result['title_match'] = title_similarity > 0.7
                         validation_result['title_similarity'] = title_similarity
                         validations_performed += 1
+                        title_validations += 1
                         
                         if title_similarity < 0.7:
                             mismatches_found += 1
@@ -2592,6 +2598,7 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                                 price_diff = abs(dom_price_num - gemini_price_num)
                                 validation_result['price_match'] = price_diff < 1.0
                                 validations_performed += 1
+                                price_validations += 1
                                 
                                 if price_diff >= 1.0:
                                     mismatches_found += 1
@@ -2664,6 +2671,15 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
             
             logger.debug(f"Merged {len(merged)} products (DOM URLs + Gemini visual data)")
             
+            # Build validation stats
+            validation_stats = {
+                'validations_performed': validations_performed,
+                'mismatches_found': mismatches_found,
+                'title_validations': title_validations,
+                'price_validations': price_validations,
+                'total_products': len(merged)
+            }
+            
             # Log validation summary
             if validations_performed > 0:
                 validation_rate = ((validations_performed - mismatches_found) / validations_performed * 100)
@@ -2671,9 +2687,9 @@ Focus on providing actionable CSS selectors that DOM can immediately use."""
                 if mismatches_found > 0:
                     logger.info(f"   💡 {mismatches_found} products corrected using DOM data")
             
-            return merged
+            return merged, validation_stats
             
         except Exception as e:
             logger.error(f"Failed to merge catalog DOM and Gemini data: {e}")
-            # Fallback: return Gemini products as-is
-            return gemini_products
+            # Fallback: return Gemini products as-is with empty validation stats
+            return gemini_products, {'validations_performed': 0, 'mismatches_found': 0}

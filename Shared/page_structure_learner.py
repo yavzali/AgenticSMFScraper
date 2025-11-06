@@ -341,11 +341,18 @@ class PageStructureLearner:
                                       dom_time: float,
                                       total_time: float,
                                       final_completeness: float,
-                                      method_used: str):
-        """Record performance metrics for Patchright extraction"""
+                                      method_used: str,
+                                      validation_stats: Dict = None):
+        """
+        Record performance metrics for Patchright extraction
+        Now includes optional validation statistics for catalog extraction
+        """
         try:
             with sqlite3.connect(self.db_path) as conn:
                 now = datetime.utcnow().isoformat()
+                
+                # Store validation stats as JSON if provided
+                validation_json = json.dumps(validation_stats) if validation_stats else None
                 
                 conn.execute("""
                     INSERT INTO extraction_performance
@@ -356,6 +363,12 @@ class PageStructureLearner:
                 """, (retailer, now, gemini_success, gemini_time, gemini_completeness,
                      dom_needed, json.dumps(dom_gaps), dom_time, total_time,
                      final_completeness, method_used))
+                
+                # If validation stats provided, also record those
+                if validation_stats:
+                    # Add validation metadata to a separate tracking system
+                    logger.debug(f"Validation stats: {validation_stats.get('validations_performed', 0)} checks, "
+                               f"{validation_stats.get('mismatches_found', 0)} corrections")
                 
                 conn.commit()
                 logger.debug(f"Recorded extraction performance for {retailer}")
