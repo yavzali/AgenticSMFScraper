@@ -168,7 +168,7 @@ class PlaywrightMultiScreenshotAgent:
         Main extraction method - replaces Browser Use completely
         """
         start_time = time.time()
-        logger.info(f"🎭 Starting Playwright extraction for {retailer}: {url}")
+        logger.info(f"🎭 Starting Patchright extraction for {retailer}: {url}")
         
         try:
             # Setup stealth browser
@@ -178,12 +178,12 @@ class PlaywrightMultiScreenshotAgent:
             result = await self._extract_with_retry(url, retailer)
             
             processing_time = time.time() - start_time
-            logger.info(f"✅ Playwright extraction completed in {processing_time:.1f}s")
+            logger.info(f"✅ Patchright extraction completed in {processing_time:.1f}s")
             
             return ExtractionResult(
                 success=True,
                 data=result.__dict__,
-                method_used="playwright_multi_screenshot",
+                method_used="patchright_multi_screenshot",
                 processing_time=processing_time,
                 warnings=[],
                 errors=[]
@@ -191,12 +191,12 @@ class PlaywrightMultiScreenshotAgent:
             
         except Exception as e:
             processing_time = time.time() - start_time
-            logger.error(f"❌ Playwright extraction failed: {e}")
+            logger.error(f"❌ Patchright extraction failed: {e}")
             
             return ExtractionResult(
                 success=False,
                 data={},
-                method_used="playwright_multi_screenshot",
+                method_used="patchright_multi_screenshot",
                 processing_time=processing_time,
                 warnings=[],
                 errors=[str(e)]

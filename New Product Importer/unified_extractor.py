@@ -95,16 +95,16 @@ class UnifiedExtractor:
                             errors=[]
                         )
                     
-                    logger.warning(f"⚠️ Markdown extraction failed for {retailer}, falling back to Playwright")
+                    logger.warning(f"⚠️ Markdown extraction failed for {retailer}, falling back to Patchright")
                     
                 except Exception as e:
-                    logger.error(f"❌ Markdown extractor error for {retailer}: {e}, falling back to Playwright")
+                    logger.error(f"❌ Markdown extractor error for {retailer}: {e}, falling back to Patchright")
             
-            # PLAYWRIGHT EXTRACTION (direct or fallback)
+            # PATCHRIGHT EXTRACTION (direct or fallback)
             if retailer not in MARKDOWN_RETAILERS:
-                logger.info(f"🎭 Using Playwright extraction for {retailer} (direct route): {url}")
+                logger.info(f"🎭 Using Patchright extraction for {retailer} (direct route): {url}")
             else:
-                logger.info(f"🎭 Using Playwright extraction for {retailer} (fallback from markdown): {url}")
+                logger.info(f"🎭 Using Patchright extraction for {retailer} (fallback from markdown): {url}")
             
             # Build prompt for caching
             prompt = self._build_extraction_prompt(url, retailer, learned_patterns)
@@ -116,7 +116,7 @@ class UnifiedExtractor:
                 processing_time = time.time() - start_time
                 
                 cost_tracker.track_api_call(
-                    method="playwright_agent_cached", 
+                    method="patchright_agent_cached", 
                     prompt=prompt, 
                     response=cached_response,
                     retailer=retailer, 
@@ -129,7 +129,7 @@ class UnifiedExtractor:
                 return ExtractionResult(
                     success=True,
                     data=cached_data,
-                    method_used="playwright_agent_cached",
+                    method_used="patchright_agent_cached",
                     processing_time=processing_time,
                     warnings=[],
                     errors=[]
@@ -142,12 +142,12 @@ class UnifiedExtractor:
                 # Record successful pattern
                 processing_time = time.time() - start_time
                 await self.pattern_learner.record_success(
-                    retailer, url, "playwright_agent", processing_time, result.data
+                    retailer, url, "patchright_agent", processing_time, result.data
                 )
                 
                 # Track API call
                 cost_tracker.track_api_call(
-                    method="playwright_agent",
+                    method="patchright_agent",
                     prompt=prompt, 
                     response={'success': True, 'data': result.data},
                     retailer=retailer,
@@ -159,11 +159,11 @@ class UnifiedExtractor:
                 return result
             else:
                 # Record failure
-                await self.pattern_learner.record_failure(retailer, url, "playwright_agent", str(result.errors))
+                await self.pattern_learner.record_failure(retailer, url, "patchright_agent", str(result.errors))
                 
                 # Track failed API call
                 cost_tracker.track_api_call(
-                    method="playwright_agent",
+                    method="patchright_agent",
                     prompt=prompt,
                     response={'success': False, 'error': str(result.errors)},
                     retailer=retailer,
@@ -243,6 +243,6 @@ class UnifiedExtractor:
     async def get_extraction_stats(self) -> Dict:
         """Get extraction statistics"""
         return {
-            'methods_available': ['markdown_extractor', 'playwright_agent'],
+            'methods_available': ['markdown_extractor', 'patchright_agent'],
             'pattern_learner_stats': await self.pattern_learner.get_stats()
         } 
