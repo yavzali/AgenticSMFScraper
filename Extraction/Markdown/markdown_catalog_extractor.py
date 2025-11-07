@@ -129,9 +129,53 @@ class MarkdownCatalogExtractor:
     ):
         """
         Wrapper method for workflow compatibility
-        Calls extract_catalog_products() internally
+        Calls extract_catalog_products() internally with proper prompt
         """
-        return await self.extract_catalog_products(catalog_url, retailer, max_pages)
+        # Build catalog prompt (from old catalog_extractor.py logic)
+        catalog_prompt = f"""
+You are analyzing a {retailer} catalog page to extract ALL product information.
+
+URL: {catalog_url}
+Retailer: {retailer}
+
+TASK: Extract ALL products visible on this catalog page and list them in a simple structured format.
+
+For each product, extract:
+- Product URL (complete URL, resolve relative URLs to absolute)
+- Product title/name
+- Current price (number only, e.g., 89.99)
+- Original price if on sale (number only)
+- Image URL (first/main image)
+
+IMPORTANT GUIDELINES:
+1. Extract ALL products on the page, not just the first few
+2. Handle both grid and list views
+3. Resolve relative URLs to absolute URLs with domain (https://www.{retailer}.com/...)
+4. Clean up prices (remove $, commas, currency symbols - just the number)
+5. Focus on main product listing area, ignore navigation/ads
+6. If product appears multiple times (variants), extract each variant separately
+
+EXPECTED OUTPUT FORMAT (one product per line, pipe-separated):
+
+PRODUCT | URL=https://www.{retailer}.com/product-name/dp/CODE123/ | TITLE=Product Name Here | PRICE=89.99 | ORIGINAL_PRICE=129.99 | IMAGE=https://image.url/photo.jpg
+PRODUCT | URL=https://www.{retailer}.com/another-product/dp/CODE456/ | TITLE=Another Product Name | PRICE=45.00 | ORIGINAL_PRICE= | IMAGE=https://image.url/photo2.jpg
+PRODUCT | URL=https://www.{retailer}.com/third-product/ | TITLE=Third Product | PRICE=199.00 | ORIGINAL_PRICE= | IMAGE=https://image.url/photo3.jpg
+
+CRITICAL INSTRUCTIONS:
+- Each product MUST start with "PRODUCT |" on a new line
+- Use pipe | to separate fields
+- Format: PRODUCT | URL=... | TITLE=... | PRICE=... | ORIGINAL_PRICE=... | IMAGE=...
+- Leave ORIGINAL_PRICE empty if not on sale (but still include ORIGINAL_PRICE= )
+- Extract ALL products you can find in the markdown
+- Do NOT add extra text, explanations, or code blocks - ONLY the product lines
+"""
+        
+        return await self.extract_catalog_products(
+            catalog_url=catalog_url,
+            retailer=retailer,
+            catalog_prompt=catalog_prompt,
+            max_products=None
+        )
     
     async def extract_catalog_products(
         self,

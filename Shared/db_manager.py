@@ -245,13 +245,24 @@ class DatabaseManager:
             # Use existing manager if available
             try:
                 from datetime import date
+                # Build crawl_config as expected by old create_baseline
+                crawl_config = {
+                    'catalog_url': catalog_url,
+                    'extraction_method': 'markdown' if retailer in ['revolve', 'asos'] else 'patchright',
+                    'crawl_pages': 1,
+                    'crawl_depth_reached': 1,
+                    'sort_by_newest_url': catalog_url,
+                    'pagination_type': 'infinite_scroll' if retailer in ['revolve', 'asos'] else 'pagination',
+                    'has_sort_by_newest': True,
+                    'early_stop_threshold': 3
+                }
+                
                 baseline_id = await self.catalog_db.create_baseline(
                     retailer=retailer,
                     category=category,
                     baseline_date=scan_date.date(),
                     total_products=len(products),
-                    catalog_url=catalog_url,
-                    extraction_method='markdown' if retailer in ['revolve', 'asos'] else 'patchright'
+                    crawl_config=crawl_config
                 )
                 
                 # Store products

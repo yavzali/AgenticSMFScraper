@@ -164,16 +164,13 @@ Catalog baseline has been successfully established:
 
 Retailer: {retailer}
 Category: {category}
-Total Products Seen: {total_products}
-Crawl Pages: {crawl_pages}
-Baseline Date: {baseline_date}
+Baseline ID: {baseline_id}
+Total Products: {total_products}
 Processing Time: {processing_time:.1f}s
+Total Cost: ${total_cost:.4f}
 
 This baseline will be used for future new product detection.
 You can now run weekly monitoring for this retailer/category.
-
-Command to run monitoring:
-python catalog_main.py --weekly-monitoring --retailers {retailer} --categories {category}
 """,
                 priority="low",
                 recipients=self.notification_config.get('default_recipients', [])
@@ -777,3 +774,36 @@ class NotificationManager(EnhancedNotificationManager):
             'requires_action': True
         }
         return await super().send_notification(NotificationType.BATCH_ERROR, context)
+    
+    async def send_baseline_summary(self, retailer: str, category: str, modesty_level: str,
+                                   baseline_id: str, products_count: int, processing_time: float,
+                                   total_cost: float) -> bool:
+        """Send catalog baseline establishment summary"""
+        context = {
+            'retailer': retailer,
+            'category': category,
+            'modesty_level': modesty_level,
+            'baseline_id': baseline_id,
+            'total_products': products_count,
+            'processing_time': processing_time,
+            'total_cost': total_cost
+        }
+        return await super().send_notification(NotificationType.CATALOG_BASELINE_ESTABLISHED, context)
+    
+    async def send_monitoring_summary(self, retailer: str, category: str, modesty_level: str,
+                                     products_scanned: int, new_found: int, suspected_duplicates: int,
+                                     processing_time: float, total_cost: float) -> bool:
+        """Send catalog monitoring summary"""
+        context = {
+            'retailer': retailer,
+            'category': category,
+            'modesty_level': modesty_level,
+            'total_products_crawled': products_scanned,
+            'new_products_found': new_found,
+            'products_for_review': new_found + suspected_duplicates,
+            'processing_time': processing_time,
+            'total_cost': total_cost,
+            'run_type': 'catalog_monitoring',
+            'run_id': f"{retailer}_{category}_{datetime.utcnow().strftime('%Y%m%d')}"
+        }
+        return await super().send_notification(NotificationType.CATALOG_MONITORING_COMPLETE, context)

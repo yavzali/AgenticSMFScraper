@@ -124,6 +124,10 @@ class CostTracker:
         
         return cache_key in self.prompt_cache
     
+    def get_session_cost(self) -> float:
+        """Get total cost for current session (all tracked calls)"""
+        return sum(call.cost for call in self.api_calls)
+    
     def get_cost_summary(self, days: int = 7) -> Dict:
         """Get cost summary for specified period"""
         
