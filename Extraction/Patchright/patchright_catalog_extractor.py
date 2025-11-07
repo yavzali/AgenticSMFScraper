@@ -185,6 +185,11 @@ class PatchrightCatalogExtractor:
             
             await asyncio.sleep(2)
             
+            # Step 6.5: Dismiss popups again (they may appear after page loads)
+            logger.info("🧹 Dismissing any late-appearing popups...")
+            await verification_handler._dismiss_popups()
+            await asyncio.sleep(1)  # Let DOM settle after popup dismissal
+            
             # Step 7: Take full-page screenshot
             logger.debug("📸 Taking full-page screenshot...")
             await self.page.evaluate("window.scrollTo(0, 0)")
