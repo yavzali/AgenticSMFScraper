@@ -80,33 +80,43 @@ python catalog_main.py --establish-baseline nordstrom dresses
 
 ---
 
-#### 5. ⏳ Urban Outfitters
+#### 5. ✅ Urban Outfitters
 **Config**:
 - Extraction: `playwright`
 - Pagination: `pagination`
 - Special: `press_and_hold_verification`
 - Sort by newest: ✅ Available
 
-**Expected Challenges**:
-- Press & hold verification (similar to Anthropologie)
-- Should work with keyboard approach
+**Status**: SUCCESS (Nov 7, 2025)  
+**Results**:
+- Verification: CONTINUE button (different from Anthropologie's press & hold)
+- Gemini: 6 products extracted
+- DOM: 74 URLs found
+- Mode: Gemini-first (normal operation)
+- Products: 74/74 complete data
+- Cost: $0.003/page
+- Time: 142s (~2.4 minutes)
 
-**Test Command**:
-```bash
-cd "/Users/yav/Agent Modest Scraper System/Catalog Crawler"
-python catalog_main.py --establish-baseline urban_outfitters dresses
-```
+**Challenges Encountered**:
+- Initial test failed: `_calculate_similarity` method missing
+- Fix applied: Added method to `PlaywrightMultiScreenshotAgent` class
+- Re-test: SUCCESS!
+
+**Key Learnings**:
+- Urban Outfitters uses Gemini click (not keyboard like Anthropologie)
+- Verification is simpler (button click, no hold required)
+- Gemini Vision correctly identifies verification type
 
 ---
 
 ## 📊 RETAILER SUMMARY
 
 ### Patchright-Based Retailers (5 total):
-1. ✅ **Abercrombie** - TESTED & WORKING
-2. ✅ **Anthropologie** - TESTED & WORKING  
-3. ⏳ **Aritzia** - Cloudflare verification
-4. ⏳ **Nordstrom** - Advanced anti-bot
-5. ⏳ **Urban Outfitters** - Press & hold verification
+1. ✅ **Abercrombie** - TESTED & WORKING (90 products)
+2. ✅ **Anthropologie** - TESTED & WORKING (71 products, DOM-first)
+3. ✅ **Urban Outfitters** - TESTED & WORKING (74 products, Gemini-first)
+4. ⏳ **Aritzia** - Cloudflare verification
+5. ⏳ **Nordstrom** - Advanced anti-bot
 
 ### Markdown-Based Retailers (5 total):
 - **Revolve** - Already baseline established
@@ -122,13 +132,13 @@ python catalog_main.py --establish-baseline urban_outfitters dresses
 ## 🎯 TEST EXECUTION ORDER
 
 ### Phase 1: Anti-Bot Retailers (High Priority)
-1. ⏳ **Urban Outfitters** (similar to Anthropologie - keyboard should work)
-2. ⏳ **Aritzia** (Cloudflare - may need different approach)
-3. ⏳ **Nordstrom** (most advanced anti-bot)
+1. ✅ **Urban Outfitters** - COMPLETE! (CONTINUE button, Gemini click worked)
+2. ⏳ **Aritzia** (Cloudflare - may need different approach) - NEXT
+3. ⏳ **Nordstrom** (most advanced anti-bot) - Test last
 
 ### Rationale:
-- Urban Outfitters uses same PerimeterX as Anthropologie (highest success probability)
-- Aritzia's Cloudflare may require new techniques
+- ✅ Urban Outfitters: SUCCESS! Different verification than expected (button click, not press & hold)
+- Aritzia's Cloudflare may require new techniques (test next)
 - Nordstrom is the most challenging (test last)
 
 ---
@@ -182,12 +192,14 @@ python cleanup_test_data.py
 
 ## 🎓 LESSONS LEARNED (Running Log)
 
-### Nov 6, 2025:
-1. **PerimeterX bypass**: Keyboard navigation (TAB + SPACE) works
+### Nov 6-7, 2025:
+1. **PerimeterX bypass**: Keyboard navigation (TAB + SPACE) works for press & hold
 2. **DOM-first fallback**: Triggers automatically when Gemini < 50% of DOM
 3. **Natural waiting**: 4s+ delays mimic human behavior
 4. **Full-page screenshots**: Better than tiled screenshots
 5. **JavaScript properties**: Use `el.href` over `get_attribute('href')`
+6. **Gemini Vision for verification**: Can identify and click different button types (CONTINUE, Press & Hold, etc.)
+7. **Method placement bug**: Shared helper methods must be in correct class (e.g., `_calculate_similarity`)
 
 ---
 
@@ -208,5 +220,7 @@ python cleanup_test_data.py
 
 ---
 
-**Next Action**: Test Urban Outfitters (similar to Anthropologie, highest success probability)
+**Progress**: 3/5 Patchright retailers tested and working (60% complete!)
+
+**Next Action**: Test Aritzia (Cloudflare verification - different challenge)
 
