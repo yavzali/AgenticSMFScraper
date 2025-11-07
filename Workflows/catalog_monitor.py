@@ -479,6 +479,11 @@ class CatalogMonitor:
         if existing:
             return {'confidence': 0.95, 'product': existing}
         
+        # Check baseline (catalog_products table)
+        baseline = await self.db_manager.find_baseline_product_by_url(url, retailer)
+        if baseline:
+            return {'confidence': 0.95, 'product': baseline}
+        
         return None
     
     async def _check_product_code_match(self, product: Dict, retailer: str) -> Optional[Dict]:
@@ -491,6 +496,11 @@ class CatalogMonitor:
         existing = await self.db_manager.find_product_by_code(product_code, retailer)
         if existing:
             return {'confidence': 0.95, 'product': existing}
+        
+        # Check baseline (catalog_products table) - search by product code in URL
+        baseline = await self.db_manager.find_baseline_product_by_code(product_code, retailer)
+        if baseline:
+            return {'confidence': 0.95, 'product': baseline}
         
         return None
     
@@ -508,6 +518,11 @@ class CatalogMonitor:
         existing = await self.db_manager.find_product_by_title_price(title_normalized, price, retailer)
         if existing:
             return {'confidence': 1.0, 'product': existing}
+        
+        # Check baseline (catalog_products table)
+        baseline = await self.db_manager.find_baseline_product_by_title_price(title_normalized, price, retailer)
+        if baseline:
+            return {'confidence': 1.0, 'product': baseline}
         
         return None
     

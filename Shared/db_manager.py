@@ -98,49 +98,54 @@ class DatabaseManager:
         stock_status: Optional[str] = None,
         limit: int = 100
     ) -> List[Dict]:
-        """Query products from products table with filters"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            query = 'SELECT * FROM products WHERE 1=1'
-            params = []
-            
-            if retailer:
-                query += ' AND retailer = ?'
-                params.append(retailer)
-            
-            if modesty_status:
-                query += ' AND modesty_status = ?'
-                params.append(modesty_status)
-            
-            if has_shopify_id:
-                query += ' AND shopify_id IS NOT NULL'
-            
-            if sale_status:
-                query += ' AND sale_status = ?'
-                params.append(sale_status)
-            
-            if stock_status:
-                query += ' AND stock_status = ?'
-                params.append(stock_status)
-            
-            if min_age_days:
-                query += ' AND julianday("now") - julianday(last_updated) > ?'
-                params.append(min_age_days)
-            
-            query += f' ORDER BY last_updated ASC LIMIT ?'
-            params.append(limit)
-            
-            cursor.execute(query, params)
-            rows = cursor.fetchall()
-            conn.close()
-            
-            return [dict(row) for row in rows]
-            
-        except Exception as e:
-            logger.error(f"Failed to query products: {e}")
-            return []
+        """Query products from products table with filters (async wrapper for sync DB)"""
+        import asyncio
+        
+        def _query():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                query = 'SELECT * FROM products WHERE 1=1'
+                params = []
+                
+                if retailer:
+                    query += ' AND retailer = ?'
+                    params.append(retailer)
+                
+                if modesty_status:
+                    query += ' AND modesty_status = ?'
+                    params.append(modesty_status)
+                
+                if has_shopify_id:
+                    query += ' AND shopify_id IS NOT NULL'
+                
+                if sale_status:
+                    query += ' AND sale_status = ?'
+                    params.append(sale_status)
+                
+                if stock_status:
+                    query += ' AND stock_status = ?'
+                    params.append(stock_status)
+                
+                if min_age_days:
+                    query += ' AND julianday("now") - julianday(last_updated) > ?'
+                    params.append(min_age_days)
+                
+                query += f' ORDER BY last_updated ASC LIMIT ?'
+                params.append(limit)
+                
+                cursor.execute(query, params)
+                rows = cursor.fetchall()
+                conn.close()
+                
+                return [dict(row) for row in rows]
+                
+            except Exception as e:
+                logger.error(f"Failed to query products: {e}")
+                return []
+        
+        return await asyncio.to_thread(_query)
     
     async def update_product_record(
         self,
@@ -355,54 +360,64 @@ class DatabaseManager:
         return await self.get_product_by_url(url)
     
     async def find_product_by_normalized_url(self, normalized_url: str, retailer: str) -> Optional[Dict]:
-        """Find product by normalized URL"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT * FROM products 
-                WHERE retailer = ? AND url LIKE ?
-                LIMIT 1
-            ''', (retailer, f"%{normalized_url}%"))
-            
-            row = cursor.fetchone()
-            conn.close()
-            
-            if row:
-                return dict(row)
-            return None
-            
-        except Exception as e:
-            logger.error(f"Failed to find by normalized URL: {e}")
-            return None
+        """Find product by normalized URL (async wrapper for sync DB)"""
+        import asyncio
+        
+        def _query():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT * FROM products 
+                    WHERE retailer = ? AND url LIKE ?
+                    LIMIT 1
+                ''', (retailer, f"%{normalized_url}%"))
+                
+                row = cursor.fetchone()
+                conn.close()
+                
+                if row:
+                    return dict(row)
+                return None
+                
+            except Exception as e:
+                logger.error(f"Failed to find by normalized URL: {e}")
+                return None
+        
+        return await asyncio.to_thread(_query)
     
     async def find_product_by_code(self, product_code: str, retailer: str) -> Optional[Dict]:
-        """Find product by product code"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            # Search in URL or product_code field
-            cursor.execute('''
-                SELECT * FROM products 
-                WHERE retailer = ? AND (
-                    url LIKE ? OR
-                    product_code = ?
-                )
-                LIMIT 1
-            ''', (retailer, f"%{product_code}%", product_code))
-            
-            row = cursor.fetchone()
-            conn.close()
-            
-            if row:
-                return dict(row)
-            return None
-            
-        except Exception as e:
-            logger.error(f"Failed to find by product code: {e}")
-            return None
+        """Find product by product code (async wrapper for sync DB)"""
+        import asyncio
+        
+        def _query():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                # Search in URL or product_code field
+                cursor.execute('''
+                    SELECT * FROM products 
+                    WHERE retailer = ? AND (
+                        url LIKE ? OR
+                        product_code = ?
+                    )
+                    LIMIT 1
+                ''', (retailer, f"%{product_code}%", product_code))
+                
+                row = cursor.fetchone()
+                conn.close()
+                
+                if row:
+                    return dict(row)
+                return None
+                
+            except Exception as e:
+                logger.error(f"Failed to find by product code: {e}")
+                return None
+        
+        return await asyncio.to_thread(_query)
     
     async def find_product_by_title_price(
         self,
@@ -410,54 +425,64 @@ class DatabaseManager:
         price: str,
         retailer: str
     ) -> Optional[Dict]:
-        """Find product by title and price"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT * FROM products 
-                WHERE retailer = ? AND title = ? AND price = ?
-                LIMIT 1
-            ''', (retailer, title, price))
-            
-            row = cursor.fetchone()
-            conn.close()
-            
-            if row:
-                return dict(row)
-            return None
-            
-        except Exception as e:
-            logger.error(f"Failed to find by title/price: {e}")
-            return None
+        """Find product by title and price (async wrapper for sync DB)"""
+        import asyncio
+        
+        def _query():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT * FROM products 
+                    WHERE retailer = ? AND title = ? AND price = ?
+                    LIMIT 1
+                ''', (retailer, title, price))
+                
+                row = cursor.fetchone()
+                conn.close()
+                
+                if row:
+                    return dict(row)
+                return None
+                
+            except Exception as e:
+                logger.error(f"Failed to find by title/price: {e}")
+                return None
+        
+        return await asyncio.to_thread(_query)
     
     async def find_products_by_retailer(self, retailer: str, limit: int = 1000) -> List[Dict]:
         """Find products by retailer"""
         return await self.query_products(retailer=retailer, limit=limit)
     
     async def find_product_by_image(self, image_url: str, retailer: str) -> Optional[Dict]:
-        """Find product by image URL"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT * FROM products 
-                WHERE retailer = ? AND images LIKE ?
-                LIMIT 1
-            ''', (retailer, f"%{image_url}%"))
-            
-            row = cursor.fetchone()
-            conn.close()
-            
-            if row:
-                return dict(row)
-            return None
-            
-        except Exception as e:
-            logger.error(f"Failed to find by image: {e}")
-            return None
+        """Find product by image URL (async wrapper for sync DB)"""
+        import asyncio
+        
+        def _query():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    SELECT * FROM products 
+                    WHERE retailer = ? AND images LIKE ?
+                    LIMIT 1
+                ''', (retailer, f"%{image_url}%"))
+                
+                row = cursor.fetchone()
+                conn.close()
+                
+                if row:
+                    return dict(row)
+                return None
+                
+            except Exception as e:
+                logger.error(f"Failed to find by image: {e}")
+                return None
+        
+        return await asyncio.to_thread(_query)
     
     async def find_baseline_product_by_url(self, url: str, retailer: str) -> Optional[Dict]:
         """Find product in catalog baseline by URL (async)"""
@@ -484,6 +509,68 @@ class DatabaseManager:
             
         except Exception as e:
             logger.error(f"Failed to find baseline product: {e}")
+            return None
+    
+    async def find_baseline_product_by_code(self, product_code: str, retailer: str) -> Optional[Dict]:
+        """Find product in catalog baseline by product code (async)"""
+        if not self.catalog_db:
+            return None
+            
+        try:
+            import aiosqlite
+            await self.catalog_db._ensure_db_initialized()
+            
+            async with aiosqlite.connect(self.catalog_db.db_path) as conn:
+                conn.row_factory = aiosqlite.Row
+                cursor = await conn.execute('''
+                    SELECT * FROM catalog_products 
+                    WHERE retailer = ? AND (
+                        catalog_url LIKE ? OR
+                        product_code = ?
+                    )
+                    LIMIT 1
+                ''', (retailer, f"%{product_code}%", product_code))
+                
+                row = await cursor.fetchone()
+                
+                if row:
+                    return dict(row)
+                return None
+            
+        except Exception as e:
+            logger.error(f"Failed to find baseline by code: {e}")
+            return None
+    
+    async def find_baseline_product_by_title_price(
+        self,
+        title: str,
+        price: str,
+        retailer: str
+    ) -> Optional[Dict]:
+        """Find product in catalog baseline by title and price (async)"""
+        if not self.catalog_db:
+            return None
+            
+        try:
+            import aiosqlite
+            await self.catalog_db._ensure_db_initialized()
+            
+            async with aiosqlite.connect(self.catalog_db.db_path) as conn:
+                conn.row_factory = aiosqlite.Row
+                cursor = await conn.execute('''
+                    SELECT * FROM catalog_products 
+                    WHERE retailer = ? AND LOWER(catalog_title) = ? AND catalog_price = ?
+                    LIMIT 1
+                ''', (retailer, title.lower(), price))
+                
+                row = await cursor.fetchone()
+                
+                if row:
+                    return dict(row)
+                return None
+            
+        except Exception as e:
+            logger.error(f"Failed to find baseline by title/price: {e}")
             return None
 
 
