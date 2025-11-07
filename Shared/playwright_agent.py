@@ -248,7 +248,11 @@ class PlaywrightMultiScreenshotAgent:
             await asyncio.sleep(3)  # Let dynamic content load
             
             # Handle any verification challenges
-            strategy = {'domain': self._extract_domain(catalog_url), 'retailer': retailer}
+            strategy = {
+                'domain': self._extract_domain(catalog_url), 
+                'retailer': retailer,
+                'special_notes': 'cloudflare_verification' if retailer.lower() == 'aritzia' else ''
+            }
             await self._handle_verification_challenges(strategy)
             
             # After verification: Wait naturally for page to fully load (mimic human behavior)
@@ -264,7 +268,18 @@ class PlaywrightMultiScreenshotAgent:
             
             # Additional natural wait for JavaScript to render (mimic human page viewing)
             # Humans take 3-5 seconds to scan a page after it loads
-            await asyncio.sleep(4)
+            # For Cloudflare sites, need longer wait for challenge to complete
+            await asyncio.sleep(10)  # Increased for Cloudflare
+            
+            # For retailers with Cloudflare, explicitly wait for product elements to appear
+            if 'cloudflare' in strategy.get('special_notes', '').lower():
+                logger.info("🔍 Cloudflare detected - waiting for products to render...")
+                try:
+                    # Common product selectors
+                    await self.page.wait_for_selector('a[href*="/product"]', timeout=20000, state='visible')
+                    logger.info("✅ Products rendered after Cloudflare challenge")
+                except Exception as e:
+                    logger.warning(f"⚠️ Products not detected after Cloudflare wait: {e}")
             
             # Try learned patterns first, then common selectors
             learned_patterns = []
