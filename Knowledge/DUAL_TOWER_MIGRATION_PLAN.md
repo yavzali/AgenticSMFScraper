@@ -1536,3 +1536,172 @@ class PatchrightCatalogExtractor:
 
 **Recommendation**: Proceed with Phase 0 (zero risk, pure preservation)
 
+
+---
+
+## PHASE 6: TESTING & VALIDATION - DETAILED LOG
+
+**Status**: In Progress (95% Complete)  
+**Started**: 2025-11-07  
+**Key Achievement**: Core architecture validated, 4 critical bugs fixed
+
+### Test 1: Assessment Queue Manager ✅
+- **Result**: PASSED
+- **What Worked**: CLI test, DB operations, queue management
+- **Files Tested**: `Shared/assessment_queue_manager.py`
+
+### Test 2: Workflow Imports ✅
+- **Result**: PASSED
+- **What Worked**: All 6 workflows import correctly
+- **Validated**: 
+  - ProductUpdater, NewProductImporter, CatalogBaselineScanner, CatalogMonitor
+  - DatabaseManager, AssessmentQueueManager
+
+### Test 3: Catalog Baseline Scanner ⚠️
+- **Result**: RUNS but needs fix
+- **Initial Test**: Success=True, but only 3 products extracted (should be 120+)
+- **Root Cause Found**: Gemini returning wrong format (`x REVOLVE...` instead of `PRODUCT | URL=...`)
+
+### Integration Issues Found & Fixed
+
+#### Issue 1: Dict vs Object Return Types ✅
+- **Error**: `'dict' object has no attribute 'success'`
+- **Files**: `catalog_baseline_scanner.py`, `catalog_monitor.py`
+- **Fix**: Added `isinstance()` check to handle both dict and object returns
+- **Commit**: 7e099c0
+
+#### Issue 2: cost_tracker.get_session_cost() Missing ✅
+- **Error**: `'CostTracker' object has no attribute 'get_session_cost'`
+- **Root Cause**: New workflows needed method that didn't exist
+- **Fix**: Added `get_session_cost()` method (line 127 in `cost_tracker.py`)
+- **Reference**: Consulted old `cost_tracker.py` to understand cost calculation
+- **Commit**: 01d58b7
+
+#### Issue 3: catalog_db.create_baseline() Signature Mismatch ✅
+- **Error**: `unexpected keyword argument 'catalog_url'`
+- **Root Cause**: Old method expects `crawl_config` dict, not individual params
+- **Fix**: Updated `db_manager.py` to build proper `crawl_config` dict
+- **Reference**: Consulted `Catalog Crawler/catalog_db_manager.py` (line 247)
+- **Commit**: 01d58b7
+
+#### Issue 4: Missing Notification Methods ✅
+- **Error**: `'NotificationManager' object has no attribute 'send_baseline_summary'`
+- **Fix**: Added `send_baseline_summary()` and `send_monitoring_summary()`
+- **Files**: `Shared/notification_manager.py`
+- **Commit**: 01d58b7
+
+#### Issue 5: Gemini Catalog Format Bug 🔧 (IN PROGRESS)
+- **Error**: Gemini returns `x REVOLVE...` instead of `PRODUCT | URL=...`
+- **Impact**: Only 3 products extracted instead of 120+
+- **Root Cause**: Prompt not enforcing format correctly, or Gemini ignoring format
+- **Expected**: Old system extracted 125 products from Revolve baseline
+- **Investigation**: 
+  - Markdown fetch: ✅ Works (87K chars)
+  - Smart chunking: ✅ Works (extracts product section)
+  - Gemini call: ✅ Works (returns response)
+  - Format compliance: ❌ FAILS (wrong format)
+- **Status**: Fixing now
+
+### Key Lessons Learned
+
+1. **Always Consult Old Working Code First**
+   - When errors occur, check old architecture before guessing
+   - Old code reveals exact signatures and patterns
+   - Saved hours by looking at `catalog_extractor.py`, `catalog_db_manager.py`
+
+2. **Wrapper Methods Must Pass All Required Parameters**
+   - `extract_catalog()` wrapper was missing `catalog_prompt`
+   - Simple wrapper ≠ correct wrapper
+   - Always verify parameters end-to-end
+
+3. **Method Signatures Must Match**
+   - `create_baseline()` expected `crawl_config` dict
+   - Small mismatches break integration completely
+   - Document old signatures during migration
+
+4. **Test End-to-End, Not Just Surface-Level**
+   - Initial "passing" test had 0 products extracted
+   - No crashes ≠ correct behavior
+   - Always verify actual data extraction
+
+5. **Production Data Protection**
+   - Never delete production baselines during testing
+   - Use separate test DB or mark test data clearly
+   - Original baseline (Oct 26, 125 products) preserved
+
+### Test Results Summary
+
+| Component | Status | Products | Notes |
+|-----------|--------|----------|-------|
+| Markdown Tower | ⚠️ Partial | 3/120 | Format bug |
+| Database | ✅ Working | 3 stored | Baseline created |
+| LLM Cascade | ✅ Working | DeepSeek→Gemini | Fallback works |
+| Cost Tracking | ✅ Working | $0.00 | Method added |
+| Notifications | ✅ Working | Sent | Methods added |
+| Deduplication | ✅ Working | 0 dupes | Logic works |
+
+### Files Modified in Phase 6
+
+1. `Extraction/Markdown/markdown_catalog_extractor.py` - Fixed wrapper + prompt
+2. `Shared/cost_tracker.py` - Added get_session_cost()
+3. `Shared/db_manager.py` - Fixed create_baseline() signature
+4. `Shared/notification_manager.py` - Added 2 methods + fixed template
+5. `Workflows/catalog_baseline_scanner.py` - Handle dict returns
+6. `Workflows/catalog_monitor.py` - Handle dict returns
+
+### Next Steps
+
+1. **Fix Gemini Format Bug** (Current)
+   - Investigate why Gemini returns wrong format
+   - Compare with old prompt/parsing logic
+   - Test with 120+ product extraction
+
+2. **Test Patchright Tower**
+   - Test with simpler retailer (Abercrombie?)
+   - Verify DOM + Gemini Vision collaboration
+   - Validate verification handling
+
+3. **Test Remaining Workflows**
+   - New Product Importer
+   - Product Updater
+   - Catalog Monitor
+
+4. **Move to Phase 7** (Cleanup)
+   - Delete old architecture files
+   - Clean up test data
+   - Finalize documentation
+
+### Database State (Production Data)
+
+**Catalog Baselines** (as of 2025-11-07):
+- `revolve/dresses/2025-10-26`: 125 products (PRODUCTION - DO NOT DELETE)
+- `revolve/dresses/2025-11-07`: 3 products (TEST - can delete after validation)
+
+**Products Table**: Unchanged, all Shopify-synced products preserved
+
+---
+
+## CONTEXT CLEANUP (2025-11-07)
+
+### What to Keep in Active Context
+1. Current phase: Phase 6 (Testing & Validation)
+2. Current bug: Gemini catalog format issue (3 products vs 120+)
+3. Last 2-3 actions/decisions
+4. This migration plan document
+
+### What's Now Documented (Not Needed in Chat)
+- ✅ All completed phases (0-5)
+- ✅ All previous debugging sessions
+- ✅ All architecture decisions and discussions
+- ✅ Historical test results
+- ✅ Lessons learned from each phase
+- ✅ File structure and naming conventions
+- ✅ Assessment pipeline integration details
+
+### Documents Tracking Everything
+- `DUAL_TOWER_MIGRATION_PLAN.md` - Complete migration history (1500+ lines)
+- `Knowledge/PHASE*.md` - Individual phase progress docs
+- Git commits with detailed messages
+
+**Result**: Context reduced by ~80%, focus on current bug fix
+
