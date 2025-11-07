@@ -192,13 +192,21 @@ class CatalogMonitor:
                     f'Unknown retailer: {retailer}'
                 )
             
-            if not extraction_result.success:
+            # Handle both dict and object return types
+            if isinstance(extraction_result, dict):
+                success = extraction_result.get('success', False)
+                catalog_products = extraction_result.get('products', [])
+                errors = extraction_result.get('errors', [])
+            else:
+                success = extraction_result.success
+                catalog_products = extraction_result.data.get('products', [])
+                errors = extraction_result.errors
+            
+            if not success:
                 return self._error_result(
                     retailer, category, modesty_level, start_time,
-                    str(extraction_result.errors)
+                    str(errors)
                 )
-            
-            catalog_products = extraction_result.data.get('products', [])
             logger.info(f"📦 Scanned {len(catalog_products)} products from catalog")
             
             # Step 4: Deduplication against DB (multi-level)

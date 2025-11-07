@@ -189,7 +189,17 @@ class CatalogBaselineScanner:
                     error=f'Unknown retailer: {retailer}'
                 )
             
-            if not extraction_result.success:
+            # Handle both dict and object return types
+            if isinstance(extraction_result, dict):
+                success = extraction_result.get('success', False)
+                products = extraction_result.get('products', [])
+                errors = extraction_result.get('errors', [])
+            else:
+                success = extraction_result.success
+                products = extraction_result.data.get('products', [])
+                errors = extraction_result.errors
+            
+            if not success:
                 return BaselineResult(
                     success=False,
                     baseline_id=None,
@@ -201,10 +211,8 @@ class CatalogBaselineScanner:
                     duplicates_removed=0,
                     method_used=method_used,
                     processing_time=(datetime.utcnow() - start_time).total_seconds(),
-                    error=str(extraction_result.errors)
+                    error=str(errors)
                 )
-            
-            products = extraction_result.data.get('products', [])
             logger.info(f"📦 Extracted {len(products)} products from catalog")
             
             # Step 4: In-memory deduplication (within this crawl session)
