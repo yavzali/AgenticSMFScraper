@@ -1,8 +1,9 @@
 """
-Patchright Tower - Retailer-Specific Strategies
-Retailer-specific browser automation strategies
+Patchright Tower - Retailer Strategies
+Per-retailer configurations and strategies
 
-Target: <500 lines
+Extracted from: Shared/playwright_agent.py (screenshot strategies, verification configs)
+Target: <400 lines
 """
 
 # Add shared path for imports
@@ -10,190 +11,287 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../Shared"))
 
-from typing import Dict, Optional
+from typing import Dict, List
 import logging
 
 logger = logging.getLogger(__name__)
 
 
+# Retailer-specific strategies
+RETAILER_STRATEGIES = {
+    'anthropologie': {
+        'verification': 'perimeterx_press_hold',
+        'verification_method': 'keyboard',  # TAB + SPACE breakthrough
+        'wait_strategy': 'domcontentloaded',  # Not networkidle (persistent activity)
+        'extended_wait_after_verification': 4,  # seconds
+        'catalog_mode': 'dom_first',  # Screenshot too tall (33,478px)
+        'dom_first_reason': 'tall_page',  # Gemini resize makes products unreadable
+        'product_selectors': [
+            "a[href*='/shop/']",
+            "a[class*='product']"
+        ],
+        'popup_selectors': [
+            'button[aria-label*="close"]',
+            'button:has-text("No Thanks")'
+        ],
+        'anti_bot_complexity': 'high',  # PerimeterX is sophisticated
+        'notes': 'Use keyboard (TAB 10x + SPACE 10s) for Press & Hold. Wait naturally after verification.'
+    },
+    
+    'urban_outfitters': {
+        'verification': 'perimeterx_press_hold',
+        'verification_method': 'keyboard',
+        'wait_strategy': 'domcontentloaded',
+        'extended_wait_after_verification': 4,
+        'catalog_mode': 'gemini_first',  # Pages are reasonable height
+        'product_selectors': [
+            "a[href*='/products/']",
+            "a[class*='product-card']"
+        ],
+        'anti_bot_complexity': 'high',
+        'notes': 'Same PerimeterX as Anthropologie. Keyboard approach works.'
+    },
+    
+    'aritzia': {
+        'verification': 'cloudflare',
+        'wait_strategy': 'domcontentloaded',
+        'extended_wait': 15,  # Cloudflare + SPA API loading
+        'scroll_trigger': True,  # Trigger lazy load
+        'scroll_amount': 1000,
+        'catalog_mode': 'gemini_first',
+        'product_selectors': [
+            "a[href*='/product/']",
+            "a[class*='ProductCard']",
+            "[class*='ProductCard']"
+        ],
+        'wait_for_selector': '[class*="ProductCard"]',
+        'wait_state': 'attached',  # Not 'visible' (SPA)
+        'anti_bot_complexity': 'medium',
+        'notes': 'Cloudflare passes, but products dont render. Need extended wait + scroll.'
+    },
+    
+    'abercrombie': {
+        'verification': 'none',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'gemini_first',
+        'explicit_wait_for_products': True,  # JavaScript SPA
+        'product_selectors': [
+            "a[class*='product-tile']",
+            "a[class*='ProductCard']"
+        ],
+        'wait_for_selector': "a[class*='product-tile']",
+        'wait_timeout': 10000,
+        'anti_bot_complexity': 'low',
+        'notes': 'SPA requires explicit wait_for_selector for dynamic JS rendering'
+    },
+    
+    'revolve': {
+        'verification': 'none',
+        'wait_strategy': 'networkidle',  # Well-behaved site
+        'catalog_mode': 'markdown',  # Use Markdown Tower (not Patchright)
+        'product_selectors': [
+            "a[href*='/dp/']"
+        ],
+        'anti_bot_complexity': 'low',
+        'notes': 'Markdown extraction preferred. URLs change frequently (use fuzzy dedup).'
+    },
+    
+    'asos': {
+        'verification': 'none',
+        'wait_strategy': 'networkidle',
+        'catalog_mode': 'markdown',
+        'anti_bot_complexity': 'low',
+        'notes': 'Markdown extraction preferred'
+    },
+    
+    'nordstrom': {
+        'verification': 'none',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'gemini_first',
+        'product_selectors': [
+            "a[class*='product-card']"
+        ],
+        'anti_bot_complexity': 'low'
+    }
+}
+
+
+# Screenshot strategies per retailer (for multi-screenshot capture)
+SCREENSHOT_STRATEGIES = {
+    'anthropologie': {
+        'strategy': 'full_page',  # Tall SPA
+        'regions': ['full'],
+        'scroll_between': False
+    },
+    
+    'urban_outfitters': {
+        'strategy': 'full_page',
+        'regions': ['full'],
+        'scroll_between': False
+    },
+    
+    'aritzia': {
+        'strategy': 'multi_region',
+        'regions': ['header', 'mid', 'footer'],
+        'scroll_between': True,
+        'scroll_pause': 1000
+    },
+    
+    'abercrombie': {
+        'strategy': 'full_page',
+        'regions': ['full'],
+        'scroll_between': False
+    },
+    
+    'nordstrom': {
+        'strategy': 'multi_region',
+        'regions': ['header', 'mid', 'footer'],
+        'scroll_between': True
+    },
+    
+    'default': {
+        'strategy': 'multi_region',
+        'regions': ['header', 'mid', 'footer'],
+        'scroll_between': True,
+        'scroll_pause': 1000
+    }
+}
+
+
 class PatchrightRetailerStrategies:
     """
-    Retailer-specific strategies for Patchright browser automation
+    Retailer-specific strategies and configurations
     
-    What varies by retailer:
-    - Screenshot strategies (full-page vs tiled vs multi-section)
-    - Wait conditions (networkidle vs domcontentloaded vs load)
-    - Scroll positions for lazy loading
+    Provides:
+    - Verification methods per retailer
+    - Wait strategies
+    - Product selectors
+    - Screenshot strategies
     - Anti-bot complexity levels
-    - Navigation timeouts
-    - Post-verification wait times
-    
-    Key Learnings from v1.0:
-    - Anthropologie: domcontentloaded (networkidle times out)
-    - Abercrombie: networkidle + explicit selector wait
-    - Urban Outfitters: load (simple)
-    - Aritzia: Extended wait (15s) for Cloudflare + API
     """
     
-    # Wait strategy definitions
-    WAIT_STRATEGIES = {
-        'anthropologie': {
-            'navigation_wait': 'domcontentloaded',
-            'reason': 'Persistent network activity causes networkidle timeout',
-            'post_verification_wait': 4,  # Human page viewing delay
-            'animation_delay': 2,
-            'explicit_selector': 'a[href*="/shop/"]',
-            'selector_timeout': 10000
-        },
-        'abercrombie': {
-            'navigation_wait': 'networkidle',
-            'explicit_selector': 'a[data-testid="product-card-link"]',
-            'selector_timeout': 10000,
-            'reason': 'SPA - products load after networkidle'
-        },
-        'urban_outfitters': {
-            'navigation_wait': 'load',
-            'reason': 'Simple, fast load'
-        },
-        'aritzia': {
-            'navigation_wait': 'domcontentloaded',
-            'cloudflare_wait': 15,  # Extended for Cloudflare + API
-            'scroll_trigger': True,
-            'selector_timeout': 30000,
-            'selector_state': 'attached',
-            'reason': 'Cloudflare + SPA API delay'
-        },
-        'nordstrom': {
-            'navigation_wait': 'networkidle',
-            'reason': 'TBD - not tested yet'
-        }
-    }
+    def __init__(self):
+        self.strategies = RETAILER_STRATEGIES
+        self.screenshot_strategies = SCREENSHOT_STRATEGIES
+        logger.info(f"✅ Loaded strategies for {len(self.strategies)} retailers")
     
-    # Screenshot strategies
-    SCREENSHOT_STRATEGIES = {
-        'anthropologie': {
-            'type': 'full_page',
-            'resize_if_over': 20000,  # Pixels
-            'reason': 'Very tall pages need compression'
-        },
-        'abercrombie': {
-            'type': 'full_page',
-            'resize_if_over': 16000,
-            'reason': 'Normal height, resize for Gemini WebP limit'
-        },
-        'urban_outfitters': {
-            'type': 'full_page',
-            'resize_if_over': 16000
-        },
-        'default': {
-            'type': 'full_page',
-            'resize_if_over': 16000,
-            'reason': 'Gemini WebP limit = 16,383px'
-        }
-    }
-    
-    # Anti-bot complexity levels
-    ANTI_BOT_LEVELS = {
-        'anthropologie': 'very_high',  # PerimeterX press & hold
-        'urban_outfitters': 'high',  # PerimeterX button click
-        'aritzia': 'very_high',  # Cloudflare
-        'nordstrom': 'very_high',  # Advanced (not tested)
-        'abercrombie': 'medium',  # Minimal challenges
-        'revolve': 'none'  # Markdown only
-    }
-    
-    def __init__(self, config: Dict):
-        self.config = config
-        # TODO: Load retailer config from /Knowledge/RETAILER_CONFIG.json
-    
-    def get_wait_strategy(self, retailer: str) -> Dict:
+    def get_strategy(self, retailer: str) -> Dict:
         """
-        Get wait strategy for retailer
+        Get strategy for retailer
         
-        Returns dict with:
-        - navigation_wait: str (networkidle, domcontentloaded, load)
-        - post_verification_wait: int (seconds)
-        - explicit_selector: str (optional)
-        - selector_timeout: int (ms)
+        Args:
+            retailer: Retailer name (lowercase)
+            
+        Returns:
+            Strategy dict with defaults if retailer not found
         """
-        return self.WAIT_STRATEGIES.get(retailer, {
-            'navigation_wait': 'networkidle',
-            'reason': 'Default strategy'
-        })
+        retailer = retailer.lower()
+        
+        if retailer in self.strategies:
+            return self.strategies[retailer]
+        
+        # Default strategy
+        logger.warning(f"No strategy found for {retailer}, using default")
+        return {
+            'verification': 'none',
+            'wait_strategy': 'domcontentloaded',
+            'catalog_mode': 'gemini_first',
+            'product_selectors': [
+                "a[href*='/product']",
+                "a[class*='product']"
+            ],
+            'anti_bot_complexity': 'unknown'
+        }
     
     def get_screenshot_strategy(self, retailer: str) -> Dict:
         """
         Get screenshot strategy for retailer
         
-        Returns dict with:
-        - type: str (full_page, tiled, multi_section)
-        - resize_if_over: int (pixels)
+        Returns:
+            Screenshot strategy dict
         """
-        return self.SCREENSHOT_STRATEGIES.get(
-            retailer,
-            self.SCREENSHOT_STRATEGIES['default']
-        )
-    
-    def get_anti_bot_level(self, retailer: str) -> str:
-        """
-        Get anti-bot complexity level
+        retailer = retailer.lower()
         
-        Returns: 'none', 'low', 'medium', 'high', 'very_high'
-        """
-        return self.ANTI_BOT_LEVELS.get(retailer, 'medium')
+        if retailer in self.screenshot_strategies:
+            return self.screenshot_strategies[retailer]
+        
+        return self.screenshot_strategies['default']
     
     def requires_verification(self, retailer: str) -> bool:
         """Check if retailer requires verification handling"""
-        return self.get_anti_bot_level(retailer) in ['high', 'very_high']
+        strategy = self.get_strategy(retailer)
+        return strategy.get('verification', 'none') != 'none'
     
-    def get_scroll_positions(self, retailer: str, page_type: str) -> list:
+    def get_verification_method(self, retailer: str) -> str:
         """
-        Get scroll positions for lazy loading
+        Get verification method
         
-        Args:
-            retailer: Retailer name
-            page_type: 'catalog' or 'product'
-            
         Returns:
-            List of scroll positions (y coordinates)
+            'keyboard', 'mouse', 'gemini', 'none'
         """
-        # TODO: Implement
-        # Aritzia: [1000, 0] for lazy load trigger
-        # Most retailers: [] (no scrolling needed for full_page screenshot)
-        pass
+        strategy = self.get_strategy(retailer)
+        return strategy.get('verification_method', 'gemini')
     
-    def get_navigation_timeout(self, retailer: str) -> int:
+    def get_wait_strategy(self, retailer: str) -> str:
         """
-        Get navigation timeout in milliseconds
+        Get page load wait strategy
         
-        Higher for retailers with verification challenges
+        Returns:
+            'networkidle', 'domcontentloaded', 'load'
         """
-        anti_bot_level = self.get_anti_bot_level(retailer)
-        
-        if anti_bot_level == 'very_high':
-            return 120000  # 2 minutes
-        elif anti_bot_level == 'high':
-            return 90000  # 1.5 minutes
-        else:
-            return 60000  # 1 minute
-
-
-# Helper functions
-def get_retailer_verification_type(retailer: str) -> Optional[str]:
-    """
-    Get verification type for retailer
+        strategy = self.get_strategy(retailer)
+        return strategy.get('wait_strategy', 'domcontentloaded')
     
-    Returns:
-    - 'perimeterx_press_hold'
-    - 'perimeterx_button_click'
-    - 'cloudflare'
-    - None
-    """
-    verification_map = {
-        'anthropologie': 'perimeterx_press_hold',
-        'urban_outfitters': 'perimeterx_button_click',
-        'aritzia': 'cloudflare',
-        'nordstrom': 'unknown'  # Not tested
-    }
-    return verification_map.get(retailer)
-
+    def get_catalog_mode(self, retailer: str) -> str:
+        """
+        Get catalog extraction mode
+        
+        Returns:
+            'gemini_first', 'dom_first', 'markdown'
+        """
+        strategy = self.get_strategy(retailer)
+        return strategy.get('catalog_mode', 'gemini_first')
+    
+    def get_product_selectors(self, retailer: str) -> List[str]:
+        """Get product selectors for retailer"""
+        strategy = self.get_strategy(retailer)
+        return strategy.get('product_selectors', [
+            "a[href*='/product']",
+            "a[class*='product']"
+        ])
+    
+    def get_anti_bot_complexity(self, retailer: str) -> str:
+        """
+        Get anti-bot complexity level
+        
+        Returns:
+            'low', 'medium', 'high', 'unknown'
+        """
+        strategy = self.get_strategy(retailer)
+        return strategy.get('anti_bot_complexity', 'unknown')
+    
+    def should_use_extended_wait(self, retailer: str) -> bool:
+        """Check if retailer needs extended wait"""
+        strategy = self.get_strategy(retailer)
+        return 'extended_wait' in strategy or 'extended_wait_after_verification' in strategy
+    
+    def get_extended_wait_duration(self, retailer: str) -> int:
+        """
+        Get extended wait duration in seconds
+        
+        Returns:
+            Wait duration (default: 0)
+        """
+        strategy = self.get_strategy(retailer)
+        return strategy.get('extended_wait', 
+                          strategy.get('extended_wait_after_verification', 0))
+    
+    def should_scroll_trigger(self, retailer: str) -> bool:
+        """Check if retailer needs scroll to trigger lazy load"""
+        strategy = self.get_strategy(retailer)
+        return strategy.get('scroll_trigger', False)
+    
+    def get_scroll_amount(self, retailer: str) -> int:
+        """Get scroll amount in pixels"""
+        strategy = self.get_strategy(retailer)
+        return strategy.get('scroll_amount', 1000)
