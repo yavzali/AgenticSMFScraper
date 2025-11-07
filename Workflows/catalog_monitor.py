@@ -450,7 +450,8 @@ class CatalogMonitor:
     
     async def _check_exact_url_match(self, product: Dict, retailer: str) -> Optional[Dict]:
         """Check for exact URL match in both baseline and products tables"""
-        url = product.get('url')
+        # Try both field names (url from extraction, catalog_url from baseline)
+        url = product.get('url') or product.get('catalog_url')
         if not url:
             return None
         
@@ -468,7 +469,8 @@ class CatalogMonitor:
     
     async def _check_normalized_url_match(self, product: Dict, retailer: str) -> Optional[Dict]:
         """Check for normalized URL match (without query params)"""
-        url = product.get('url')
+        # Try both field names
+        url = product.get('url') or product.get('catalog_url')
         if not url:
             return None
         
@@ -488,7 +490,8 @@ class CatalogMonitor:
     
     async def _check_product_code_match(self, product: Dict, retailer: str) -> Optional[Dict]:
         """Check for product code match"""
-        product_code = product.get('product_code') or self._extract_product_code(product.get('url'), retailer)
+        url = product.get('url') or product.get('catalog_url')
+        product_code = product.get('product_code') or self._extract_product_code(url, retailer)
         if not product_code:
             return None
         
