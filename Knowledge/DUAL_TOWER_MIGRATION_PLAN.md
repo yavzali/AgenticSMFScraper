@@ -28,8 +28,15 @@
 - **System Status**: Production ready
 - **Migration Duration**: 1 day (November 7, 2025)
 
-### **Critical Phase 7 Fix**
-Initially missed deleting old extractors (`Shared/markdown_extractor.py` 1,144 lines + `Shared/playwright_agent.py` 3,194 lines) as specified in Phase 7 plan. This oversight was caught and corrected - all old architecture files now properly removed.
+### **Critical Phase 7 Fixes**
+1. **Old Extractors Deletion**: Initially missed deleting old extractors (`Shared/markdown_extractor.py` 1,144 lines + `Shared/playwright_agent.py` 3,194 lines) as specified in Phase 7 plan. This oversight was caught and corrected - all old architecture files now properly removed.
+
+2. **Image Processing Addition** ⭐: During final review, discovered retailer-specific image processing logic (from deleted `anthropologie_image_processor.py`, `aritzia_image_processor.py`, etc.) was lost during migration. Created new `Shared/image_processor.py` (1,010 lines) to:
+   - Preserve ALL retailer-specific URL transformations
+   - Add pattern learning for continuous improvement
+   - Fix critical bug: workflows passed URLs, Shopify expected file paths
+   - Integrate into all workflows (new_product_importer, product_updater)
+   - Update all documentation
 
 ---
 

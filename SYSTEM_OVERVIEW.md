@@ -466,6 +466,24 @@ Three-tier storage:
 - Async support (aiosqlite)
 - Methods for products, baselines, monitoring runs, assessment queue
 
+### **Image Processor** (`Shared/image_processor.py`) ⭐ NEW
+- Centralized image handling with retailer-specific enhancements
+- **URL Enhancement**: Transform thumbnails → high-res (300px → 1200px)
+  - Anthropologie: `_330_430.jpg` → `_1094_1405.jpg`, Scene7 transforms
+  - Aritzia: `_small` → `_large`, media.aritzia.com patterns
+  - Uniqlo: `/300w/` → `/1200w/` size upgrades
+  - Abercrombie: Scene7 quality optimization
+  - Revolve, Urban Outfitters, Nordstrom: Retailer-specific patterns
+- **Quality Ranking**: Sophisticated scoring (size indicators, keywords, URL patterns)
+- **Placeholder Filtering**: Learned + static patterns (excludes "placeholder", "loading", "thumb")
+- **Concurrent Download**: Async image fetching with validation
+- **Pattern Learning**: SQLite database tracks transformation success rates
+  - `url_transformations`: Success/failure per pattern
+  - `download_stats`: Download success per retailer
+  - `placeholder_patterns`: Learn bad patterns to avoid
+- **Continuous Improvement**: System learns which transformations work best
+- **Critical**: Fixes bug where images weren't uploading (URLs → file paths)
+
 ---
 
 ## 📈 **System Statistics (Phase 6 Testing)**

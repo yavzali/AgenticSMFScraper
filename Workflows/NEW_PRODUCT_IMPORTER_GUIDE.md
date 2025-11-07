@@ -26,9 +26,13 @@ The New Product Importer processes lists of product URLs, extracts full product 
 4. **Modesty Assessment**: 
    - Auto-assess based on visual details (neckline, sleeves)
    - OR send to manual assessment queue
-5. **Shopify Upload**: Upload modest/moderately modest products
-6. **Database Storage**: Save ALL products to DB (including not-modest)
-7. **Download Images**: Fetch product images for Shopify
+5. **Image Processing**: 
+   - Enhance URLs (retailer-specific transformations for max quality)
+   - Filter placeholders and thumbnails
+   - Rank by quality indicators
+   - Download top 5 images (300px thumbnails → 1200px high-res)
+6. **Shopify Upload**: Upload modest/moderately modest products with images
+7. **Database Storage**: Save ALL products to DB (including not-modest)
 
 ### Data Extracted
 - Full product details (title, brand, price, description)

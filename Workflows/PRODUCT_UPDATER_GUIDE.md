@@ -23,15 +23,18 @@ The Product Updater refreshes data for products already in your Shopify store. I
 1. **Load Products**: From batch file OR database query
 2. **Route to Tower**: Markdown or Patchright based on retailer
 3. **Extract Fresh Data**: Re-scrape product page for current info
-4. **Update Shopify**: Push changes to Shopify product
-5. **Update Local DB**: Save to `products` table with new `last_updated` timestamp
-6. **Checkpoint**: Track progress for resumability
+4. **Image Processing**: 
+   - Enhance image URLs (retailer-specific transformations)
+   - Download updated images (high-res versions)
+5. **Update Shopify**: Push changes to Shopify product (including new images)
+6. **Update Local DB**: Save to `products` table with new `last_updated` timestamp
+7. **Checkpoint**: Track progress for resumability
 
 ### Data Updated
 - Price (current and original)
 - Sale status
 - Stock availability
-- Images
+- **Images** (enhanced, high-quality versions)
 - Description
 - Sizes/colors/materials
 - Product metadata
