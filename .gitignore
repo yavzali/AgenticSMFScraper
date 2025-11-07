@@ -80,5 +80,13 @@ config_development.json
 browser_profiles/
 **/browser_profiles/
 
+# Downloaded images (product images from scraping)
+downloads/
+**/downloads/
+
+# Database backups (local backups)
+backup/
+**/backup/
+
 # Web Assessment - Local configuration with credentials
 web_assessment/api/config.local.php 
