@@ -1975,3 +1975,33 @@ class PatchrightCatalogExtractor:
 **Last Updated**: 2025-11-07 14:12  
 **Confidence**: 95% - Architecture validated, just need API access for remaining tests
 
+
+---
+
+## TEST 4 & 5 ISSUES FOUND (2025-11-07 14:40)
+
+### Test 4: Catalog Monitor - DEDUPLICATION ISSUE ⚠️
+**Problem**: Ran for 6+ minutes (should be ~3 min)  
+**Root Cause**: Likely detecting baseline products as "new" and re-extracting individually  
+**Status**: NEEDS INVESTIGATION  
+**Impact**: Medium - workflow works but inefficient
+
+###Test 5: New Product Importer - TWO BUGS FOUND 🐛
+
+#### Bug 1: LLM Extraction Failing
+**Error**: "Both DeepSeek V3 and Gemini Flash 2.0 failed"  
+**Root Cause**: Unknown - DeepSeek was topped up  
+**Status**: NEEDS INVESTIGATION  
+**Impact**: HIGH - can't import products
+
+#### Bug 2: ImportResult Not JSON Serializable
+**Error**: `TypeError: Object of type ImportResult is not JSON serializable`  
+**Location**: `new_product_importer.py:559`  
+**Root Cause**: Trying to `json.dumps()` a dataclass  
+**Fix**: Convert to dict or use `asdict()`  
+**Impact**: LOW - just a print statement
+
+---
+
+**Action Required**: Investigate LLM extraction failure (priority)
+

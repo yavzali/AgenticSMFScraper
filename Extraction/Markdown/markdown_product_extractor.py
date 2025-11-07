@@ -288,35 +288,62 @@ class MarkdownProductExtractor:
         return None
     
     def _create_extraction_prompt(self, markdown_content: str, retailer: str) -> str:
-        """Build LLM extraction prompt"""
+        """Build LLM extraction prompt (matching old working version)"""
         
-        # Get retailer-specific instructions
         retailer_instructions = self._get_retailer_instructions(retailer)
         
-        prompt = f"""Extract the following product information from this markdown content.
-Return ONLY valid JSON (no explanations, no markdown formatting, no code blocks).
+        prompt = f"""Extract comprehensive product data from this e-commerce markdown content.
 
 {retailer_instructions}
 
-Required Fields:
-- title: Product title
-- brand: Brand name
-- price: Current price (number)
-- original_price: Original price if on sale (number, optional)
-- sale_status: 'on_sale' or 'regular'
-- availability: 'in_stock' or 'out_of_stock'
-- image_urls: Array of image URLs
-- product_code: Product SKU/code
-- description: Product description (optional)
-- sizes: Available sizes (array, optional)
-- colors: Available colors (array, optional)
-- materials: Materials/fabric (string, optional)
-- care_instructions: Care instructions (string, optional)
+REQUIRED OUTPUT (JSON format only - no explanations):
+{{
+    "title": "",
+    "brand": "",
+    "price": "",
+    "original_price": "",  // Previous price if on sale, null if not applicable
+    "description": "",
+    "stock_status": "",  // "in stock", "low in stock", or "out of stock"
+    "sale_status": "",   // "on sale" or "not on sale"
+    "clothing_type": "", // e.g., "dress", "top", "bottom", "outerwear"
+    "product_code": "",  // Product ID, SKU, or model number
+    "image_urls": [],    // Array of high-quality product image URLs (max 5)
+    "neckline": "",      // "crew", "v-neck", "scoop", "off-shoulder", "halter", "strapless", "boat", "square", "sweetheart", "mock", "turtleneck", "cowl", "other", "unknown"
+    "sleeve_length": "", // "sleeveless", "cap", "short", "3-quarter", "long", "other", "unknown"
+    "retailer": "{retailer}"
+}}
+
+CRITICAL REQUIREMENTS:
+1. VISUAL DETAILS EXTRACTION:
+   - Look for neckline descriptions in product title, description, or specifications
+   - Look for sleeve length mentions (sleeveless, short sleeve, long sleeve, etc.)
+   - Check for style details, fit descriptions, or feature lists
+   - If visual details aren't explicitly mentioned, set to "unknown"
+
+2. PRICE EXTRACTION:
+   - Extract numerical price value only
+   - Remove currency symbols ($ £ €)
+   - If on sale, include both current and original price
+   - Set sale_status to "on sale" if original_price exists
+
+3. IMAGE URLS:
+   - Extract up to 5 high-quality product images
+   - Full URLs only (not relative paths)
+   - Primary product images (not thumbnails if possible)
+
+4. PRODUCT CODE:
+   - Look for: SKU, product ID, style number, model number
+   - Often found in URL, near price, or in product details
+
+5. STOCK STATUS:
+   - Default to "in stock" unless explicitly stated otherwise
+   - Look for: "out of stock", "sold out", "unavailable"
+   - "low in stock" if mentioned
 
 MARKDOWN CONTENT:
-{markdown_content[:20000]}
+{markdown_content}
 
-Return JSON only."""
+Return ONLY the JSON object, no additional text or markdown formatting."""
         
         return prompt
     

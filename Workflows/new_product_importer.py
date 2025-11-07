@@ -199,7 +199,9 @@ class NewProductImporter:
                     modesty_level,
                     product_type_override
                 )
-                results['results'].append(result)
+                # Convert ImportResult to dict for JSON serialization
+                from dataclasses import asdict
+                results['results'].append(asdict(result))
                 results['processed'] += 1
                 
                 if result.success and result.action == 'uploaded':
@@ -236,7 +238,9 @@ class NewProductImporter:
                     modesty_level,
                     product_type_override
                 )
-                results['results'].append(result)
+                # Convert ImportResult to dict for JSON serialization
+                from dataclasses import asdict
+                results['results'].append(asdict(result))
                 results['processed'] += 1
                 
                 if result.success and result.action == 'uploaded':
@@ -352,7 +356,14 @@ class NewProductImporter:
             
             if modesty_classification in ['modest', 'moderately_modest']:
                 logger.debug(f"📤 Uploading to Shopify ({modesty_classification})")
-                shopify_id = await self.shopify_manager.upload_product(product_data)
+                shopify_id = await self.shopify_manager.create_product(
+                    extracted_data=product_data,
+                    retailer_name=retailer,
+                    modesty_level=modesty_classification,
+                    source_url=url,
+                    downloaded_images=product_data.get('image_urls', []),
+                    product_type_override=product_type_override
+                )
                 
                 if shopify_id:
                     product_data['shopify_id'] = shopify_id
@@ -556,6 +567,7 @@ async def main():
         resume=args.resume
     )
     
+    # Result is already a dict
     print(json.dumps(result, indent=2))
 
 
