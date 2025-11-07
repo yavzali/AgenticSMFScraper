@@ -15,7 +15,7 @@ import asyncio
 import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
-from patchright.sync_api import sync_playwright
+from patchright.async_api import async_playwright
 import google.generativeai as genai
 from dotenv import load_dotenv
 import logging
@@ -547,7 +547,7 @@ Return JSON:
     async def _setup_stealth_browser(self):
         """Setup Patchright stealth browser"""
         try:
-            self.playwright = await sync_playwright().start()
+            self.playwright = await async_playwright().start()
             
             user_data_dir = os.path.join(os.path.expanduser('~'), '.patchright_data')
             os.makedirs(user_data_dir, exist_ok=True)
