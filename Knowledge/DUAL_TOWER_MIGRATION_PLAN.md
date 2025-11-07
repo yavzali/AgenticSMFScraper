@@ -848,6 +848,132 @@ The Assessment Pipeline is a human-in-the-loop review system used **exclusively 
 
 ---
 
+### Phase 7: CLEANUP & DELETION (1-2 hours)
+**Status**: ⏳ NOT STARTED
+
+**Purpose**: Remove old architecture files, clutter, and obsolete documentation after v2.0 is validated
+
+**What to DELETE**:
+
+#### Old Extraction Architecture
+- ❌ `Shared/markdown_extractor.py` (1,200+ lines) → Replaced by Markdown Tower
+- ❌ `Shared/playwright_agent.py` (3,194 lines) → Replaced by Patchright Tower
+- ❌ `Catalog Crawler/catalog_extractor.py` → Replaced by tower extractors
+- ❌ `New Product Importer/unified_extractor.py` → Replaced by tower routing
+- ❌ `Product Updater/unified_extractor.py` → Replaced by tower routing
+
+#### Old Workflow Files
+- ❌ `Catalog Crawler/catalog_orchestrator.py` → Replaced by `Workflows/catalog_*.py`
+- ❌ `Catalog Crawler/catalog_crawler_base.py` → Logic moved to workflows
+- ❌ `Catalog Crawler/retailer_crawlers.py` → Config moved to `RETAILER_CONFIG.json`
+
+#### Temporary/Test Files
+- ❌ `list_playwright_fallbacks.py` → One-time use script
+- ❌ `test_cascade_fix.py` → Debugging script
+- ❌ `test_cascade_logic.py` → Debugging script
+- ❌ `test_catalog_results.db` → Test database
+- ❌ `test_results.json` → Test output
+- ❌ `batch_playwright_fallbacks_revolve_tops_*.json` → Temporary batch file
+- ❌ `patchright_collaboration_methods.txt` → Old notes
+
+#### Old Documentation (45+ files)
+- ❌ `ALL_FIXES_COMPLETE_SUMMARY.md` → Consolidated into Knowledge base
+- ❌ `API_AND_PRICE_FIXES_OCT_23_2025.md` → Historical, not needed
+- ❌ `BASELINE_CRAWL_LIMITS_UPDATE.md` → Historical
+- ❌ `CASCADE_FIX_SUMMARY.md` → Historical
+- ❌ `CATALOG_CRAWLER_ANALYSIS.md` → Consolidated
+- ❌ `CATALOG_CRAWLER_BASELINE_SUCCESS.md` → Historical
+- ❌ `CATALOG_EXTRACTION_FIX_SUMMARY.md` → Historical
+- ❌ `CODE_COMPATIBILITY_FIX_OCT_22_2025.md` → Historical
+- ❌ `COST_OPTIMIZATION_GUIDE.md` → Consolidated into SYSTEM_OVERVIEW.md
+- ❌ `DEDUPLICATION_SOLUTION_IMPLEMENTATION.md` → Consolidated
+- ❌ `DRESS_TOPS_PRODUCT_TYPE_ADDITION.md` → Historical
+- ❌ `DRESS_TOPS_TAG_UPDATE_COMPLETE.md` → Historical
+- ❌ `DUPLICATE_DETECTION_FIX_OCT_23_2025.md` → Historical
+- ❌ `ENHANCED_DUPLICATE_DETECTION_OCT_23_2025.md` → Historical
+- ❌ `ENHANCED_DUPLICATE_DISPLAY_SUMMARY.md` → Historical
+- ❌ `FOUNDATION_CHANGES_SUMMARY.md` → Historical
+- ❌ `MARKDOWN_RETAILERS_CONFIGURATION_FIX.md` → Historical
+- ❌ `PATCHRIGHT_UPDATE_SUMMARY.md` → Historical
+- ❌ `PIPELINE_SEPARATION_SUMMARY.md` → Historical
+- ❌ `PRODUCT_TYPE_OVERRIDE_FIX_OCT_23_2025.md` → Historical
+- ❌ `RELEASE_SUMMARY_v5.0.md` → Historical
+- ❌ `REVOLVE_BASELINE_IMPORT_OCT_22_2025.md` → Historical
+- ❌ `SESSION_SUMMARY.md` → Historical
+- ❌ `SHOPIFY_ENV_FIX_OCT_22_2025.md` → Historical
+- ❌ `SHOPIFY_INTEGRATION_FOUNDATION_SUMMARY.md` → Historical
+- ❌ `TAG_FORMATTING_FIX_OCT_23_2025.md` → Historical
+- ❌ `TAG_UPDATE_INSTRUCTIONS.md` → Historical
+- ❌ `WEB_ASSESSMENT_CONVERSION_SUMMARY.md` → Historical
+
+#### Baseline URLs Folder
+- ❌ **ENTIRE** `Baseline URLs/` folder → One-time import batches, no longer needed
+  - All .json batch files (10+ files)
+  - All .md baseline files (5+ files)
+  - These were for initial imports - system now uses Catalog Crawler
+
+#### Cache Files
+- ⚠️ `markdown_cache.pkl` → Consider deleting (will regenerate), or keep for cost savings
+- ⚠️ `New Product Importer/markdown_cache.pkl` → Same as above
+- ⚠️ `Product Updater/markdown_cache.pkl` → Same as above
+
+**What to KEEP**:
+
+#### Core Directories (Post-Migration)
+- ✅ `/Knowledge/` → New consolidated knowledge base (6 files)
+- ✅ `/Archive/` → Historical documentation reference
+- ✅ `/Shared/` → Refactored shared components
+- ✅ `/Extraction/Markdown/` → New Markdown Tower
+- ✅ `/Extraction/Patchright/` → New Patchright Tower
+- ✅ `/Workflows/` → New workflow scripts
+- ✅ `/web_assessment/` → Assessment pipeline (unchanged)
+- ✅ `/logs/` → System logs (ongoing)
+
+#### Essential Files (Root Level)
+- ✅ `README.md` → Main project documentation (update for v2.0)
+- ✅ `import_log.txt` → Historical import tracking
+
+#### Databases (Keep All)
+- ✅ `Shared/products.db` → Main product database
+- ✅ `Shared/page_structures.db` → Pattern learner database
+- ✅ `Shared/patterns.db` → Legacy patterns (may consolidate later)
+- ✅ `Catalog Crawler/catalog_products.db` → Catalog baseline database
+- ✅ `Catalog Crawler/catalog_runs.db` → Catalog run history
+
+#### Shared Components (Refactored)
+- ✅ `Shared/db_manager.py` → Database operations (refactored)
+- ✅ `Shared/shopify_manager.py` → Shopify API (unchanged)
+- ✅ `Shared/notification_manager.py` → Notifications (unchanged)
+- ✅ `Shared/cost_tracker.py` → Cost tracking (unchanged)
+- ✅ `Shared/logger_config.py` → Logging (unchanged)
+- ✅ `Shared/config.json` → System config (updated)
+- ✅ `Shared/config.example.json` → Config template (updated)
+
+#### Deduplication (Refactored)
+- ✅ New deduplication manager (split from old files)
+- ❌ Old `Catalog Crawler/change_detector.py` → Replaced
+
+**Deletion Strategy**:
+1. **Phase 1-6 Complete**: Validate v2.0 system working end-to-end
+2. **Git Tag**: Create `v2.0-pre-cleanup` tag (safety net)
+3. **Delete in Batches**:
+   - Batch 1: Old extraction files (markdown_extractor, playwright_agent)
+   - Batch 2: Old workflow files (catalog_orchestrator, unified_extractors)
+   - Batch 3: Historical documentation (45+ .md files)
+   - Batch 4: Baseline URLs folder (entire directory)
+   - Batch 5: Test/temp files
+4. **Verify After Each Batch**: Run smoke tests
+5. **Final Commit**: "v2.0: Cleanup complete - old architecture removed"
+6. **Git Tag**: Create `v2.0-stable` tag
+
+**Expected Result**:
+- ✅ Reduce codebase from 30,000+ lines to ~18,000 lines (40% reduction)
+- ✅ Reduce documentation from 50+ files to 10 files (80% reduction)
+- ✅ Remove ~50MB of clutter (Baseline URLs, test files, caches)
+- ✅ Clean, maintainable v2.0 architecture
+
+---
+
 ## PATTERN LEARNER - EXPANDED ROLE & ARCHITECTURE
 
 ### Current State (v1.0)
