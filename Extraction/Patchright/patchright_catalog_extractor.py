@@ -19,7 +19,7 @@ import io
 from typing import List, Dict, Optional, Any
 from urllib.parse import urlparse
 from PIL import Image
-from patchright.sync_api import sync_playwright
+from patchright.async_api import async_playwright
 import google.generativeai as genai
 from dotenv import load_dotenv
 from difflib import SequenceMatcher
