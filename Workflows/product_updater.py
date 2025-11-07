@@ -256,7 +256,7 @@ class ProductUpdater:
                     success=False,
                     shopify_id=None,
                     method_used=extraction_result.method_used,
-                    processing_time=time.time() - start_time,
+                    processing_time=asyncio.get_event_loop().time() - start_time,
                     action='failed',
                     error=str(extraction_result.errors)
                 )
@@ -271,7 +271,7 @@ class ProductUpdater:
                     success=False,
                     shopify_id=None,
                     method_used=extraction_result.method_used,
-                    processing_time=time.time() - start_time,
+                    processing_time=asyncio.get_event_loop().time() - start_time,
                     action='not_found',
                     error='Product not in DB or missing shopify_id'
                 )
@@ -280,21 +280,22 @@ class ProductUpdater:
             
             # Step 3: Update in Shopify
             logger.debug(f"📤 Updating Shopify product {shopify_id}")
-            update_success = await self.shopify_manager.update_product(
+            update_result = await self.shopify_manager.update_product(
                 shopify_id,
-                extraction_result.data
+                extraction_result.data,
+                retailer  # Required by ShopifyManager
             )
             
-            if not update_success:
+            if not update_result.get('success'):
                 logger.error(f"❌ Shopify update failed for {shopify_id}")
                 return UpdateResult(
                     url=url,
                     success=False,
                     shopify_id=shopify_id,
                     method_used=extraction_result.method_used,
-                    processing_time=time.time() - start_time,
+                    processing_time=asyncio.get_event_loop().time() - start_time,
                     action='failed',
-                    error='Shopify update failed'
+                    error=update_result.get('error', 'Shopify update failed')
                 )
             
             # Step 4: Update local DB
