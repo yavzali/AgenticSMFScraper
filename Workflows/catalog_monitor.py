@@ -237,6 +237,11 @@ class CatalogMonitor:
                 )
             logger.info(f"📦 Scanned {len(catalog_products)} products from catalog")
             
+            # Normalize field names: 'url' → 'catalog_url' (following old system pattern)
+            for product in catalog_products:
+                if 'url' in product and 'catalog_url' not in product:
+                    product['catalog_url'] = product['url']
+            
             # Step 4: Deduplication against DB (multi-level)
             dedup_results = await self._deduplicate_catalog_products(
                 catalog_products,
