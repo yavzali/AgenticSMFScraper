@@ -271,15 +271,42 @@ class PlaywrightMultiScreenshotAgent:
             # For Cloudflare sites, need longer wait for challenge to complete
             await asyncio.sleep(10)  # Increased for Cloudflare
             
-            # For retailers with Cloudflare, explicitly wait for product elements to appear
+            # For retailers with Cloudflare, wait for API responses (products load via fetch/XHR)
             if 'cloudflare' in strategy.get('special_notes', '').lower():
-                logger.info("🔍 Cloudflare detected - waiting for products to render...")
+                logger.info("🔍 Cloudflare detected - waiting for product API to load...")
                 try:
-                    # Common product selectors
-                    await self.page.wait_for_selector('a[href*="/product"]', timeout=20000, state='visible')
-                    logger.info("✅ Products rendered after Cloudflare challenge")
+                    # Aritzia loads products via API calls - wait for responses
+                    # Common API patterns: /api/, /products, /search, GraphQL endpoints
+                    logger.info("⏳ Waiting for product API responses...")
+                    
+                    # Wait for any API response that might contain products
+                    async def check_response(response):
+                        url = response.url
+                        # Check for common product API patterns
+                        if any(pattern in url.lower() for pattern in ['/api/', '/products', '/search', 'graphql', '.json']):
+                            logger.info(f"📡 Product API response detected: {url[:100]}")
+                            return True
+                        return False
+                    
+                    # Wait up to 30s for product API response
+                    try:
+                        response = await self.page.wait_for_response(
+                            check_response,
+                            timeout=30000
+                        )
+                        logger.info("✅ Product API loaded successfully")
+                        # Wait a bit more for products to render after API response
+                        await asyncio.sleep(3)
+                    except Exception as wait_err:
+                        logger.warning(f"⚠️ API response timeout: {wait_err}")
+                        # Fallback: try to wait for product elements
+                        try:
+                            await self.page.wait_for_selector('a[href*="/product"], [class*="product"]', timeout=10000, state='visible')
+                            logger.info("✅ Products rendered (fallback selector)")
+                        except:
+                            logger.warning("⚠️ Products not detected after Cloudflare wait")
                 except Exception as e:
-                    logger.warning(f"⚠️ Products not detected after Cloudflare wait: {e}")
+                    logger.warning(f"⚠️ Cloudflare product wait failed: {e}")
             
             # Try learned patterns first, then common selectors
             learned_patterns = []
