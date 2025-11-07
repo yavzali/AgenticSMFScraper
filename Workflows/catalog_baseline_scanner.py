@@ -49,7 +49,8 @@ PATCHRIGHT_RETAILERS = [
 # Retailer catalog URL templates
 CATALOG_URLS = {
     'revolve': {
-        'dresses': 'https://www.revolve.com/r/Brands.jsp?sortBy=newest&loadVisNav=true&pageNumVisNav=1&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4',
+        # Using the URL format that worked on Oct 26 baseline (125 products)
+        'dresses': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1',
         'tops': 'https://www.revolve.com/r/Brands.jsp?sortBy=newest&loadVisNav=true&pageNumVisNav=1&aliasURL=%2Fr%2FSort%3Dcreated_newest%2F&sortBy=newest&vnitems=cut_and_high-low&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4'
     },
     'anthropologie': {
