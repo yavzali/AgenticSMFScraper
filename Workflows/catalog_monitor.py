@@ -54,21 +54,48 @@ PATCHRIGHT_RETAILERS = [
     'anthropologie', 'urban_outfitters', 'abercrombie'
 ]
 
-# Retailer catalog URL templates (same as baseline scanner)
+# Retailer catalog URL templates (copied from old retailer_crawlers.py - MUST match baseline scanner!)
+# These are the EXACT URLs that worked in the old system
 CATALOG_URLS = {
     'revolve': {
-        # Using URL format that works (from Oct 26 baseline)
         'dresses': 'https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1',
-        'tops': 'https://www.revolve.com/r/Brands.jsp?sortBy=newest&loadVisNav=true&pageNumVisNav=1&aliasURL=%2Fr%2FSort%3Dcreated_newest%2F&sortBy=newest&vnitems=cut_and_high-low&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4'
+        'tops': 'https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1'
+    },
+    'asos': {
+        'dresses': 'https://www.asos.com/us/women/dresses/cat/?cid=8799&currentpricerange=10-790&sort=freshness',
+        'tops': 'https://www.asos.com/us/women/tops/cat/?cid=4169&currentpricerange=10-425&sort=freshness'
+    },
+    'mango': {
+        'dresses': 'https://shop.mango.com/us/women/dresses_c93966903?page=1',
+        'tops': 'https://shop.mango.com/us/women/tops_c23915209?page=1'
+    },
+    'hm': {
+        'dresses': 'https://www2.hm.com/en_us/ladies/shop-by-product/dresses.html?sort=newProduct',
+        'tops': 'https://www2.hm.com/en_us/ladies/shop-by-product/tops.html?sort=newProduct'
+    },
+    'uniqlo': {
+        'dresses': 'https://www.uniqlo.com/us/en/women/dresses-and-jumpsuits?quickView=false&page=1&sort=ranking_asc',
+        'tops': 'https://www.uniqlo.com/us/en/women/tops?quickView=false&page=1&sort=ranking_asc'
+    },
+    'aritzia': {
+        'dresses': 'https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest',
+        'tops': 'https://www.aritzia.com/us/en/clothing/tops?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest'
     },
     'anthropologie': {
-        'dresses': 'https://www.anthropologie.com/dresses?order=Newest&page=1'
+        'dresses': 'https://www.anthropologie.com/dresses?sort=tile.product.newestColorDate&order=Descending',
+        'tops': 'https://www.anthropologie.com/tops?sort=tile.product.newestColorDate&order=Descending'
     },
     'abercrombie': {
-        'dresses': 'https://www.abercrombie.com/shop/us/womens-dresses?sort=newest&page=1'
+        'dresses': 'https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?pagefm=navigation-left+nav&rows=90&sort=newest&start=0',
+        'tops': 'https://www.abercrombie.com/shop/us/womens-tops--1?rows=90&sort=newest&start=0'
     },
     'urban_outfitters': {
-        'dresses': 'https://www.urbanoutfitters.com/womens-dresses?order=newest&page=1'
+        'dresses': 'https://www.urbanoutfitters.com/womens-dresses?sort=newest',
+        'tops': 'https://www.urbanoutfitters.com/womens-tops?sort=newest'
+    },
+    'nordstrom': {
+        'dresses': 'https://www.nordstrom.com/browse/women/clothing/dresses?breadcrumb=Home%2FWomen%2FDresses&origin=topnav&sort=Newest',
+        'tops': 'https://www.nordstrom.com/browse/women/clothing/tops?breadcrumb=Home%2FWomen%2FTops&origin=topnav&sort=Newest'
     }
 }
 

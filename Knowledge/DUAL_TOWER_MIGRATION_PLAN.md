@@ -1705,3 +1705,173 @@ class PatchrightCatalogExtractor:
 
 **Result**: Context reduced by ~80%, focus on current bug fix
 
+
+---
+
+## PHASE 6: TESTING & VALIDATION - DETAILED PROGRESS
+
+**Started**: 2025-11-07  
+**Status**: IN PROGRESS  
+**Goal**: Validate Dual Tower Architecture works correctly end-to-end
+
+---
+
+### ✅ COMPLETED TESTS
+
+#### Test 1: Assessment Queue Manager ✅
+- **Result**: PASSED
+- **Details**: CLI operations working, database functional
+
+#### Test 2: Workflow Imports ✅
+- **Result**: PASSED  
+- **Details**: All 6 workflows import correctly, no syntax errors
+
+#### Test 3: Catalog Baseline Scanner ✅
+- **Result**: PASSED (after URL + code fixes)
+- **Products**: 125 (matching Oct 26 baseline)
+- **Time**: 241s
+- **Method**: markdown (DeepSeek V3)
+- **Lesson Learned**: Use EXACT same URLs and code from old system
+
+**Fixes Applied**:
+1. ✅ URL Configuration: Updated to use `/dresses/br/a8e981/` (old working URL)
+2. ✅ Code Restoration: Copied working `extract_catalog_products()` from old system
+3. ✅ Signature Fix: Removed `max_products` parameter mismatch
+
+**Validation**: Compared against Oct 26 baseline - perfect match!
+
+---
+
+### 🔄 IN PROGRESS
+
+#### Test 4: Catalog Monitor (Change Detection)
+- **Status**: Fixing issues found
+- **Issues**:
+  1. Wrong URL (used `/r/Brands.jsp` instead of `/dresses/br/a8e981/`)
+  2. DB signature mismatch (`run_id` parameter)
+  3. Deduplication found 3 "new" products (false positives)
+
+**Fixes Applied**:
+1. ✅ Updated `catalog_monitor.py` URL config (all retailers)
+2. ✅ Fixed `db_manager.py` signature to match old `catalog_db_manager`
+3. ⏳ Ready for retest
+
+---
+
+### ⏳ REMAINING TESTS
+
+#### Test 5: New Product Importer
+- Import products from URL list
+- Expected: Extract → Assess → Upload to Shopify
+- Test Data: `batch_test_single.json`
+
+#### Test 6: Product Updater
+- Update existing products in Shopify
+- Expected: Re-scrape → Update in Shopify
+
+#### Test 7: Patchright Tower (Single Product)
+- Retailer: Abercrombie (worked before)
+- Expected: DOM + Gemini Vision collaboration
+
+#### Test 8: Patchright Tower (Catalog)
+- Retailer: Anthropologie
+- Expected: Hybrid DOM + Gemini extracts products
+
+---
+
+### 🎓 LESSONS LEARNED (Phase 6)
+
+#### Key Insight 1: Configuration Over Code
+**Problem**: Only 3-16 products extracted instead of 125  
+**Root Cause**: Wrong URL format in config (not architecture issue)  
+**Solution**: Checked old GitHub (commit 621349b), found Oct 26 used different URL  
+**Lesson**: ALWAYS check old configs FIRST, then code
+
+#### Key Insight 2: Don't Rewrite Working Code
+**Problem**: New `extract_catalog_products()` had bugs  
+**Root Cause**: Rewrote working code instead of copying it  
+**Solution**: Replaced with exact code from `Shared/markdown_extractor.py`  
+**Lesson**: If old code works, copy it - don't rewrite!
+
+#### Key Insight 3: URL Consistency is Critical
+**Problem**: Same URL issue appeared in multiple files  
+**Root Cause**: Inconsistent URL configs across workflows  
+**Solution**: Systematically updated ALL workflows with old retailer_crawlers.py URLs  
+**Lesson**: Configs must be identical between baseline scanner and monitor
+
+#### Key Insight 4: Method Signatures Matter
+**Problem**: `db_manager.py` passing `run_id` but old method doesn't accept it  
+**Root Cause**: Facade wrapper didn't match old interface  
+**Solution**: Checked old method signature, fixed wrapper  
+**Lesson**: When wrapping old code, preserve EXACT signatures
+
+---
+
+### 📊 TEST RESULTS TRACKER
+
+| Test | Status | Products | Time | Notes |
+|------|--------|----------|------|-------|
+| Assessment Queue | ✅ PASS | - | <1s | All operations working |
+| Workflow Imports | ✅ PASS | - | <1s | No import errors |
+| Catalog Baseline | ✅ PASS | 125 | 241s | URL + code fixes |
+| Catalog Monitor | 🔧 FIXING | - | - | URL + signature fixes |
+| New Importer | ⏳ TODO | - | - | - |
+| Product Updater | ⏳ TODO | - | - | - |
+| Patchright Single | ⏳ TODO | - | - | - |
+| Patchright Catalog | ⏳ TODO | - | - | - |
+
+---
+
+### 🎯 TESTING STRATEGY (Updated)
+
+**Core Principles**:
+1. **Check old GitHub FIRST** when debugging (commit 621349b)
+2. **Compare configurations** (URLs, parameters) - not just code
+3. **Test with EXACT same data** as old system
+4. **Copy working code** - don't rewrite if it works
+5. **Fix systematically** - same issue in all files at once
+
+**If Issues Found**:
+1. Check old GitHub commit for working code ✅
+2. Compare configurations (URLs, params, etc.) ✅
+3. Check method signatures (facades must match old) ✅
+4. Test with same data/URLs as old system ✅
+5. Only then debug/fix the code
+
+---
+
+### 🔧 COMPREHENSIVE FIXES APPLIED
+
+#### 1. URL Configuration Standardization
+**Problem**: Each workflow had different/incomplete URLs  
+**Solution**: Copied ALL URLs from old `retailer_crawlers.py` to both workflows
+
+**Files Updated**:
+- `Workflows/catalog_baseline_scanner.py`
+- `Workflows/catalog_monitor.py`
+
+**Retailers Added**:
+- ✅ Revolve (dresses + tops)
+- ✅ ASOS (dresses + tops)
+- ✅ Mango (dresses + tops)
+- ✅ H&M (dresses + tops)
+- ✅ Uniqlo (dresses + tops)
+- ✅ Aritzia (dresses + tops)
+- ✅ Anthropologie (dresses + tops)
+- ✅ Abercrombie (dresses + tops)
+- ✅ Urban Outfitters (dresses + tops)
+- ✅ Nordstrom (dresses + tops)
+
+**Result**: Both workflows now have identical, complete URL configs
+
+---
+
+### 📈 PHASE 6 PROGRESS: 37.5% COMPLETE (3/8 tests passing)
+
+**Next Step**: Retest Catalog Monitor with fixes
+
+---
+
+**Last Updated**: 2025-11-07 13:55  
+**Latest Action**: Fixed URL configs across all workflows + DB signature
+
