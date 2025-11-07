@@ -12,6 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../Shared"))
 
 from typing import List, Dict, Optional
 from difflib import SequenceMatcher
+from urllib.parse import urlparse, parse_qs
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,31 +27,28 @@ class MarkdownDedupHelper:
     - Quick product code extraction
     - Fast title+price fuzzy matching
     - URL normalization
-    
-    Note: Full deduplication (against database) handled by
-    shared/deduplication_manager.py
     """
     
-    def __init__(self, config: Dict):
-        self.config = config
+    def __init__(self, config: Dict = None):
+        self.config = config or {}
     
     def deduplicate_urls(self, urls: List[str]) -> List[str]:
         """
         Remove duplicate URLs from a list (in-batch deduplication)
         
-        Handles:
-        - Exact duplicates
-        - URLs with different query parameters
-        - URLs with different fragments (#section)
-        
         Returns:
             List of unique URLs (preserves order)
         """
-        # TODO: Implement
-        # 1. Normalize URLs (strip query params, fragments)
-        # 2. Track seen URLs
-        # 3. Return unique list
-        pass
+        seen = set()
+        unique = []
+        
+        for url in urls:
+            normalized = self.normalize_url(url)
+            if normalized not in seen:
+                seen.add(normalized)
+                unique.append(url)
+        
+        return unique
     
     def normalize_url(self, url: str) -> str:
         """
@@ -60,27 +58,17 @@ class MarkdownDedupHelper:
         - Query parameters (?color=red&size=M)
         - Fragments (#reviews)
         - Trailing slashes
+        """
+        # Parse URL
+        parsed = urlparse(url)
         
-        Preserves:
-        - Domain
-        - Path
-        - Product code in path
-        """
-        # TODO: Implement
-        pass
-    
-    def quick_product_code_extract(
-        self,
-        url: str,
-        retailer: str
-    ) -> Optional[str]:
-        """
-        Quick product code extraction (without full retailer logic)
+        # Rebuild without query and fragment
+        normalized = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
         
-        Used for fast deduplication before full extraction
-        """
-        # TODO: Import from markdown_retailer_logic
-        pass
+        # Remove trailing slash
+        normalized = normalized.rstrip('/')
+        
+        return normalized.lower()
     
     def fuzzy_title_match(
         self,
@@ -92,10 +80,6 @@ class MarkdownDedupHelper:
         Fast fuzzy title matching
         
         Returns True if titles are >threshold similar
-        
-        Used for:
-        - Revolve URL change detection
-        - Suspected duplicate identification
         """
         similarity = SequenceMatcher(
             None,
@@ -113,8 +97,6 @@ class MarkdownDedupHelper:
     ) -> bool:
         """
         Check if two prices match (within tolerance)
-        
-        Tolerance of 1.0 allows for $89.00 vs $89.99
         """
         return abs(price1 - price2) < tolerance
     
@@ -143,17 +125,3 @@ class MarkdownDedupHelper:
         )
         
         return title_match and price_match
-
-
-# Helper functions
-def extract_domain(url: str) -> str:
-    """Extract domain from URL"""
-    # TODO: Implement
-    pass
-
-
-def strip_query_params(url: str) -> str:
-    """Remove query parameters from URL"""
-    # TODO: Implement
-    pass
-

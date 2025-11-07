@@ -12,7 +12,7 @@
 - Identified all methods and their responsibilities
 - Mapped logic to new tower files
 
-### ✅ Retailer Logic (phase2-4 - Done first)
+### ✅ Retailer Logic (phase2-4)
 - **File**: `Extraction/Markdown/markdown_retailer_logic.py`
 - **Status**: COMPLETE (198 lines)
 - **Contains**:
@@ -22,44 +22,47 @@
   - Brand validation
   - Size/color parsing
 
+### ✅ Catalog Extractor (phase2-2)
+- **File**: `Extraction/Markdown/markdown_catalog_extractor.py`
+- **Status**: COMPLETE (644 lines)
+- **Contains**:
+  - `extract_catalog_products()` - Main entry point
+  - `_fetch_markdown()` - Jina AI with caching (2-day expiry)
+  - `_parse_catalog_text_response()` - Pipe-separated format parser
+  - LLM cascade (DeepSeek → Gemini)
+  - Smart chunking for large markdown (40K limit)
+  - Cache management (get/save/remove)
+
+### ✅ Dedup Helper (phase2-6)
+- **File**: `Extraction/Markdown/markdown_dedup_helper.py`
+- **Status**: COMPLETE (117 lines)
+- **Contains**:
+  - `deduplicate_urls()` - In-batch deduplication
+  - `normalize_url()` - Strip query params
+  - `fuzzy_title_match()` - 90% threshold
+  - `title_price_match()` - Combined matching
+  - `price_match()` - Price comparison with tolerance
+
+### ✅ Pattern Learner (phase2-5)
+- **File**: `Extraction/Markdown/markdown_pattern_learner.py`
+- **Status**: COMPLETE (227 lines)
+- **Contains**:
+  - Database schema for extraction performance
+  - `record_extraction()` - Track LLM success rates
+  - `get_best_llm()` - Learn which LLM works best
+  - `get_stats()` - Reporting and analytics
+  - Tracks: LLM used, success rate, processing time, chunking, validation
+
 ---
 
 ## IN PROGRESS
 
-### 🔄 Catalog Extractor (phase2-2)
-**File**: `Extraction/Markdown/markdown_catalog_extractor.py`
-
-**What needs to be implemented** (from lines 232-415 of v1.0):
-1. `extract_catalog_products()` - Main entry point
-   - Fetch markdown (reuse `_fetch_markdown`)
-   - Smart chunking (40K char limit, extract product section)
-   - LLM cascade (DeepSeek → Gemini)
-   - Parse pipe-separated text response
-   - Extract product codes from URLs
-
-2. `_fetch_markdown()` - Jina AI fetch with caching
-   - From v1.0 lines 417-492
-   - Cache management (2-day expiry)
-   - Retry logic (3 attempts)
-
-3. `_parse_catalog_text_response()` - Parse LLM output
-   - From v1.0 lines 750-829
-   - Pipe-separated format: `PRODUCT | URL=... | TITLE=... | PRICE=...`
-   - Extract and clean fields
-
-**Dependencies**:
-- Needs LLM client setup (DeepSeek + Gemini)
-- Needs Jina AI client
-- Needs caching logic
-
----
-
-### 🔄 Product Extractor (phase2-3)
+### 🔄 Product Extractor (phase2-3) - **NEXT PRIORITY**
 **File**: `Extraction/Markdown/markdown_product_extractor.py`
 
 **What needs to be implemented** (from lines 124-231 of v1.0):
 1. `extract_product()` - Main entry point for single products
-   - Fetch markdown
+   - Fetch markdown (reuse from catalog extractor)
    - Extract product section (optional smart chunking)
    - LLM cascade with EARLY VALIDATION (key v1.0 improvement)
    - Parse JSON response
@@ -81,32 +84,7 @@
 - Early validation after DeepSeek
 - Prevents unnecessary Patchright fallbacks
 
----
-
-### 🔄 Pattern Learner (phase2-5)
-**File**: `Extraction/Markdown/markdown_pattern_learner.py`
-
-**What needs to be implemented** (NEW - not in v1.0):
-1. Database schema for markdown patterns
-2. `record_extraction_performance()` - Track LLM success rates
-3. `get_best_llm_for_retailer()` - Learn which LLM works best
-4. `record_chunking_strategy()` - Track chunking patterns
-5. `get_extraction_stats()` - Reporting
-
-**Purpose**: Learn over time which LLM (DeepSeek vs Gemini) works best per retailer
-
----
-
-### 🔄 Dedup Helper (phase2-6)
-**File**: `Extraction/Markdown/markdown_dedup_helper.py`
-
-**What needs to be implemented**:
-1. `deduplicate_urls()` - In-batch URL deduplication
-2. `normalize_url()` - Strip query params, fragments
-3. `fuzzy_title_match()` - For Revolve-style dedup (90% threshold)
-4. `title_price_match()` - Combined matching
-
-**Reuses**: `MarkdownRetailerLogic.extract_product_code()` for quick code extraction
+**Status**: Can reuse most logic from catalog extractor (LLM clients, fetch, cache)
 
 ---
 
@@ -197,19 +175,27 @@
 
 ## SESSION NOTES
 
-**Session 1** (Current):
-- Completed retailer logic
-- Analyzed all v1.0 code
-- Token limit approaching, will continue in next session
+**Session 1**:
+- Completed analysis of v1.0
+- Implemented retailer logic (198 lines)
 
-**Next Session**:
-- Implement catalog extractor (highest priority - tested with Revolve)
-- Then product extractor
-- Then helpers
-- Test everything with Revolve
+**Session 2** (Current):
+- ✅ Implemented catalog extractor (644 lines) - MOST COMPLEX FILE
+- ✅ Implemented dedup helper (117 lines)
+- ✅ Implemented pattern learner (227 lines)
+- 🔄 Working on product extractor (next)
+
+**Next**:
+- Finish product extractor
+- Wire everything together with test script
+- Test with Revolve (catalog + single product)
 
 ---
 
-**Last Updated**: 2025-11-07 (Session 1)  
-**Next Update**: After catalog extractor complete
+**Last Updated**: 2025-11-07 (Session 2)  
+**Next Update**: After product extractor complete
+
+---
+
+## PHASE 2 STATUS: 80% COMPLETE (4/5 files done, 1,186 lines implemented)
 
