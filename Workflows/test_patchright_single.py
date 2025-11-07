@@ -11,10 +11,10 @@ import json
 from patchright_product_extractor import PatchrightProductExtractor
 
 async def test_single_product():
-    # Test URL: Abercrombie dress (Patchright retailer)
-    # This was successfully tested during Phase 6 Abercrombie catalog tests
-    test_url = "https://www.abercrombie.com/shop/us/p/linen-blend-strapless-midi-dress-55272335"
-    retailer = "abercrombie"
+    # Test URL: Anthropologie dress (Patchright retailer)
+    # Real product: The Emmy Short-Sleeve Swing Mini Dress by Maeve: Velvet Edition
+    test_url = "https://www.anthropologie.com/shop/the-emmy-short-sleeve-swing-mini-dress-by-maeve-velvet-edition?color=525&type=STANDARD"
+    retailer = "anthropologie"
     
     print(f"=== TEST 7: PATCHRIGHT SINGLE PRODUCT ===")
     print(f"Testing: {retailer}")
