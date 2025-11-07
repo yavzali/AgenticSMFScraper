@@ -324,7 +324,7 @@ class ProductUpdater:
                 success=False,
                 shopify_id=None,
                 method_used=tower,
-                processing_time=time.time() - start_time,
+                processing_time=asyncio.get_event_loop().time() - start_time,
                 action='failed',
                 error=str(e)
             )
