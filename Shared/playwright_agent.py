@@ -2720,6 +2720,15 @@ Valid sleeve lengths: sleeveless, cap, short, 3-quarter, long, other, unknown
             logger.error(f"Failed to merge catalog DOM and Gemini data: {e}")
             # Fallback: return Gemini products as-is with empty validation stats
             return gemini_products, {'validations_performed': 0, 'mismatches_found': 0}
+    
+    def _calculate_similarity(self, str1: str, str2: str) -> float:
+        """Calculate string similarity (0.0-1.0) for title matching"""
+        try:
+            from difflib import SequenceMatcher
+            return SequenceMatcher(None, str1.lower(), str2.lower()).ratio()
+        except:
+            return 0.0
+
 class PlaywrightAgentWrapper:
     """
     Wrapper to integrate Playwright agent with existing agent_extractor.py
