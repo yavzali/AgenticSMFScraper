@@ -257,14 +257,23 @@ class CatalogMonitor:
             # Step 5: Process new products
             sent_to_modesty = 0
             for product in dedup_results['new']:
+                product_url = product.get('url') or product.get('catalog_url')
+                if not product_url:
+                    logger.warning(f"Product missing URL, skipping: {product}")
+                    continue
+                
                 # Re-extract with SINGLE product extractor for full details
                 full_product = await self._extract_single_product(
-                    product['url'],
+                    product_url,
                     retailer,
                     method_used
                 )
                 
                 if full_product:
+                    # Add source URL (extractor doesn't include it)
+                    full_product['url'] = product_url
+                    full_product['catalog_url'] = product_url  # For consistency
+                    
                     # Send to Assessment Pipeline for MODESTY review
                     await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
                     sent_to_modesty += 1
