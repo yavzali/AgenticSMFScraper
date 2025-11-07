@@ -242,19 +242,38 @@ Return a JSON array with ALL products found across all screenshots."""
             model = genai.GenerativeModel('gemini-2.0-flash-exp')
             response = model.generate_content([full_prompt] + image_parts)
             
-            # Parse Gemini response
+            # Parse Gemini response (robust JSON extraction - matches old system)
             extraction_result = None
             if response and hasattr(response, 'text'):
                 content = response.text
-                json_pattern = r"(\{[\s\S]*\}|\[[\s\S]*\])"
+                
+                # Strategy 1: Try to find JSON using regex (old system approach)
+                json_pattern = r"```json\s*([\s\S]*?)\s*```|```\s*([\s\S]*?)\s*```|(\{[\s\S]*\}|\[[\s\S]*\])"
                 json_match = re.search(json_pattern, content)
                 
                 if json_match:
-                    json_str = json_match.group(1)
-                    try:
-                        extraction_result = json.loads(json_str)
-                    except json.JSONDecodeError as e:
-                        logger.warning(f"Failed to parse JSON: {e}")
+                    # Get the first non-None group
+                    json_str = next((g for g in json_match.groups() if g is not None), None)
+                    
+                    if json_str:
+                        try:
+                            extraction_result = json.loads(json_str)
+                        except json.JSONDecodeError as e:
+                            # Strategy 2: Try to find just the first valid JSON structure
+                            logger.debug(f"Initial parse failed: {e}, trying to find valid JSON")
+                            
+                            # Find start of JSON ([ or {)
+                            for start_char in ['[', '{']:
+                                idx = json_str.find(start_char)
+                                if idx != -1:
+                                    try:
+                                        # Use JSONDecoder to parse and find where valid JSON ends
+                                        decoder = json.JSONDecoder()
+                                        result, end_idx = decoder.raw_decode(json_str, idx)
+                                        extraction_result = result
+                                        break
+                                    except json.JSONDecodeError:
+                                        continue
             
             processing_time = time.time() - start_time
             
