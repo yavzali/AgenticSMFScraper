@@ -47,11 +47,23 @@ logs/
 
 # Database files
 *.db-journal
+*.db-shm
+*.db-wal
 
 # Temporary files
 temp/
 tmp/
 *.tmp
+
+# Cache files (pickle, markdown cache, etc.)
+*.pkl
+*_cache.pkl
+markdown_cache.pkl
+
+# Backup files
+*.backup
+*.py.backup
+*.bak
 
 # Browser-use and skyvern as external dependencies
 browser-use/
