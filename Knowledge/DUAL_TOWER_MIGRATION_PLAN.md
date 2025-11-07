@@ -2005,3 +2005,66 @@ class PatchrightCatalogExtractor:
 
 **Action Required**: Investigate LLM extraction failure (priority)
 
+
+---
+
+## TEST 5 COMPLETE ✅ (2025-11-07 14:52)
+
+### Result: PASSING! 🎉
+
+**Test**: New Product Importer  
+**Status**: ✅ ALL BUGS FIXED  
+**Time**: ~2 hours of debugging
+
+#### Bugs Found & Fixed:
+
+**Bug 1: LLM Extraction Failure**
+- **Error**: Both DeepSeek AND Gemini failing
+- **Root Cause**: New prompt missing critical fields (neckline, sleeve_length, clothing_type)
+- **Fix**: Restored exact old working prompt from `Shared/markdown_extractor.py`
+- **Result**: ✅ Extraction successful in 8s
+
+**Bug 2: Shopify Method Mismatch**
+- **Error**: `'ShopifyManager' object has no attribute 'upload_product'`
+- **Root Cause**: Called wrong method name + missing required parameters
+- **Fix**: Changed to `create_product()` with all 6 required parameters
+- **Result**: ✅ Shopify upload successful
+
+**Bug 3: Retailer Attribute Error**
+- **Error**: `'MarkdownExtractionResult' object has no attribute 'retailer'`
+- **Root Cause**: Tried to access non-existent attribute
+- **Fix**: Used `retailer` variable already extracted from URL
+- **Result**: ✅ Correct retailer passed to Shopify
+
+**Bug 4: JSON Serialization**
+- **Error**: `Object of type ImportResult is not JSON serializable`
+- **Root Cause**: Missing `@dataclass` decorator + no dict conversion
+- **Fix**: Added decorator + `asdict()` conversion in results list
+- **Result**: ✅ Valid JSON output
+
+#### Final Test Results:
+```
+✅ Products Uploaded: 1
+✅ Modesty Status: modest
+✅ Shopify Product ID: 14830487699826
+✅ Processing Time: 11.5s
+✅ Success: true
+```
+
+---
+
+## PHASE 6 PROGRESS: 62.5% COMPLETE (5/8 tests passing)
+
+| Test | Status | Notes |
+|------|--------|-------|
+| 1. Assessment Queue | ✅ PASS | - |
+| 2. Workflow Imports | ✅ PASS | - |
+| 3. Catalog Baseline | ✅ PASS | 125 products |
+| 4. Catalog Monitor | ⏳ TODO | Deduplication issue |
+| 5. New Importer | ✅ PASS | 4 bugs fixed! |
+| 6. Product Updater | ⏳ TODO | - |
+| 7. Patchright Single | ⏳ TODO | - |
+| 8. Patchright Catalog | ⏳ TODO | - |
+
+**Next**: Fix Test 4 (Catalog Monitor deduplication)
+
