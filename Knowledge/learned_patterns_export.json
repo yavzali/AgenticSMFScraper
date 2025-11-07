@@ -1,0 +1,128 @@
+{
+  "export_date": "2025-11-07",
+  "database_source": "Shared/page_structures.db",
+  "description": "Learned DOM selectors and extraction performance metrics from pattern learner",
+  "learned_selectors": {
+    "abercrombie": {
+      "product_link": {
+        "selector": "a[data-testid=\"product-card-link\"]",
+        "confidence": 0.7,
+        "success_count": 1,
+        "failure_count": 0,
+        "last_success": "2025-11-06T18:52:01.837563",
+        "status": "working"
+      }
+    },
+    "anthropologie": {
+      "product_link": {
+        "selector": "a[href*=\"/shop/\"]",
+        "confidence": 0.8,
+        "success_count": 3,
+        "failure_count": 0,
+        "last_success": "2025-11-07T00:52:05.425227",
+        "status": "working"
+      }
+    },
+    "urban_outfitters": {
+      "product_link": {
+        "selector": "a[href*=\"/shop/\"]",
+        "confidence": 0.75,
+        "success_count": 2,
+        "failure_count": 0,
+        "last_success": "2025-11-07T05:05:54.544132",
+        "status": "working"
+      }
+    }
+  },
+  "extraction_performance_summary": {
+    "abercrombie": {
+      "total_extractions": 10,
+      "gemini_success_rate": 1.0,
+      "dom_needed_rate": 1.0,
+      "average_extraction_time": 33.9,
+      "average_completeness": 1.0,
+      "method": "patchright_catalog_gemini_dom_hybrid",
+      "dom_gaps_filled": [
+        "urls",
+        "product_codes"
+      ],
+      "first_test": "2025-11-06T05:12:34",
+      "last_test": "2025-11-06T18:52:01",
+      "notes": "Perfect 100% completeness, Gemini+DOM hybrid working flawlessly"
+    },
+    "anthropologie": {
+      "total_extractions": 13,
+      "gemini_success_rate": 1.0,
+      "dom_needed_rate": 1.0,
+      "average_extraction_time": 78.6,
+      "average_completeness": 0.74,
+      "method": "patchright_catalog_gemini_dom_hybrid",
+      "dom_gaps_filled": [
+        "urls",
+        "product_codes"
+      ],
+      "first_test": "2025-11-06T19:06:40",
+      "last_test": "2025-11-07T00:52:05",
+      "notes": "DOM-first fallback triggered - tall page compression. Last test achieved 100% completeness"
+    },
+    "urban_outfitters": {
+      "total_extractions": 2,
+      "gemini_success_rate": 1.0,
+      "dom_needed_rate": 1.0,
+      "average_extraction_time": 222.9,
+      "average_completeness": 1.0,
+      "method": "patchright_catalog_gemini_dom_hybrid",
+      "dom_gaps_filled": [
+        "urls",
+        "product_codes"
+      ],
+      "first_test": "2025-11-07T05:01:07",
+      "last_test": "2025-11-07T05:05:54",
+      "notes": "Perfect 100% completeness. First test had verification challenge (325s), second test faster (120s)"
+    },
+    "aritzia": {
+      "total_extractions": 5,
+      "gemini_success_rate": 1.0,
+      "dom_needed_rate": 1.0,
+      "average_extraction_time": 55.6,
+      "average_completeness": 0.7,
+      "method": "patchright_catalog_gemini_dom_hybrid",
+      "dom_gaps_filled": [
+        "urls",
+        "product_codes"
+      ],
+      "first_test": "2025-11-07T05:10:28",
+      "last_test": "2025-11-07T05:26:17",
+      "notes": "Cloudflare issue - products not rendering despite verification passing. 70% completeness indicates missing data"
+    }
+  },
+  "key_insights": {
+    "gemini_always_needs_dom": "100% of extractions required DOM for URLs and product codes (Gemini Vision cannot read these from screenshots)",
+    "hybrid_approach_working": "All working retailers use patchright_catalog_gemini_dom_hybrid successfully",
+    "abercrombie_gold_standard": "10 tests, 100% completeness, 34s average - perfect baseline",
+    "anthropologie_dom_first": "Improved from 70% to 100% completeness after implementing DOM-first fallback",
+    "urban_outfitters_verification_impact": "Verification adds ~200s to first extraction, subsequent faster",
+    "aritzia_incomplete": "70% completeness indicates Cloudflare API delay still causing issues"
+  },
+  "pattern_learning_effectiveness": {
+    "selector_accuracy": "All learned selectors have 100% success rate (0 failures)",
+    "confidence_growth": "Abercrombie: 0.7, Anthropologie: 0.8, Urban Outfitters: 0.75",
+    "adaptation_speed": "Selectors learned within 1-3 extractions",
+    "stability": "No selector failures recorded across 30 total extractions"
+  },
+  "recommendations_for_migration": {
+    "preserve_selectors": "Keep learned selectors in new architecture - proven working",
+    "hybrid_approach_required": "All retailers need Gemini+DOM hybrid, not pure Gemini or pure DOM",
+    "pattern_learner_critical": "Pattern learning dramatically improves accuracy over time",
+    "dom_first_fallback_essential": "Anthropologie proved DOM-first needed for tall pages",
+    "aritzia_needs_different_strategy": "70% completeness suggests extended wait+scroll insufficient"
+  },
+  "usage_notes": {
+    "static_vs_learned": "Static config (RETAILER_CONFIG.json) provides starting point, learned patterns improve over time",
+    "confidence_threshold": "Selectors with confidence > 0.7 are production-ready",
+    "success_count_importance": "Higher success_count = more reliable selector",
+    "completeness_target": "Aim for 95%+ completeness (100% is ideal but 95% acceptable)",
+    "extraction_time_acceptable": "30-120s per page is normal for Patchright catalog extraction"
+  }
+}
+

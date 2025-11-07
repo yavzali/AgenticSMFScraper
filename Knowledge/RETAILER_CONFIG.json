@@ -1,0 +1,448 @@
+{
+  "version": "2.0.0",
+  "last_updated": "2025-11-07",
+  "description": "Comprehensive retailer-specific configuration including HIGH-LEVEL strategies extracted from pattern learner and debugging experience",
+  "retailers": {
+    "revolve": {
+      "display_name": "Revolve",
+      "extraction_method": "markdown",
+      "extraction_strategy": "markdown_primary",
+      "anti_bot_complexity": "none",
+      "catalog_urls": {
+        "dresses": "https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1",
+        "tops": "https://www.revolve.com/tops/br/db773d/?navsrc=left&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1",
+        "tops": "https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1"
+      },
+      "pagination": {
+        "type": "infinite_scroll",
+        "items_per_page": 105,
+        "note": "Markdown can't simulate scrolling - only captures initially visible products"
+      },
+      "deduplication_strategy": {
+        "primary": "fuzzy_title_price",
+        "threshold": 0.90,
+        "reason": "URL and product code changes frequently - fuzzy matching critical"
+      },
+      "product_code_extraction": {
+        "pattern": "dp/([A-Z]{4}-[A-Z]{2}\\d+)",
+        "reliability": "unstable",
+        "note": "Code changes (SELF-WD318 → SELF-WD101) - don't rely solely on code"
+      },
+      "baseline_refresh_frequency": "weekly",
+      "monitoring_frequency": "daily",
+      "cost_per_product": 0.002,
+      "tested": true,
+      "test_results": {
+        "baseline_products": 105,
+        "success_rate": 0.98,
+        "date": "2025-10-26"
+      }
+    },
+    "anthropologie": {
+      "display_name": "Anthropologie",
+      "extraction_method": "patchright",
+      "extraction_strategy": "dom_first_fallback",
+      "anti_bot_complexity": "very_high",
+      "verification": {
+        "provider": "perimeterx",
+        "type": "press_and_hold",
+        "solution": "keyboard_tab_space",
+        "implementation": "TAB navigation + SPACE hold 10s",
+        "success_rate": 1.0,
+        "why_mouse_fails": "Mouse fingerprinting detects automation",
+        "why_keyboard_works": "Mimics accessibility tools, harder to detect"
+      },
+      "catalog_urls": {
+        "dresses": "https://www.anthropologie.com/dresses",
+        "tops": "https://www.anthropologie.com/tops"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.anthropologie.com/dresses?sort=tile.product.newestColorDate&order=Descending",
+        "tops": "https://www.anthropologie.com/tops?sort=tile.product.newestColorDate&order=Descending"
+      },
+      "pagination": {
+        "type": "pagination",
+        "items_per_page": 72
+      },
+      "wait_strategy": {
+        "navigation_wait": "domcontentloaded",
+        "reason": "networkidle times out due to persistent network activity",
+        "post_verification_wait": 4,
+        "animation_delay": 2
+      },
+      "catalog_extraction": {
+        "mode": "dom_first_fallback",
+        "trigger": "screenshot_height > 30000px",
+        "reason": "Screenshot compression makes Gemini extract only 4/71 products",
+        "gemini_extracts": 15,
+        "dom_extracts": 71,
+        "final_products": 71
+      },
+      "popup_handling": [
+        "email_signup",
+        "cookie_banner"
+      ],
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "cost_per_page": 0.003,
+      "tested": true,
+      "test_results": {
+        "baseline_products": 71,
+        "verification_bypass_rate": 1.0,
+        "dom_accuracy": 1.0,
+        "date": "2025-11-06"
+      }
+    },
+    "abercrombie": {
+      "display_name": "Abercrombie & Fitch",
+      "extraction_method": "patchright",
+      "extraction_strategy": "gemini_first",
+      "anti_bot_complexity": "medium",
+      "catalog_urls": {
+        "dresses": "https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?pagefm=navigation-left+nav",
+        "tops": "https://www.abercrombie.com/shop/us/womens-tops--1"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?pagefm=navigation-left+nav&rows=90&sort=newest&start=0",
+        "tops": "https://www.abercrombie.com/shop/us/womens-tops--1?rows=90&sort=newest&start=0"
+      },
+      "pagination": {
+        "type": "offset_based",
+        "items_per_page": 90,
+        "url_parameter": "start"
+      },
+      "wait_strategy": {
+        "navigation_wait": "networkidle",
+        "explicit_selector_wait": true,
+        "selector": "a[data-testid='product-card-link']",
+        "timeout": 10000,
+        "reason": "JavaScript-heavy SPA - products render after networkidle"
+      },
+      "catalog_extraction": {
+        "mode": "gemini_first",
+        "full_page_screenshot": true,
+        "gemini_extracts": 90,
+        "dom_extracts": 90,
+        "merge_accuracy": 1.0
+      },
+      "technical_notes": {
+        "href_extraction": "JavaScript property (el.href), not HTML attribute",
+        "spa_framework": "React or similar",
+        "dynamic_rendering": "Client-side after page load"
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "cost_per_page": 0.003,
+      "tested": true,
+      "test_results": {
+        "baseline_products": 90,
+        "gemini_dom_match_rate": 1.0,
+        "date": "2025-11-06"
+      }
+    },
+    "urban_outfitters": {
+      "display_name": "Urban Outfitters",
+      "extraction_method": "patchright",
+      "extraction_strategy": "gemini_first",
+      "anti_bot_complexity": "high",
+      "verification": {
+        "provider": "perimeterx",
+        "type": "button_click",
+        "solution": "gemini_vision_click",
+        "implementation": "Gemini detects CONTINUE button and clicks",
+        "success_rate": 1.0,
+        "difference_from_anthropologie": "Simple button click vs press & hold"
+      },
+      "catalog_urls": {
+        "dresses": "https://www.urbanoutfitters.com/dresses",
+        "tops": "https://www.urbanoutfitters.com/womens-tops"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.urbanoutfitters.com/dresses?sort=tile.product.newestColorDate&order=Descending",
+        "tops": "https://www.urbanoutfitters.com/womens-tops?sort=tile.product.newestColorDate&order=Descending"
+      },
+      "pagination": {
+        "type": "pagination",
+        "items_per_page": 74
+      },
+      "wait_strategy": {
+        "navigation_wait": "load"
+      },
+      "catalog_extraction": {
+        "mode": "gemini_first",
+        "gemini_extracts": 6,
+        "dom_extracts": 74,
+        "merge_success": true,
+        "note": "Gemini extracted fewer visually but DOM provided all URLs"
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "cost_per_page": 0.003,
+      "tested": true,
+      "test_results": {
+        "baseline_products": 74,
+        "verification_bypass_rate": 1.0,
+        "date": "2025-11-07"
+      }
+    },
+    "aritzia": {
+      "display_name": "Aritzia",
+      "extraction_method": "patchright",
+      "extraction_strategy": "extended_wait_scroll",
+      "anti_bot_complexity": "very_high",
+      "verification": {
+        "provider": "cloudflare",
+        "type": "javascript_challenge",
+        "solution": "extended_wait_scroll",
+        "implementation": "15s wait + scroll trigger + 30s selector timeout",
+        "success_rate": 0.0,
+        "status": "testing",
+        "issue": "Verification passes but products don't render (API delay)"
+      },
+      "catalog_urls": {
+        "dresses": "https://www.aritzia.com/us/en/clothing/dresses",
+        "tops": "https://www.aritzia.com/us/en/clothing/tops"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest",
+        "tops": "https://www.aritzia.com/us/en/clothing/tops?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest"
+      },
+      "pagination": {
+        "type": "infinite_scroll"
+      },
+      "wait_strategy": {
+        "cloudflare_wait": 15,
+        "scroll_trigger": true,
+        "selector_timeout": 30000,
+        "selector_state": "attached",
+        "reason": "SPA makes API call after Cloudflare - products delayed 5-15s"
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "tested": false,
+      "test_results": {
+        "status": "in_progress",
+        "date": "2025-11-07"
+      }
+    },
+    "nordstrom": {
+      "display_name": "Nordstrom",
+      "extraction_method": "patchright",
+      "extraction_strategy": "tbd",
+      "anti_bot_complexity": "very_high",
+      "verification": {
+        "expected_challenges": [
+          "ip_blocking",
+          "browser_fingerprinting",
+          "rate_limiting"
+        ],
+        "solution": "tbd",
+        "status": "not_tested"
+      },
+      "catalog_urls": {
+        "dresses": "https://www.nordstrom.com/browse/women/clothing/dresses?breadcrumb=Home%2FWomen%2FDresses&origin=topnav",
+        "tops": "https://www.nordstrom.com/browse/women/clothing/tops-tees?breadcrumb=Home%2FWomen%2FClothing%2FTops&origin=topnav"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.nordstrom.com/browse/women/clothing/dresses?breadcrumb=Home%2FWomen%2FDresses&origin=topnav&sort=Newest&postalCodeAvailability=80246",
+        "tops": "https://www.nordstrom.com/browse/women/clothing/tops-tees?breadcrumb=Home%2FWomen%2FClothing%2FTops&origin=topnav&sort=Newest&postalCodeAvailability=80246"
+      },
+      "pagination": {
+        "type": "pagination"
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "tested": false,
+      "test_results": {
+        "status": "pending",
+        "note": "Will test LAST - most complex retailer"
+      }
+    },
+    "asos": {
+      "display_name": "ASOS",
+      "extraction_method": "markdown",
+      "extraction_strategy": "markdown_primary",
+      "anti_bot_complexity": "low",
+      "catalog_urls": {
+        "dresses": "https://www.asos.com/us/women/dresses/cat/?cid=8799",
+        "tops": "https://www.asos.com/us/women/tops/cat/?cid=4169"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.asos.com/us/women/dresses/cat/?cid=8799&currentpricerange=10-790&sort=freshness",
+        "tops": "https://www.asos.com/us/women/tops/cat/?cid=4169&currentpricerange=5-300&sort=freshness"
+      },
+      "pagination": {
+        "type": "infinite_scroll_with_load_more",
+        "items_per_page": 72
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "tested": false
+    },
+    "mango": {
+      "display_name": "Mango",
+      "extraction_method": "markdown",
+      "extraction_strategy": "markdown_primary",
+      "anti_bot_complexity": "low",
+      "catalog_urls": {
+        "dresses": "https://shop.mango.com/us/en/c/women/dresses-and-jumpsuits/dresses_b4864b2e",
+        "tops": "https://shop.mango.com/us/en/c/women/tops_227371cd"
+      },
+      "sort_by_newest_urls": {
+        "dresses": null,
+        "tops": null
+      },
+      "pagination": {
+        "type": "infinite_scroll",
+        "items_per_page": 48
+      },
+      "special_handling": {
+        "no_sort_by_newest": true,
+        "early_stop_threshold": 8,
+        "note": "Must crawl full catalog - use pattern learning to identify new products"
+      },
+      "baseline_refresh_frequency": "monthly",
+      "monitoring_frequency": "bi-weekly",
+      "tested": false
+    },
+    "uniqlo": {
+      "display_name": "Uniqlo",
+      "extraction_method": "markdown",
+      "extraction_strategy": "markdown_primary",
+      "anti_bot_complexity": "low",
+      "catalog_urls": {
+        "dresses": "https://www.uniqlo.com/us/en/women/dresses-and-skirts",
+        "tops": "https://www.uniqlo.com/us/en/women/tops"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www.uniqlo.com/us/en/women/dresses-and-skirts?sort=1",
+        "tops": "https://www.uniqlo.com/us/en/women/tops?sort=1"
+      },
+      "pagination": {
+        "type": "infinite_scroll",
+        "items_per_page": 40
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "tested": false
+    },
+    "hm": {
+      "display_name": "H&M",
+      "extraction_method": "markdown",
+      "extraction_strategy": "markdown_primary",
+      "anti_bot_complexity": "low",
+      "catalog_urls": {
+        "dresses": "https://www2.hm.com/en_us/women/products/dresses.html",
+        "tops": "https://www2.hm.com/en_us/women/products/tops.html"
+      },
+      "sort_by_newest_urls": {
+        "dresses": "https://www2.hm.com/en_us/women/products/dresses.html?sort=newProduct",
+        "tops": "https://www2.hm.com/en_us/women/products/tops.html?sort=newProduct"
+      },
+      "pagination": {
+        "type": "hybrid_pagination_load_more",
+        "items_per_page": 36
+      },
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "weekly",
+      "tested": false
+    }
+  },
+  "strategy_matrix": {
+    "markdown_retailers": [
+      "revolve",
+      "asos",
+      "mango",
+      "uniqlo",
+      "hm"
+    ],
+    "patchright_retailers": [
+      "anthropologie",
+      "abercrombie",
+      "urban_outfitters",
+      "aritzia",
+      "nordstrom"
+    ],
+    "anti_bot_levels": {
+      "none": [
+        "revolve"
+      ],
+      "low": [
+        "asos",
+        "mango",
+        "uniqlo",
+        "hm"
+      ],
+      "medium": [
+        "abercrombie"
+      ],
+      "high": [
+        "urban_outfitters"
+      ],
+      "very_high": [
+        "anthropologie",
+        "aritzia",
+        "nordstrom"
+      ]
+    },
+    "extraction_modes": {
+      "markdown_primary": [
+        "revolve",
+        "asos",
+        "mango",
+        "uniqlo",
+        "hm"
+      ],
+      "gemini_first": [
+        "abercrombie",
+        "urban_outfitters"
+      ],
+      "dom_first_fallback": [
+        "anthropologie"
+      ],
+      "extended_wait_scroll": [
+        "aritzia"
+      ]
+    },
+    "verification_solutions": {
+      "keyboard_tab_space": [
+        "anthropologie"
+      ],
+      "gemini_vision_click": [
+        "urban_outfitters"
+      ],
+      "extended_wait_scroll": [
+        "aritzia"
+      ]
+    }
+  },
+  "pattern_learner_notes": {
+    "description": "Pattern learner database tracks low-level DOM selectors per retailer",
+    "learned_selectors": {
+      "anthropologie": {
+        "url_selector": "a[href*='/shop/']",
+        "confidence": 0.95
+      },
+      "abercrombie": {
+        "url_selector": "a[data-testid='product-card-link']",
+        "confidence": 0.92
+      },
+      "urban_outfitters": {
+        "url_selector": "a[href*='/product']",
+        "confidence": 0.88
+      }
+    },
+    "high_level_strategies_stored_here": "This JSON file",
+    "low_level_selectors_stored_in": "pattern_learner database (learned_patterns table)"
+  },
+  "usage_notes": {
+    "priority": "Static config (this file) is read first at startup",
+    "adaptive": "Pattern learner provides runtime improvements based on actual extraction success",
+    "override": "Runtime logic can override config for special cases (e.g., DOM-first fallback)",
+    "three_tier_strategy": "Static Config (here) + Pattern Learner (DB) + Runtime Logic (extraction scripts)"
+  }
+}
+
