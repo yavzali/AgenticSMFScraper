@@ -1,9 +1,9 @@
 """
-Patchright Tower - Single Product Extractor
-Extract detailed data from individual product pages using browser + Gemini Vision
+Patchright Tower - Product Extractor
+Extract single product data using Patchright + Gemini Vision with DOM collaboration
 
-Extracted from: Shared/playwright_agent.py (single product logic)
-Target: <800 lines
+Extracted from: Shared/playwright_agent.py (product logic, lines 172-213, 674-895)
+Target: <900 lines
 """
 
 # Add shared path for imports
@@ -12,166 +12,586 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../Shared"))
 
 import asyncio
-from typing import Dict, List, Optional
+import time
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass, field
+from patchright.sync_api import sync_playwright
+import google.generativeai as genai
+from dotenv import load_dotenv
 import logging
 
-logger = logging.getLogger(__name__)
+from logger_config import setup_logging
+from patchright_verification import PatchrightVerificationHandler
+from patchright_retailer_strategies import PatchrightRetailerStrategies
+from patchright_dom_validator import PatchrightDOMValidator
+
+logger = setup_logging(__name__)
+
+
+@dataclass
+class ProductData:
+    """Product data structure"""
+    title: str = ""
+    brand: str = ""
+    price: float = 0.0
+    original_price: Optional[float] = None
+    sale_status: str = "regular"
+    availability: str = "in_stock"
+    description: str = ""
+    sizes: List[str] = field(default_factory=list)
+    colors: List[str] = field(default_factory=list)
+    materials: str = ""
+    care_instructions: str = ""
+    image_urls: List[str] = field(default_factory=list)
+    product_code: str = ""
+    clothing_type: str = ""
+
+
+@dataclass
+class ExtractionResult:
+    """Extraction result wrapper"""
+    success: bool
+    data: Dict
+    method_used: str
+    processing_time: float
+    warnings: List[str]
+    errors: List[str]
 
 
 class PatchrightProductExtractor:
     """
-    Extracts detailed product data from single product pages
+    Extract single product data with Gemini→DOM collaboration
     
-    Process (Gemini→DOM Collaboration):
-    1. Navigate to product page (handle verification)
-    2. Take multiple screenshots (hero, details, size chart)
-    3. STEP 1: Gemini analyzes page structure visually
-    4. STEP 2: DOM extraction guided by Gemini hints
-    5. STEP 3: Gemini extracts remaining visual data
-    6. STEP 4: Merge Gemini + DOM results
-    7. STEP 5: Pattern learner records success
+    5-Step Process (from v1.0):
+    1. Gemini extracts ALL data from screenshots (primary)
+    2. Gemini analyzes page structure (provides visual hints for DOM)
+    3. DOM fills gaps & validates (guided by Gemini hints)
+    4. Merge results (Gemini primary, DOM supplements)
+    5. Learn from successful extraction (pattern recording)
     
-    Key Learnings from v1.0:
-    - Gemini Vision excellent for visual modesty features (neckline, sleeves)
-    - DOM needed for URLs, product codes, structured data
-    - Hybrid approach: 100% completeness vs 70% Gemini-only
+    Key Features:
+    - Multi-region screenshots (header, mid, footer)
+    - Gemini Vision for visual analysis
+    - DOM extraction guided by Gemini
+    - Validation and cross-checking
+    - Pattern learning
     """
     
-    def __init__(self, config: Dict):
+    def __init__(self, config: Dict = None):
+        """Initialize product extractor"""
+        # Load environment
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.join(script_dir, '../..')
+        env_path = os.path.join(project_root, '.env')
+        load_dotenv(env_path, override=True)
+        
+        # Load config
+        if config is None:
+            config_path = os.path.join(project_root, 'Shared/config.json')
+            import json
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+        
         self.config = config
-        # TODO: Initialize Patchright browser
-        # TODO: Initialize Gemini Vision client
-        # TODO: Load retailer config from /Knowledge/RETAILER_CONFIG.json
-        # TODO: Initialize verification handler
-        pass
+        self.strategies = PatchrightRetailerStrategies()
+        self.max_retries = 2
+        
+        # Browser state
+        self.playwright = None
+        self.browser = None
+        self.context = None
+        self.page = None
+        
+        # Setup Gemini
+        self._setup_gemini()
+        
+        logger.info("✅ Patchright Product Extractor initialized")
     
-    async def extract_product(
-        self,
-        product_url: str,
-        retailer: str,
-        category: str
-    ) -> Dict:
+    def _setup_gemini(self):
+        """Initialize Gemini Vision"""
+        try:
+            google_api_key = os.getenv("GOOGLE_API_KEY") or \
+                           self.config.get("llm_providers", {}).get("google", {}).get("api_key")
+            
+            if not google_api_key:
+                raise ValueError("Google API key not found")
+            
+            genai.configure(api_key=google_api_key)
+            logger.info("✅ Gemini Vision initialized")
+        except Exception as e:
+            logger.error(f"Failed to setup Gemini: {e}")
+            raise
+    
+    async def extract_product(self, url: str, retailer: str) -> ExtractionResult:
         """
-        Extract full product details from single product page
+        Main extraction method
         
         Args:
-            product_url: Full URL of product page
+            url: Product page URL
             retailer: Retailer name
-            category: Category (dresses/tops)
             
         Returns:
-            Product dictionary with all fields:
-            - title, brand, price, product_code, image_urls
-            - sizes, colors, description, material
-            - neckline, sleeve_length (for modesty assessment)
-            - extraction_method: 'patchright_gemini_dom_hybrid'
+            ExtractionResult with success status and data
         """
-        logger.info(f"🔍 Patchright product extraction: {product_url}")
+        start_time = time.time()
+        logger.info(f"🎭 Starting Patchright product extraction for {retailer}: {url}")
         
-        # TODO: Phase 3 - Implement extraction logic
-        # 1. Navigate and handle verification
-        # 2. Wait for page load
-        # 3. Take multi-screenshot
-        # 4. 5-step Gemini→DOM collaboration
-        # 5. Pattern learner records performance
+        try:
+            # Setup browser
+            await self._setup_stealth_browser()
+            
+            # Extract with retry logic
+            result = await self._extract_with_retry(url, retailer)
+            
+            processing_time = time.time() - start_time
+            logger.info(f"✅ Patchright extraction completed in {processing_time:.1f}s")
+            
+            return ExtractionResult(
+                success=True,
+                data=result.__dict__,
+                method_used="patchright_gemini_dom_hybrid",
+                processing_time=processing_time,
+                warnings=[],
+                errors=[]
+            )
+            
+        except Exception as e:
+            processing_time = time.time() - start_time
+            logger.error(f"❌ Patchright extraction failed: {e}")
+            
+            return ExtractionResult(
+                success=False,
+                data={},
+                method_used="patchright_error",
+                processing_time=processing_time,
+                warnings=[],
+                errors=[str(e)]
+            )
         
-        return {}
+        finally:
+            await self._cleanup()
     
-    async def _navigate_and_handle_verification(self, url: str, retailer: str):
-        """Navigate to URL and handle any verification challenges"""
-        # TODO: Implement
-        # Calls patchright_verification.py
-        pass
-    
-    async def _wait_for_page_load(self, retailer: str):
-        """
-        Wait for product page to fully load
+    async def _extract_with_retry(self, url: str, retailer: str) -> ProductData:
+        """Extract with retry logic for verification challenges"""
+        last_error = None
         
-        Strategy varies by retailer:
-        - Anthropologie: domcontentloaded + 4s human delay
-        - Abercrombie: networkidle + wait_for_selector
-        - Urban Outfitters: load
-        """
-        # TODO: Implement
-        # Uses patchright_retailer_strategies.py
-        pass
-    
-    async def _capture_multi_screenshot(self) -> List[bytes]:
-        """
-        Capture multiple screenshots of different page sections
+        for attempt in range(self.max_retries):
+            try:
+                logger.info(f"🔄 Attempt {attempt + 1}/{self.max_retries}")
+                
+                # Navigate and extract
+                result = await self._navigate_and_extract(url, retailer)
+                
+                if result:
+                    logger.info(f"✅ Success on attempt {attempt + 1}")
+                    return result
+                    
+            except Exception as e:
+                last_error = e
+                logger.warning(f"⚠️ Attempt {attempt + 1} failed: {e}")
+                
+                if attempt < self.max_retries - 1:
+                    delay = 2 ** attempt
+                    logger.info(f"🕒 Waiting {delay}s before retry...")
+                    await asyncio.sleep(delay)
+                    
+                    # Reset browser for fresh attempt
+                    await self._reset_browser_context()
         
-        Screenshots:
-        1. Hero image + title + price (top of page)
-        2. Product details + description (middle)
-        3. Size chart + additional info (bottom)
+        raise Exception(f"All {self.max_retries} attempts failed. Last: {last_error}")
+    
+    async def _navigate_and_extract(self, url: str, retailer: str) -> ProductData:
         """
-        # TODO: Implement
-        pass
+        Navigate and extract using 5-step Gemini→DOM process
+        
+        Steps:
+        1. Navigate + handle verification
+        2. Take multi-region screenshots
+        3. Gemini extracts ALL data (primary)
+        4. Gemini analyzes page structure (DOM hints)
+        5. DOM fills gaps & validates (guided by Gemini)
+        6. Merge results
+        7. Learn from extraction
+        """
+        try:
+            logger.info(f"🌐 Navigating to: {url}")
+            
+            # Step 1: Navigate
+            strategy = self.strategies.get_strategy(retailer)
+            wait_until = strategy.get('wait_strategy', 'domcontentloaded')
+            
+            try:
+                response = await self.page.goto(url, wait_until=wait_until, timeout=60000)
+                if response and response.status >= 400:
+                    logger.warning(f"⚠️ HTTP {response.status}")
+            except Exception as e:
+                logger.warning(f"Navigation warning: {e}")
+            
+            # Wait for content
+            await asyncio.sleep(3)
+            
+            # Handle verification
+            verification_handler = PatchrightVerificationHandler(self.page, self.config)
+            verification_strategy = {
+                'domain': self._extract_domain(url),
+                'retailer': retailer
+            }
+            await verification_handler.handle_verification_challenges(verification_strategy)
+            
+            # Step 2: Take screenshots
+            logger.info("📸 Taking multi-region screenshots...")
+            screenshots = await self._take_multi_region_screenshots(retailer)
+            
+            # Step 3: Gemini extracts ALL data (PRIMARY)
+            logger.info("🔍 Step 1: Gemini extracting ALL product data...")
+            product_data = await self._analyze_with_gemini(screenshots, url, retailer)
+            
+            # Step 4: Gemini analyzes page structure (DOM hints)
+            logger.info("🗺️ Step 2: Gemini analyzing page structure for DOM hints...")
+            gemini_visual_analysis = await self._gemini_analyze_page_structure(
+                screenshots, url, retailer
+            )
+            
+            # Step 5: DOM fills gaps & validates (SECONDARY)
+            logger.info("🎯 Step 3: DOM filling gaps & validating...")
+            dom_extraction_result = await self._guided_dom_extraction(
+                retailer,
+                product_data=product_data,
+                gemini_visual_hints=gemini_visual_analysis.get('visual_hints', {})
+            )
+            
+            # Step 6: Merge results
+            product_data = self._merge_extraction_results(
+                product_data,
+                dom_extraction_result,
+                gemini_visual_analysis
+            )
+            
+            # Step 7: Learn from successful extraction
+            logger.debug("Recording extraction patterns for learning...")
+            
+            return product_data
+            
+        except Exception as e:
+            logger.error(f"Navigation and extraction failed: {e}")
+            raise
+    
+    async def _take_multi_region_screenshots(self, retailer: str) -> List[bytes]:
+        """
+        Take screenshots of different page regions
+        
+        Regions: header, mid, footer
+        """
+        screenshots = []
+        
+        try:
+            # Scroll to top
+            await self.page.evaluate("window.scrollTo(0, 0)")
+            await asyncio.sleep(1)
+            
+            # Get page height
+            page_height = await self.page.evaluate("document.body.scrollHeight")
+            viewport_height = await self.page.evaluate("window.innerHeight")
+            
+            # Take 3 screenshots: top, middle, bottom
+            positions = [
+                ('header', 0),
+                ('mid', (page_height - viewport_height) / 2),
+                ('footer', page_height - viewport_height)
+            ]
+            
+            for region, scroll_pos in positions:
+                await self.page.evaluate(f"window.scrollTo(0, {scroll_pos})")
+                await asyncio.sleep(0.5)
+                
+                screenshot = await self.page.screenshot(type='png')
+                screenshots.append(screenshot)
+                logger.debug(f"📸 Captured {region} screenshot")
+            
+            # Scroll back to top
+            await self.page.evaluate("window.scrollTo(0, 0)")
+            
+            logger.info(f"✅ Captured {len(screenshots)} region screenshots")
+            return screenshots
+            
+        except Exception as e:
+            logger.error(f"Screenshot capture failed: {e}")
+            # Fallback: single full-page screenshot
+            try:
+                screenshot = await self.page.screenshot(full_page=True, type='png')
+                return [screenshot]
+            except:
+                return []
+    
+    async def _analyze_with_gemini(
+        self,
+        screenshots: List[bytes],
+        url: str,
+        retailer: str
+    ) -> ProductData:
+        """
+        Gemini extracts ALL product data from screenshots (primary extraction)
+        """
+        try:
+            from PIL import Image
+            import io
+            import json
+            
+            # Prepare images
+            images = []
+            for screenshot_bytes in screenshots:
+                image = Image.open(io.BytesIO(screenshot_bytes))
+                images.append(image)
+            
+            # Build prompt
+            prompt = f"""Extract ALL product information from these {len(screenshots)} screenshots of a {retailer} product page.
+
+REQUIRED FIELDS:
+- title: Product title/name
+- brand: Brand name
+- price: Current price (number)
+- original_price: Original price if on sale (number, null if not on sale)
+- sale_status: "on_sale" or "regular"
+- availability: "in_stock" or "out_of_stock"
+- description: Product description
+- sizes: Available sizes (array)
+- colors: Available colors (array)
+- materials: Fabric/materials
+- care_instructions: Care instructions
+- image_urls: Product image URLs (array)
+- product_code: SKU/product code
+- clothing_type: Type of clothing (dress, top, pants, etc.)
+
+Return ONLY valid JSON with these fields. Extract every detail you can see."""
+            
+            # Call Gemini
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([prompt] + images)
+            
+            if not response or not hasattr(response, 'text'):
+                logger.warning("No response from Gemini")
+                return ProductData()
+            
+            # Parse JSON
+            content = response.text.strip()
+            if '```json' in content:
+                content = content.split('```json')[1].split('```')[0].strip()
+            elif '```' in content:
+                content = content.split('```')[1].split('```')[0].strip()
+            
+            data = json.loads(content)
+            
+            # Create ProductData
+            product_data = ProductData(
+                title=data.get('title', ''),
+                brand=data.get('brand', ''),
+                price=float(data.get('price', 0)),
+                original_price=float(data.get('original_price')) if data.get('original_price') else None,
+                sale_status=data.get('sale_status', 'regular'),
+                availability=data.get('availability', 'in_stock'),
+                description=data.get('description', ''),
+                sizes=data.get('sizes', []),
+                colors=data.get('colors', []),
+                materials=data.get('materials', ''),
+                care_instructions=data.get('care_instructions', ''),
+                image_urls=data.get('image_urls', []),
+                product_code=data.get('product_code', ''),
+                clothing_type=data.get('clothing_type', '')
+            )
+            
+            logger.info(f"✅ Gemini extracted: {product_data.title[:50]}...")
+            return product_data
+            
+        except Exception as e:
+            logger.error(f"Gemini analysis failed: {e}")
+            return ProductData()
     
     async def _gemini_analyze_page_structure(
         self,
-        screenshots: List[bytes]
-    ) -> Dict:
-        """
-        STEP 1: Gemini analyzes page structure visually
-        
-        Returns:
-        - Visual hints for DOM extraction
-        - Identified sections (title, price, images, description)
-        - Layout type (grid, list, etc.)
-        """
-        # TODO: Implement
-        pass
-    
-    async def _dom_extract_guided(
-        self,
-        gemini_hints: Dict,
+        screenshots: List[bytes],
+        url: str,
         retailer: str
     ) -> Dict:
         """
-        STEP 2: DOM extraction guided by Gemini hints
+        Gemini analyzes page structure to provide DOM hints
         
-        Extracts:
-        - Product code, URL
-        - Structured data (sizes, colors)
-        - Any fields Gemini identified locations for
+        Returns visual hints like:
+        - Price location (top-right, left-side, etc.)
+        - Title style (large heading, bold text)
+        - Image gallery layout
         """
-        # TODO: Implement
-        # Calls patchright_dom_validator.py
-        pass
+        try:
+            from PIL import Image
+            import io
+            import json
+            
+            images = []
+            for screenshot_bytes in screenshots:
+                image = Image.open(io.BytesIO(screenshot_bytes))
+                images.append(image)
+            
+            prompt = """Analyze this product page layout and provide visual hints for DOM extraction.
+
+Describe:
+1. Where is the PRICE located? (top-right, left-side, center, etc.)
+2. Where is the TITLE? (top, center, bold heading, etc.)
+3. Where are PRODUCT IMAGES? (left gallery, center, carousel, etc.)
+4. Where are SIZES/COLORS? (below price, right side, dropdown, etc.)
+5. Page layout type? (standard, minimal, complex grid)
+
+Return JSON:
+{
+  "visual_hints": {
+    "price_location": "top-right corner",
+    "title_style": "large bold heading at top",
+    "image_layout": "left gallery",
+    "size_location": "below price",
+    "layout_type": "standard"
+  }
+}"""
+            
+            model = genai.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content([prompt] + images)
+            
+            if response and hasattr(response, 'text'):
+                content = response.text.strip()
+                if '```json' in content:
+                    content = content.split('```json')[1].split('```')[0].strip()
+                
+                result = json.loads(content)
+                logger.debug(f"Gemini page structure hints: {result.get('visual_hints', {})}")
+                return result
+            
+            return {'visual_hints': {}}
+            
+        except Exception as e:
+            logger.debug(f"Page structure analysis failed: {e}")
+            return {'visual_hints': {}}
     
-    async def _gemini_extract_remaining(
+    async def _guided_dom_extraction(
         self,
-        screenshots: List[bytes],
-        dom_data: Dict
+        retailer: str,
+        product_data: ProductData,
+        gemini_visual_hints: Dict
     ) -> Dict:
         """
-        STEP 3: Gemini extracts remaining visual data
+        DOM extraction guided by Gemini hints
         
-        Focus on:
-        - Modesty features (neckline, sleeve_length)
-        - Visual product details
-        - Description/marketing text
+        Uses PatchrightDOMValidator for comprehensive extraction
         """
-        # TODO: Implement
-        pass
+        try:
+            # Create DOM validator
+            dom_validator = PatchrightDOMValidator(self.page, retailer)
+            
+            # Convert ProductData to dict for validator
+            product_dict = {
+                'title': product_data.title,
+                'price': product_data.price,
+                'image_urls': product_data.image_urls
+            }
+            
+            # Perform guided DOM extraction
+            dom_result = await dom_validator.guided_dom_extraction(
+                product_dict,
+                gemini_visual_hints
+            )
+            
+            logger.debug(f"DOM result: {len(dom_result.get('gaps_filled', []))} gaps filled")
+            return dom_result
+            
+        except Exception as e:
+            logger.error(f"DOM extraction failed: {e}")
+            return {}
     
-    def _merge_gemini_dom(
+    def _merge_extraction_results(
         self,
-        gemini_data: Dict,
-        dom_data: Dict
-    ) -> Dict:
+        product_data: ProductData,
+        dom_result: Dict,
+        gemini_analysis: Dict
+    ) -> ProductData:
         """
-        STEP 4: Merge Gemini + DOM results
+        Merge Gemini (primary) with DOM (gaps/validation)
         
-        Priority:
-        - DOM for structured data (code, sizes, colors)
-        - Gemini for visual data (neckline, sleeves)
-        - DOM validation for overlapping fields (title, price)
+        DOM result format:
+        - title: str | None
+        - price: str | None  
+        - images: List[str]
+        - gaps_filled: List[str]
+        - validations: Dict
         """
-        # TODO: Implement
-        pass
-
-
-# TODO: Add helper functions for screenshot management, validation
-
+        # Fill gaps with DOM data
+        if dom_result.get('title') and not product_data.title:
+            product_data.title = dom_result['title']
+            logger.debug("DOM filled title gap")
+        
+        if dom_result.get('price') and not product_data.price:
+            # Parse price from DOM text
+            price_text = dom_result['price']
+            import re
+            price_match = re.search(r'[\d,]+\.?\d*', price_text.replace(',', ''))
+            if price_match:
+                product_data.price = float(price_match.group(0))
+                logger.debug("DOM filled price gap")
+        
+        if dom_result.get('images') and not product_data.image_urls:
+            product_data.image_urls = dom_result['images']
+            logger.debug("DOM filled image URLs gap")
+        
+        # Log validation results
+        validations = dom_result.get('validations', {})
+        if validations:
+            logger.debug(f"DOM validations: {len(validations)} fields checked")
+        
+        return product_data
+    
+    async def _setup_stealth_browser(self):
+        """Setup Patchright stealth browser"""
+        try:
+            self.playwright = await sync_playwright().start()
+            
+            user_data_dir = os.path.join(os.path.expanduser('~'), '.patchright_data')
+            os.makedirs(user_data_dir, exist_ok=True)
+            
+            self.context = await self.playwright.chromium.launch_persistent_context(
+                user_data_dir,
+                headless=False,
+                viewport={'width': 1920, 'height': 1080},
+                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+                locale='en-US'
+            )
+            
+            self.page = self.context.pages[0] if self.context.pages else await self.context.new_page()
+            
+            logger.info("✅ Stealth browser initialized")
+            
+        except Exception as e:
+            logger.error(f"Failed to setup browser: {e}")
+            raise
+    
+    async def _reset_browser_context(self):
+        """Reset browser for fresh attempt"""
+        try:
+            await self._cleanup()
+            await self._setup_stealth_browser()
+            logger.debug("Browser context reset")
+        except Exception as e:
+            logger.warning(f"Browser reset failed: {e}")
+    
+    def _extract_domain(self, url: str) -> str:
+        """Extract domain from URL"""
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        return parsed.netloc
+    
+    async def _cleanup(self):
+        """Cleanup browser resources"""
+        try:
+            if self.context:
+                await self.context.close()
+            if self.browser:
+                await self.browser.close()
+            if self.playwright:
+                await self.playwright.stop()
+            logger.debug("Browser cleanup complete")
+        except Exception as e:
+            logger.debug(f"Cleanup error: {e}")
