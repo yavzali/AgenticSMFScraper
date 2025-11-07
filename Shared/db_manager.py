@@ -328,12 +328,11 @@ class DatabaseManager:
         """Record catalog monitoring run"""
         if self.catalog_db:
             try:
-                run_id = f"monitor_{run_time.strftime('%Y%m%d_%H%M%S')}"
-                await self.catalog_db.create_monitoring_run(
+                # Old create_monitoring_run generates run_id internally (doesn't accept it as param)
+                run_id = await self.catalog_db.create_monitoring_run(
                     run_type='monitoring',
                     retailer=retailer,
-                    category=category,
-                    run_id=run_id
+                    category=category
                 )
                 
                 await self.catalog_db.update_monitoring_run(run_id, {
