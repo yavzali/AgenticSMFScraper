@@ -460,23 +460,27 @@ class DatabaseManager:
             return None
     
     async def find_baseline_product_by_url(self, url: str, retailer: str) -> Optional[Dict]:
-        """Find product in catalog baseline by URL"""
-        try:
-            conn = self._get_connection()
-            cursor = conn.cursor()
-            
-            cursor.execute('''
-                SELECT * FROM catalog_products 
-                WHERE retailer = ? AND catalog_url = ?
-                LIMIT 1
-            ''', (retailer, url))
-            
-            row = cursor.fetchone()
-            conn.close()
-            
-            if row:
-                return dict(row)
+        """Find product in catalog baseline by URL (async)"""
+        if not self.catalog_db:
             return None
+            
+        try:
+            import aiosqlite
+            await self.catalog_db._ensure_db_initialized()
+            
+            async with aiosqlite.connect(self.catalog_db.db_path) as conn:
+                conn.row_factory = aiosqlite.Row
+                cursor = await conn.execute('''
+                    SELECT * FROM catalog_products 
+                    WHERE retailer = ? AND catalog_url = ?
+                    LIMIT 1
+                ''', (retailer, url))
+                
+                row = await cursor.fetchone()
+                
+                if row:
+                    return dict(row)
+                return None
             
         except Exception as e:
             logger.error(f"Failed to find baseline product: {e}")
