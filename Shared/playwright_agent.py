@@ -275,36 +275,44 @@ class PlaywrightMultiScreenshotAgent:
             if 'cloudflare' in strategy.get('special_notes', '').lower():
                 logger.info("🔍 Cloudflare detected - waiting for product API to load...")
                 try:
-                    # Aritzia loads products via API calls - wait for responses
-                    # Common API patterns: /api/, /products, /search, GraphQL endpoints
-                    logger.info("⏳ Waiting for product API responses...")
+                    # Aritzia loads products via API calls - monitor network traffic
+                    logger.info("⏳ Monitoring network for product API responses...")
                     
-                    # Wait for any API response that might contain products
-                    async def check_response(response):
+                    # Set up response listener to detect product APIs
+                    api_detected = asyncio.Event()
+                    detected_url = []
+                    
+                    def on_response(response):
                         url = response.url
                         # Check for common product API patterns
-                        if any(pattern in url.lower() for pattern in ['/api/', '/products', '/search', 'graphql', '.json']):
-                            logger.info(f"📡 Product API response detected: {url[:100]}")
-                            return True
-                        return False
+                        if any(pattern in url.lower() for pattern in ['/api/', '/products', '/search', 'graphql', '.json', '/category']):
+                            logger.info(f"📡 Product API response: {url[:80]}...")
+                            detected_url.append(url)
+                            api_detected.set()
                     
-                    # Wait up to 30s for product API response
+                    # Listen for responses
+                    self.page.on("response", on_response)
+                    
                     try:
-                        response = await self.page.wait_for_response(
-                            check_response,
-                            timeout=30000
-                        )
-                        logger.info("✅ Product API loaded successfully")
-                        # Wait a bit more for products to render after API response
-                        await asyncio.sleep(3)
-                    except Exception as wait_err:
-                        logger.warning(f"⚠️ API response timeout: {wait_err}")
-                        # Fallback: try to wait for product elements
-                        try:
-                            await self.page.wait_for_selector('a[href*="/product"], [class*="product"]', timeout=10000, state='visible')
-                            logger.info("✅ Products rendered (fallback selector)")
-                        except:
-                            logger.warning("⚠️ Products not detected after Cloudflare wait")
+                        # Wait up to 30s for product API response
+                        await asyncio.wait_for(api_detected.wait(), timeout=30.0)
+                        logger.info(f"✅ Product API detected: {len(detected_url)} API calls")
+                        # Wait for products to render after API response
+                        await asyncio.sleep(5)
+                        logger.info("⏳ Waiting for products to render in DOM...")
+                    except asyncio.TimeoutError:
+                        logger.warning(f"⚠️ No product API detected in 30s")
+                    finally:
+                        # Remove listener
+                        self.page.remove_listener("response", on_response)
+                    
+                    # Fallback: try to wait for product elements
+                    try:
+                        await self.page.wait_for_selector('a[href*="/product"], [class*="product"], [data-testid*="product"]', timeout=10000, state='visible')
+                        logger.info("✅ Products rendered in DOM")
+                    except Exception as sel_err:
+                        logger.warning(f"⚠️ Products not visible in DOM: {sel_err}")
+                        
                 except Exception as e:
                     logger.warning(f"⚠️ Cloudflare product wait failed: {e}")
             
