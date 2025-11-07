@@ -121,6 +121,18 @@ class MarkdownCatalogExtractor:
             logger.error(f"Failed to setup LLM clients: {e}")
             raise
     
+    async def extract_catalog(
+        self,
+        catalog_url: str,
+        retailer: str,
+        max_pages: int = 10
+    ):
+        """
+        Wrapper method for workflow compatibility
+        Calls extract_catalog_products() internally
+        """
+        return await self.extract_catalog_products(catalog_url, retailer, max_pages)
+    
     async def extract_catalog_products(
         self,
         catalog_url: str,

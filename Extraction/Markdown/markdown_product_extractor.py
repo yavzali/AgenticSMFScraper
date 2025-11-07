@@ -88,6 +88,13 @@ class MarkdownProductExtractor:
         
         logger.info(f"✅ Markdown Product Extractor initialized for: {', '.join(MARKDOWN_RETAILERS)}")
     
+    async def extract_product(self, url: str, retailer: str) -> MarkdownExtractionResult:
+        """
+        Wrapper method for workflow compatibility
+        Calls extract_product_data() internally
+        """
+        return await self.extract_product_data(url, retailer)
+    
     async def extract_product_data(self, url: str, retailer: str) -> MarkdownExtractionResult:
         """Main extraction method for single product pages"""
         start_time = asyncio.get_event_loop().time()
