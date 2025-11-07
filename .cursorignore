@@ -1,0 +1,58 @@
+# Cursor/Claude Code Chat Ignore File
+# Excludes large files/directories from syncing to Claude
+
+# Browser profiles (513MB of cache/cookies/state)
+browser_profiles/
+Shared/browser_profiles/
+**/browser_profiles/
+
+# Downloaded images (6.6MB, not needed for code chat)
+Shared/downloads/
+**/downloads/
+
+# Database backups (384KB, not needed for code chat)
+Shared/backup/
+**/backup/
+
+# Logs (88KB, not needed for code chat)
+logs/
+*.log
+
+# Database files (not needed for code chat - local data)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Cache files (not needed for code chat)
+*.pkl
+*_cache.pkl
+markdown_cache.pkl
+
+# Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment and secrets
+.env
+.env.local
+config.json
+*api_key*
+*secret*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git directory
+.git/
+
