@@ -559,7 +559,7 @@ class DatabaseManager:
                 conn.row_factory = aiosqlite.Row
                 cursor = await conn.execute('''
                     SELECT * FROM catalog_products 
-                    WHERE retailer = ? AND LOWER(catalog_title) = ? AND catalog_price = ?
+                    WHERE retailer = ? AND LOWER(title) = ? AND price = ?
                     LIMIT 1
                 ''', (retailer, title.lower(), price))
                 
