@@ -23,7 +23,7 @@ import asyncio
 import json
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import logging
 
 from logger_config import setup_logging
@@ -157,7 +157,7 @@ class ProductUpdater:
             # Process markdown products
             for product in markdown_products:
                 result = await self._update_single_product(product, 'markdown')
-                results['results'].append(result)
+                results['results'].append(asdict(result))  # Convert to dict for JSON
                 results['processed'] += 1
                 
                 if result.success:
@@ -180,7 +180,7 @@ class ProductUpdater:
             # Process patchright products
             for product in patchright_products:
                 result = await self._update_single_product(product, 'patchright')
-                results['results'].append(result)
+                results['results'].append(asdict(result))  # Convert to dict for JSON
                 results['processed'] += 1
                 
                 if result.success:
@@ -305,7 +305,7 @@ class ProductUpdater:
                 last_updated=datetime.utcnow()
             )
             
-            processing_time = time.time() - start_time
+            processing_time = asyncio.get_event_loop().time() - start_time
             logger.info(f"✅ Updated {shopify_id} in {processing_time:.1f}s")
             
             return UpdateResult(
