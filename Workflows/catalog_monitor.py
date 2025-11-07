@@ -1,0 +1,706 @@
+"""
+Catalog Monitor Workflow
+Detects new products in retailer catalogs using Dual Tower Architecture
+
+Replaces:
+- Part of Catalog Crawler/catalog_orchestrator.py (monitoring workflow)
+- Catalog Crawler/change_detector.py (routing logic)
+- Catalog Crawler/catalog_extractor.py (routing logic)
+
+Keeps:
+- Multi-level deduplication (URL, code, title+price, image)
+- Assessment pipeline integration
+- Change detection logic
+"""
+
+# Add paths for imports
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Markdown"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Patchright"))
+
+import asyncio
+import json
+import re
+from typing import List, Dict, Any, Optional, Tuple
+from datetime import datetime
+from dataclasses import dataclass
+from urllib.parse import urlparse
+from difflib import SequenceMatcher
+import logging
+
+from logger_config import setup_logging
+from cost_tracker import cost_tracker
+from notification_manager import NotificationManager
+from db_manager import DatabaseManager
+
+# Tower imports
+from markdown_catalog_extractor import MarkdownCatalogExtractor
+from markdown_product_extractor import MarkdownProductExtractor
+from patchright_catalog_extractor import PatchrightCatalogExtractor
+from patchright_product_extractor import PatchrightProductExtractor
+
+logger = setup_logging(__name__)
+
+# Retailer classification
+MARKDOWN_RETAILERS = [
+    'revolve', 'asos', 'mango', 'hm', 'uniqlo',
+    'aritzia', 'nordstrom'
+]
+
+PATCHRIGHT_RETAILERS = [
+    'anthropologie', 'urban_outfitters', 'abercrombie'
+]
+
+# Retailer catalog URL templates (same as baseline scanner)
+CATALOG_URLS = {
+    'revolve': {
+        'dresses': 'https://www.revolve.com/r/Brands.jsp?sortBy=newest&loadVisNav=true&pageNumVisNav=1&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4',
+        'tops': 'https://www.revolve.com/r/Brands.jsp?sortBy=newest&loadVisNav=true&pageNumVisNav=1&aliasURL=%2Fr%2FSort%3Dcreated_newest%2F&sortBy=newest&vnitems=cut_and_high-low&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4'
+    },
+    'anthropologie': {
+        'dresses': 'https://www.anthropologie.com/dresses?order=Newest&page=1'
+    },
+    'abercrombie': {
+        'dresses': 'https://www.abercrombie.com/shop/us/womens-dresses?sort=newest&page=1'
+    },
+    'urban_outfitters': {
+        'dresses': 'https://www.urbanoutfitters.com/womens-dresses?order=newest&page=1'
+    }
+}
+
+
+@dataclass
+class MonitorResult:
+    """Result of monitoring a catalog for new products"""
+    success: bool
+    retailer: str
+    category: str
+    modesty_level: str
+    products_scanned: int
+    new_products_found: int
+    suspected_duplicates: int
+    confirmed_existing: int
+    sent_to_modesty_review: int
+    sent_to_duplicate_review: int
+    processing_time: float
+    method_used: str
+    error: Optional[str] = None
+
+
+class CatalogMonitor:
+    """
+    Monitors retailer catalogs for new products using Dual Tower Architecture
+    
+    Process:
+    0. PREREQUISITE: Product Updater must run first!
+    1. Get catalog URL (sorted by newest)
+    2. Scan catalog with tower CATALOG extractor
+    3. Deduplicate against:
+       - catalog_products table (baseline)
+       - products table (Shopify-synced items)
+       - Use multi-level dedup (URL, code, title+price, image)
+    4. For CONFIRMED_NEW products:
+       - Re-extract with SINGLE product extractor
+       - Send to Assessment Pipeline for MODESTY review
+    5. For SUSPECTED_DUPLICATE products:
+       - Send to Assessment Pipeline for DUPLICATION review (human confirmation)
+    6. Notifications
+    
+    Deduplication: Most complex - multi-level matching
+    Assessment Pipeline Integration: Both modesty and duplication reviews
+    """
+    
+    def __init__(self):
+        self.db_manager = DatabaseManager()
+        self.notification_manager = NotificationManager()
+        
+        # Initialize towers
+        self.markdown_catalog_tower = None
+        self.markdown_product_tower = None
+        self.patchright_catalog_tower = None
+        self.patchright_product_tower = None
+        
+        logger.info("✅ Catalog Monitor initialized (Dual Tower)")
+    
+    async def monitor_catalog(
+        self,
+        retailer: str,
+        category: str,
+        modesty_level: str,
+        custom_url: Optional[str] = None,
+        max_pages: int = 5
+    ) -> MonitorResult:
+        """
+        Monitor catalog for new products
+        
+        Args:
+            retailer: Retailer name
+            category: Product category
+            modesty_level: Modesty level to monitor
+            custom_url: Custom catalog URL (optional)
+            max_pages: Maximum pages to scan (default 5 for monitoring)
+            
+        Returns:
+            MonitorResult
+        """
+        start_time = datetime.utcnow()
+        
+        try:
+            logger.info("⚠️ PREREQUISITE CHECK: Product Updater should run before monitoring")
+            logger.info(f"📊 Monitoring catalog: {retailer}/{category}/{modesty_level}")
+            
+            # Step 1: Get catalog URL
+            if custom_url:
+                catalog_url = custom_url
+            else:
+                catalog_url = self._get_catalog_url(retailer, category)
+                if not catalog_url:
+                    return self._error_result(
+                        retailer, category, modesty_level, start_time,
+                        f'No catalog URL configured for {retailer}/{category}'
+                    )
+            
+            logger.info(f"   URL: {catalog_url}")
+            
+            # Step 2: Initialize towers
+            await self._initialize_towers()
+            
+            # Step 3: Scan catalog with tower CATALOG extractor
+            if retailer in MARKDOWN_RETAILERS:
+                logger.info("🔄 Using Markdown Tower (catalog)")
+                extraction_result = await self.markdown_catalog_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    max_pages=max_pages
+                )
+                method_used = 'markdown'
+            elif retailer in PATCHRIGHT_RETAILERS:
+                logger.info("🔄 Using Patchright Tower (catalog)")
+                extraction_result = await self.patchright_catalog_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    max_pages=max_pages
+                )
+                method_used = 'patchright'
+            else:
+                return self._error_result(
+                    retailer, category, modesty_level, start_time,
+                    f'Unknown retailer: {retailer}'
+                )
+            
+            if not extraction_result.success:
+                return self._error_result(
+                    retailer, category, modesty_level, start_time,
+                    str(extraction_result.errors)
+                )
+            
+            catalog_products = extraction_result.data.get('products', [])
+            logger.info(f"📦 Scanned {len(catalog_products)} products from catalog")
+            
+            # Step 4: Deduplication against DB (multi-level)
+            dedup_results = await self._deduplicate_catalog_products(
+                catalog_products,
+                retailer,
+                category
+            )
+            
+            logger.info(f"🔍 Deduplication results:")
+            logger.info(f"   New: {len(dedup_results['new'])}")
+            logger.info(f"   Suspected duplicates: {len(dedup_results['suspected_duplicate'])}")
+            logger.info(f"   Confirmed existing: {len(dedup_results['confirmed_existing'])}")
+            
+            # Step 5: Process new products
+            sent_to_modesty = 0
+            for product in dedup_results['new']:
+                # Re-extract with SINGLE product extractor for full details
+                full_product = await self._extract_single_product(
+                    product['url'],
+                    retailer,
+                    method_used
+                )
+                
+                if full_product:
+                    # Send to Assessment Pipeline for MODESTY review
+                    await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
+                    sent_to_modesty += 1
+                
+                # Respectful delay
+                await asyncio.sleep(0.5)
+            
+            # Step 6: Process suspected duplicates
+            sent_to_duplicate_review = 0
+            for product in dedup_results['suspected_duplicate']:
+                # Send to Assessment Pipeline for DUPLICATION review (no re-extraction)
+                await self._send_to_duplicate_assessment(product, retailer, category)
+                sent_to_duplicate_review += 1
+            
+            # Step 7: Record monitoring run
+            await self.db_manager.record_monitoring_run(
+                retailer=retailer,
+                category=category,
+                modesty_level=modesty_level,
+                products_scanned=len(catalog_products),
+                new_found=len(dedup_results['new']),
+                duplicates=len(dedup_results['suspected_duplicate']),
+                run_time=datetime.utcnow()
+            )
+            
+            # Step 8: Notifications
+            processing_time = (datetime.utcnow() - start_time).total_seconds()
+            total_cost = cost_tracker.get_session_cost()
+            
+            await self.notification_manager.send_monitoring_summary(
+                retailer=retailer,
+                category=category,
+                modesty_level=modesty_level,
+                products_scanned=len(catalog_products),
+                new_found=len(dedup_results['new']),
+                suspected_duplicates=len(dedup_results['suspected_duplicate']),
+                processing_time=processing_time,
+                total_cost=total_cost
+            )
+            
+            return MonitorResult(
+                success=True,
+                retailer=retailer,
+                category=category,
+                modesty_level=modesty_level,
+                products_scanned=len(catalog_products),
+                new_products_found=len(dedup_results['new']),
+                suspected_duplicates=len(dedup_results['suspected_duplicate']),
+                confirmed_existing=len(dedup_results['confirmed_existing']),
+                sent_to_modesty_review=sent_to_modesty,
+                sent_to_duplicate_review=sent_to_duplicate_review,
+                processing_time=processing_time,
+                method_used=method_used
+            )
+            
+        except Exception as e:
+            logger.error(f"Catalog monitoring failed: {e}")
+            return self._error_result(retailer, category, modesty_level, start_time, str(e))
+    
+    async def _deduplicate_catalog_products(
+        self,
+        catalog_products: List[Dict],
+        retailer: str,
+        category: str
+    ) -> Dict[str, List[Dict]]:
+        """
+        Deduplicate catalog products against both baseline and main products DB
+        
+        Uses multi-level matching:
+        1. Exact URL match
+        2. Normalized URL match (no query params)
+        3. Product code match
+        4. Title + Price exact match
+        5. Title fuzzy match (>85% similarity) + price within 10%
+        6. Image URL match
+        
+        Returns:
+            {
+                'new': [...],
+                'suspected_duplicate': [...],
+                'confirmed_existing': [...]
+            }
+        """
+        results = {
+            'new': [],
+            'suspected_duplicate': [],
+            'confirmed_existing': []
+        }
+        
+        for product in catalog_products:
+            match_result = await self._find_matching_product(product, retailer, category)
+            
+            if match_result['status'] == 'confirmed_new':
+                results['new'].append(product)
+            elif match_result['status'] == 'suspected_duplicate':
+                product['suspected_match'] = match_result
+                results['suspected_duplicate'].append(product)
+            else:
+                results['confirmed_existing'].append(product)
+        
+        return results
+    
+    async def _find_matching_product(
+        self,
+        product: Dict,
+        retailer: str,
+        category: str
+    ) -> Dict[str, Any]:
+        """
+        Find matching product using multi-level deduplication strategies
+        
+        Returns:
+            {
+                'status': 'confirmed_new' | 'suspected_duplicate' | 'confirmed_existing',
+                'match_method': str,
+                'confidence': float,
+                'matched_product': Dict (if found)
+            }
+        """
+        # Strategy 1: Exact URL match
+        match = await self._check_exact_url_match(product, retailer)
+        if match and match['confidence'] >= 0.95:
+            return {
+                'status': 'confirmed_existing',
+                'match_method': 'exact_url',
+                'confidence': match['confidence'],
+                'matched_product': match['product']
+            }
+        
+        # Strategy 2: Normalized URL match
+        match = await self._check_normalized_url_match(product, retailer)
+        if match and match['confidence'] >= 0.90:
+            return {
+                'status': 'confirmed_existing',
+                'match_method': 'normalized_url',
+                'confidence': match['confidence'],
+                'matched_product': match['product']
+            }
+        
+        # Strategy 3: Product code match
+        match = await self._check_product_code_match(product, retailer)
+        if match and match['confidence'] >= 0.90:
+            return {
+                'status': 'confirmed_existing',
+                'match_method': 'product_code',
+                'confidence': match['confidence'],
+                'matched_product': match['product']
+            }
+        
+        # Strategy 4: Title + Price exact match
+        match = await self._check_title_price_match(product, retailer)
+        if match and match['confidence'] >= 0.95:
+            return {
+                'status': 'confirmed_existing',
+                'match_method': 'title_price',
+                'confidence': match['confidence'],
+                'matched_product': match['product']
+            }
+        
+        # Strategy 5: Fuzzy title match + price similarity
+        match = await self._check_fuzzy_title_match(product, retailer)
+        if match:
+            if match['confidence'] >= 0.85:
+                return {
+                    'status': 'suspected_duplicate',
+                    'match_method': 'fuzzy_title',
+                    'confidence': match['confidence'],
+                    'matched_product': match['product']
+                }
+        
+        # Strategy 6: Image URL match
+        match = await self._check_image_url_match(product, retailer)
+        if match and match['confidence'] >= 0.90:
+            return {
+                'status': 'suspected_duplicate',
+                'match_method': 'image_url',
+                'confidence': match['confidence'],
+                'matched_product': match['product']
+            }
+        
+        # No match found - confirmed new
+        return {
+            'status': 'confirmed_new',
+            'match_method': 'none',
+            'confidence': 0.0,
+            'matched_product': None
+        }
+    
+    async def _check_exact_url_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for exact URL match in both baseline and products tables"""
+        url = product.get('url')
+        if not url:
+            return None
+        
+        # Check main products table
+        existing = await self.db_manager.find_product_by_url(url, retailer)
+        if existing:
+            return {'confidence': 1.0, 'product': existing}
+        
+        # Check baseline (catalog_products table)
+        baseline = await self.db_manager.find_baseline_product_by_url(url, retailer)
+        if baseline:
+            return {'confidence': 1.0, 'product': baseline}
+        
+        return None
+    
+    async def _check_normalized_url_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for normalized URL match (without query params)"""
+        url = product.get('url')
+        if not url:
+            return None
+        
+        normalized = self._normalize_url(url)
+        
+        # Check main products table
+        existing = await self.db_manager.find_product_by_normalized_url(normalized, retailer)
+        if existing:
+            return {'confidence': 0.95, 'product': existing}
+        
+        return None
+    
+    async def _check_product_code_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for product code match"""
+        product_code = product.get('product_code') or self._extract_product_code(product.get('url'), retailer)
+        if not product_code:
+            return None
+        
+        # Check main products table
+        existing = await self.db_manager.find_product_by_code(product_code, retailer)
+        if existing:
+            return {'confidence': 0.95, 'product': existing}
+        
+        return None
+    
+    async def _check_title_price_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for exact title + price match"""
+        title = product.get('title')
+        price = product.get('price')
+        if not title or not price:
+            return None
+        
+        # Normalize title for comparison
+        title_normalized = title.lower().strip()
+        
+        # Check main products table
+        existing = await self.db_manager.find_product_by_title_price(title_normalized, price, retailer)
+        if existing:
+            return {'confidence': 1.0, 'product': existing}
+        
+        return None
+    
+    async def _check_fuzzy_title_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for fuzzy title match with price similarity"""
+        title = product.get('title')
+        price = product.get('price')
+        if not title or not price:
+            return None
+        
+        title_normalized = title.lower().strip()
+        
+        # Get similar products from DB
+        candidates = await self.db_manager.find_products_by_retailer(retailer, limit=1000)
+        
+        best_match = None
+        best_similarity = 0.0
+        
+        for candidate in candidates:
+            candidate_title = candidate.get('title', '').lower().strip()
+            candidate_price = candidate.get('price')
+            
+            if not candidate_title or not candidate_price:
+                continue
+            
+            # Calculate title similarity
+            similarity = SequenceMatcher(None, title_normalized, candidate_title).ratio()
+            
+            # Calculate price difference
+            try:
+                price_val = float(str(price).replace('$', '').replace(',', ''))
+                candidate_price_val = float(str(candidate_price).replace('$', '').replace(',', ''))
+                price_diff = abs(price_val - candidate_price_val) / price_val
+            except:
+                price_diff = 1.0
+            
+            # If title >85% similar and price within 10%
+            if similarity > 0.85 and price_diff < 0.10:
+                if similarity > best_similarity:
+                    best_similarity = similarity
+                    best_match = candidate
+        
+        if best_match:
+            return {'confidence': best_similarity, 'product': best_match}
+        
+        return None
+    
+    async def _check_image_url_match(self, product: Dict, retailer: str) -> Optional[Dict]:
+        """Check for image URL match"""
+        images = product.get('images', [])
+        if not images:
+            return None
+        
+        # Check first image
+        first_image = images[0] if isinstance(images, list) else images
+        
+        # Check main products table
+        existing = await self.db_manager.find_product_by_image(first_image, retailer)
+        if existing:
+            return {'confidence': 0.90, 'product': existing}
+        
+        return None
+    
+    async def _extract_single_product(
+        self,
+        url: str,
+        retailer: str,
+        method: str
+    ) -> Optional[Dict]:
+        """Extract full product details using single product extractor"""
+        try:
+            if method == 'markdown':
+                result = await self.markdown_product_tower.extract_product(url, retailer)
+            else:
+                result = await self.patchright_product_tower.extract_product(url, retailer)
+            
+            if result.success:
+                return result.data
+            else:
+                logger.error(f"Failed to extract product: {url}")
+                return None
+                
+        except Exception as e:
+            logger.error(f"Error extracting product {url}: {e}")
+            return None
+    
+    async def _send_to_modesty_assessment(
+        self,
+        product: Dict,
+        retailer: str,
+        category: str,
+        modesty_level: str
+    ):
+        """Send product to Assessment Pipeline for MODESTY review"""
+        await self.db_manager.add_to_assessment_queue(
+            product=product,
+            retailer=retailer,
+            category=category,
+            expected_modesty=modesty_level,
+            review_type='modesty',
+            priority='normal'
+        )
+        logger.debug(f"Sent to modesty assessment: {product.get('title', 'N/A')}")
+    
+    async def _send_to_duplicate_assessment(
+        self,
+        product: Dict,
+        retailer: str,
+        category: str
+    ):
+        """Send product to Assessment Pipeline for DUPLICATION review"""
+        await self.db_manager.add_to_assessment_queue(
+            product=product,
+            retailer=retailer,
+            category=category,
+            expected_modesty='unknown',
+            review_type='duplication',
+            priority='low',
+            suspected_match=product.get('suspected_match')
+        )
+        logger.debug(f"Sent to duplication assessment: {product.get('title', 'N/A')}")
+    
+    def _normalize_url(self, url: str) -> str:
+        """Normalize URL by removing query parameters"""
+        parsed = urlparse(url)
+        return f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+    
+    def _extract_product_code(self, url: str, retailer: str) -> Optional[str]:
+        """Extract product code from URL"""
+        if not url:
+            return None
+        
+        retailer_lower = retailer.lower()
+        
+        # Revolve: /dp/CODE/
+        if retailer_lower == 'revolve':
+            match = re.search(r'/dp/([A-Z0-9\-]+)/?', url, re.IGNORECASE)
+            if match:
+                return match.group(1)
+        
+        # Add other retailer patterns as needed
+        
+        return None
+    
+    def _get_catalog_url(self, retailer: str, category: str) -> Optional[str]:
+        """Get catalog URL from configuration"""
+        retailer_lower = retailer.lower()
+        category_lower = category.lower()
+        
+        if retailer_lower in CATALOG_URLS:
+            return CATALOG_URLS[retailer_lower].get(category_lower)
+        
+        return None
+    
+    async def _initialize_towers(self):
+        """Initialize all extraction towers"""
+        if not self.markdown_catalog_tower:
+            self.markdown_catalog_tower = MarkdownCatalogExtractor()
+        if not self.markdown_product_tower:
+            self.markdown_product_tower = MarkdownProductExtractor()
+        if not self.patchright_catalog_tower:
+            self.patchright_catalog_tower = PatchrightCatalogExtractor()
+        if not self.patchright_product_tower:
+            self.patchright_product_tower = PatchrightProductExtractor()
+        
+        logger.debug("All towers initialized")
+    
+    def _error_result(
+        self,
+        retailer: str,
+        category: str,
+        modesty_level: str,
+        start_time: datetime,
+        error: str
+    ) -> MonitorResult:
+        """Create error result"""
+        return MonitorResult(
+            success=False,
+            retailer=retailer,
+            category=category,
+            modesty_level=modesty_level,
+            products_scanned=0,
+            new_products_found=0,
+            suspected_duplicates=0,
+            confirmed_existing=0,
+            sent_to_modesty_review=0,
+            sent_to_duplicate_review=0,
+            processing_time=(datetime.utcnow() - start_time).total_seconds(),
+            method_used='error',
+            error=error
+        )
+
+
+# CLI entry point
+async def main():
+    """CLI entry point for Catalog Monitor"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Monitor catalog for new products')
+    parser.add_argument('retailer', help='Retailer name')
+    parser.add_argument('category', help='Product category')
+    parser.add_argument('modesty_level', help='Modesty level to monitor')
+    parser.add_argument('--url', help='Custom catalog URL')
+    parser.add_argument('--max-pages', type=int, default=5, help='Maximum pages to scan')
+    
+    args = parser.parse_args()
+    
+    print("⚠️ IMPORTANT: Run Product Updater first to ensure DB is up-to-date!")
+    print("   This prevents false positives from URL/product code changes.\n")
+    
+    monitor = CatalogMonitor()
+    result = await monitor.monitor_catalog(
+        retailer=args.retailer,
+        category=args.category,
+        modesty_level=args.modesty_level,
+        custom_url=args.url,
+        max_pages=args.max_pages
+    )
+    
+    print(json.dumps({
+        'success': result.success,
+        'products_scanned': result.products_scanned,
+        'new_products_found': result.new_products_found,
+        'suspected_duplicates': result.suspected_duplicates,
+        'sent_to_modesty_review': result.sent_to_modesty_review,
+        'sent_to_duplicate_review': result.sent_to_duplicate_review,
+        'processing_time': result.processing_time,
+        'error': result.error
+    }, indent=2))
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
