@@ -36,6 +36,7 @@ from checkpoint_manager import CheckpointManager
 from cost_tracker import cost_tracker
 from notification_manager import NotificationManager
 from db_manager import DatabaseManager
+from image_processor import image_processor
 
 # Tower imports
 from markdown_product_extractor import MarkdownProductExtractor
@@ -350,7 +351,20 @@ class NewProductImporter:
             
             logger.info(f"📊 Modesty: {modesty_classification}")
             
-            # Step 3: Upload to Shopify if modest/moderately_modest
+            # Step 3: Process images (enhance URLs + download)
+            image_urls = product_data.get('image_urls', [])
+            downloaded_image_paths = []
+            
+            if image_urls:
+                logger.debug(f"🖼️ Processing {len(image_urls)} images")
+                downloaded_image_paths = await image_processor.process_images(
+                    image_urls=image_urls,
+                    retailer=retailer,
+                    product_title=product_data.get('title', 'Product')
+                )
+                logger.info(f"✅ Processed {len(downloaded_image_paths)} images")
+            
+            # Step 4: Upload to Shopify if modest/moderately_modest
             shopify_id = None
             action = 'skipped'
             
@@ -361,7 +375,7 @@ class NewProductImporter:
                     retailer_name=retailer,
                     modesty_level=modesty_classification,
                     source_url=url,
-                    downloaded_images=product_data.get('image_urls', []),
+                    downloaded_images=downloaded_image_paths,  # ✅ File paths, not URLs
                     product_type_override=product_type_override
                 )
                 
@@ -376,7 +390,7 @@ class NewProductImporter:
                 logger.info(f"⏭️ Skipping Shopify upload ({modesty_classification})")
                 action = 'skipped'
             
-            # Step 4: Save to DB (ALL products, regardless of modesty)
+            # Step 5: Save to DB (ALL products, regardless of modesty)
             await self.db_manager.save_product(
                 url=url,
                 retailer=retailer,

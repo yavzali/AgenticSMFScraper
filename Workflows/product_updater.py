@@ -32,6 +32,7 @@ from checkpoint_manager import CheckpointManager
 from cost_tracker import cost_tracker
 from notification_manager import NotificationManager
 from db_manager import DatabaseManager
+from image_processor import image_processor
 
 # Tower imports
 from markdown_product_extractor import MarkdownProductExtractor
@@ -278,7 +279,20 @@ class ProductUpdater:
             
             shopify_id = existing_product['shopify_id']
             
-            # Step 3: Update in Shopify
+            # Step 3: Process images if present (enhance URLs + download)
+            image_urls = extraction_result.data.get('image_urls', [])
+            if image_urls:
+                logger.debug(f"🖼️ Processing {len(image_urls)} updated images")
+                downloaded_image_paths = await image_processor.process_images(
+                    image_urls=image_urls,
+                    retailer=retailer,
+                    product_title=extraction_result.data.get('title', 'Product')
+                )
+                # Add processed images to extraction data
+                extraction_result.data['downloaded_image_paths'] = downloaded_image_paths
+                logger.info(f"✅ Processed {len(downloaded_image_paths)} images")
+            
+            # Step 4: Update in Shopify
             logger.debug(f"📤 Updating Shopify product {shopify_id}")
             update_result = await self.shopify_manager.update_product(
                 shopify_id,
@@ -298,7 +312,7 @@ class ProductUpdater:
                     error=update_result.get('error', 'Shopify update failed')
                 )
             
-            # Step 4: Update local DB
+            # Step 5: Update local DB
             await self.db_manager.update_product_record(
                 url,
                 extraction_result.data,
