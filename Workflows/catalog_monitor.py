@@ -34,6 +34,7 @@ from logger_config import setup_logging
 from cost_tracker import cost_tracker
 from notification_manager import NotificationManager
 from db_manager import DatabaseManager
+from assessment_queue_manager import AssessmentQueueManager
 
 # Tower imports
 from markdown_catalog_extractor import MarkdownCatalogExtractor
@@ -115,6 +116,7 @@ class CatalogMonitor:
     def __init__(self):
         self.db_manager = DatabaseManager()
         self.notification_manager = NotificationManager()
+        self.assessment_queue = AssessmentQueueManager()
         
         # Initialize towers
         self.markdown_catalog_tower = None
@@ -564,13 +566,13 @@ class CatalogMonitor:
         modesty_level: str
     ):
         """Send product to Assessment Pipeline for MODESTY review"""
-        await self.db_manager.add_to_assessment_queue(
+        await self.assessment_queue.add_to_queue(
             product=product,
             retailer=retailer,
             category=category,
-            expected_modesty=modesty_level,
             review_type='modesty',
-            priority='normal'
+            priority='normal',
+            source_workflow='catalog_monitor'
         )
         logger.debug(f"Sent to modesty assessment: {product.get('title', 'N/A')}")
     
@@ -581,14 +583,16 @@ class CatalogMonitor:
         category: str
     ):
         """Send product to Assessment Pipeline for DUPLICATION review"""
-        await self.db_manager.add_to_assessment_queue(
+        suspected_match = product.get('suspected_match')
+        
+        await self.assessment_queue.add_to_queue(
             product=product,
             retailer=retailer,
             category=category,
-            expected_modesty='unknown',
             review_type='duplication',
             priority='low',
-            suspected_match=product.get('suspected_match')
+            source_workflow='catalog_monitor',
+            suspected_match=suspected_match
         )
         logger.debug(f"Sent to duplication assessment: {product.get('title', 'N/A')}")
     
