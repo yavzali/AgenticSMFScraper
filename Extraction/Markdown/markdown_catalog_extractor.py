@@ -224,23 +224,43 @@ CRITICAL INSTRUCTIONS:
             # Step 2: Smart chunking for large markdown
             if len(markdown_content) > 40000:
                 logger.info(f"Large markdown detected ({len(markdown_content)} chars), extracting product section")
-                # Look for product listing markers
+                
+                # Look for product listing markers - try multiple strategies
                 product_markers = ['product-card', 'ProductCard', 'product-item', 'data-product', 'class="product']
                 
+                # Also look for actual product indicators (URLs with /dp/, brand names in links, etc.)
+                product_indicators = ['/dp/', 'Image', '![Image']
+                
                 start_idx = -1
+                
+                # First try: HTML/CSS markers
                 for marker in product_markers:
                     idx = markdown_content.find(marker)
                     if idx != -1 and (start_idx == -1 or idx < start_idx):
                         start_idx = idx
+                        logger.info(f"Found product marker '{marker}' at position {idx}")
+                
+                # Second try: Product URL patterns (for Revolve and similar)
+                if start_idx == -1:
+                    for indicator in product_indicators:
+                        idx = markdown_content.find(indicator)
+                        if idx != -1 and idx > 10000:  # Skip early navigation links
+                            start_idx = idx
+                            logger.info(f"Found product indicator '{indicator}' at position {idx}")
+                            break
                 
                 if start_idx > 0:
                     start_idx = max(0, start_idx - 500)  # Context
                     markdown_chunk = markdown_content[start_idx:start_idx + 40000]
-                    logger.info(f"Extracted product section: {len(markdown_chunk)} chars")
+                    logger.info(f"Extracted product section: {len(markdown_chunk)} chars from position {start_idx}")
                 else:
-                    markdown_chunk = markdown_content[:40000]
+                    # Fallback: Skip first 30K chars (likely header/nav), take next 40K
+                    start_idx = 30000
+                    markdown_chunk = markdown_content[start_idx:start_idx + 40000]
+                    logger.warning(f"No marker found, skipping first 30K chars, taking next 40K")
             else:
                 markdown_chunk = markdown_content[:50000]
+                logger.warning(f"🔍 DEBUG - Small markdown, using full content: {len(markdown_chunk)} chars")
             
             # Step 3: Build full prompt
             full_prompt = f"""{catalog_prompt}
@@ -284,12 +304,28 @@ Remember: Extract ALL products as pipe-separated format specified above."""
             if not extraction_result:
                 try:
                     logger.debug(f"Attempting catalog extraction with Gemini Flash 2.0")
+                    # Add STRICTER instructions for Gemini to follow format
+                    strict_prompt = f"""CRITICAL: You MUST follow the EXACT format specified. Each product MUST start with "PRODUCT |" on a new line.
+
+{full_prompt}
+
+OUTPUT REQUIREMENTS:
+- Start EVERY product line with exactly "PRODUCT |" (no exceptions!)
+- Use pipe | to separate fields
+- Format: PRODUCT | URL=... | TITLE=... | PRICE=... | ORIGINAL_PRICE=... | IMAGE=...
+- Do NOT add any other text, explanations, summaries, or code blocks
+- Extract ALL products (aim for 100+, not just 3-5)
+- Output ONLY the product lines, nothing else"""
+                    
                     response = await asyncio.get_event_loop().run_in_executor(
                         None,
-                        lambda: self.gemini_client.invoke(full_prompt)
+                        lambda: self.gemini_client.invoke(strict_prompt)
                     )
                     
                     if response and hasattr(response, 'content'):
+                        # DEBUG: Log first 2000 chars of Gemini's response
+                        logger.warning(f"🔍 DEBUG - Gemini response (first 2000 chars):\n{response.content[:2000]}")
+                        
                         extraction_result = self._parse_catalog_text_response(response.content)
                         method_used = 'gemini_flash_2.0'
                         if extraction_result and extraction_result.get('products'):
