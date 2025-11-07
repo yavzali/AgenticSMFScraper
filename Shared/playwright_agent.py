@@ -974,6 +974,8 @@ If NO verification challenge: {"verification_found": false}"""
             model = genai.GenerativeModel('gemini-2.0-flash-exp')
             response = model.generate_content([prompt, image])
             
+            logger.debug(f"🎯 Gemini verification raw response: {response.text if response else 'None'}")
+            
             # Parse response
             response_text = response.text.strip()
             if '```json' in response_text:
@@ -1228,8 +1230,20 @@ Return ONLY valid JSON:
         
         if is_verification_page:
             logger.info("🛡️ Verification page detected - using Gemini Vision to locate button...")
+            # Save HTML for debugging
+            try:
+                import datetime
+                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                html_file = f"/tmp/{strategy.get('retailer', 'unknown')}_verification_{timestamp}.html"
+                with open(html_file, 'w') as f:
+                    f.write(page_content)
+                logger.info(f"📝 Saved verification page HTML to {html_file}")
+            except Exception as e:
+                logger.debug(f"Could not save HTML: {e}")
+            
             # Use Gemini Vision to find the verification button
             verification_handled = await self._gemini_handle_verification()
+            logger.info(f"🔍 Gemini verification result: {verification_handled}")
             if verification_handled:
                 logger.info("✅ Gemini Vision successfully handled verification!")
                 # Wait for actual page to load (verification might take time to process)
