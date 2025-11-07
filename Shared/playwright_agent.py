@@ -446,10 +446,29 @@ Return a JSON array with ALL products found across all screenshots."""
             dom_product_links = await self._extract_catalog_product_links_from_dom(retailer)
             logger.info(f"✅ DOM found {len(dom_product_links)} product URLs")
             
-            # STEP 3: Merge DOM URLs with Gemini visual data + validate
-            logger.info("🔗 Step 3: Merging DOM URLs with Gemini visual data + validation")
-            merged_products, validation_stats = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
-            logger.info(f"✅ Merged result: {len(merged_products)} products with complete data")
+            # DOM-FIRST OVERRIDE for Anthropologie (screenshot too tall for effective Gemini extraction)
+            if retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
+                logger.info(f"🔄 DOM-FIRST MODE: Using DOM URLs directly (Gemini only found {len(products)}/{len(dom_product_links)} products)")
+                logger.info("   Reason: Screenshot compression made products unreadable for Gemini")
+                # Use DOM URLs as primary source, create minimal product objects
+                merged_products = []
+                for link_data in dom_product_links:
+                    merged_products.append({
+                        'url': link_data['url'],
+                        'product_code': link_data.get('product_code', ''),
+                        'title': link_data.get('title', 'Unknown Product'),  # DOM may have extracted this
+                        'price': link_data.get('price'),  # DOM may have extracted this
+                        'image_url': link_data.get('image_url'),
+                        'sale_status': 'unknown',
+                        'extraction_source': 'dom_only'
+                    })
+                validation_stats = {'dom_only_mode': True, 'reason': 'screenshot_too_tall'}
+                logger.info(f"✅ Using all {len(merged_products)} DOM-extracted products")
+            else:
+                # STEP 3: Normal Merge - DOM URLs with Gemini visual data + validate
+                logger.info("🔗 Step 3: Merging DOM URLs with Gemini visual data + validation")
+                merged_products, validation_stats = self._merge_catalog_dom_with_gemini(dom_product_links, products, retailer)
+                logger.info(f"✅ Merged result: {len(merged_products)} products with complete data")
             
             # Use merged products for final result
             products = merged_products
