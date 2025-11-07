@@ -358,7 +358,7 @@ Return a JSON array with ALL products found across all screenshots."""
     async def _setup_stealth_browser(self):
         """Setup Patchright stealth browser"""
         try:
-            self.playwright = await sync_playwright().start()
+            self.playwright = await async_playwright().start()
             
             user_data_dir = os.path.join(os.path.expanduser('~'), '.patchright_data')
             os.makedirs(user_data_dir, exist_ok=True)
