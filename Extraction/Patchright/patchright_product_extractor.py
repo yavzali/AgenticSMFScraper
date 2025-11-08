@@ -238,6 +238,43 @@ class PatchrightProductExtractor:
             }
             await verification_handler.handle_verification_challenges(verification_strategy)
             
+            # Wait for page content to load (SPA-specific handling)
+            if retailer.lower() == 'aritzia':
+                logger.info("⏱️ Aritzia SPA detected - using active polling for product page")
+                max_attempts = 30
+                attempt = 0
+                product_loaded = False
+                
+                # Selectors that indicate product page has loaded
+                product_indicators = [
+                    'h1[class*="product"]',  # Product title
+                    '[data-product-id]',     # Product container
+                    'button[class*="add-to-cart"]',  # Add to cart button
+                    'div[class*="product-details"]'  # Product details section
+                ]
+                
+                while attempt < max_attempts and not product_loaded:
+                    attempt += 1
+                    
+                    for selector in product_indicators:
+                        try:
+                            element = await self.page.query_selector(selector)
+                            if element:
+                                logger.info(f"✅ Product page loaded with selector '{selector}' after {attempt} seconds")
+                                product_loaded = True
+                                break
+                        except:
+                            continue
+                    
+                    if not product_loaded:
+                        await asyncio.sleep(1)
+                
+                if not product_loaded:
+                    logger.warning(f"⚠️ Product page indicators not found after {max_attempts} seconds, proceeding anyway")
+            else:
+                # Standard wait for other retailers
+                await asyncio.sleep(2)
+            
             # Step 2: Take screenshots
             logger.info("📸 Taking multi-region screenshots...")
             screenshots = await self._take_multi_region_screenshots(retailer)

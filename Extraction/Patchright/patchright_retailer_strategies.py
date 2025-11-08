@@ -53,21 +53,31 @@ RETAILER_STRATEGIES = {
     },
     
     'aritzia': {
-        'verification': 'cloudflare',
-        'wait_strategy': 'domcontentloaded',
-        'extended_wait': 15,  # Cloudflare + SPA API loading
-        'scroll_trigger': True,  # Trigger lazy load
-        'scroll_amount': 1000,
+        'verification': 'cloudflare_automatic',
+        'wait_strategy': 'active_polling',  # NEW: Changed from fixed wait
         'catalog_mode': 'gemini_first',
+        'polling_config': {
+            'enabled': True,
+            'max_attempts': 30,
+            'interval_seconds': 1,
+            'catalog_selectors': [
+                'a[href*="/product/"]',
+                'a[class*="ProductCard"]',
+                '[data-product-id]'
+            ],
+            'product_selectors': [
+                'h1[class*="product"]',
+                '[data-product-id]',
+                'button[class*="add-to-cart"]',
+                'div[class*="product-details"]'
+            ]
+        },
         'product_selectors': [
             "a[href*='/product/']",
-            "a[class*='ProductCard']",
-            "[class*='ProductCard']"
+            "a[class*='ProductCard']"
         ],
-        'wait_for_selector': '[class*="ProductCard"]',
-        'wait_state': 'attached',  # Not 'visible' (SPA)
-        'anti_bot_complexity': 'medium',
-        'notes': 'Cloudflare passes, but products dont render. Need extended wait + scroll.'
+        'anti_bot_complexity': 'very_high',
+        'notes': 'Cloudflare + SPA with variable API delay (1-15s). Uses active polling instead of fixed waits for reliability. Polling detects products immediately when they appear.'
     },
     
     'abercrombie': {
