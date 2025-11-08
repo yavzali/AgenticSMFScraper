@@ -119,9 +119,12 @@ RETAILER_STRATEGIES = {
         'wait_strategy': 'domcontentloaded',
         'catalog_mode': 'gemini_first',
         'product_selectors': [
-            "a[class*='product-card']"
+            "a[href*='/s/']",  # Primary: Nordstrom product links always use /s/
+            "a.AFBJb",         # Backup: Product image links
+            "a.dls-ogz194"     # Backup: Product title links
         ],
-        'anti_bot_complexity': 'low'
+        'anti_bot_complexity': 'low',
+        'notes': 'Product URLs follow pattern: /s/{product-name}/{product-id}. Multiple links per product card.'
     }
 }
 

@@ -354,23 +354,38 @@ Return a JSON array with ALL products found across all screenshots."""
             dom_product_links = await self._extract_catalog_product_links_from_dom(retailer, strategy)
             logger.info(f"✅ DOM found {len(dom_product_links)} product URLs")
             
-            # Step 11: DOM-first override for tall pages (Anthropologie)
+            # Step 11: DOM-first override for tall pages or when Gemini extraction is poor
+            use_dom_first = False
+            dom_first_reason = None
+            
+            # Anthropologie: Screenshot too tall/compressed
             if retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
+                use_dom_first = True
+                dom_first_reason = 'screenshot_too_tall'
+            
+            # Nordstrom: Gemini fails to extract prices (ads mixed in)
+            elif retailer.lower() == 'nordstrom':
+                products_with_price = sum(1 for p in products if p.get('price') and p.get('price') != 0)
+                if products_with_price < len(products) * 0.5:  # Less than 50% have prices
+                    use_dom_first = True
+                    dom_first_reason = 'gemini_price_extraction_failed'
+            
+            if use_dom_first:
                 logger.info(f"🔄 DOM-FIRST MODE: Using DOM URLs (Gemini only found {len(products)}/{len(dom_product_links)})")
-                logger.info("   Reason: Screenshot compression made products unreadable")
+                logger.info(f"   Reason: {dom_first_reason}")
                 
                 merged_products = []
                 for link_data in dom_product_links:
                     merged_products.append({
                         'url': link_data['url'],
                         'product_code': link_data.get('product_code', ''),
-                        'title': link_data.get('title', 'Unknown Product'),
-                        'price': link_data.get('price'),
+                        'title': link_data.get('dom_title', 'Unknown Product'),
+                        'price': self._parse_price_from_text(link_data.get('dom_price', '')) if link_data.get('dom_price') else 0,
                         'image_url': link_data.get('image_url'),
                         'sale_status': 'unknown',
                         'extraction_source': 'dom_only'
                     })
-                validation_stats = {'dom_only_mode': True, 'reason': 'screenshot_too_tall'}
+                validation_stats = {'dom_only_mode': True, 'reason': dom_first_reason}
                 logger.info(f"✅ Using all {len(merged_products)} DOM-extracted products")
             else:
                 # Step 12: Normal merge - DOM URLs + Gemini visual data
@@ -483,8 +498,9 @@ Return a JSON array with ALL products found across all screenshots."""
             # Get selectors from strategy
             selectors = strategy.get('product_selectors', [])
             
-            # Add common patterns
+            # Add common patterns (order matters - more specific first!)
             selectors.extend([
+                'a[href*="/s/"]',  # Nordstrom-specific pattern
                 'a[data-testid="product-card-link"]',
                 'a[href*="/product"]', 'a[href*="/p/"]', 'a[href*="/dp/"]',
                 '.product-card a', '.product-item a', '[data-product-id]',
@@ -543,8 +559,12 @@ Return a JSON array with ALL products found across all screenshots."""
                                             except:
                                                 continue
                                         
-                                        # Try price selectors
-                                        price_selectors = ['.price', '.product-price', '[data-testid*="price"]']
+                                        # Try price selectors (retailer-specific + generic)
+                                        price_selectors = []
+                                        if retailer.lower() == 'nordstrom':
+                                            price_selectors = ['span.qHz0a', 'span[class*="qHz0a"]', 'span.He8hw']
+                                        price_selectors.extend(['.price', '.product-price', '[data-testid*="price"]'])
+                                        
                                         for price_sel in price_selectors:
                                             try:
                                                 price_el = await parent.query_selector(price_sel)
@@ -727,6 +747,19 @@ Return a JSON array with ALL products found across all screenshots."""
         """Calculate similarity between two strings"""
         return SequenceMatcher(None, str1, str2).ratio()
     
+    def _parse_price_from_text(self, price_text: str) -> float:
+        """Parse price from text like '$49.99' or '$100'"""
+        try:
+            # Remove currency symbols and commas
+            clean_text = price_text.replace('$', '').replace(',', '').strip()
+            # Extract first number found
+            match = re.search(r'(\d+\.?\d*)', clean_text)
+            if match:
+                return float(match.group(1))
+        except:
+            pass
+        return 0.0
+    
     def _extract_product_code_from_url(self, url: str, retailer: str) -> str:
         """Extract product code from URL"""
         patterns = {
@@ -734,7 +767,8 @@ Return a JSON array with ALL products found across all screenshots."""
             'anthropologie': r'/shopop/([A-Z0-9\-]+)',
             'abercrombie': r'/shop/([A-Za-z0-9\-]+)/?$',
             'urban_outfitters': r'/([A-Za-z0-9\-]+)/?$',
-            'aritzia': r'/([A-Z0-9\-]+)/?$'
+            'aritzia': r'/([A-Z0-9\-]+)/?$',
+            'nordstrom': r'/s/[^/]+/(\d+)'  # /s/{product-name}/{product-id}
         }
         
         pattern = patterns.get(retailer.lower())
