@@ -179,8 +179,13 @@ class PatchrightDOMValidator:
         if gemini_selectors:
             price_selectors.extend(gemini_selectors)
         
-        # Fallback selectors
+        # Fallback selectors (retailer-specific first, then generic)
         price_selectors.extend([
+            # Nordstrom-specific (from catalog testing)
+            'span.qHz0a',            # Nordstrom primary price
+            'span[class*="qHz0a"]',  # Nordstrom price (flexible)
+            'span.He8hw',            # Nordstrom accessibility text
+            # Generic selectors
             '.price',
             '.product-price',
             '[data-testid="price"]',
