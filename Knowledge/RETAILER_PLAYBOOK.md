@@ -404,16 +404,65 @@ await page.wait_for_selector(
 ```
 
 ### Why Products Don't Load
-**Root Cause**: SPA (Single Page Application) architecture
-- JavaScript makes API call AFTER Cloudflare passes
-- API response delayed (5-15 seconds)
-- Products render dynamically from API data
-- Standard `wait_for_load_state` doesn't catch this
+**Root Cause**: SPA (Single Page Application) architecture with Cloudflare
+
+**Timeline of Events**:
+```
+1. Page navigation starts
+2. Cloudflare challenge appears
+3. Cloudflare verification completes ✅
+4. Page HTML loads (skeleton structure) ✅
+5. JavaScript makes API call for products (AFTER Cloudflare)
+6. API response delayed 5-15 seconds ⏱️
+7. Products render dynamically from API data
+8. Our code runs at step 4-5, products render at step 7 ❌
+```
+
+**Why Standard Waits Fail**:
+- `wait_for_load_state('networkidle')` - Fires before API call completes
+- `wait_for_load_state('domcontentloaded')` - Fires when HTML loads, not when products render
+- `wait_for_selector()` - Times out because products don't exist in DOM yet
+
+**Technical Details**:
+- **Library**: Patchright (`patchright.async_api.async_playwright`)
+- **Key Limitation**: Some Playwright methods don't exist (e.g., `wait_for_response`, `page.on()`)
+- **Product Selectors Tried**: `'a[href*="/product/"]'`, `'a[class*="ProductCard"]'`, `'[class*="ProductCard"]'`
+- **URL**: `https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest`
 
 ### Attempted Solutions
-1. ❌ `page.wait_for_response()` - Not supported in Patchright
-2. ❌ Event listener (`page.on("response", ...)`) - AttributeError
-3. ⏳ Extended wait + scroll - Current approach (testing)
+
+**Solution #1: `page.wait_for_response()`** ❌
+```python
+await page.wait_for_response(
+    lambda response: 'products' in response.url and response.status == 200,
+    timeout=30000
+)
+```
+- **Error**: `AttributeError: 'Page' object has no attribute 'wait_for_response'`
+- **Reason**: Patchright doesn't support this Playwright method
+- **Status**: Not available in Patchright API
+
+**Solution #2: Event Listener** ❌
+```python
+product_api_detected = False
+
+def on_response(response):
+    if 'products' in response.url or 'api' in response.url:
+        if response.status == 200:
+            product_api_detected = True
+
+page.on("response", on_response)
+await asyncio.sleep(30)
+```
+- **Error**: `AttributeError: 'Page' object has no attribute 'on'`
+- **Reason**: Patchright's event listener API differs from Playwright
+- **Status**: Not available in Patchright API
+
+**Solution #3: Extended Wait + Scroll** ⏳ (Current - Not Working)
+- **Implementation**: `patchright_catalog_extractor.py` lines 157-181
+- **Strategy**: 15s wait → scroll trigger → 30s `wait_for_selector()` timeout
+- **Result**: Still finds 0 products (timeout after 30 seconds)
+- **Status**: Testing (not working)
 
 ### Key Configuration
 ```json

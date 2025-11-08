@@ -154,7 +154,39 @@ class PatchrightCatalogExtractor:
             await asyncio.sleep(10)
             
             # Step 5: Retailer-specific extended waits
-            if 'cloudflare' in verification_strategy.get('special_notes', '').lower():
+            # For Aritzia specifically
+            if retailer.lower() == 'aritzia':
+                logger.info("⏱️ Starting Aritzia product detection (polling mode)")
+                
+                max_attempts = 30
+                attempt = 0
+                products_found = False
+                
+                selectors_to_try = [
+                    'a[href*="/product/"]',
+                    'a[class*="ProductCard"]',
+                    '[data-product-id]'
+                ]
+                
+                while attempt < max_attempts and not products_found:
+                    attempt += 1
+                    
+                    for selector in selectors_to_try:
+                        try:
+                            elements = await self.page.query_selector_all(selector)
+                            if len(elements) > 0:
+                                logger.info(f"✅ Found {len(elements)} products with selector '{selector}' after {attempt} seconds")
+                                products_found = True
+                                break
+                        except:
+                            continue
+                    
+                    if not products_found:
+                        await asyncio.sleep(1)
+                
+                if not products_found:
+                    logger.warning(f"⚠️ No products detected after {max_attempts} seconds")
+            elif 'cloudflare' in verification_strategy.get('special_notes', '').lower():
                 logger.info("🔍 Cloudflare detected - extended wait...")
                 await asyncio.sleep(15)
                 
