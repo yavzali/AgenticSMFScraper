@@ -10,7 +10,13 @@ import time
 from datetime import datetime
 
 # Add parent directory to path for imports
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+parent_dir = os.path.join(os.path.dirname(__file__), "..")
+sys.path.append(parent_dir)
+
+# CRITICAL: Also add Extraction/Markdown to path
+# (markdown_catalog_extractor imports markdown_retailer_logic from same directory)
+markdown_dir = os.path.join(parent_dir, "Extraction", "Markdown")
+sys.path.append(markdown_dir)
 
 from Extraction.Markdown.markdown_catalog_extractor import MarkdownCatalogExtractor
 
