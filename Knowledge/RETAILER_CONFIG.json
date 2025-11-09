@@ -292,20 +292,22 @@
         "tops": "https://shop.mango.com/us/en/c/women/tops_227371cd"
       },
       "sort_by_newest_urls": {
-        "dresses": null,
-        "tops": null
+        "dresses": "https://shop.mango.com/us/en/c/women/new-now_56b5c5ed",
+        "tops": "https://shop.mango.com/us/en/c/women/new-now_56b5c5ed"
       },
       "pagination": {
         "type": "infinite_scroll",
         "items_per_page": 48
       },
       "special_handling": {
-        "no_sort_by_newest": true,
-        "early_stop_threshold": 8,
-        "note": "Must crawl full catalog - use pattern learning to identify new products"
+        "no_sort_by_newest": false,
+        "use_whats_new_section": true,
+        "clothing_type_filter": ["dress", "top", "dress_top"],
+        "early_stop_threshold": 5,
+        "note": "Baseline uses category-specific URLs; Monitoring uses What's New section with clothing_type filtering"
       },
-      "baseline_refresh_frequency": "monthly",
-      "monitoring_frequency": "bi-weekly",
+      "baseline_refresh_frequency": "bi-weekly",
+      "monitoring_frequency": "every_3_days",
       "tested": false
     },
     "uniqlo": {

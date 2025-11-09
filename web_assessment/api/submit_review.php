@@ -15,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-$queueId = $data['queue_id'] ?? null;
+$queueId = $data['product_id'] ?? $data['queue_id'] ?? null;  // Support both product_id and queue_id
 $decision = $data['decision'] ?? null;
 $notes = $data['notes'] ?? '';
+$clothingTypeVerified = $data['clothing_type'] ?? null;  // NEW: Capture verified clothing type
 
 if (!$queueId || !$decision) {
     jsonResponse(['error' => 'Missing queue_id or decision'], 400);
@@ -49,6 +50,14 @@ try {
     $reviewType = $queueItem['review_type'];
     $productData = json_decode($queueItem['product_data'], true);
     
+    // Update product data with verified clothing type (if provided)
+    if ($clothingTypeVerified) {
+        $productData['clothing_type'] = $clothingTypeVerified;
+        $productData['clothing_type_verified'] = true;
+        $productData['clothing_type_verified_by'] = 'web_interface';
+        $productData['clothing_type_verified_at'] = date('Y-m-d H:i:s');
+    }
+    
     // Handle different review types
     if ($reviewType === 'duplication') {
         // Duplication review
@@ -59,6 +68,7 @@ try {
                 SET status = 'reviewed',
                     review_decision = :decision,
                     reviewer_notes = :notes,
+                    product_data = :product_data,
                     reviewed_at = datetime('now'),
                     reviewed_by = 'web_interface'
                 WHERE id = :id
@@ -66,6 +76,7 @@ try {
             $stmt->bindParam(':id', $queueId);
             $stmt->bindParam(':decision', $decision);
             $stmt->bindParam(':notes', $notes);
+            $stmt->bindValue(':product_data', json_encode($productData));
             $stmt->execute();
             
             jsonResponse(['success' => true, 'action' => 'marked_duplicate']);
@@ -77,6 +88,7 @@ try {
                 SET status = 'reviewed',
                     review_decision = :decision,
                     reviewer_notes = :notes,
+                    product_data = :product_data,
                     reviewed_at = datetime('now'),
                     reviewed_by = 'web_interface'
                 WHERE id = :id
@@ -84,6 +96,7 @@ try {
             $stmt->bindParam(':id', $queueId);
             $stmt->bindParam(':decision', $decision);
             $stmt->bindParam(':notes', $notes);
+            $stmt->bindValue(':product_data', json_encode($productData));
             $stmt->execute();
             
             // Add to modesty queue
@@ -109,6 +122,7 @@ try {
             SET status = 'reviewed',
                 review_decision = :decision,
                 reviewer_notes = :notes,
+                product_data = :product_data,
                 reviewed_at = datetime('now'),
                 reviewed_by = 'web_interface'
             WHERE id = :id
@@ -116,6 +130,7 @@ try {
         $stmt->bindParam(':id', $queueId);
         $stmt->bindParam(':decision', $decision);
         $stmt->bindParam(':notes', $notes);
+        $stmt->bindValue(':product_data', json_encode($productData));
         $stmt->execute();
         
         jsonResponse(['success' => true, 'action' => 'modesty_reviewed', 'decision' => $decision]);

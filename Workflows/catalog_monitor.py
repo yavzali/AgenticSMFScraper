@@ -185,7 +185,7 @@ class CatalogMonitor:
             if custom_url:
                 catalog_url = custom_url
             else:
-                catalog_url = self._get_catalog_url(retailer, category)
+                catalog_url = self._get_catalog_url(retailer, category, workflow='monitoring')
                 if not catalog_url:
                     return self._error_result(
                         retailer, category, modesty_level, start_time,
@@ -262,11 +262,12 @@ class CatalogMonitor:
                     logger.warning(f"Product missing URL, skipping: {product}")
                     continue
                 
-                # Re-extract with SINGLE product extractor for full details
+                # Re-extract with SINGLE product extractor for full details (now passes category parameter)
                 full_product = await self._extract_single_product(
                     product_url,
                     retailer,
-                    method_used
+                    method_used,
+                    category  # Pass category for override logic
                 )
                 
                 if full_product:
@@ -274,7 +275,23 @@ class CatalogMonitor:
                     full_product['url'] = product_url
                     full_product['catalog_url'] = product_url  # For consistency
                     
-                    # Send to Assessment Pipeline for MODESTY review
+                    # MANGO-SPECIFIC FILTERING
+                    if retailer.lower() == 'mango':
+                        clothing_type = full_product.get('clothing_type', 'other')
+                        
+                        # Only allow dress, top, and dress_top to assessment pipeline
+                        if clothing_type not in ['dress', 'top', 'dress_top']:
+                            logger.info(f"⏭️ Skipping {clothing_type} (Mango filter): {full_product.get('title', 'N/A')}")
+                            
+                            # Upload to Shopify as draft (unpublished)
+                            await self._upload_non_assessed_product(
+                                full_product,
+                                retailer,
+                                status='draft'
+                            )
+                            continue
+                    
+                    # Send to Assessment Pipeline for MODESTY review (for all normal retailers + Mango dress/top/dress_top)
                     await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
                     sent_to_modesty += 1
                 
@@ -603,13 +620,93 @@ class CatalogMonitor:
         
         return None
     
+    def _normalize_clothing_type(self, raw_type: str) -> str:
+        """
+        Normalize clothing type names to standard format
+        
+        Maps various inputs to: dress, top, dress_top, bottom, outerwear, other
+        """
+        if not raw_type:
+            return 'other'
+        
+        raw_lower = raw_type.lower().strip()
+        
+        # Normalization mapping
+        type_map = {
+            # Dresses
+            'dress': 'dress',
+            'dresses': 'dress',
+            'gown': 'dress',
+            'gowns': 'dress',
+            'maxi dress': 'dress',
+            'midi dress': 'dress',
+            'mini dress': 'dress',
+            
+            # Tops (excluding dress tops)
+            'top': 'top',
+            'tops': 'top',
+            'shirt': 'top',
+            'shirts': 'top',
+            'blouse': 'top',
+            'blouses': 'top',
+            'tee': 'top',
+            't-shirt': 'top',
+            'tshirt': 'top',
+            'sweater': 'top',
+            'cardigan': 'top',
+            'hoodie': 'top',
+            
+            # Dress Tops (NEW CATEGORY)
+            'dress top': 'dress_top',
+            'dress tops': 'dress_top',
+            'dress-top': 'dress_top',
+            'dress-tops': 'dress_top',
+            'dress_top': 'dress_top',
+            'dress_tops': 'dress_top',
+            'tunic': 'dress_top',
+            'tunics': 'dress_top',
+            'long top': 'dress_top',
+            'oversized top': 'dress_top',
+            
+            # Bottoms
+            'bottom': 'bottom',
+            'bottoms': 'bottom',
+            'pants': 'bottom',
+            'pant': 'bottom',
+            'jeans': 'bottom',
+            'skirt': 'bottom',
+            'skirts': 'bottom',
+            'shorts': 'bottom',
+            'trousers': 'bottom',
+            
+            # Outerwear
+            'outerwear': 'outerwear',
+            'jacket': 'outerwear',
+            'jackets': 'outerwear',
+            'coat': 'outerwear',
+            'coats': 'outerwear',
+            'blazer': 'outerwear',
+            'blazers': 'outerwear',
+            
+            # Other/Unknown
+            'other': 'other',
+            'unknown': 'other',
+            'accessory': 'other',
+            'accessories': 'other',
+            'swimwear': 'other',
+            'lingerie': 'other',
+        }
+        
+        return type_map.get(raw_lower, 'other')
+    
     async def _extract_single_product(
         self,
         url: str,
         retailer: str,
-        method: str
+        method: str,
+        category: str  # NEW parameter
     ) -> Optional[Dict]:
-        """Extract full product details using single product extractor"""
+        """Extract full product details and apply clothing_type logic"""
         try:
             if method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
@@ -617,7 +714,24 @@ class CatalogMonitor:
                 result = await self.patchright_product_tower.extract_product(url, retailer)
             
             if result.success:
-                return result.data
+                product_data = result.data
+                
+                # CLOTHING TYPE DETERMINATION LOGIC
+                if retailer.lower() != 'mango':
+                    # NORMAL RETAILERS: Category parameter overrides extracted clothing_type
+                    clothing_type_from_category = self._normalize_clothing_type(category)
+                    product_data['clothing_type'] = clothing_type_from_category
+                    product_data['clothing_type_source'] = 'category_override'
+                    logger.debug(f"Category override: {category} → {clothing_type_from_category}")
+                else:
+                    # MANGO ONLY: Use extracted clothing_type (no override)
+                    extracted_type = product_data.get('clothing_type', 'unknown')
+                    normalized_type = self._normalize_clothing_type(extracted_type)
+                    product_data['clothing_type'] = normalized_type
+                    product_data['clothing_type_source'] = 'extraction'
+                    logger.debug(f"Mango extracted type: {extracted_type} → {normalized_type}")
+                
+                return product_data
             else:
                 logger.error(f"Failed to extract product: {url}")
                 return None
@@ -625,6 +739,48 @@ class CatalogMonitor:
         except Exception as e:
             logger.error(f"Error extracting product {url}: {e}")
             return None
+    
+    async def _upload_non_assessed_product(
+        self,
+        product: Dict,
+        retailer: str,
+        status: str = 'draft'
+    ):
+        """
+        Upload product to Shopify as draft (unpublished)
+        Used for Mango products that don't match dress/top/dress_top categories
+        """
+        try:
+            from shopify_manager import ShopifyManager
+            
+            shopify = ShopifyManager()
+            
+            # Set as not assessed
+            product['modesty_status'] = 'not_assessed'
+            
+            result = await shopify.upload_product(
+                product_data=product,
+                retailer_name=retailer,
+                modesty_level='not_assessed',
+                publish_status='draft'  # Keep unpublished
+            )
+            
+            if result['success']:
+                logger.info(f"✅ Uploaded as draft (non-assessed): {product.get('title', 'N/A')}")
+                
+                # Save to database
+                await self.db_manager.save_product(
+                    url=product['url'],
+                    retailer=retailer,
+                    product_data=product,
+                    shopify_id=result.get('product_id'),
+                    modesty_status='not_assessed'
+                )
+            else:
+                logger.warning(f"❌ Draft upload failed: {result.get('error')}")
+                
+        except Exception as e:
+            logger.error(f"Error uploading non-assessed product: {e}")
     
     async def _send_to_modesty_assessment(
         self,
@@ -686,11 +842,27 @@ class CatalogMonitor:
         
         return None
     
-    def _get_catalog_url(self, retailer: str, category: str) -> Optional[str]:
-        """Get catalog URL from configuration"""
+    def _get_catalog_url(self, retailer: str, category: str, workflow: str = 'monitoring') -> Optional[str]:
+        """
+        Get catalog URL from configuration
+        
+        Args:
+            retailer: Retailer name
+            category: Product category (dresses, tops)
+            workflow: 'monitoring' or 'baseline' (affects Mango URLs only)
+        
+        Returns:
+            Catalog URL or None
+        """
         retailer_lower = retailer.lower()
         category_lower = category.lower()
         
+        # MANGO SPECIAL CASE: Different URLs for monitoring vs baseline
+        if retailer_lower == 'mango' and workflow == 'monitoring':
+            # Use What's New section for monitoring (regardless of category)
+            return "https://shop.mango.com/us/en/c/women/new-now_56b5c5ed"
+        
+        # All other retailers + Mango baseline: use standard CATALOG_URLS
         if retailer_lower in CATALOG_URLS:
             return CATALOG_URLS[retailer_lower].get(category_lower)
         

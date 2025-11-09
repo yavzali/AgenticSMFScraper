@@ -199,10 +199,12 @@ class ShopifyManager:
         type_mapping = {
             'dress': 'Dresses',
             'dresses': 'Dresses',
-            'dress top': 'Dress Tops',        # NEW - primary mapping (singular to plural title case)
-            'dress tops': 'Dress Tops',       # NEW - direct plural mapping (if it bypasses playwright)
-            'dress-top': 'Dress Tops',        # NEW - hyphenated singular
-            'dress-tops': 'Dress Tops',       # NEW - hyphenated plural
+            'dress top': 'Dress Tops',        # Space-separated singular
+            'dress tops': 'Dress Tops',       # Space-separated plural
+            'dress-top': 'Dress Tops',        # Hyphenated singular
+            'dress-tops': 'Dress Tops',       # Hyphenated plural
+            'dress_top': 'Dress Tops',        # NEW - Underscore singular
+            'dress_tops': 'Dress Tops',       # NEW - Underscore plural (for safety)
             'top': 'Tops',
             'tops': 'Tops',
             'shirt': 'Tops',

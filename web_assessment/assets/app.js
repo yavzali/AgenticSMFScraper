@@ -124,6 +124,37 @@ function generateProductCard(product) {
                 </div>
             </div>
             
+            <!-- Product Type Classification Section -->
+            <div class="classification-section" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                <h4 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 0.95rem;">Product Classification</h4>
+                
+                <!-- Display extracted type info -->
+                <div class="extracted-info" style="margin-bottom: 12px; padding: 8px; background: #e3f2fd; border-radius: 4px; font-size: 0.9rem;">
+                    <strong>Extracted Type:</strong> 
+                    <span style="color: #1976d2; font-weight: 600;">
+                        ${product.clothing_type || 'unknown'}
+                    </span>
+                    ${product.clothing_type_source ? `<span style="color: #666; font-size: 0.85rem;"> (${product.clothing_type_source})</span>` : ''}
+                </div>
+                
+                <!-- Product type selection -->
+                <label for="clothing_type_${product.id}" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">
+                    Confirm Product Type: <span style="color: #e74c3c;">*</span>
+                </label>
+                <select 
+                    name="clothing_type" 
+                    id="clothing_type_${product.id}" 
+                    class="clothing-type-select"
+                    required
+                    style="width: 100%; padding: 8px; font-size: 0.9rem; border: 2px solid #bdc3c7; border-radius: 4px; background: white;"
+                >
+                    ${generateClothingTypeOptions(product.clothing_type || '')}
+                </select>
+                <p style="margin-top: 6px; font-size: 0.8rem; color: #7f8c8d; font-style: italic;">
+                    💡 Select "Dress Top" for long tops/tunics that can be worn as dresses
+                </p>
+            </div>
+            
             ${matchesHtml}
             
             <div class="product-actions">
@@ -205,9 +236,34 @@ function getConfidenceClass(score) {
     return 'confidence-low';
 }
 
+function generateClothingTypeOptions(currentType) {
+    const types = [
+        { value: 'dress', label: 'Dress' },
+        { value: 'top', label: 'Top' },
+        { value: 'dress_top', label: 'Dress Top' },
+        { value: 'bottom', label: 'Bottom' },
+        { value: 'outerwear', label: 'Outerwear' },
+        { value: 'other', label: 'Other/Accessory' }
+    ];
+    
+    return types.map(type => {
+        const selected = type.value === currentType ? 'selected' : '';
+        return `<option value="${type.value}" ${selected}>${type.label}</option>`;
+    }).join('\n');
+}
+
 // Submit review
 async function submitReview(productId, decision, notes = '') {
     try {
+        // Capture verified clothing type from dropdown
+        const clothingTypeSelect = document.getElementById(`clothing_type_${productId}`);
+        const clothingType = clothingTypeSelect ? clothingTypeSelect.value : null;
+        
+        if (!clothingType) {
+            showToast('Please select a product type before submitting', 'error');
+            return;
+        }
+        
         const response = await fetch('api/submit_review.php', {
             method: 'POST',
             headers: {
@@ -216,7 +272,8 @@ async function submitReview(productId, decision, notes = '') {
             body: JSON.stringify({
                 product_id: productId,
                 decision: decision,
-                notes: notes
+                notes: notes,
+                clothing_type: clothingType  // NEW: Include verified clothing type
             })
         });
         
