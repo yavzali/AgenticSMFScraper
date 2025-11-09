@@ -19,7 +19,7 @@ The Catalog Monitor detects new products by comparing current catalog scans agai
 ## How It Works
 
 ### Process Flow
-1. **Catalog Scan**: Extracts current catalog (same as baseline scanner)
+1. **Catalog Scan**: Extracts current catalog (uses monitoring URLs for Mango)
 2. **Field Normalization**: Converts `url` → `catalog_url` for consistency
 3. **Multi-Level Deduplication**: Checks 6 strategies against baseline + products DB
    - Exact URL match
@@ -33,10 +33,18 @@ The Catalog Monitor detects new products by comparing current catalog scans agai
    - **Suspected Duplicate**: Fuzzy match found (LOW CONFIDENCE)
    - **Confirmed Existing**: Exact/strong match found
 5. **Re-Extraction**: NEW products only are re-scraped for full details
-6. **Assessment Queue**: Products sent for human review:
-   - New products → Modesty assessment
+6. **Product Type Determination**: 🆕 Clothing type is set based on retailer:
+   - **Normal Retailers**: Category parameter overrides extracted type
+     - Example: `category=dresses` → `clothing_type=dress`
+   - **Mango Only**: Uses extracted clothing_type (no override)
+     - Allows mixed types from "What's New" section
+7. **Mango Filtering**: 🆕 If retailer is Mango:
+   - **dress/top/dress_top** → Continue to assessment pipeline
+   - **bottom/outerwear/other** → Upload to Shopify as DRAFT (not assessed)
+8. **Assessment Queue**: Products sent for human review:
+   - New products → Modesty assessment (with clothing type verification)
    - Suspected duplicates → Duplication assessment (no re-scrape)
-7. **Monitoring Run**: Metadata recorded in `catalog_monitoring_runs` table
+9. **Monitoring Run**: Metadata recorded in `catalog_monitoring_runs` table
 
 ---
 
@@ -65,6 +73,94 @@ Matches first product image URL.
 
 ---
 
+## Product Type Classification 🆕
+
+### Overview
+The system now includes intelligent clothing type classification to ensure accurate product categorization in Shopify.
+
+### Normal Retailers (Revolve, ASOS, H&M, Uniqlo, Anthropologie, etc.)
+
+**Category Override Logic**:
+- The `category` parameter (dresses, tops) **overrides** the extracted clothing type
+- Ensures consistency when monitoring specific categories
+- Example: `python catalog_monitor.py revolve dresses modest`
+  - All products get `clothing_type = "dress"`
+  - Even if extractor detects "tunic" or "maxi dress"
+
+**Why This Works**:
+- These retailers have reliable category separation
+- Monitoring specific catalog URLs for dresses ensures all products are dresses
+- Prevents extraction errors from misclassifying products
+
+### Mango Special Case
+
+**Extraction-Based Logic**:
+- Uses the **extracted clothing_type** from single product extraction
+- NO category override applied
+- Enables monitoring the "What's New" section with mixed product types
+
+**Dual-URL Strategy**:
+
+#### Baseline Scanning
+Uses category-specific URLs:
+- Dresses: `https://shop.mango.com/us/en/c/women/dresses-and-jumpsuits/dresses_b4864b2e`
+- Tops: `https://shop.mango.com/us/en/c/women/tops_227371cd`
+
+#### Monitoring (This Workflow)
+Uses "What's New" section:
+- **Both categories**: `https://shop.mango.com/us/en/c/women/new-now_56b5c5ed`
+- Extracts mixed product types (dresses, tops, bottoms, outerwear, etc.)
+
+**Intelligent Filtering**:
+
+Products are filtered based on extracted clothing_type:
+
+✅ **Assessment Pipeline** (dress/top/dress_top):
+- Goes through human modesty review
+- Full workflow continues normally
+
+⏭️ **Shopify as Draft** (bottom/outerwear/other):
+- Uploaded to Shopify immediately as DRAFT
+- Marked as `modesty_status='not_assessed'`
+- Saved in database for future reference
+- Skips modesty assessment (saves time and cost)
+
+**Why Mango is Different**:
+- No "sort by newest" option on category pages
+- "What's New" section is the only reliable way to find new products
+- More efficient to filter after extraction than to scan multiple categories
+
+### Clothing Type Normalization
+
+The system normalizes 80+ clothing type variants to 6 standard types:
+
+| Extracted Type | Normalized To | Examples |
+|---|---|---|
+| dress, dresses, gown, maxi dress, midi dress | **dress** | Most common dress variants |
+| top, tops, shirt, blouse, tee, sweater | **top** | Standard tops (excluding dress tops) |
+| tunic, dress top, long top, oversized top | **dress_top** 🆕 | Long tops that can be worn as dresses |
+| pants, jeans, skirt, shorts, trousers | **bottom** | All bottom wear |
+| jacket, coat, blazer, outerwear | **outerwear** | Outer layers |
+| other, accessory, swimwear, lingerie | **other** | Non-apparel or edge cases |
+
+### Human Verification
+
+In the **web assessment interface**, reviewers see:
+- **Extracted Type**: Shows the initial type and source
+  - `category_override` (normal retailers)
+  - `extraction` (Mango)
+- **Dropdown Selection**: 6-option dropdown to verify/correct type
+  - Pre-selected to extracted type
+  - Required field (cannot submit without selection)
+- **Helper Text**: Guidance on when to select "Dress Top"
+
+**Verified Data**:
+- Saved to `product_data` with verification metadata
+- Includes timestamp and reviewer attribution
+- Used for Shopify upload (Product Type and Tags)
+
+---
+
 ## Usage
 
 ### Prerequisites
@@ -79,16 +175,24 @@ python catalog_monitor.py <RETAILER> <CATEGORY> <MODESTY_LEVEL> [OPTIONS]
 
 ### Examples
 ```bash
-# Monitor Revolve modest dresses
+# Monitor Revolve modest dresses (category overrides clothing_type)
 python catalog_monitor.py revolve dresses modest
 
 # Monitor Anthropologie tops (with page limit for testing)
-python catalog_monitor.py revolve dresses modest --max-pages 1
+python catalog_monitor.py anthropologie tops modest --max-pages 1
+
+# Monitor Mango dresses (uses What's New URL, extraction-based clothing_type)
+python catalog_monitor.py mango dresses modest
+
+# Monitor Mango tops (also uses What's New URL, filters by clothing_type)
+python catalog_monitor.py mango tops modest
 ```
 
 ### Parameters
-- `retailer`: Retailer name (revolve, anthropologie, etc.)
+- `retailer`: Retailer name (revolve, anthropologie, mango, etc.)
 - `category`: Product category (dresses, tops)
+  - **Normal retailers**: Overrides clothing_type (e.g., `dresses` → all products get `clothing_type=dress`)
+  - **Mango**: Used for reporting only; clothing_type comes from extraction
 - `modesty_level`: modest or moderately_modest
 - `--max-pages`: Optional, limit pages for testing (default: all)
 
@@ -99,9 +203,21 @@ python catalog_monitor.py revolve dresses modest --max-pages 1
 ### Modesty Assessment (NEW Products)
 Products confidently identified as new are:
 1. Re-extracted for full details (description, neckline, sleeves, etc.)
-2. Sent to assessment queue with `review_type='modesty'`
-3. Human reviews via `web_assessment` interface
-4. Approved products → Uploaded to Shopify
+2. **Clothing type determined** based on retailer logic
+3. **Mango filtering applied** (if applicable - only dress/top/dress_top continue)
+4. Sent to assessment queue with `review_type='modesty'`
+5. Human reviews via `web_assessment` interface:
+   - **Modesty assessment**: Select modest/moderately_modest/not_modest
+   - **Clothing type verification**: 🆕 Confirm or change type in dropdown
+6. Approved products → Uploaded to Shopify with verified type
+
+**Web Interface Changes** 🆕:
+- Each product card now shows:
+  - Extracted clothing type with source badge
+  - Dropdown to verify/change type (6 options)
+  - Helper text for "Dress Top" selection
+- Submission requires clothing type selection
+- Verified type saved with timestamp and reviewer attribution
 
 ### Duplication Assessment (SUSPECTED Duplicates)
 Products with fuzzy matches are:
@@ -110,6 +226,14 @@ Products with fuzzy matches are:
 3. Human reviews suspected match
 4. If NOT duplicate → Promoted to modesty assessment queue
 5. If duplicate → Discarded
+
+### Mango Non-Assessed Products
+Products filtered out by Mango logic are:
+1. Uploaded to Shopify immediately as **DRAFT**
+2. Marked with `modesty_status='not_assessed'`
+3. Saved in database for tracking
+4. Skip assessment pipeline entirely (cost savings)
+5. Can be manually reviewed/published in Shopify later
 
 ---
 
@@ -137,7 +261,7 @@ Products added to `assessment_queue` table:
 
 ## Typical Results
 
-### Baseline Matches Well (Good)
+### Normal Retailers - Baseline Matches Well (Good)
 ```
 Products Scanned: 125
 Confirmed Existing: 120
@@ -146,7 +270,7 @@ Suspected Duplicates: 0
 ```
 **Interpretation**: 5 truly new products, sent for modesty review.
 
-### URL/Code Changes (Revolve Issue)
+### Normal Retailers - URL/Code Changes (Revolve Issue)
 ```
 Products Scanned: 125
 Confirmed Existing: 100
@@ -155,7 +279,7 @@ Suspected Duplicates: 22
 ```
 **Interpretation**: 22 products flagged due to URL changes. Human review needed.
 
-### First Run After Baseline (Unusual)
+### Normal Retailers - First Run After Baseline (Unusual)
 ```
 Products Scanned: 125
 Confirmed Existing: 125
@@ -163,6 +287,27 @@ New Products: 0
 Suspected Duplicates: 0
 ```
 **Interpretation**: No new products yet. Normal if run immediately after baseline.
+
+### Mango - Mixed Product Types 🆕
+```
+Products Scanned: 48 (from What's New)
+Confirmed Existing: 35
+New Products: 13
+
+New Product Breakdown:
+  - Dresses: 4 (sent to assessment)
+  - Tops: 3 (sent to assessment)
+  - Dress Tops: 1 (sent to assessment)
+  - Bottoms: 3 (uploaded as draft)
+  - Outerwear: 2 (uploaded as draft)
+
+Total to Assessment: 8
+Total as Draft: 5
+```
+**Interpretation**: 
+- 8 dress/top/dress_top products go through modesty review
+- 5 non-relevant products uploaded as drafts (saves assessment time)
+- Efficient filtering reduces human workload by 38%
 
 ---
 
@@ -254,4 +399,6 @@ Weekly Cycle:
 - `PRODUCT_UPDATER_GUIDE.md` - Updating existing products
 - `NEW_PRODUCT_IMPORTER_GUIDE.md` - Manual URL imports
 - `DUAL_TOWER_MIGRATION_PLAN.md` - System architecture
+- `PRODUCT_TYPE_CLASSIFICATION_IMPLEMENTATION.md` 🆕 - Product type classification feature details
+- `RETAILER_CONFIG.json` - Retailer-specific configurations including Mango dual-URL setup
 
