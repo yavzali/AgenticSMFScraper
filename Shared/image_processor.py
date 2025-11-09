@@ -201,6 +201,8 @@ class ImageProcessor:
             r'badge',
             r'/icons?/',
             r'/badges?/',
+            # NOTE: _V\d+ patterns (Revolve) are NOT excluded here
+            # They are kept and transformed to full-size in _enhance_urls()
         ]
         
         all_exclude_patterns = static_exclude_patterns + learned_patterns
@@ -365,16 +367,42 @@ class ImageProcessor:
         """
         Revolve-specific transformations
         
-        URL patterns:
-        - Size indicators: _sm, _md, _lg
-        - CDN patterns
+        URL patterns (from old architecture):
+        - /n/ct/ → /n/z/ (Thumbnail to Zoom)
+        - /n/uv/ → /n/z/ (UV to Zoom)
+        - /n/d/ → /n/z/ (Detail to Zoom)
+        - /n/p/ → /n/z/ (Preview to Zoom)
+        - /n/r/ → /n/z/ (Regular to Zoom)
+        - /n/t/ → /n/z/ (Thumb to Zoom)
+        - Size indicators: _sm, _md → _lg
+        - _V1, _V2, _V3 suffixes
         """
         enhanced = url
         
-        # Size transformations
+        # Path transformations - multiple patterns to zoom (CRITICAL for Revolve)
+        enhanced = re.sub(r'/n/ct/', '/n/z/', enhanced)  # Thumbnail to Zoom
+        enhanced = re.sub(r'/n/uv/', '/n/z/', enhanced)  # UV to Zoom
+        enhanced = re.sub(r'/n/d/', '/n/z/', enhanced)   # Detail to Zoom
+        enhanced = re.sub(r'/n/p/', '/n/z/', enhanced)   # Preview to Zoom
+        enhanced = re.sub(r'/n/r/', '/n/z/', enhanced)   # Regular to Zoom
+        enhanced = re.sub(r'/n/t/', '/n/z/', enhanced)   # Thumb to Zoom
+        
+        # Size suffix transformations
         enhanced = re.sub(r'_sm\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
         enhanced = re.sub(r'_md\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
         enhanced = re.sub(r'_thumb\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
+        
+        # Version suffix transformations (_V1, _V2, _V3 → full-size)
+        # These are often used in newer Revolve product URLs
+        enhanced = re.sub(r'_V\d+\.(jpg|jpeg|png)', r'.\1', enhanced, flags=re.IGNORECASE)
+        
+        # Try alternate full-size path if we got zoom
+        if '/n/z/' in enhanced:
+            # Sometimes /n/f/ (full) is even higher quality
+            alt_url = enhanced.replace('/n/z/', '/n/f/')
+            if alt_url != enhanced:
+                # Return the /n/f/ version for best quality
+                enhanced = alt_url
         
         return enhanced
     

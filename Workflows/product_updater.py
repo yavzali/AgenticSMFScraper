@@ -279,18 +279,44 @@ class ProductUpdater:
             
             shopify_id = existing_product['shopify_id']
             
-            # Step 3: Process images if present (enhance URLs + download)
-            image_urls = extraction_result.data.get('image_urls', [])
-            if image_urls:
-                logger.debug(f"🖼️ Processing {len(image_urls)} updated images")
-                downloaded_image_paths = await image_processor.process_images(
-                    image_urls=image_urls,
-                    retailer=retailer,
-                    product_title=extraction_result.data.get('title', 'Product')
-                )
-                # Add processed images to extraction data
-                extraction_result.data['downloaded_image_paths'] = downloaded_image_paths
-                logger.info(f"✅ Processed {len(downloaded_image_paths)} images")
+            # Step 3: Conditional image processing (only if needed)
+            should_process_images = self._should_process_images(existing_product, extraction_result.data)
+            
+            if should_process_images:
+                image_urls = extraction_result.data.get('image_urls', [])
+                if image_urls:
+                    logger.debug(f"🖼️ Processing {len(image_urls)} images (first time or previous failure)")
+                    try:
+                        downloaded_image_paths = await image_processor.process_images(
+                            image_urls=image_urls,
+                            retailer=retailer,
+                            product_title=extraction_result.data.get('title', 'Product')
+                        )
+                        
+                        if downloaded_image_paths:
+                            # Add processed images to extraction data
+                            extraction_result.data['downloaded_image_paths'] = downloaded_image_paths
+                            
+                            # Mark images as successfully uploaded
+                            extraction_result.data['images_uploaded'] = 1
+                            extraction_result.data['images_uploaded_at'] = datetime.utcnow().isoformat()
+                            extraction_result.data['images_failed_count'] = 0
+                            extraction_result.data['last_image_error'] = None
+                            
+                            logger.info(f"✅ Processed {len(downloaded_image_paths)} images successfully")
+                        else:
+                            # Image processing failed
+                            extraction_result.data['images_failed_count'] = existing_product.get('images_failed_count', 0) + 1
+                            extraction_result.data['last_image_error'] = 'No images downloaded'
+                            logger.warning(f"⚠️ Image processing returned 0 files")
+                            
+                    except Exception as e:
+                        # Track failure
+                        extraction_result.data['images_failed_count'] = existing_product.get('images_failed_count', 0) + 1
+                        extraction_result.data['last_image_error'] = str(e)[:500]
+                        logger.error(f"❌ Image processing failed: {e}")
+            else:
+                logger.debug(f"⏭️ Skipping image processing (already uploaded successfully)")
             
             # Step 4: Update in Shopify
             logger.debug(f"📤 Updating Shopify product {shopify_id}")
@@ -391,6 +417,46 @@ class ProductUpdater:
         if not self.patchright_tower:
             self.patchright_tower = PatchrightProductExtractor()
             logger.debug("Patchright Tower initialized")
+    
+    def _should_process_images(self, existing_product: Dict, new_data: Dict) -> bool:
+        """
+        Determine if images should be processed/uploaded
+        
+        Images are processed only if:
+        1. Never uploaded before (images_uploaded = 0 or NULL)
+        2. Previous upload failed (images_failed_count > 0)
+        3. Image URLs have changed (different from what's in DB)
+        
+        Args:
+            existing_product: Current product record from DB
+            new_data: Newly extracted product data
+            
+        Returns:
+            bool: True if images should be processed
+        """
+        # Check if images were successfully uploaded before
+        images_uploaded = existing_product.get('images_uploaded', 0)
+        if not images_uploaded:
+            logger.debug("Images never uploaded before → process")
+            return True
+        
+        # Check if previous uploads failed
+        images_failed_count = existing_product.get('images_failed_count', 0)
+        if images_failed_count > 0:
+            logger.debug(f"Previous upload failed {images_failed_count} times → retry")
+            return True
+        
+        # Check if image URLs changed
+        # Note: This is simplified - in production you'd compare normalized URLs
+        old_image_count = existing_product.get('image_count', 0)
+        new_image_urls = new_data.get('image_urls', [])
+        if len(new_image_urls) != old_image_count:
+            logger.debug(f"Image count changed ({old_image_count} → {len(new_image_urls)}) → process")
+            return True
+        
+        # Images already uploaded successfully and unchanged
+        logger.debug("Images already uploaded successfully → skip")
+        return False
     
     def _get_retailer(self, url_or_product: Any) -> str:
         """Extract retailer from URL or product dict"""

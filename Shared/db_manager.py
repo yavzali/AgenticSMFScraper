@@ -161,23 +161,48 @@ class DatabaseManager:
             if last_updated is None:
                 last_updated = datetime.utcnow()
             
-            # Update fields
-            cursor.execute('''
-                UPDATE products 
-                SET title = ?,
-                    price = ?,
-                    sale_status = ?,
-                    stock_status = ?,
-                    last_updated = ?
-                WHERE url = ?
-            ''', (
+            # Build update query dynamically to handle optional image tracking fields
+            update_fields = [
+                'title = ?',
+                'price = ?',
+                'sale_status = ?',
+                'stock_status = ?',
+                'last_updated = ?'
+            ]
+            update_values = [
                 product_data.get('title'),
                 product_data.get('price'),
                 product_data.get('sale_status', 'regular'),
                 product_data.get('stock_status', 'in_stock'),
-                last_updated.isoformat(),
-                url
-            ))
+                last_updated.isoformat()
+            ]
+            
+            # Add image tracking fields if present
+            if 'images_uploaded' in product_data:
+                update_fields.append('images_uploaded = ?')
+                update_values.append(product_data['images_uploaded'])
+            
+            if 'images_uploaded_at' in product_data:
+                update_fields.append('images_uploaded_at = ?')
+                update_values.append(product_data['images_uploaded_at'])
+            
+            if 'images_failed_count' in product_data:
+                update_fields.append('images_failed_count = ?')
+                update_values.append(product_data['images_failed_count'])
+            
+            if 'last_image_error' in product_data:
+                update_fields.append('last_image_error = ?')
+                update_values.append(product_data['last_image_error'])
+            
+            # Add URL for WHERE clause
+            update_values.append(url)
+            
+            # Execute update
+            cursor.execute(f'''
+                UPDATE products 
+                SET {', '.join(update_fields)}
+                WHERE url = ?
+            ''', tuple(update_values))
             
             conn.commit()
             affected = cursor.rowcount

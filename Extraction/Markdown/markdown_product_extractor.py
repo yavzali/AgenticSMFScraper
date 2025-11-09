@@ -411,12 +411,61 @@ Return ONLY the JSON object, no additional text or markdown formatting."""
         return token_estimate > 15000
     
     async def _extract_product_section(self, markdown_content: str, retailer: str) -> Optional[str]:
-        """Extract product section from large markdown"""
+        """
+        Extract product section from large markdown using LLM
+        Ported from old architecture (621349b:Shared/markdown_extractor.py)
+        """
         
-        # Simple chunking: look for product-related keywords
-        keywords = ['product', 'price', 'add to cart', 'buy now', 'description']
+        # Special regex handling for H&M (proven to work)
+        if retailer == "hm":
+            try:
+                title_match = re.search(r"# (.*?)\n", markdown_content)
+                title = title_match.group(1) if title_match else ""
+                
+                price_match = re.search(r"(\$\d+\.\d+|\$\d+)", markdown_content)
+                price_section = f"Price: {price_match.group(1)}\n\n" if price_match else ""
+                
+                image_urls = re.findall(r"(https?://lp2\.hm\.com/hmgoepprod\?[^\s\)]+)", markdown_content)
+                image_section = "Images:\n" + "\n".join(image_urls[:10]) + "\n\n" if image_urls else ""
+                
+                extracted_section = f"# {title}\n\n{price_section}{image_section}"
+                if len(extracted_section) > 200:
+                    logger.info(f"✅ H&M regex extraction: {len(extracted_section)} chars")
+                    return extracted_section
+            except Exception as e:
+                logger.warning(f"H&M regex extraction failed: {e}, falling back to LLM")
         
-        # Find first keyword
+        # Use Gemini for general section extraction
+        try:
+            prompt = f"""Extract ONLY the section containing the main product information from this markdown:
+
+1. Product title, description, and pricing details
+2. Product images (URLs) 
+3. Size, color, and variant information
+4. Product features, materials, or specifications
+5. Stock status and availability
+6. Product ID or SKU if available
+
+DO NOT include navigation menus, footers, related products, or unrelated sections.
+Focus on the PRIMARY product being viewed.
+
+Markdown Content (first 15000 chars):
+{markdown_content[:15000]}"""
+
+            # Use Gemini client from catalog extractor
+            response = self.catalog_extractor.gemini_client.invoke(prompt)
+            
+            if response and hasattr(response, 'content'):
+                extracted_content = response.content
+                if len(extracted_content) > 200:  # Ensure we got meaningful content
+                    logger.info(f"✅ Gemini section extraction: {len(extracted_content)} chars")
+                    return extracted_content
+                    
+        except Exception as e:
+            logger.warning(f"Gemini section extraction failed: {e}, using fallback")
+        
+        # Fallback: keyword-based chunking
+        keywords = ['product', 'price', 'add to cart', 'buy now', 'description', 'details']
         start_idx = -1
         for keyword in keywords:
             idx = markdown_content.lower().find(keyword)
@@ -424,12 +473,14 @@ Return ONLY the JSON object, no additional text or markdown formatting."""
                 start_idx = idx
         
         if start_idx > 0:
-            # Extract section around keyword (10K chars)
             start_idx = max(0, start_idx - 1000)
-            return markdown_content[start_idx:start_idx + 10000]
+            extracted = markdown_content[start_idx:start_idx + 12000]
+            logger.info(f"✅ Keyword-based extraction: {len(extracted)} chars")
+            return extracted
         
-        # Fallback: return first 10K
-        return markdown_content[:10000]
+        # Last resort: return first 12K
+        logger.warning(f"Using first 12K chars as last resort")
+        return markdown_content[:12000]
     
     def is_supported_retailer(self, retailer: str) -> bool:
         """Check if retailer is supported"""
