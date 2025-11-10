@@ -13,6 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../Catalog Crawler"))
 
 import sqlite3
 import json
+import asyncio
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from pathlib import Path
