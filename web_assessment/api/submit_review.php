@@ -114,9 +114,55 @@ try {
         
     } else {
         // Modesty assessment
-        // TODO: Integrate with Shopify upload logic here
-        //  For now, just mark as reviewed in queue
         
+        // Step 1: Update Shopify product status (publish if modest/moderately_modest)
+        $shopifyId = $productData['shopify_id'] ?? null;
+        $shopifyUpdateResult = null;
+        
+        if ($shopifyId) {
+            require_once 'shopify_api.php';
+            $shopifyUpdateResult = ShopifyAPI::updateProductDecision($shopifyId, $decision);
+            
+            if (!$shopifyUpdateResult['success']) {
+                jsonResponse([
+                    'error' => 'Failed to update Shopify product: ' . ($shopifyUpdateResult['error'] ?? 'Unknown error')
+                ], 500);
+                return;
+            }
+            
+            $newShopifyStatus = $shopifyUpdateResult['status']; // 'active' or 'draft'
+            
+            // Map Shopify status to our DB status
+            $dbShopifyStatus = ($newShopifyStatus === 'active') ? 'published' : 'draft';
+            
+            // Step 2: Update local product DB with new shopify_status
+            $productsDb = new PDO('sqlite:' . PRODUCTS_DB_PATH);
+            $productsDb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $productUrl = $productData['url'] ?? $productData['catalog_url'] ?? null;
+            if ($productUrl) {
+                $updateStmt = $productsDb->prepare("
+                    UPDATE products
+                    SET shopify_status = :shopify_status,
+                        modesty_status = :modesty_status,
+                        last_updated = datetime('now')
+                    WHERE url = :url
+                ");
+                $updateStmt->bindParam(':shopify_status', $dbShopifyStatus);
+                $updateStmt->bindParam(':modesty_status', $decision);
+                $updateStmt->bindParam(':url', $productUrl);
+                $updateStmt->execute();
+                
+                error_log("✅ Updated product DB: {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}");
+            }
+        } else {
+            // No shopify_id - this shouldn't happen for products from catalog monitor
+            // But might happen for promoted duplicates that weren't uploaded yet
+            error_log("⚠️ Modesty assessment completed but no shopify_id found for product: " . 
+                     ($productData['title'] ?? 'unknown'));
+        }
+        
+        // Step 3: Mark as reviewed in assessment queue
         $stmt = $db->prepare("
             UPDATE assessment_queue 
             SET status = 'reviewed',
@@ -133,7 +179,13 @@ try {
         $stmt->bindValue(':product_data', json_encode($productData));
         $stmt->execute();
         
-        jsonResponse(['success' => true, 'action' => 'modesty_reviewed', 'decision' => $decision]);
+        jsonResponse([
+            'success' => true, 
+            'action' => 'modesty_reviewed', 
+            'decision' => $decision,
+            'shopify_updated' => $shopifyId ? true : false,
+            'shopify_status' => $shopifyId ? $dbShopifyStatus : 'none'
+        ]);
     }
     
 } catch (Exception $e) {

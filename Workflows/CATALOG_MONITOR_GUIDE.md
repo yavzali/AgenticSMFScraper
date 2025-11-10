@@ -41,10 +41,20 @@ The Catalog Monitor detects new products by comparing current catalog scans agai
 7. **Mango Filtering**: 🆕 If retailer is Mango:
    - **dress/top/dress_top** → Continue to assessment pipeline
    - **bottom/outerwear/other** → Upload to Shopify as DRAFT (not assessed)
-8. **Assessment Queue**: Products sent for human review:
-   - New products → Modesty assessment (with clothing type verification)
-   - Suspected duplicates → Duplication assessment (no re-scrape)
-9. **Monitoring Run**: Metadata recorded in `catalog_monitoring_runs` table
+8. **🆕 Shopify Draft Upload**: Before sending to assessment:
+   - **Images Downloaded**: Process and download images from retailer URLs
+   - **Upload to Shopify as DRAFT**: Product created in Shopify with `status='draft'`
+   - **Shopify Data Captured**: `shopify_id` and `shopify_image_urls` (CDN URLs) stored
+   - **Local DB Updated**: Product saved with `shopify_status='draft'`
+   - **Benefit**: Assessment interface displays fast Shopify CDN images instead of retailer URLs
+9. **Assessment Queue**: Products sent for human review:
+   - New products → Modesty assessment (already on Shopify as draft)
+   - Suspected duplicates → Duplication assessment (also uploaded as draft)
+10. **Publication on Approval**: 🆕 When human reviewer approves:
+    - **Modest/Moderately Modest** → Shopify status changed to `'active'` (published live)
+    - **Not Modest** → Remains as `'draft'` in Shopify
+    - **Local DB Updated**: `shopify_status` changed to `'published'` or kept as `'draft'`
+11. **Monitoring Run**: Metadata recorded in `catalog_monitoring_runs` table
 
 ---
 

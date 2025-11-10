@@ -69,6 +69,18 @@ try {
         $productData = json_decode($row['product_data'], true);
         $suspectedMatch = $row['suspected_match_data'] ? json_decode($row['suspected_match_data'], true) : null;
         
+        // Determine which images to display
+        // Prefer Shopify CDN URLs (faster, more reliable) over retailer URLs
+        $displayImages = [];
+        if (!empty($productData['shopify_image_urls'])) {
+            $displayImages = $productData['shopify_image_urls'];
+        } elseif (!empty($productData['image_urls'])) {
+            $displayImages = $productData['image_urls'];
+        } elseif (!empty($productData['images'])) {
+            // Fallback to legacy 'images' field
+            $displayImages = $productData['images'];
+        }
+        
         // Flatten product data into row
         $product = [
             'queue_id' => $row['id'],
@@ -84,6 +96,8 @@ try {
             'title' => $productData['title'] ?? 'N/A',
             'price' => $productData['price'] ?? 'N/A',
             'images' => $productData['images'] ?? [],
+            'display_images' => $displayImages,  // NEW: For web interface
+            'shopify_id' => $productData['shopify_id'] ?? null,  // NEW: Track Shopify ID
             'brand' => $productData['brand'] ?? '',
             'description' => $productData['description'] ?? '',
             

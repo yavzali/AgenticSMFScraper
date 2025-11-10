@@ -291,9 +291,24 @@ class CatalogMonitor:
                             )
                             continue
                     
-                    # Send to Assessment Pipeline for MODESTY review (for all normal retailers + Mango dress/top/dress_top)
-                    await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
-                    sent_to_modesty += 1
+                    # NEW: Upload to Shopify as DRAFT before assessment
+                    shopify_result = await self._upload_to_shopify_as_draft(
+                        full_product,
+                        retailer,
+                        category
+                    )
+                    
+                    if shopify_result['success']:
+                        # Add Shopify data to product for assessment queue
+                        full_product['shopify_id'] = shopify_result['shopify_id']
+                        full_product['shopify_image_urls'] = shopify_result['shopify_image_urls']
+                        full_product['shopify_status'] = 'draft'
+                        
+                        # Send to Assessment Pipeline for MODESTY review
+                        await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
+                        sent_to_modesty += 1
+                    else:
+                        logger.error(f"❌ Skipping assessment for {full_product.get('title')} - Shopify upload failed")
                 
                 # Respectful delay
                 await asyncio.sleep(0.5)
@@ -301,9 +316,49 @@ class CatalogMonitor:
             # Step 6: Process suspected duplicates
             sent_to_duplicate_review = 0
             for product in dedup_results['suspected_duplicate']:
-                # Send to Assessment Pipeline for DUPLICATION review (no re-extraction)
-                await self._send_to_duplicate_assessment(product, retailer, category)
-                sent_to_duplicate_review += 1
+                product_url = product.get('url') or product.get('catalog_url')
+                if not product_url:
+                    logger.warning(f"Suspected duplicate missing URL, skipping: {product}")
+                    continue
+                
+                # Extract full product data (needed if promoted to modesty review later)
+                full_product = await self._extract_single_product(
+                    product_url,
+                    retailer,
+                    method_used,
+                    category
+                )
+                
+                if full_product:
+                    # Add source URL
+                    full_product['url'] = product_url
+                    full_product['catalog_url'] = product_url
+                    
+                    # Upload to Shopify as DRAFT (in case it's "not duplicate" and needs modesty review)
+                    shopify_result = await self._upload_to_shopify_as_draft(
+                        full_product,
+                        retailer,
+                        category
+                    )
+                    
+                    if shopify_result['success']:
+                        # Add Shopify data
+                        full_product['shopify_id'] = shopify_result['shopify_id']
+                        full_product['shopify_image_urls'] = shopify_result['shopify_image_urls']
+                        full_product['shopify_status'] = 'draft'
+                        
+                        # Preserve suspected match data from deduplication
+                        full_product['suspected_match'] = product.get('suspected_match')
+                        full_product['confidence_score'] = product.get('confidence_score')
+                        
+                        # Send to Assessment Pipeline for DUPLICATION review
+                        await self._send_to_duplicate_assessment(full_product, retailer, category)
+                        sent_to_duplicate_review += 1
+                    else:
+                        logger.error(f"❌ Skipping duplicate assessment - Shopify upload failed for {full_product.get('title')}")
+                
+                # Respectful delay
+                await asyncio.sleep(0.5)
             
             # Step 7: Record monitoring run
             await self.db_manager.record_monitoring_run(
@@ -739,6 +794,84 @@ class CatalogMonitor:
         except Exception as e:
             logger.error(f"Error extracting product {url}: {e}")
             return None
+    
+    async def _upload_to_shopify_as_draft(
+        self,
+        product: Dict,
+        retailer: str,
+        category: str
+    ) -> Dict:
+        """
+        Upload product to Shopify as draft for assessment
+        
+        Returns:
+            Dict with success status, shopify_id, and shopify_image_urls
+        """
+        try:
+            from shopify_manager import ShopifyManager
+            from image_processor import ImageProcessor
+            
+            shopify = ShopifyManager()
+            image_proc = ImageProcessor()
+            
+            # Process images (download from retailer URLs)
+            image_urls = product.get('image_urls', [])
+            downloaded_images = []
+            
+            if image_urls:
+                logger.debug(f"🖼️ Processing {len(image_urls)} images for draft upload")
+                downloaded_images = await image_proc.process_images(
+                    image_urls=image_urls,
+                    retailer=retailer,
+                    product_title=product.get('title', 'Product')
+                )
+                logger.info(f"✅ Downloaded {len(downloaded_images)} images")
+            
+            # Upload to Shopify as DRAFT (published=False)
+            result = await shopify.create_product(
+                extracted_data=product,
+                retailer_name=retailer,
+                modesty_level='pending_review',  # Will be determined by human
+                source_url=product.get('url'),
+                downloaded_images=downloaded_images,
+                product_type_override=None,
+                published=False  # KEY: Create as draft
+            )
+            
+            if result['success']:
+                shopify_id = result['product_id']
+                shopify_image_urls = result.get('shopify_image_urls', [])
+                
+                logger.info(f"✅ Uploaded as draft to Shopify: {shopify_id}")
+                
+                # Save to local DB
+                await self.db_manager.save_product(
+                    url=product['url'],
+                    retailer=retailer,
+                    product_data=product,
+                    shopify_id=shopify_id,
+                    modesty_status='pending_review',
+                    shopify_status='draft'  # Mark as draft in DB
+                )
+                
+                return {
+                    'success': True,
+                    'shopify_id': shopify_id,
+                    'shopify_image_urls': shopify_image_urls
+                }
+            else:
+                logger.error(f"❌ Failed to upload to Shopify: {result.get('error')}")
+                return {
+                    'success': False,
+                    'error': result.get('error')
+                }
+                
+        except Exception as e:
+            logger.error(f"Exception uploading to Shopify as draft: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
     
     async def _upload_non_assessed_product(
         self,

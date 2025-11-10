@@ -61,12 +61,21 @@ class ShopifyManager:
         logger.info(f"✅ ShopifyManager initialized for store: {self.store_url}")
     
     async def create_product(self, extracted_data: Dict, retailer_name: str, modesty_level: str, 
-                           source_url: str, downloaded_images: List[str], product_type_override: str = None) -> Dict[str, Any]:
-        """Create a new Shopify product with all data and images"""
+                           source_url: str, downloaded_images: List[str], product_type_override: str = None,
+                           published: bool = True) -> Dict[str, Any]:
+        """
+        Create a new Shopify product with all data and images
+        
+        Args:
+            published: If False, creates product as draft regardless of modesty_level
+                      If True, uses modesty_level to determine status (backward compatible)
+        """
         
         try:
             # Build product payload
-            product_payload = self._build_product_payload(extracted_data, retailer_name, modesty_level, product_type_override)
+            product_payload = self._build_product_payload(
+                extracted_data, retailer_name, modesty_level, product_type_override, published
+            )
             
             # Create product
             async with aiohttp.ClientSession() as session:
@@ -191,6 +200,94 @@ class ShopifyManager:
             logger.error(f"Exception updating product {product_id}: {e}")
             return {'success': False, 'error': str(e)}
     
+    async def publish_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        Publish a draft product to make it live on the store
+        
+        Args:
+            product_id: Shopify product ID
+            
+        Returns:
+            Dict with success status and details
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                update_payload = {
+                    "product": {
+                        "id": product_id,
+                        "status": "active"
+                    }
+                }
+                
+                async with session.put(
+                    f"{self.base_api_url}/products/{product_id}.json",
+                    headers=self.headers,
+                    data=json.dumps(update_payload)
+                ) as response:
+                    
+                    if response.status == 200:
+                        logger.info(f"✅ Published product {product_id} to store")
+                        return {
+                            'success': True,
+                            'product_id': product_id,
+                            'action': 'published'
+                        }
+                    else:
+                        error_text = await response.text()
+                        logger.error(f"❌ Failed to publish product {product_id}: {error_text}")
+                        return {
+                            'success': False,
+                            'error': f"Publish failed: {response.status} - {error_text}"
+                        }
+        
+        except Exception as e:
+            logger.error(f"Exception publishing product {product_id}: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    async def unpublish_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        Unpublish a product (change to draft status)
+        
+        Args:
+            product_id: Shopify product ID
+            
+        Returns:
+            Dict with success status and details
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                update_payload = {
+                    "product": {
+                        "id": product_id,
+                        "status": "draft"
+                    }
+                }
+                
+                async with session.put(
+                    f"{self.base_api_url}/products/{product_id}.json",
+                    headers=self.headers,
+                    data=json.dumps(update_payload)
+                ) as response:
+                    
+                    if response.status == 200:
+                        logger.info(f"✅ Unpublished product {product_id} (set to draft)")
+                        return {
+                            'success': True,
+                            'product_id': product_id,
+                            'action': 'unpublished'
+                        }
+                    else:
+                        error_text = await response.text()
+                        logger.error(f"❌ Failed to unpublish product {product_id}: {error_text}")
+                        return {
+                            'success': False,
+                            'error': f"Unpublish failed: {response.status} - {error_text}"
+                        }
+        
+        except Exception as e:
+            logger.error(f"Exception unpublishing product {product_id}: {e}")
+            return {'success': False, 'error': str(e)}
+    
     def _standardize_product_type(self, clothing_type: str) -> str:
         """Standardize product type for Shopify consistency"""
         if not clothing_type:
@@ -267,8 +364,14 @@ class ShopifyManager:
             logger.warning(f"Could not parse price: {price_value}, defaulting to 0.00")
             return "0.00"
 
-    def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str, product_type_override: str = None) -> Dict:
-        """Build Shopify product payload with proper compliance"""
+    def _build_product_payload(self, extracted_data: Dict, retailer_name: str, modesty_level: str, 
+                              product_type_override: str = None, published: bool = True) -> Dict:
+        """
+        Build Shopify product payload with proper compliance
+        
+        Args:
+            published: If False, forces status to 'draft' regardless of modesty_level
+        """
         
         # Calculate compare at price for sales
         compare_at_price = None
@@ -285,13 +388,18 @@ class ShopifyManager:
         # Build tags - Handle "not-assessed" workflow
         tags = self._build_product_tags(modesty_level, retailer_name, extracted_data, product_type)
         
-        # For products from catalog crawler needing assessment, add "not-assessed" tag
-        if modesty_level == "pending_review":
+        # Determine product status
+        if not published:
+            # Force draft if explicitly requested (e.g., for assessment pipeline)
+            product_status = "draft"
+            tags.append("Awaiting Assessment")  # Tag to indicate needs review
+        elif modesty_level == "pending_review":
+            # For products from catalog crawler needing assessment
             tags.append("not-assessed")
-            # Keep as draft until assessed
-            effective_modesty_level = "pending_review"
+            product_status = "draft"
         else:
-            effective_modesty_level = modesty_level
+            # Use modesty level to determine status (original behavior)
+            product_status = self._determine_product_status(modesty_level)
         
         # Generate SKU if needed
         sku = extracted_data.get('product_code') or self._generate_sku(extracted_data, retailer_name)
@@ -302,7 +410,7 @@ class ShopifyManager:
                 "body_html": self._format_product_description(extracted_data.get('description', '')),
                 "vendor": extracted_data.get('brand', retailer_name),
                 "product_type": product_type,
-                "status": self._determine_product_status(effective_modesty_level),
+                "status": product_status,
                 "tags": ', '.join(tags),
                 "variants": [{
                     "option1": "Default",

@@ -221,9 +221,15 @@ class DatabaseManager:
         product_data: Dict,
         shopify_id: Optional[int] = None,
         modesty_status: Optional[str] = None,
-        first_seen: Optional[datetime] = None
+        first_seen: Optional[datetime] = None,
+        shopify_status: Optional[str] = None
     ) -> bool:
-        """Save new product to products table"""
+        """
+        Save new product to products table
+        
+        Args:
+            shopify_status: 'not_uploaded', 'draft', or 'published'
+        """
         try:
             conn = self._get_connection()
             cursor = conn.cursor()
@@ -231,11 +237,19 @@ class DatabaseManager:
             if first_seen is None:
                 first_seen = datetime.utcnow()
             
+            # Determine shopify_status if not provided
+            if shopify_status is None:
+                if shopify_id:
+                    # If shopify_id exists but status not specified, assume it's from product_data
+                    shopify_status = product_data.get('shopify_status', 'draft')
+                else:
+                    shopify_status = 'not_uploaded'
+            
             cursor.execute('''
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, images, 
-                 shopify_id, modesty_status, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 shopify_id, modesty_status, shopify_status, first_seen, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 url,
                 retailer,
@@ -246,6 +260,7 @@ class DatabaseManager:
                 json.dumps(product_data.get('images', [])),
                 shopify_id,
                 modesty_status,
+                shopify_status,
                 first_seen.isoformat(),
                 datetime.utcnow().isoformat()
             ))
@@ -257,6 +272,48 @@ class DatabaseManager:
             
         except Exception as e:
             logger.error(f"Failed to save product: {e}")
+            return False
+    
+    async def update_shopify_status(
+        self,
+        url: str,
+        shopify_status: str
+    ) -> bool:
+        """
+        Update just the shopify_status for a product
+        
+        Args:
+            url: Product URL
+            shopify_status: 'draft' or 'published'
+        """
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE products
+                SET shopify_status = ?,
+                    last_updated = ?
+                WHERE url = ?
+            ''', (
+                shopify_status,
+                datetime.utcnow().isoformat(),
+                url
+            ))
+            
+            conn.commit()
+            affected = cursor.rowcount
+            conn.close()
+            
+            if affected > 0:
+                logger.debug(f"Updated shopify_status to '{shopify_status}' for {url}")
+                return True
+            else:
+                logger.warning(f"No product found with URL: {url}")
+                return False
+            
+        except Exception as e:
+            logger.error(f"Failed to update shopify_status: {e}")
             return False
     
     # =================== CATALOG OPERATIONS (for Catalog workflows) ===================
