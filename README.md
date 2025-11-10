@@ -1,7 +1,7 @@
-# 🛍️ **Agent Modest Scraper System v2.1.0**
-## *Comprehensive E-commerce Intelligence Platform - Enhanced with Patchright*
+# 🛍️ **Agent Modest Scraper System v2.2.0**
+## *Comprehensive E-commerce Intelligence Platform - Enhanced with Assessment Pipeline*
 
-A sophisticated, **tripartite system** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence, powered by AI extraction, **Patchright anti-detection**, and comprehensive Shopify integration.
+A sophisticated, **tripartite system** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence, powered by AI extraction, **Patchright anti-detection**, **human assessment pipeline**, and comprehensive Shopify integration.
 
 ---
 
@@ -13,19 +13,19 @@ The Agent Modest Scraper System consists of **three independent but complementar
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        AGENT MODEST SCRAPER SYSTEM v2.1                    │
+│                        AGENT MODEST SCRAPER SYSTEM v2.2                    │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────┐ │
-│  │  NEW PRODUCT    │  │  PRODUCT        │  │     CATALOG CRAWLER         │ │
-│  │  IMPORTER       │  │  UPDATER        │  │     SYSTEM                  │ │
+│  │  NEW PRODUCT    │  │  PRODUCT        │  │     CATALOG MONITOR         │ │
+│  │  IMPORTER       │  │  UPDATER        │  │     + ASSESSMENT 🆕         │ │
 │  │                 │  │                 │  │                             │ │
-│  │  • New products │  │  • Existing     │  │  • Full catalog monitoring  │ │
+│  │  • New products │  │  • Existing     │  │  • Catalog monitoring       │ │
 │  │  • Shopify      │  │    products     │  │  • New product detection    │ │
-│  │    creation     │  │  • Shopify      │  │  • Baseline comparison      │ │
-│  │  • Database     │  │    updates      │  │  • Change tracking          │ │
-│  │    storage      │  │  • Database     │  │                             │ │
-│  │                 │  │    updates      │  │                             │ │
+│  │    creation     │  │  • Shopify      │  │  • Shopify draft upload     │ │
+│  │  • Database     │  │    updates      │  │  • Human assessment         │ │
+│  │    storage      │  │  • Conditional  │  │  • Auto-publication         │ │
+│  │                 │  │    image update │  │  • Status tracking          │ │
 │  └─────────────────┘  └─────────────────┘  └─────────────────────────────┘ │
 │           │                     │                         │                │
 │           └─────────────────────┼─────────────────────────┘                │
@@ -37,7 +37,8 @@ The Agent Modest Scraper System consists of **three independent but complementar
 │                           │ • AI APIs │                                    │
 │                           │ • Extractors │                                │
 │                           │ • Databases │                                 │
-│                           │ • Utilities │                                 │
+│                           │ • Shopify   │                                 │
+│                           │ • Assessment│                                 │
 │                           └───────────┘                                    │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -155,32 +156,43 @@ product_updater.py → update_processor.py → unified_extractor.py → [markdow
 
 ---
 
-## 🔍 **System 3: Catalog Crawler**
+## 🔍 **System 3: Catalog Monitor**
 
 ### **Purpose & Use Cases**
 - **Automated Catalog Monitoring**: Continuously scan retailer catalogs for new products
 - **Change Detection**: Identify new products vs existing inventory
 - **Baseline Management**: Track catalog evolution over time
 - **Bulk Discovery**: Find hundreds of new products automatically
+- **🆕 Assessment Pipeline**: Integrated modesty and duplicate review workflow
+- **🆕 Shopify Draft Upload**: Upload products before human review with fast CDN images
 
 ### **Architecture**
 ```
-catalog_main.py → catalog_orchestrator.py → retailer_crawlers.py → catalog_extractor.py
-                                                                  ↓
-                                         change_detector.py → catalog_db_manager.py
+catalog_monitor.py → single_product_extractor → [markdown_extractor.py | patchright_extractor.py]
+                           ↓
+                   image_processor → shopify_manager (DRAFT upload)
+                           ↓
+                   assessment_queue → web_assessment_interface
+                           ↓
+                   human_review → shopify_manager (PUBLISH if modest)
 ```
 
 ### **Key Components**
-- **`catalog_extractor.py`**: Adapted extraction engine for catalog pages
-- **`change_detector.py`**: **95.8% test success** - Advanced duplicate detection with product ID extraction
-- **`catalog_db_manager.py`**: Specialized database for catalog monitoring
-- **`retailer_crawlers.py`**: Retailer-specific catalog navigation logic
+- **`catalog_monitor.py`**: Main workflow orchestrator with deduplication
+- **`deduplication_engine.py`**: **6-layer matching** - URL, product code, title+price, images, fuzzy matching
+- **`assessment_queue_manager.py`**: Manages human review pipeline
+- **`shopify_manager.py`**: **Draft upload & publication** - Upload as draft, publish on approval
+- **`db_manager.py`**: **Publication tracking** - Tracks `shopify_status` (draft/published)
 
-### **Advanced Features**
-- **7-Layer Duplicate Detection**: URL, product code, title+price, images, baseline, main database matching
+### **🆕 Advanced Workflow Features**
+- **6-Layer Duplicate Detection**: Exact URL, normalized URL, product code, title+price fuzzy match (85%), image URL, fuzzy title (90%)
 - **Intelligent Product ID Extraction**: **100% success rate** across all major retailers
-- **Confidence Scoring**: 85% threshold for new vs existing product classification
+- **Confidence Scoring**: High confidence new products vs suspected duplicates
 - **Baseline Comparison**: Track changes against historical catalog snapshots
+- **🆕 Draft-First Upload**: Products uploaded to Shopify as drafts BEFORE human assessment
+- **🆕 CDN Image Loading**: Assessment interface uses fast Shopify CDN instead of retailer URLs
+- **🆕 Publication Control**: Modest/Moderately Modest → Published live, Not Modest → Stays draft
+- **🆕 Status Tracking**: Local database tracks `shopify_status` (not_uploaded, draft, published)
 
 ---
 
@@ -249,10 +261,24 @@ cd "Product Updater"
 python product_updater.py --batch-file ../Shared/existing_products.json --modesty-level modest
 ```
 
-#### **Catalog Monitoring**
+#### **Catalog Monitoring** 🆕
 ```bash
-cd "Catalog Crawler"
-python catalog_main.py --retailer revolve --category dresses --max-pages 5
+# Step 1: Create baseline (first time only)
+cd Workflows
+python catalog_baseline_scanner.py revolve dresses modest
+
+# Step 2: Monitor for new products
+python catalog_monitor.py revolve dresses modest
+
+# New products will be:
+# 1. Extracted with full details
+# 2. Uploaded to Shopify as DRAFTS
+# 3. Sent to web assessment interface for human review
+# 4. Published automatically if marked as modest/moderately modest
+
+# Step 3: Review new products at http://localhost:8000
+cd ../web_assessment
+php -S localhost:8000
 ```
 
 ---
@@ -317,12 +343,16 @@ python catalog_main.py --retailer revolve --category dresses --max-pages 5
 
 ### **Shared Products Database** (`/Shared/products.db`)
 ```sql
--- Main products table (used by both systems)
+-- Main products table (used by all systems)
 products (
     id, product_code, title, url, retailer, brand, price, 
     original_price, clothing_type, sale_status, modesty_status,
-    stock_status, shopify_id, first_seen, last_updated, ...
+    stock_status, shopify_id, shopify_status, -- 🆕 Publication tracking
+    images_uploaded, images_uploaded_at, images_failed_count,
+    first_seen, last_updated, ...
 )
+
+-- 🆕 shopify_status values: 'not_uploaded', 'draft', 'published'
 
 -- Pattern learning (shared intelligence)
 patterns (
@@ -371,12 +401,18 @@ catalog_monitoring_runs (
 5. **Selective Update**: `shopify_manager.py` updates only changed fields (price, stock, etc.)
 6. **Output**: **Updated** Shopify product with refreshed information
 
-### **Catalog Monitoring Workflow**
-1. **Baseline**: Establish historical catalog snapshot
-2. **Crawling**: `retailer_crawlers.py` navigates catalog pages
-3. **Extraction**: `catalog_extractor.py` processes product listings
-4. **Change Detection**: `change_detector.py` identifies new vs existing products
-5. **Review**: New products flagged for manual review and batch creation
+### **Catalog Monitoring Workflow** 🆕
+1. **Baseline**: Establish historical catalog snapshot via Baseline Scanner
+2. **Catalog Scan**: Extract current catalog using markdown or Patchright
+3. **Deduplication**: 6-layer matching against baseline + products DB
+4. **Classification**: Products marked as New, Suspected Duplicate, or Confirmed Existing
+5. **Single Product Extraction**: NEW products re-scraped for full details
+6. **🆕 Image Processing**: Download images from retailer URLs
+7. **🆕 Shopify Draft Upload**: Products uploaded to Shopify as drafts (`status='draft'`)
+8. **🆕 Assessment Queue**: Products sent for human review with Shopify CDN images
+9. **🆕 Human Review**: Modesty/duplicate assessment via web interface
+10. **🆕 Publication**: Modest products auto-published, Not Modest kept as draft
+11. **Database Tracking**: Local DB updated with `shopify_status` (draft/published)
 
 ---
 
@@ -471,12 +507,14 @@ print('✅ Google Gemini API: Connected')
 ## 📞 **Support & Contribution**
 
 ### **Current Status**
-- **Version**: v2.1.0 (Latest Stable - Patchright Enhanced)
+- **Version**: v2.2.0 (Latest Stable - Assessment Pipeline Integrated)
 - **Browser Automation**: ✅ Patchright with persistent context (5/5 tests passed)
 - **Anti-Detection**: ✅ Enhanced stealth capabilities (100% functional)
 - **New Product Importer**: ✅ 100% operational (8/8 tests passed)
 - **Product Updater**: ✅ 100% operational (7/7 tests passed)
-- **Catalog Crawler**: ✅ 95.8% operational (23/24 tests passed)
+- **Catalog Monitor**: ✅ 100% operational with draft upload & assessment pipeline
+- **🆕 Assessment Pipeline**: ✅ Web interface with Shopify CDN images (operational)
+- **🆕 Draft Upload Workflow**: ✅ Upload → Review → Auto-publish (operational)
 - **End-to-End Extraction**: ✅ Real retailer testing successful
 
 ### **Known Issues**
@@ -506,8 +544,9 @@ This system is designed for **legitimate e-commerce intelligence** and **competi
 
 ## 🏷️ **Version History**
 
-- **v2.1.0** (Current): **Patchright Anti-Detection Upgrade** - Enhanced browser automation with persistent context, improved stealth capabilities, and better verification handling
-- **v2.0.0**: **Tripartite System Architecture** - Split into New Product Importer, Product Updater, and Catalog Crawler with 100% functionality preservation
+- **v2.2.0** (Current): **Shopify Draft Upload & Assessment Pipeline** - Products uploaded to Shopify as drafts BEFORE human review, Shopify CDN image loading in assessment interface, automatic publication based on modesty decisions, publication status tracking (`shopify_status` column)
+- **v2.1.0**: **Patchright Anti-Detection Upgrade** - Enhanced browser automation with persistent context, improved stealth capabilities, and better verification handling
+- **v2.0.0**: **Tripartite System Architecture** - Split into New Product Importer, Product Updater, and Catalog Monitor with 100% functionality preservation
 - **v1.1.1**: Enhanced duplicate detection and README clarification for dual functionality
 - **v1.1.0**: Robust product ID extraction, fixed duplicate detection, comprehensive testing
 - **v1.0.0**: Initial stable release with dual-system architecture
