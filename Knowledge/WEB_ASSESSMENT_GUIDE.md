@@ -1,8 +1,9 @@
 # WEB ASSESSMENT PIPELINE GUIDE
 
 **Created**: 2025-11-07  
+**Updated**: 2025-11-10 (v2.2.0 - Shopify Draft Upload Integration)  
 **Purpose**: Comprehensive documentation for the manual product assessment workflow  
-**Scope**: CATALOG CRAWLER ONLY (not used by Product Updater or New Product Importer)
+**Scope**: CATALOG MONITOR ONLY (not used by Product Updater or New Product Importer)
 
 ---
 
@@ -21,27 +22,37 @@
 ## OVERVIEW
 
 ### What Is It?
-The Web Assessment Pipeline is a manual review system where products identified by the Catalog Crawler are reviewed by a human before being imported into Shopify.
+The Web Assessment Pipeline is a manual review system where products identified by the Catalog Monitor are reviewed by a human. **NEW in v2.2.0**: Products are uploaded to Shopify as DRAFTS before human review, then published based on assessment decisions.
 
 ### Why Does It Exist?
 - **Modesty Filtering**: Determine if new products meet modesty standards (Modest, Moderately Modest, or Not Modest)
 - **Deduplication Validation**: Confirm if suspected duplicates are truly duplicates or genuinely new products
+- **🆕 Controlled Publishing**: Products exist in Shopify as drafts, human approval controls publication to live store
 
-### Key Characteristic
-- **CATALOG CRAWLER EXCLUSIVE**: Only used in the Catalog Crawler workflow
+### Key Characteristics
+- **CATALOG MONITOR EXCLUSIVE**: Only used in the Catalog Monitor workflow
 - **NOT USED**: Product Updater (updates existing Shopify products directly)
 - **NOT USED**: New Product Importer (URLs pre-filtered, imported directly)
+
+### 🆕 Draft-First Workflow (v2.2.0)
+**Key Innovation**: Products uploaded to Shopify as DRAFTS before human review
+
+**Benefits**:
+- ⚡ **2-3x Faster Image Loading**: Assessment interface displays Shopify CDN images instead of retailer URLs
+- 🔒 **More Reliable**: Images already on Shopify, no broken retailer links
+- 📊 **Status Tracking**: Local DB tracks publication status (`not_uploaded`, `draft`, `published`)
+- ✅ **Early Upload**: Products on Shopify before review (easier to manage drafts than external URLs)
 
 ---
 
 ## WHEN ASSESSMENT PIPELINE IS USED
 
-### Catalog Crawler Workflow 2 (Monitoring for New Products)
+### Catalog Monitor Workflow (Monitoring for New Products) 🆕
 
 **Step-by-Step Flow**:
 
 ```
-1. Catalog Crawler extracts products from retailer's "newest" page
+1. Catalog Monitor extracts products from retailer's "newest" page
    ↓
 2. Deduplication checks against baseline and Shopify products
    ↓
@@ -49,20 +60,36 @@ The Web Assessment Pipeline is a manual review system where products identified 
    │  ↓
    │  Re-extract full details (single product extraction)
    │  ↓
+   │  🆕 Download images from retailer URLs
+   │  ↓
+   │  🆕 Upload to Shopify as DRAFT (status='draft')
+   │  ↓
+   │  🆕 Save to local DB with shopify_status='draft', shopify_image_urls
+   │  ↓
    │  Send to Assessment Pipeline for MODESTY ASSESSMENT
    │  ↓
-   │  Human reviews on web interface
+   │  🆕 Human reviews on web interface (with Shopify CDN images)
    │  ↓
-   │  If "Modest" or "Moderately Modest" → Import to Shopify
-   │  If "Not Modest" → Store in database, don't import
+   │  🆕 If "Modest" or "Moderately Modest" → Publish on Shopify (status='active')
+   │  🆕 If "Not Modest" → Keep as draft in Shopify
+   │  ↓
+   │  🆕 Update local DB: shopify_status='published' or 'draft'
    │
 4. CASE B: Suspected Duplicate (fuzzy title+price match, but not 100% certain)
    │  ↓
+   │  Re-extract full details (NEW - previously skipped)
+   │  ↓
+   │  🆕 Download images from retailer URLs
+   │  ↓
+   │  🆕 Upload to Shopify as DRAFT (status='draft')
+   │  ↓
+   │  🆕 Save to local DB with shopify_status='draft', shopify_image_urls
+   │  ↓
    │  Send to Assessment Pipeline for DUPLICATION ASSESSMENT
    │  ↓
-   │  Human reviews on web interface
+   │  🆕 Human reviews on web interface (with Shopify CDN images)
    │  ↓
-   │  If "Duplicate" → Mark as duplicate, don't import
+   │  If "Duplicate" → Mark as duplicate, keep as draft
    │  If "Not Duplicate" → Treat as new product, proceed to modesty assessment
 ```
 
@@ -83,20 +110,29 @@ The Web Assessment Pipeline is a manual review system where products identified 
 2. **Moderately Modest** - Mostly modest, ready for import
 3. **Not Modest** - Does not meet standards, do NOT import
 
-**Database Status Flow**:
+**Database Status Flow** 🆕:
 ```
+🆕 shopify_status: 'draft' (product uploaded to Shopify BEFORE review)
 review_status: 'pending_modesty_review'
-   ↓ (human reviews)
+   ↓ (human reviews on web interface with Shopify CDN images)
 review_status: 'approved_for_scraping' (if Modest/Moderately Modest)
 review_status: 'rejected_not_modest' (if Not Modest)
    ↓
-modesty_level: 'modest' or 'moderately_modest'
+🆕 Shopify API Call:
+   - Modest/Moderately Modest → Publish product (status='active')
+   - Not Modest → Keep as draft
+   ↓
+🆕 Local DB Update:
+   - shopify_status: 'published' (if Modest/Moderately Modest)
+   - shopify_status: 'draft' (if Not Modest)
+modesty_level: 'modest' or 'moderately_modest' or 'not_modest'
 clothing_type: determined from product category
 ```
 
-**Shopify Import**:
-- ✅ Approved products are imported to Shopify
-- ❌ Rejected products are stored in database but NOT imported
+**Shopify Publication** 🆕:
+- ✅ **ALL products are uploaded to Shopify** as drafts BEFORE review
+- ✅ **Approved products (Modest/Moderately Modest)** are published to live store
+- ❌ **Rejected products (Not Modest)** remain as drafts in Shopify (for training data)
 
 ---
 
