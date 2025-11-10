@@ -36,7 +36,8 @@ class MarkdownExtractionResult:
         processing_time: float,
         warnings: List[str],
         errors: List[str],
-        should_fallback: bool
+        should_fallback: bool,
+        is_delisted: bool = False  # NEW: Flag for delisted products
     ):
         self.success = success
         self.data = data
@@ -45,6 +46,7 @@ class MarkdownExtractionResult:
         self.warnings = warnings
         self.errors = errors
         self.should_fallback = should_fallback
+        self.is_delisted = is_delisted  # NEW
 
 
 # Supported retailers for markdown extraction
@@ -113,6 +115,21 @@ class MarkdownProductExtractor:
         
         try:
             logger.info(f"🔍 Starting markdown extraction for {retailer}: {url}")
+            
+            # NEW: Check if delisted BEFORE expensive markdown extraction
+            is_delisted = await self._check_if_delisted(url)
+            if is_delisted:
+                logger.warning(f"🚫 Product delisted (404/410): {url}")
+                return MarkdownExtractionResult(
+                    success=False,
+                    data={},
+                    method_used="markdown_extractor",
+                    processing_time=asyncio.get_event_loop().time() - start_time,
+                    warnings=["Product delisted"],
+                    errors=["Product URL returned 404/410"],
+                    should_fallback=False,  # Don't fallback to Patchright
+                    is_delisted=True  # NEW: Flag for special handling
+                )
             
             # Step 1: Fetch markdown content (reuse from catalog extractor)
             markdown_content, final_url = await self.catalog_extractor._fetch_markdown(url, retailer)
@@ -481,6 +498,29 @@ Markdown Content (first 15000 chars):
         # Last resort: return first 12K
         logger.warning(f"Using first 12K chars as last resort")
         return markdown_content[:12000]
+    
+    async def _check_if_delisted(self, url: str) -> bool:
+        """
+        Quick HEAD request to check if product page exists
+        Returns True if delisted (404/410), False if active
+        
+        IMPORTANT: Only used for Markdown tower (safe for fast checking)
+        NOT used for Patchright (would break stealth/session continuity)
+        """
+        try:
+            import aiohttp
+            async with aiohttp.ClientSession() as session:
+                async with session.head(url, timeout=aiohttp.ClientTimeout(total=5), allow_redirects=True) as response:
+                    if response.status in [404, 410]:
+                        logger.info(f"🚫 Product delisted (HTTP {response.status}): {url}")
+                        return True
+                    return False
+        except asyncio.TimeoutError:
+            logger.debug(f"Delisted check timeout (assuming active): {url}")
+            return False  # Assume active if timeout
+        except Exception as e:
+            logger.debug(f"Delisted check failed (assuming active): {e}")
+            return False  # Assume active if check fails
     
     def is_supported_retailer(self, retailer: str) -> bool:
         """Check if retailer is supported"""

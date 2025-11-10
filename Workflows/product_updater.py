@@ -51,6 +51,59 @@ PATCHRIGHT_RETAILERS = [
 ]
 
 
+class AdaptiveRateLimiter:
+    """
+    Adaptive rate limiter for Shopify API
+    
+    Monitors API responses and adjusts concurrency:
+    - Start: 3 concurrent
+    - Scale up: 5 concurrent (if no rate limits)
+    - Scale down: 1 concurrent (if rate limited)
+    """
+    
+    def __init__(self, initial_concurrency: int = 3, max_concurrency: int = 5):
+        self.current_concurrency = initial_concurrency
+        self.max_concurrency = max_concurrency
+        self.rate_limit_count = 0
+        self.success_count = 0
+        self.last_adjustment = datetime.utcnow()
+        logger.info(f"🚦 Adaptive Rate Limiter initialized (concurrency: {initial_concurrency})")
+    
+    def record_success(self):
+        """Record successful API call"""
+        self.success_count += 1
+        
+        # Scale up if: 20+ successes and no recent rate limits
+        if (self.success_count >= 20 and 
+            self.rate_limit_count == 0 and 
+            self.current_concurrency < self.max_concurrency):
+            
+            self.current_concurrency += 1
+            self.success_count = 0
+            logger.info(f"⬆️ Scaling up concurrency to {self.current_concurrency}")
+    
+    def record_rate_limit(self):
+        """Record rate limit hit"""
+        self.rate_limit_count += 1
+        
+        # Scale down immediately
+        if self.current_concurrency > 1:
+            self.current_concurrency = 1
+            logger.warning(f"⬇️ Rate limited! Scaling down to {self.current_concurrency}")
+        
+        # Reset after delay
+        self.success_count = 0
+    
+    def get_concurrency(self) -> int:
+        """Get current concurrency level"""
+        return self.current_concurrency
+    
+    async def wait_if_needed(self):
+        """Add delay if recently rate limited"""
+        if self.rate_limit_count > 0:
+            await asyncio.sleep(2)  # Extra delay after rate limit
+
+
 @dataclass
 class UpdateResult:
     """Result of updating a single product"""
@@ -59,7 +112,7 @@ class UpdateResult:
     shopify_id: Optional[int]
     method_used: str
     processing_time: float
-    action: str  # 'updated', 'failed', 'not_found'
+    action: str  # 'updated', 'unchanged', 'delisted', 'failed', 'not_found'
     error: Optional[str] = None
 
 
@@ -83,10 +136,14 @@ class ProductUpdater:
         self.checkpoint_manager = CheckpointManager()
         self.db_manager = DatabaseManager()
         self.notification_manager = NotificationManager()
+        self.rate_limiter = AdaptiveRateLimiter(initial_concurrency=3, max_concurrency=5)  # NEW
         
         # Initialize towers
         self.markdown_tower = None
         self.patchright_tower = None
+        
+        # Batch DB writes queue
+        self.db_write_queue = []
         
         logger.info("✅ Product Updater initialized (Dual Tower)")
     
@@ -150,60 +207,40 @@ class ProductUpdater:
                 'total_products': len(products),
                 'processed': 0,
                 'updated': 0,
+                'unchanged': 0,  # NEW: Track unchanged products
+                'delisted': 0,  # NEW: Track delisted products
                 'failed': 0,
                 'not_found': 0,
                 'results': []
             }
             
-            # Process markdown products
-            for product in markdown_products:
-                result = await self._update_single_product(product, 'markdown')
-                results['results'].append(asdict(result))  # Convert to dict for JSON
-                results['processed'] += 1
-                
-                if result.success:
-                    results['updated'] += 1
-                elif result.action == 'not_found':
-                    results['not_found'] += 1
-                else:
-                    results['failed'] += 1
-                
-                # Update checkpoint
-                self.checkpoint_manager.update_progress({
-                    'url': result.url,
-                    'success': result.success,
-                    'shopify_id': result.shopify_id
-                })
-                
-                # Respectful delay
-                await asyncio.sleep(1)
+            # Process markdown products with PARALLEL PROCESSING
+            logger.info(f"🔄 Processing {len(markdown_products)} Markdown products with adaptive concurrency")
+            await self._process_products_parallel(
+                products=markdown_products,
+                tower='markdown',
+                results=results,
+                rate_limiter=self.rate_limiter
+            )
             
-            # Process patchright products
+            # Process patchright products SEQUENTIALLY (stealth concerns)
+            logger.info(f"🔄 Processing {len(patchright_products)} Patchright products sequentially")
             for product in patchright_products:
                 result = await self._update_single_product(product, 'patchright')
-                results['results'].append(asdict(result))  # Convert to dict for JSON
-                results['processed'] += 1
+                await self._record_result(result, results)
                 
-                if result.success:
-                    results['updated'] += 1
-                elif result.action == 'not_found':
-                    results['not_found'] += 1
-                else:
-                    results['failed'] += 1
-                
-                # Update checkpoint
-                self.checkpoint_manager.update_progress({
-                    'url': result.url,
-                    'success': result.success,
-                    'shopify_id': result.shopify_id
-                })
-                
+                # Respectful delay for Patchright (maintain stealth)
                 await asyncio.sleep(1)
             
-            # Step 6: Finalize
+            # Step 6: Finalize - commit any remaining DB writes
+            if self.db_write_queue:
+                logger.info(f"💾 Final batch commit: {len(self.db_write_queue)} products")
+                await self._batch_commit_db_writes()
+            
             results['end_time'] = datetime.utcnow().isoformat()
             results['success'] = True
             results['total_cost'] = cost_tracker.get_session_cost()
+            results['processing_time'] = (datetime.utcnow() - start_time).total_seconds()
             
             # Step 7: Send notification
             await self.notification_manager.send_batch_completion(
@@ -251,6 +288,24 @@ class ProductUpdater:
                 extraction_result = await self.patchright_tower.extract_product(url, retailer)
             
             if not extraction_result.success:
+                # Check if product is delisted (special handling)
+                if hasattr(extraction_result, 'is_delisted') and extraction_result.is_delisted:
+                    logger.warning(f"🚫 Product delisted: {url}")
+                    
+                    # Mark product as delisted in DB
+                    await self.db_manager.mark_product_delisted(url)
+                    
+                    return UpdateResult(
+                        url=url,
+                        success=False,
+                        shopify_id=None,
+                        method_used=extraction_result.method_used,
+                        processing_time=asyncio.get_event_loop().time() - start_time,
+                        action='delisted',
+                        error='Product delisted from retailer site'
+                    )
+                
+                # Regular extraction failure
                 logger.warning(f"❌ Extraction failed: {extraction_result.errors}")
                 return UpdateResult(
                     url=url,
@@ -278,6 +333,27 @@ class ProductUpdater:
                 )
             
             shopify_id = existing_product['shopify_id']
+            
+            # Step 2.5: Smart change detection - skip Shopify update if nothing changed
+            has_changes, changed_fields = self._has_changes(existing_product, extraction_result.data)
+            
+            if not has_changes:
+                logger.info(f"⏭️ No changes detected for {url}, skipping Shopify update")
+                
+                # Update last_checked timestamp only (not last_updated)
+                await self.db_manager.update_last_checked(url)
+                
+                processing_time = asyncio.get_event_loop().time() - start_time
+                return UpdateResult(
+                    url=url,
+                    success=True,
+                    shopify_id=shopify_id,
+                    method_used=extraction_result.method_used,
+                    processing_time=processing_time,
+                    action='unchanged'
+                )
+            else:
+                logger.info(f"🔄 Changes detected for {url}: {', '.join(changed_fields)}")
             
             # Step 3: Conditional image processing (only if needed)
             should_process_images = self._should_process_images(existing_product, extraction_result.data)
@@ -458,6 +534,63 @@ class ProductUpdater:
         logger.debug("Images already uploaded successfully → skip")
         return False
     
+    def _has_changes(self, existing_product: Dict, extracted_data: Dict) -> tuple:
+        """
+        Compare existing product with extracted data to detect changes
+        
+        Returns:
+            (has_changes: bool, changed_fields: List[str]) tuple
+        """
+        changed_fields = []
+        
+        # Price comparison (handle string/float, allow 1 cent tolerance)
+        try:
+            old_price = float(existing_product.get('price', 0))
+            new_price = float(extracted_data.get('price', 0))
+            if abs(old_price - new_price) > 0.01:
+                changed_fields.append('price')
+        except (ValueError, TypeError):
+            # If price conversion fails, consider it changed
+            changed_fields.append('price')
+        
+        # Original price comparison (for sale detection)
+        try:
+            old_original = float(existing_product.get('original_price', 0) or 0)
+            new_original = float(extracted_data.get('original_price', 0) or 0)
+            if abs(old_original - new_original) > 0.01:
+                changed_fields.append('original_price')
+        except (ValueError, TypeError):
+            if existing_product.get('original_price') != extracted_data.get('original_price'):
+                changed_fields.append('original_price')
+        
+        # Sale status
+        if existing_product.get('sale_status') != extracted_data.get('sale_status'):
+            changed_fields.append('sale_status')
+        
+        # Stock status
+        if existing_product.get('stock_status') != extracted_data.get('stock_status'):
+            changed_fields.append('stock_status')
+        
+        # Title (normalize for comparison - case insensitive, stripped)
+        old_title = (existing_product.get('title') or '').strip().lower()
+        new_title = (extracted_data.get('title') or '').strip().lower()
+        if old_title != new_title:
+            changed_fields.append('title')
+        
+        # Description (normalized comparison)
+        old_desc = (existing_product.get('description') or '').strip().lower()[:500]  # First 500 chars
+        new_desc = (extracted_data.get('description') or '').strip().lower()[:500]
+        if old_desc != new_desc:
+            changed_fields.append('description')
+        
+        # Image URLs (compare sets to ignore order)
+        old_images = set(json.loads(existing_product.get('images', '[]')) if isinstance(existing_product.get('images'), str) else existing_product.get('image_urls', []))
+        new_images = set(extracted_data.get('image_urls', []))
+        if old_images != new_images:
+            changed_fields.append('images')
+        
+        return (len(changed_fields) > 0, changed_fields)
+    
     def _get_retailer(self, url_or_product: Any) -> str:
         """Extract retailer from URL or product dict"""
         if isinstance(url_or_product, dict):
@@ -492,6 +625,135 @@ class ProductUpdater:
         else:
             logger.warning(f"Unknown retailer in URL: {url}")
             return 'unknown'
+    
+    async def _batch_commit_db_writes(self):
+        """Commit queued database writes in a single transaction"""
+        if not self.db_write_queue:
+            return
+        
+        logger.info(f"💾 Committing batch of {len(self.db_write_queue)} DB writes")
+        
+        try:
+            # Use transaction for all writes
+            await self.db_manager.batch_update_products(self.db_write_queue)
+            
+            logger.debug(f"✅ Batch committed: {len(self.db_write_queue)} products")
+            self.db_write_queue = []
+            
+        except Exception as e:
+            logger.error(f"❌ Batch commit failed: {e}")
+            # Fall back to individual commits
+            for item in self.db_write_queue:
+                try:
+                    if item['action'] == 'unchanged':
+                        await self.db_manager.update_last_checked(item['url'])
+                    else:
+                        await self.db_manager.update_product_record(
+                            item['url'],
+                            item['data'],
+                            datetime.utcnow()
+                        )
+                except Exception as e2:
+                    logger.error(f"Individual commit failed for {item['url']}: {e2}")
+            
+            self.db_write_queue = []
+    
+    async def _record_result(self, result: UpdateResult, results: Dict):
+        """Record individual product result and update counters"""
+        results['results'].append(asdict(result))
+        results['processed'] += 1
+        
+        # Update counters based on action
+        if result.action == 'updated':
+            results['updated'] += 1
+        elif result.action == 'unchanged':
+            results['unchanged'] += 1
+        elif result.action == 'delisted':
+            results['delisted'] += 1
+        elif result.action == 'not_found':
+            results['not_found'] += 1
+        else:
+            results['failed'] += 1
+        
+        # Queue DB write (for batch commit)
+        if result.success or result.action == 'unchanged':
+            self.db_write_queue.append({
+                'url': result.url,
+                'data': result.__dict__ if hasattr(result, '__dict__') else {},
+                'action': result.action
+            })
+        
+        # Batch commit every 30 products
+        if len(self.db_write_queue) >= 30:
+            await self._batch_commit_db_writes()
+        
+        # Update checkpoint
+        self.checkpoint_manager.update_progress({
+            'url': result.url,
+            'success': result.success,
+            'shopify_id': result.shopify_id,
+            'action': result.action
+        })
+    
+    async def _process_products_parallel(
+        self,
+        products: List,
+        tower: str,
+        results: Dict,
+        rate_limiter: AdaptiveRateLimiter
+    ):
+        """
+        Process products with adaptive parallel concurrency
+        
+        Args:
+            products: List of product URLs/dicts
+            tower: 'markdown' or 'patchright'
+            results: Results dict to update
+            rate_limiter: AdaptiveRateLimiter instance
+        """
+        pending = list(products)
+        processing = set()
+        
+        while pending or processing:
+            # Get current concurrency level from rate limiter
+            current_concurrency = rate_limiter.get_concurrency()
+            
+            # Start new tasks up to concurrency limit
+            while pending and len(processing) < current_concurrency:
+                product = pending.pop(0)
+                task = asyncio.create_task(self._update_single_product(product, tower))
+                processing.add(task)
+            
+            if not processing:
+                break
+            
+            # Wait for at least one task to complete
+            done, processing = await asyncio.wait(
+                processing,
+                return_when=asyncio.FIRST_COMPLETED
+            )
+            
+            # Process completed tasks
+            for task in done:
+                try:
+                    result = await task
+                    
+                    # Record result
+                    await self._record_result(result, results)
+                    
+                    # Update rate limiter based on result
+                    if result.success or result.action == 'unchanged':
+                        rate_limiter.record_success()
+                    elif 'rate limit' in str(result.error).lower():
+                        rate_limiter.record_rate_limit()
+                        await rate_limiter.wait_if_needed()
+                    
+                except Exception as e:
+                    logger.error(f"Task exception: {e}")
+                    results['failed'] += 1
+            
+            # Small delay between batches
+            await asyncio.sleep(0.1)
 
 
 # CLI entry point

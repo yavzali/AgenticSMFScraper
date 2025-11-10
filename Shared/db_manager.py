@@ -316,6 +316,146 @@ class DatabaseManager:
             logger.error(f"Failed to update shopify_status: {e}")
             return False
     
+    async def update_last_checked(self, url: str) -> bool:
+        """
+        Update only the last_checked timestamp (no data changes)
+        Used when product is extracted but no changes detected
+        """
+        def _update():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    UPDATE products 
+                    SET last_checked = ?
+                    WHERE url = ?
+                ''', (datetime.utcnow().isoformat(), url))
+                
+                conn.commit()
+                affected = cursor.rowcount
+                conn.close()
+                return affected > 0
+            except Exception as e:
+                logger.error(f"Failed to update last_checked: {e}")
+                return False
+        
+        return await asyncio.to_thread(_update)
+    
+    async def mark_product_delisted(self, url: str) -> bool:
+        """Mark product as delisted in database"""
+        def _update():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute('''
+                    UPDATE products 
+                    SET stock_status = 'delisted',
+                        last_updated = ?,
+                        last_checked = ?
+                    WHERE url = ?
+                ''', (
+                    datetime.utcnow().isoformat(),
+                    datetime.utcnow().isoformat(),
+                    url
+                ))
+                
+                conn.commit()
+                affected = cursor.rowcount
+                conn.close()
+                return affected > 0
+            except Exception as e:
+                logger.error(f"Failed to mark product delisted: {e}")
+                return False
+        
+        return await asyncio.to_thread(_update)
+    
+    async def batch_update_products(self, updates: List[Dict]) -> bool:
+        """
+        Batch update multiple products in a single transaction
+        
+        Args:
+            updates: List of dicts with 'url', 'data', 'action'
+        
+        Returns:
+            True if successful
+        """
+        def _batch_update():
+            try:
+                conn = self._get_connection()
+                cursor = conn.cursor()
+                
+                # Begin transaction
+                cursor.execute('BEGIN TRANSACTION')
+                
+                for update in updates:
+                    url = update['url']
+                    action = update['action']
+                    data = update.get('data', {})
+                    
+                    if action == 'unchanged':
+                        # Just update last_checked
+                        cursor.execute('''
+                            UPDATE products 
+                            SET last_checked = ?
+                            WHERE url = ?
+                        ''', (datetime.utcnow().isoformat(), url))
+                        
+                    elif action == 'delisted':
+                        # Mark as delisted
+                        cursor.execute('''
+                            UPDATE products 
+                            SET stock_status = 'delisted',
+                                last_updated = ?,
+                                last_checked = ?
+                            WHERE url = ?
+                        ''', (
+                            datetime.utcnow().isoformat(),
+                            datetime.utcnow().isoformat(),
+                            url
+                        ))
+                        
+                    else:
+                        # Full update
+                        cursor.execute('''
+                            UPDATE products 
+                            SET title = ?,
+                                price = ?,
+                                sale_status = ?,
+                                stock_status = ?,
+                                last_updated = ?,
+                                last_checked = ?
+                            WHERE url = ?
+                        ''', (
+                            data.get('title'),
+                            data.get('price'),
+                            data.get('sale_status', 'regular'),
+                            data.get('stock_status', 'in_stock'),
+                            datetime.utcnow().isoformat(),
+                            datetime.utcnow().isoformat(),
+                            url
+                        ))
+                
+                # Commit transaction
+                conn.commit()
+                conn.close()
+                
+                logger.debug(f"✅ Batch transaction committed: {len(updates)} updates")
+                return True
+                
+            except Exception as e:
+                logger.error(f"Batch transaction failed: {e}")
+                if 'conn' in locals():
+                    try:
+                        conn.rollback()
+                        conn.close()
+                    except:
+                        pass
+                return False
+        
+        return await asyncio.to_thread(_batch_update)
+    
     # =================== CATALOG OPERATIONS (for Catalog workflows) ===================
     
     async def create_catalog_baseline(
