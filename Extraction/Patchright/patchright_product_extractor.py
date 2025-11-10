@@ -214,6 +214,10 @@ class PatchrightProductExtractor:
         7. Learn from extraction
         """
         try:
+            # Store for URL-based product code extraction fallback
+            self._current_url = url
+            self._current_retailer = retailer
+            
             logger.info(f"🌐 Navigating to: {url}")
             
             # Step 1: Navigate
@@ -274,6 +278,11 @@ class PatchrightProductExtractor:
             else:
                 # Standard wait for other retailers
                 await asyncio.sleep(2)
+            
+            # Step 1.5: Dismiss any late-appearing popups (NEW: prevents popups from obscuring product content)
+            logger.info("🧹 Dismissing any late-appearing popups...")
+            await verification_handler._dismiss_popups()
+            await asyncio.sleep(1)  # Let DOM settle after popup dismissal
             
             # Step 2: Take screenshots
             logger.info("📸 Taking multi-region screenshots...")
@@ -574,6 +583,13 @@ Return JSON:
             product_data.image_urls = dom_result['images']
             logger.debug("DOM filled image URLs gap")
         
+        # Fill product code from URL if not extracted (redundant extraction)
+        if not product_data.product_code and hasattr(self, '_current_url'):
+            url_code = self._extract_product_code_from_url(self._current_url, self._current_retailer)
+            if url_code:
+                product_data.product_code = url_code
+                logger.debug("URL filled product code gap")
+        
         # Log validation results
         validations = dom_result.get('validations', {})
         if validations:
@@ -613,6 +629,34 @@ Return JSON:
             logger.debug("Browser context reset")
         except Exception as e:
             logger.warning(f"Browser reset failed: {e}")
+    
+    def _extract_product_code_from_url(self, url: str, retailer: str) -> str:
+        """
+        Extract product code from URL
+        
+        Provides redundant extraction via URL patterns for robustness.
+        Primary extraction happens via Gemini from screenshots.
+        """
+        import re
+        
+        patterns = {
+            'revolve': r'/dp/([A-Z0-9\-]+)/?',
+            'anthropologie': r'/shop/([A-Z0-9\-]+)',
+            'abercrombie': r'/shop/([A-Za-z0-9\-]+)/?$',
+            'urban_outfitters': r'/([A-Za-z0-9\-]+)/?$',
+            'aritzia': r'/([A-Z0-9\-]+)/?$',
+            'nordstrom': r'/s/[^/]+/(\d+)'  # /s/{product-name}/{product-id}
+        }
+        
+        pattern = patterns.get(retailer.lower())
+        if pattern:
+            match = re.search(pattern, url)
+            if match:
+                return match.group(1)
+        
+        # Fallback: extract from last URL segment
+        parts = url.rstrip('/').split('/')
+        return parts[-1].split('?')[0] if parts else ""
     
     def _extract_domain(self, url: str) -> str:
         """Extract domain from URL"""
