@@ -852,7 +852,8 @@ class CatalogMonitor:
                     shopify_id=shopify_id,
                     modesty_status='pending_review',
                     shopify_status='draft',  # Mark as draft in DB
-                    images_uploaded=1 if downloaded_images else 0  # Track image upload success
+                    images_uploaded=1 if downloaded_images else 0,  # Track image upload success
+                    source='monitor'  # Track as discovered by catalog monitoring
                 )
                 
                 return {

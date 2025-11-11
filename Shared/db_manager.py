@@ -224,7 +224,8 @@ class DatabaseManager:
         modesty_status: Optional[str] = None,
         first_seen: Optional[datetime] = None,
         shopify_status: Optional[str] = None,
-        images_uploaded: Optional[int] = None
+        images_uploaded: Optional[int] = None,
+        source: Optional[str] = None
     ) -> bool:
         """
         Save new product to products table
@@ -232,6 +233,7 @@ class DatabaseManager:
         Args:
             shopify_status: 'not_uploaded', 'draft', or 'published'
             images_uploaded: 0 or 1 to track if images were successfully uploaded
+            source: 'baseline_scan', 'monitor', or 'new_product_import'
         """
         try:
             conn = self._get_connection()
@@ -257,8 +259,8 @@ class DatabaseManager:
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, images, 
                  shopify_id, modesty_status, shopify_status, images_uploaded, 
-                 images_uploaded_at, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 images_uploaded_at, source, first_seen, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 url,
                 retailer,
@@ -272,6 +274,7 @@ class DatabaseManager:
                 shopify_status,
                 images_uploaded,
                 datetime.utcnow().isoformat() if images_uploaded == 1 else None,
+                source,
                 first_seen.isoformat(),
                 datetime.utcnow().isoformat()
             ))
