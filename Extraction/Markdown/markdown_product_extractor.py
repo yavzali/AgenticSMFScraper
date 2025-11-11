@@ -407,28 +407,39 @@ Return ONLY the JSON object, no additional text or markdown formatting."""
     
     def _validate_extracted_data(self, data: Dict, retailer: str, url: str) -> List[str]:
         """
-        Validate extracted product data
+        Rigorous validation of extracted product data (matching old architecture)
         
         Returns:
             List of validation issues (empty if valid)
         """
         issues = []
         
-        # Required fields
-        if not data.get('title'):
-            issues.append("Missing title")
-        if not data.get('price'):
-            issues.append("Missing price")
-        if not data.get('image_urls') or len(data.get('image_urls', [])) == 0:
-            issues.append("Missing images")
+        # Required fields validation
+        required_fields = ["title", "price", "image_urls"]
+        for field in required_fields:
+            if not data.get(field):
+                issues.append(f"Missing required field: {field}")
         
-        # Price validation
-        try:
-            price = float(data.get('price', 0))
-            if price <= 0:
-                issues.append("Invalid price")
-        except (ValueError, TypeError):
-            issues.append("Price is not a number")
+        # Title validation
+        title = data.get("title", "")
+        if title:
+            if len(title) < 5 or len(title) > 200:
+                issues.append(f"Title length suspicious: {len(title)} characters")
+            if any(phrase in title.lower() for phrase in ["extracted by", "no title", "not found"]):
+                issues.append("Title appears to be placeholder text")
+        
+        # Price validation  
+        price = data.get("price", "")
+        if price:
+            if not re.search(r'[\$£€]?\d+([.,]\d{2})?', str(price)):
+                issues.append(f"Invalid price format: '{price}'")
+        
+        # Image URLs validation
+        image_urls = data.get("image_urls", [])
+        if not image_urls:
+            issues.append("No image URLs found")
+        elif len(image_urls) < 2 and retailer != "hm":  # H&M sometimes has limited images
+            issues.append(f"Only {len(image_urls)} images found, expected multiple")
         
         return issues
     
@@ -462,7 +473,18 @@ Return ONLY the JSON object, no additional text or markdown formatting."""
             except Exception as e:
                 logger.warning(f"H&M regex extraction failed: {e}, falling back to LLM")
         
-        # Use Gemini for general section extraction
+        # LLM cascade for section extraction: DeepSeek → Gemini
+        
+        # Step 1: Try DeepSeek first
+        if self.catalog_extractor.deepseek_enabled:
+            deepseek_section = await self._extract_section_with_deepseek(markdown_content, retailer)
+            if deepseek_section and len(deepseek_section) > 200:
+                logger.info(f"✅ DeepSeek section extraction: {len(deepseek_section)} chars")
+                return deepseek_section
+            else:
+                logger.debug(f"DeepSeek section extraction returned insufficient content, trying Gemini")
+        
+        # Step 2: Fallback to Gemini
         try:
             prompt = f"""Extract ONLY the section containing the main product information from this markdown:
 
@@ -489,7 +511,7 @@ Markdown Content (first 15000 chars):
                     return extracted_content
                     
         except Exception as e:
-            logger.warning(f"Gemini section extraction failed: {e}, using fallback")
+            logger.warning(f"Gemini section extraction failed: {e}, using keyword fallback")
         
         # Fallback: keyword-based chunking
         keywords = ['product', 'price', 'add to cart', 'buy now', 'description', 'details']
@@ -508,6 +530,52 @@ Markdown Content (first 15000 chars):
         # Last resort: return first 12K
         logger.warning(f"Using first 12K chars as last resort")
         return markdown_content[:12000]
+    
+    async def _extract_section_with_deepseek(self, markdown_content: str, retailer: str) -> Optional[str]:
+        """Extract product section using DeepSeek V3"""
+        try:
+            prompt = f"""Extract ONLY the section containing the main product information from this markdown content.
+
+Include:
+1. Product title, description, and pricing details
+2. Product images (URLs)
+3. Size, color, and variant information
+4. Product features, materials, or specifications
+5. Stock status and availability
+6. Product ID or SKU if available
+
+Exclude:
+- Navigation menus, headers, footers
+- Related products or recommendations
+- Unrelated content
+
+Focus on the PRIMARY product being viewed. Return just the extracted markdown section.
+
+Markdown Content (first 15000 chars):
+{markdown_content[:15000]}"""
+
+            response = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: self.catalog_extractor.deepseek_client.chat.completions.create(
+                    model="deepseek-chat",
+                    messages=[
+                        {"role": "system", "content": "You are a specialized AI that extracts relevant product sections from markdown content. Return only the extracted section, no explanations."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.1,
+                    max_tokens=4000
+                )
+            )
+            
+            if response and response.choices:
+                content = response.choices[0].message.content
+                if content and len(content) > 200:
+                    return content
+                    
+        except Exception as e:
+            logger.debug(f"DeepSeek section extraction exception: {e}")
+        
+        return None
     
     async def _check_if_delisted(self, url: str) -> bool:
         """
