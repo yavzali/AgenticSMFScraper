@@ -74,8 +74,8 @@ CATALOG_URLS = {
         'tops': 'https://www2.hm.com/en_us/ladies/shop-by-product/tops.html?sort=newProduct'
     },
     'uniqlo': {
-        'dresses': 'https://www.uniqlo.com/us/en/women/dresses-and-skirts/dresses-and-jumpsuits?path=%2C%2C36044%2C',
-        'tops': 'https://www.uniqlo.com/us/en/women/tops'
+        'dresses': 'https://www.uniqlo.com/us/en/women/dresses-and-jumpsuits?quickView=false&page=1&sort=ranking_asc',
+        'tops': 'https://www.uniqlo.com/us/en/women/tops?quickView=false&page=1&sort=ranking_asc'
     },
     'aritzia': {
         'dresses': 'https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest',
