@@ -361,8 +361,9 @@ class ProductUpdater:
             if should_process_images:
                 image_urls = extraction_result.data.get('image_urls', [])
                 if image_urls:
-                    logger.debug(f"🖼️ Processing {len(image_urls)} images (first time or previous failure)")
+                    logger.info(f"🖼️ Processing {len(image_urls)} images (first time or previous failure)")
                     try:
+                        # Step 3a: Download images to local disk
                         downloaded_image_paths = await image_processor.process_images(
                             image_urls=image_urls,
                             retailer=retailer,
@@ -370,21 +371,36 @@ class ProductUpdater:
                         )
                         
                         if downloaded_image_paths:
-                            # Add processed images to extraction data
-                            extraction_result.data['downloaded_image_paths'] = downloaded_image_paths
+                            logger.info(f"✅ Downloaded {len(downloaded_image_paths)} images to local disk")
                             
-                            # Mark images as successfully uploaded
-                            extraction_result.data['images_uploaded'] = 1
-                            extraction_result.data['images_uploaded_at'] = datetime.utcnow().isoformat()
-                            extraction_result.data['images_failed_count'] = 0
-                            extraction_result.data['last_image_error'] = None
+                            # Step 3b: Upload images to Shopify
+                            import aiohttp
+                            async with aiohttp.ClientSession() as session:
+                                uploaded_images = await self.shopify_manager._upload_images(
+                                    session=session,
+                                    product_id=shopify_id,
+                                    image_paths=downloaded_image_paths,
+                                    product_title=extraction_result.data.get('title', 'Product')
+                                )
                             
-                            logger.info(f"✅ Processed {len(downloaded_image_paths)} images successfully")
+                            if uploaded_images:
+                                # Mark images as successfully uploaded (AFTER Shopify confirms)
+                                extraction_result.data['images_uploaded'] = 1
+                                extraction_result.data['images_uploaded_at'] = datetime.utcnow().isoformat()
+                                extraction_result.data['images_failed_count'] = 0
+                                extraction_result.data['last_image_error'] = None
+                                
+                                logger.info(f"✅ Uploaded {len(uploaded_images)} images to Shopify product {shopify_id}")
+                            else:
+                                # Upload to Shopify failed
+                                extraction_result.data['images_failed_count'] = existing_product.get('images_failed_count', 0) + 1
+                                extraction_result.data['last_image_error'] = 'Images downloaded but Shopify upload failed'
+                                logger.warning(f"⚠️ Downloaded images but Shopify upload returned 0 uploads")
                         else:
-                            # Image processing failed
+                            # Image download failed
                             extraction_result.data['images_failed_count'] = existing_product.get('images_failed_count', 0) + 1
-                            extraction_result.data['last_image_error'] = 'No images downloaded'
-                            logger.warning(f"⚠️ Image processing returned 0 files")
+                            extraction_result.data['last_image_error'] = 'No images downloaded from retailer'
+                            logger.warning(f"⚠️ Image download returned 0 files")
                             
                     except Exception as e:
                         # Track failure

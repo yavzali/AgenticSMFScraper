@@ -589,6 +589,15 @@ class ShopifyManager:
                 logger.error(f"Error uploading image {image_path}: {e}")
                 continue
         
+        # Clean up ALL original downloaded files after successful uploads
+        for image_path in image_paths:
+            try:
+                if os.path.exists(image_path):
+                    os.remove(image_path)
+                    logger.debug(f"🗑️ Cleaned up downloaded image: {image_path}")
+            except Exception as e:
+                logger.warning(f"Failed to clean up {image_path}: {e}")
+        
         return uploaded_images
     
     def _validate_shopify_image_requirements(self, image_path: str) -> bool:
