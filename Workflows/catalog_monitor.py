@@ -82,7 +82,7 @@ CATALOG_URLS = {
         'tops': 'https://www.aritzia.com/us/en/clothing/tops?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest'
     },
     'anthropologie': {
-        'dresses': 'https://www.anthropologie.com/dresses?sort=tile.product.newestColorDate&order=Descending',
+        'dresses': 'https://www.anthropologie.com/dresses?order=Descending&sleevelength=Long%20Sleeve%2C3%2F4%20Sleeve%2CShort%20Sleeve&sort=tile.product.newestColorDate',
         'tops': 'https://www.anthropologie.com/tops?sort=tile.product.newestColorDate&order=Descending'
     },
     'abercrombie': {
