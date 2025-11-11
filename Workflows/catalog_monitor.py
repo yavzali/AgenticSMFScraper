@@ -600,8 +600,10 @@ class CatalogMonitor:
         if not title or not price:
             return None
         
-        # Normalize title for comparison
-        title_normalized = title.lower().strip()
+        # Normalize title for comparison (defensive against None)
+        title_normalized = (title or '').lower().strip()
+        if not title_normalized:
+            return None
         
         # Check main products table
         existing = await self.db_manager.find_product_by_title_price(title_normalized, price, retailer)
@@ -622,7 +624,10 @@ class CatalogMonitor:
         if not title or not price:
             return None
         
-        title_normalized = title.lower().strip()
+        # Defensive: Handle None titles
+        title_normalized = (title or '').lower().strip()
+        if not title_normalized:
+            return None
         
         # Get similar products from DB
         candidates = await self.db_manager.find_products_by_retailer(retailer, limit=1000)
@@ -631,7 +636,8 @@ class CatalogMonitor:
         best_similarity = 0.0
         
         for candidate in candidates:
-            candidate_title = candidate.get('title', '').lower().strip()
+            # Defensive: Handle None titles (db can have NULL values)
+            candidate_title = (candidate.get('title') or '').lower().strip()
             candidate_price = candidate.get('price')
             
             if not candidate_title or not candidate_price:

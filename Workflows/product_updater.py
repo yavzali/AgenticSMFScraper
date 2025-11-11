@@ -114,6 +114,7 @@ class UpdateResult:
     processing_time: float
     action: str  # 'updated', 'unchanged', 'delisted', 'failed', 'not_found'
     error: Optional[str] = None
+    product_data: Optional[Dict] = None  # NEW: Store extracted product data for batch commit
 
 
 class ProductUpdater:
@@ -350,7 +351,8 @@ class ProductUpdater:
                     shopify_id=shopify_id,
                     method_used=extraction_result.method_used,
                     processing_time=processing_time,
-                    action='unchanged'
+                    action='unchanged',
+                    product_data=None  # No data update needed for unchanged products
                 )
             else:
                 logger.info(f"🔄 Changes detected for {url}: {', '.join(changed_fields)}")
@@ -446,7 +448,8 @@ class ProductUpdater:
                 shopify_id=shopify_id,
                 method_used=extraction_result.method_used,
                 processing_time=processing_time,
-                action='updated'
+                action='updated',
+                product_data=extraction_result.data  # CRITICAL: Include actual product data for batch commit
             )
             
         except Exception as e:
@@ -695,7 +698,7 @@ class ProductUpdater:
         if result.success or result.action == 'unchanged':
             self.db_write_queue.append({
                 'url': result.url,
-                'data': result.__dict__ if hasattr(result, '__dict__') else {},
+                'data': result.product_data or {},  # FIXED: Use actual product data, not UpdateResult metadata
                 'action': result.action
             })
         
