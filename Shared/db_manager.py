@@ -223,13 +223,15 @@ class DatabaseManager:
         shopify_id: Optional[int] = None,
         modesty_status: Optional[str] = None,
         first_seen: Optional[datetime] = None,
-        shopify_status: Optional[str] = None
+        shopify_status: Optional[str] = None,
+        images_uploaded: Optional[int] = None
     ) -> bool:
         """
         Save new product to products table
         
         Args:
             shopify_status: 'not_uploaded', 'draft', or 'published'
+            images_uploaded: 0 or 1 to track if images were successfully uploaded
         """
         try:
             conn = self._get_connection()
@@ -246,11 +248,17 @@ class DatabaseManager:
                 else:
                     shopify_status = 'not_uploaded'
             
+            # Set images_uploaded based on whether images were provided
+            if images_uploaded is None:
+                # Auto-detect: if downloaded_images exist in product_data, assume success
+                images_uploaded = 1 if product_data.get('downloaded_image_paths') else 0
+            
             cursor.execute('''
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, images, 
-                 shopify_id, modesty_status, shopify_status, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 shopify_id, modesty_status, shopify_status, images_uploaded, 
+                 images_uploaded_at, first_seen, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 url,
                 retailer,
@@ -262,6 +270,8 @@ class DatabaseManager:
                 shopify_id,
                 modesty_status,
                 shopify_status,
+                images_uploaded,
+                datetime.utcnow().isoformat() if images_uploaded == 1 else None,
                 first_seen.isoformat(),
                 datetime.utcnow().isoformat()
             ))

@@ -380,9 +380,13 @@ class ImageProcessor:
         enhanced = url
         
         # Path transformations - multiple patterns to zoom (CRITICAL for Revolve)
+        # Order matters: match longer patterns first (dp, d5) before shorter ones (d)
         enhanced = re.sub(r'/n/ct/', '/n/z/', enhanced)  # Thumbnail to Zoom
         enhanced = re.sub(r'/n/uv/', '/n/z/', enhanced)  # UV to Zoom
-        enhanced = re.sub(r'/n/d/', '/n/z/', enhanced)   # Detail to Zoom
+        enhanced = re.sub(r'/n/dp/', '/n/z/', enhanced)  # Detail-preview to Zoom (before /d/)
+        enhanced = re.sub(r'/n/d5/', '/n/z/', enhanced)  # Detail-5 to Zoom (before /d/)
+        enhanced = re.sub(r'/n/d\d+/', '/n/z/', enhanced)  # Any /n/dX/ pattern
+        enhanced = re.sub(r'/n/d/', '/n/z/', enhanced)   # Detail to Zoom (single letter)
         enhanced = re.sub(r'/n/p/', '/n/z/', enhanced)   # Preview to Zoom
         enhanced = re.sub(r'/n/r/', '/n/z/', enhanced)   # Regular to Zoom
         enhanced = re.sub(r'/n/t/', '/n/z/', enhanced)   # Thumb to Zoom
@@ -396,13 +400,9 @@ class ImageProcessor:
         # These are often used in newer Revolve product URLs
         enhanced = re.sub(r'_V\d+\.(jpg|jpeg|png)', r'.\1', enhanced, flags=re.IGNORECASE)
         
-        # Try alternate full-size path if we got zoom
-        if '/n/z/' in enhanced:
-            # Sometimes /n/f/ (full) is even higher quality
-            alt_url = enhanced.replace('/n/z/', '/n/f/')
-            if alt_url != enhanced:
-                # Return the /n/f/ version for best quality
-                enhanced = alt_url
+        # REMOVED: /n/z/ → /n/f/ conversion (those URLs don't exist!)
+        # The /n/z/ (zoom) URLs work fine as-is, verified from old architecture
+        # Old architecture downloaded URLs as-is without transformation
         
         return enhanced
     
