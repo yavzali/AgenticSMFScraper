@@ -237,11 +237,13 @@ class MarkdownProductExtractor:
                 # EARLY VALIDATION - validate before accepting
                 validation_issues = self._validate_extracted_data(deepseek_result, retailer, url)
                 if not validation_issues:
-                    logger.debug(f"DeepSeek V3 extraction successful for {retailer}")
+                    logger.info(f"✅ DeepSeek V3 extraction successful for {retailer}")
                     return deepseek_result
                 else:
-                    logger.debug(f"DeepSeek V3 returned data but validation failed: {', '.join(validation_issues)}")
-                    logger.debug(f"Falling back to Gemini Flash 2.0 for {retailer}")
+                    logger.warning(f"⚠️ DeepSeek V3 validation failed: {', '.join(validation_issues)}")
+                    logger.info(f"🔄 Falling back to Gemini Flash 2.0 for {retailer}")
+            else:
+                logger.warning(f"⚠️ DeepSeek V3 returned None for {retailer}")
         
         # Step 2: Fallback to Gemini Flash 2.0
         gemini_result = await self._extract_with_gemini(markdown_content, retailer)
@@ -261,6 +263,7 @@ class MarkdownProductExtractor:
         """Extract using DeepSeek V3"""
         
         try:
+            logger.debug(f"🔵 Calling DeepSeek V3 for {retailer}")
             prompt = self._create_extraction_prompt(markdown_content, retailer)
             
             response = await asyncio.get_event_loop().run_in_executor(
@@ -278,10 +281,17 @@ class MarkdownProductExtractor:
             
             if response and response.choices:
                 content = response.choices[0].message.content
-                return self._parse_json_response(content)
+                result = self._parse_json_response(content)
+                if result:
+                    logger.info(f"✅ DeepSeek V3 returned data (title: {result.get('title', 'N/A')[:50]}, price: {result.get('price')}, images: {len(result.get('image_urls', []))})")
+                else:
+                    logger.warning(f"⚠️ DeepSeek V3 response parsing failed")
+                return result
+            else:
+                logger.warning(f"⚠️ DeepSeek V3 response had no choices")
                 
         except Exception as e:
-            logger.warning(f"DeepSeek V3 extraction failed: {e}")
+            logger.warning(f"❌ DeepSeek V3 extraction exception: {e}")
         
         return None
     
