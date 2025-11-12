@@ -263,14 +263,21 @@ price = '.product-price'
 ## REVOLVE
 
 ### **Anti-Bot System**: None
-**Status**: ✅ **WORKING (Markdown)**  
+**Status**: ✅ **WORKING (Hybrid)**  
 **Complexity**: Low (no anti-bot)  
-**Special Challenge**: URL Instability
+**Special Challenge**: JavaScript-Loaded Product URLs + URL Instability
 
-### Extraction Method
-**Primary**: Markdown (Jina AI → DeepSeek/Gemini)  
-**Fallback**: None needed  
+### Extraction Method - HYBRID APPROACH ⚠️
+**Catalog Extraction**: Patchright (DOM extraction)  
+**Single Product Extraction**: Markdown (Jina AI → DeepSeek/Gemini)  
+**Reason**: Catalog page loads product URLs via JavaScript (Jina AI can't see them)  
 **Success Rate**: 98%
+
+**Why Hybrid?**
+- **Catalog page**: Product links are injected by JavaScript after page load
+- Jina AI (Markdown) only sees static HTML → no product URLs
+- Patchright executes JavaScript → extracts real URLs from DOM
+- **Single product pages**: Static HTML with all content → Markdown works perfectly
 
 ### The Critical Issue: URL/Product Code Changes
 
@@ -346,13 +353,16 @@ if title_similarity > 0.90 and abs(price_diff) < 1.0:
 ### Key Configuration
 ```json
 {
-  "extraction_method": "markdown",
+  "extraction_method": "hybrid",
+  "catalog_extraction": "patchright_dom",
+  "single_product_extraction": "markdown",
   "pagination_type": "infinite_scroll",
   "items_per_page": 48,
   "catalog_urls": {
     "dresses_modest": "https://www.revolve.com/r/Brands.jsp?sortBy=newest&...",
     "tops_modest": "https://www.revolve.com/tops?sortBy=newest&..."
   },
+  "product_url_selector": "a[href*='/dp/']",
   "product_code_pattern": "dp/([A-Z]{4}-[A-Z]{2}\\d+)",
   "deduplication_strategy": "fuzzy_title_price",
   "deduplication_threshold": 0.90

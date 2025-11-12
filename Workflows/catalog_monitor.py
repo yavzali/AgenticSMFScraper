@@ -209,10 +209,12 @@ class CatalogMonitor:
                 method_used = 'markdown'
             elif retailer in PATCHRIGHT_RETAILERS:
                 logger.info("🔄 Using Patchright Tower (catalog)")
+                # Patchright uses catalog_prompt parameter (not max_pages)
+                catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
                 extraction_result = await self.patchright_catalog_tower.extract_catalog(
                     catalog_url,
                     retailer,
-                    max_pages=max_pages
+                    catalog_prompt
                 )
                 method_used = 'patchright'
             else:
@@ -264,10 +266,12 @@ class CatalogMonitor:
                     continue
                 
                 # Re-extract with SINGLE product extractor for full details (now passes category parameter)
+                # SPECIAL CASE: Revolve uses Patchright for catalog but Markdown for single products
+                single_product_method = 'markdown' if retailer == 'revolve' else method_used
                 full_product = await self._extract_single_product(
                     product_url,
                     retailer,
-                    method_used,
+                    single_product_method,
                     category  # Pass category for override logic
                 )
                 
@@ -323,10 +327,12 @@ class CatalogMonitor:
                     continue
                 
                 # Extract full product data (needed if promoted to modesty review later)
+                # SPECIAL CASE: Revolve uses Patchright for catalog but Markdown for single products
+                single_product_method = 'markdown' if retailer == 'revolve' else method_used
                 full_product = await self._extract_single_product(
                     product_url,
                     retailer,
-                    method_used,
+                    single_product_method,
                     category
                 )
                 

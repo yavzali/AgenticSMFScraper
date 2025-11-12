@@ -51,11 +51,12 @@ class MarkdownExtractionResult:
 
 # Supported retailers for markdown extraction
 MARKDOWN_RETAILERS = [
+    'revolve',  # Single product pages work fine with Jina AI
     'asos', 'mango', 'hm', 'uniqlo',
     'aritzia', 'anthropologie', 'abercrombie',
     'urban_outfitters', 'nordstrom'
 ]
-# Note: Revolve removed - product URLs loaded via JavaScript, Jina AI gets redirects
+# Note: Revolve CATALOG uses Patchright (JS-loaded links), but SINGLE PRODUCTS use Markdown
 
 
 class MarkdownProductExtractor:

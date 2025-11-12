@@ -5,9 +5,12 @@
   "retailers": {
     "revolve": {
       "display_name": "Revolve",
-      "extraction_method": "markdown",
-      "extraction_strategy": "markdown_primary",
+      "extraction_method": "hybrid",
+      "catalog_extraction": "patchright_dom",
+      "single_product_extraction": "markdown",
+      "extraction_strategy": "hybrid_patchright_catalog_markdown_product",
       "anti_bot_complexity": "none",
+      "special_note": "JavaScript-loaded product URLs in catalog require Patchright, but single product pages work with Markdown",
       "catalog_urls": {
         "dresses": "https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1",
         "tops": "https://www.revolve.com/tops/br/db773d/?navsrc=left&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1"
