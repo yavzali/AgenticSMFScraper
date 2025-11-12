@@ -431,25 +431,45 @@ class DatabaseManager:
                         ))
                         
                     else:
-                        # Full update
-                        cursor.execute('''
-                            UPDATE products 
-                            SET title = ?,
-                                price = ?,
-                                sale_status = ?,
-                                stock_status = ?,
-                                last_updated = ?,
-                                last_checked = ?
-                            WHERE url = ?
-                        ''', (
-                            data.get('title'),
-                            data.get('price'),
-                            data.get('sale_status', 'regular'),
-                            data.get('stock_status', 'in_stock'),
-                            datetime.utcnow().isoformat(),
-                            datetime.utcnow().isoformat(),
-                            url
-                        ))
+                        # Full update - only update fields that are present and non-NULL
+                        # This prevents overwriting valid data with NULL
+                        update_fields = []
+                        update_values = []
+                        
+                        # Always update timestamps
+                        update_fields.extend(['last_updated = ?', 'last_checked = ?'])
+                        update_values.extend([datetime.utcnow().isoformat(), datetime.utcnow().isoformat()])
+                        
+                        # Only update data fields if they are present and non-NULL
+                        if data.get('title'):
+                            update_fields.append('title = ?')
+                            update_values.append(data.get('title'))
+                        
+                        if data.get('price'):
+                            update_fields.append('price = ?')
+                            update_values.append(data.get('price'))
+                        
+                        # For these fields, allow the value even if empty string (but not None)
+                        if 'sale_status' in data and data['sale_status'] is not None:
+                            update_fields.append('sale_status = ?')
+                            update_values.append(data.get('sale_status', 'regular'))
+                        
+                        if 'stock_status' in data and data['stock_status'] is not None:
+                            update_fields.append('stock_status = ?')
+                            update_values.append(data.get('stock_status', 'in_stock'))
+                        
+                        # Only execute if we have fields to update (beyond timestamps)
+                        if len(update_fields) > 2:
+                            query = f"UPDATE products SET {', '.join(update_fields)} WHERE url = ?"
+                            update_values.append(url)
+                            cursor.execute(query, tuple(update_values))
+                        else:
+                            # Only update timestamps
+                            cursor.execute('''
+                                UPDATE products 
+                                SET last_updated = ?, last_checked = ?
+                                WHERE url = ?
+                            ''', (datetime.utcnow().isoformat(), datetime.utcnow().isoformat(), url))
                 
                 # Commit transaction
                 conn.commit()
@@ -596,19 +616,31 @@ class DatabaseManager:
         return await self.get_product_by_url(url)
     
     async def find_product_by_normalized_url(self, normalized_url: str, retailer: str) -> Optional[Dict]:
-        """Find product by normalized URL (async wrapper for sync DB)"""
+        """
+        Find product by normalized URL (async wrapper for sync DB)
+        
+        Matches OLD ARCHITECTURE approach: strips query parameters from both sides
+        """
         import asyncio
+        import re
         
         def _query():
             try:
                 conn = self._get_connection()
                 cursor = conn.cursor()
                 
+                # Normalize the incoming URL (remove query params)
+                # This matches old architecture: re.sub(r'\?.*', '', url)
+                normalized_search = re.sub(r'\?.*', '', normalized_url).rstrip('/')
+                
+                # Use SQL to normalize URLs (much faster than Python loop!)
+                # SUBSTR(url, 1, INSTR(url || '?', '?') - 1) extracts everything before first '?'
                 cursor.execute('''
                     SELECT * FROM products 
-                    WHERE retailer = ? AND url LIKE ?
+                    WHERE retailer = ? 
+                    AND RTRIM(SUBSTR(url, 1, INSTR(url || '?', '?') - 1), '/') = ?
                     LIMIT 1
-                ''', (retailer, f"%{normalized_url}%"))
+                ''', (retailer, normalized_search))
                 
                 row = cursor.fetchone()
                 conn.close()

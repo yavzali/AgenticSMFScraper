@@ -218,7 +218,7 @@ CRITICAL INSTRUCTIONS:
                     'errors': ['Failed to fetch markdown content']
                 }
             
-            # Step 2: Prepare markdown content with smart chunking
+            # Step 2: Prepare markdown content with smart chunking (MATCHING OLD ARCHITECTURE)
             # If markdown is very large (> 40K chars), extract just the product listing section
             if len(markdown_content) > 40000:
                 logger.info(f"Large markdown detected ({len(markdown_content)} chars), extracting product section only")
@@ -240,8 +240,10 @@ CRITICAL INSTRUCTIONS:
                 else:
                     # No marker found, just take first 40K
                     markdown_chunk = markdown_content[:40000]
+                    logger.info(f"No product markers found, using first 40K chars")
             else:
                 markdown_chunk = markdown_content[:50000]
+                logger.debug(f"Using first {len(markdown_chunk)} chars of markdown")
             
             # Step 3: Add markdown content to the catalog prompt
             full_prompt = f"""{catalog_prompt}
@@ -251,13 +253,17 @@ MARKDOWN CONTENT TO ANALYZE:
 
 Remember: Extract ALL products as a JSON array in the format specified above."""
             
+            logger.debug(f"Built prompt with {len(markdown_chunk)} chars of markdown")
+            
             # Step 3: Try DeepSeek V3 first
             extraction_result = None
             method_used = None
             
             if self.deepseek_enabled:
                 try:
-                    logger.debug(f"Attempting catalog extraction with DeepSeek V3")
+                    logger.info(f"🔄 Attempting catalog extraction with DeepSeek V3 (no timeout, matching old architecture)")
+                    
+                    # No timeout - let DeepSeek take as long as needed (like old architecture)
                     response = await asyncio.get_event_loop().run_in_executor(
                         None,
                         lambda: self.deepseek_client.chat.completions.create(
@@ -280,12 +286,14 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                             logger.info(f"✅ DeepSeek V3 catalog extraction successful: {len(extraction_result['products'])} products")
                         
                 except Exception as e:
-                    logger.warning(f"DeepSeek V3 catalog extraction failed: {e}")
+                    logger.warning(f"❌ DeepSeek V3 catalog extraction failed: {e}")
             
             # Step 4: Fallback to Gemini Flash 2.0 if needed
             if not extraction_result:
                 try:
-                    logger.debug(f"Attempting catalog extraction with Gemini Flash 2.0")
+                    logger.info(f"🔄 Attempting catalog extraction with Gemini Flash 2.0 (no timeout, matching old architecture)")
+                    
+                    # No timeout - let Gemini take as long as needed (like old architecture)
                     response = await asyncio.get_event_loop().run_in_executor(
                         None,
                         lambda: self.gemini_client.invoke(full_prompt)
@@ -299,7 +307,7 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                             logger.info(f"✅ Gemini Flash 2.0 catalog extraction successful: {len(extraction_result['products'])} products")
                         
                 except Exception as e:
-                    logger.warning(f"Gemini Flash 2.0 catalog extraction failed: {e}")
+                    logger.warning(f"❌ Gemini Flash 2.0 catalog extraction failed: {e}")
             
             # Step 5: Process results
             processing_time = time.time() - start_time
