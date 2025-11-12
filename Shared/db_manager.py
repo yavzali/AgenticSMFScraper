@@ -225,7 +225,8 @@ class DatabaseManager:
         first_seen: Optional[datetime] = None,
         shopify_status: Optional[str] = None,
         images_uploaded: Optional[int] = None,
-        source: Optional[str] = None
+        source: Optional[str] = None,
+        assessment_status: Optional[str] = None
     ) -> bool:
         """
         Save new product to products table
@@ -234,6 +235,7 @@ class DatabaseManager:
             shopify_status: 'not_uploaded', 'draft', or 'published'
             images_uploaded: 0 or 1 to track if images were successfully uploaded
             source: 'baseline_scan', 'monitor', or 'new_product_import'
+            assessment_status: 'not_assessed', 'queued', 'assessed', or 'not_for_assessment'
         """
         try:
             conn = self._get_connection()
@@ -255,12 +257,19 @@ class DatabaseManager:
                 # Auto-detect: if downloaded_images exist in product_data, assume success
                 images_uploaded = 1 if product_data.get('downloaded_image_paths') else 0
             
+            # Set assessment_status default based on source
+            if assessment_status is None:
+                if source == 'baseline_scan':
+                    assessment_status = 'not_for_assessment'  # Baseline scans don't go to assessment
+                else:
+                    assessment_status = 'not_assessed'  # Monitor/import start as not_assessed
+            
             cursor.execute('''
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, images, 
                  shopify_id, modesty_status, shopify_status, images_uploaded, 
-                 images_uploaded_at, source, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 images_uploaded_at, source, assessment_status, first_seen, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 url,
                 retailer,
@@ -275,6 +284,7 @@ class DatabaseManager:
                 images_uploaded,
                 datetime.utcnow().isoformat() if images_uploaded == 1 else None,
                 source,
+                assessment_status,
                 first_seen.isoformat(),
                 datetime.utcnow().isoformat()
             ))
@@ -489,6 +499,33 @@ class DatabaseManager:
                 return False
         
         return await asyncio.to_thread(_batch_update)
+    
+    async def update_assessment_status(self, url: str, assessment_status: str) -> bool:
+        """
+        Update assessment_status for a product
+        
+        Args:
+            url: Product URL
+            assessment_status: 'not_assessed', 'queued', 'assessed', or 'not_for_assessment'
+        """
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE products 
+                SET assessment_status = ?, last_updated = ?
+                WHERE url = ?
+            ''', (assessment_status, datetime.utcnow().isoformat(), url))
+            
+            conn.commit()
+            conn.close()
+            
+            return cursor.rowcount > 0
+            
+        except Exception as e:
+            logger.error(f"Failed to update assessment_status: {e}")
+            return False
     
     # =================== CATALOG OPERATIONS (for Catalog workflows) ===================
     

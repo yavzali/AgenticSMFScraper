@@ -21,6 +21,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
 from dataclasses import dataclass
 import logging
+import asyncio
 
 from logger_config import setup_logging
 
@@ -178,6 +179,9 @@ class AssessmentQueueManager:
                 queue_id = cursor.lastrowid
                 conn.commit()
                 
+                # Update assessment_status in products table
+                self._update_product_assessment_status(product_url, 'queued')
+                
                 logger.info(f"Added to queue: {review_type} review for {retailer} - {product.get('title', 'N/A')} (ID: {queue_id})")
                 
             except sqlite3.IntegrityError:
@@ -300,6 +304,11 @@ class AssessmentQueueManager:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
             
+            # Get product_url before updating
+            cursor.execute('SELECT product_url FROM assessment_queue WHERE id = ?', (queue_id,))
+            row = cursor.fetchone()
+            product_url = row[0] if row else None
+            
             cursor.execute('''
                 UPDATE assessment_queue 
                 SET status = 'reviewed',
@@ -315,6 +324,10 @@ class AssessmentQueueManager:
             conn.close()
             
             if affected > 0:
+                # Update assessment_status in products table
+                if product_url:
+                    self._update_product_assessment_status(product_url, 'assessed')
+                
                 logger.info(f"Marked queue item {queue_id} as reviewed: {decision}")
                 return True
             else:
@@ -525,6 +538,24 @@ class AssessmentQueueManager:
         except Exception as e:
             logger.error(f"Failed to get queue items: {e}")
             return []
+    
+    def _update_product_assessment_status(self, product_url: str, status: str):
+        """Update assessment_status in products table (synchronous)"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            cursor.execute('''
+                UPDATE products 
+                SET assessment_status = ?, last_updated = ?
+                WHERE url = ?
+            ''', (status, datetime.utcnow().isoformat(), product_url))
+            
+            conn.commit()
+            conn.close()
+            
+        except Exception as e:
+            logger.debug(f"Could not update assessment_status for {product_url}: {e}")
 
 
 # CLI for testing
