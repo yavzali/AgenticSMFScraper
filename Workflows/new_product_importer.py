@@ -391,13 +391,17 @@ class NewProductImporter:
                 action = 'skipped'
             
             # Step 5: Save to DB (ALL products, regardless of modesty)
+            # Extract integer product_id from Shopify response
+            shopify_product_id = shopify_id.get('product_id') if isinstance(shopify_id, dict) else shopify_id
+            
             await self.db_manager.save_product(
                 url=url,
                 retailer=retailer,
                 product_data=product_data,
-                shopify_id=shopify_id,
+                shopify_id=shopify_product_id,
                 modesty_status=modesty_classification,
-                first_seen=datetime.utcnow()
+                first_seen=datetime.utcnow(),
+                source='new_product_import'
             )
             
             processing_time = asyncio.get_event_loop().time() - start_time
