@@ -194,7 +194,7 @@ class AssessmentQueueManager:
                 result = cursor.fetchone()
                 queue_id = result[0] if result else None
                 
-                logger.debug(f"Product already in queue: {product_url} ({review_type}) - ID: {queue_id}")
+                logger.warning(f"⚠️ Duplicate queue attempt - product already queued: {product.get('title', 'N/A')[:50]}... (ID: {queue_id})")
             
             conn.close()
             return queue_id

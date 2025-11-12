@@ -597,7 +597,19 @@ Return a JSON array with ALL products found across all screenshots."""
                     logger.debug(f"Selector {selector} failed: {e}")
                     continue
             
-            return product_links
+            # Deduplicate by URL (keep first occurrence)
+            seen_urls = set()
+            deduped_links = []
+            for link in product_links:
+                url = link['url']
+                if url not in seen_urls:
+                    seen_urls.add(url)
+                    deduped_links.append(link)
+            
+            if len(deduped_links) < len(product_links):
+                logger.info(f"🧹 Deduplicated: {len(product_links)} → {len(deduped_links)} unique URLs")
+            
+            return deduped_links
             
         except Exception as e:
             logger.error(f"DOM extraction failed: {e}")
