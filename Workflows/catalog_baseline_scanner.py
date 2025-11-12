@@ -37,11 +37,10 @@ from patchright_catalog_extractor import PatchrightCatalogExtractor
 logger = setup_logging(__name__)
 
 # Retailer classification
-MARKDOWN_RETAILERS = [
-    'revolve', 'asos', 'mango', 'hm', 'uniqlo'
-]
-
-PATCHRIGHT_RETAILERS = [
+# ALL retailers use Patchright for catalog baseline scanning
+# (JavaScript-loaded product URLs require browser execution)
+PATCHRIGHT_CATALOG_RETAILERS = [
+    'revolve', 'asos', 'mango', 'hm', 'uniqlo',
     'anthropologie', 'urban_outfitters', 'abercrombie',
     'aritzia', 'nordstrom'
 ]
@@ -185,37 +184,15 @@ class CatalogBaselineScanner:
             # Step 2: Initialize towers
             await self._initialize_towers()
             
-            # Step 3: Route to appropriate tower
-            if retailer in MARKDOWN_RETAILERS:
-                logger.info("🔄 Using Markdown Tower")
-                extraction_result = await self.markdown_tower.extract_catalog(
-                    catalog_url,
-                    retailer,
-                    max_pages=max_pages
-                )
-                method_used = 'markdown'
-            elif retailer in PATCHRIGHT_RETAILERS:
-                logger.info("🔄 Using Patchright Tower")
-                extraction_result = await self.patchright_tower.extract_catalog(
-                    catalog_url,
-                    retailer,
-                    max_pages=max_pages
-                )
-                method_used = 'patchright'
-            else:
-                return BaselineResult(
-                    success=False,
-                    baseline_id=None,
-                    retailer=retailer,
-                    category=category,
-                    modesty_level=modesty_level,
-                    products_found=0,
-                    products_stored=0,
-                    duplicates_removed=0,
-                    method_used='none',
-                    processing_time=0,
-                    error=f'Unknown retailer: {retailer}'
-                )
+            # Step 3: Use Patchright for ALL retailers (JavaScript-loaded product URLs)
+            logger.info(f"🔄 Using Patchright Tower for {retailer} baseline scan (DOM extraction)")
+            catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
+            extraction_result = await self.patchright_tower.extract_catalog(
+                catalog_url,
+                retailer,
+                catalog_prompt
+            )
+            method_used = 'patchright'
             
             # Handle both dict and object return types
             if isinstance(extraction_result, dict):

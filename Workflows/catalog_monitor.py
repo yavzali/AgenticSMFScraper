@@ -44,15 +44,17 @@ from patchright_product_extractor import PatchrightProductExtractor
 
 logger = setup_logging(__name__)
 
-# Retailer classification
-MARKDOWN_RETAILERS = [
-    'asos', 'mango', 'hm', 'uniqlo'
-]
-
-PATCHRIGHT_RETAILERS = [
-    'revolve',  # JavaScript-loaded product URLs require browser execution
+# Retailer classification for CATALOG scanning
+# ALL retailers use Patchright for catalog (JavaScript-loaded product URLs)
+PATCHRIGHT_CATALOG_RETAILERS = [
+    'revolve', 'asos', 'mango', 'hm', 'uniqlo',
     'anthropologie', 'urban_outfitters', 'abercrombie',
     'aritzia', 'nordstrom'
+]
+
+# Retailers that use Markdown for SINGLE PRODUCT extraction
+MARKDOWN_SINGLE_PRODUCT_RETAILERS = [
+    'revolve', 'asos', 'mango', 'hm', 'uniqlo'
 ]
 
 # Retailer catalog URL templates (copied from old retailer_crawlers.py - MUST match baseline scanner!)
@@ -199,29 +201,15 @@ class CatalogMonitor:
             await self._initialize_towers()
             
             # Step 3: Scan catalog with tower CATALOG extractor
-            if retailer in MARKDOWN_RETAILERS:
-                logger.info("🔄 Using Markdown Tower (catalog)")
-                extraction_result = await self.markdown_catalog_tower.extract_catalog(
-                    catalog_url,
-                    retailer,
-                    max_pages=max_pages
-                )
-                method_used = 'markdown'
-            elif retailer in PATCHRIGHT_RETAILERS:
-                logger.info("🔄 Using Patchright Tower (catalog)")
-                # Patchright uses catalog_prompt parameter (not max_pages)
-                catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
-                extraction_result = await self.patchright_catalog_tower.extract_catalog(
-                    catalog_url,
-                    retailer,
-                    catalog_prompt
-                )
-                method_used = 'patchright'
-            else:
-                return self._error_result(
-                    retailer, category, modesty_level, start_time,
-                    f'Unknown retailer: {retailer}'
-                )
+            # ALL retailers use Patchright for catalog (JavaScript-loaded product URLs)
+            logger.info(f"🔄 Using Patchright Tower for {retailer} catalog (DOM extraction)")
+            catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
+            extraction_result = await self.patchright_catalog_tower.extract_catalog(
+                catalog_url,
+                retailer,
+                catalog_prompt
+            )
+            method_used = 'patchright'
             
             # Handle both dict and object return types
             if isinstance(extraction_result, dict):
@@ -266,8 +254,8 @@ class CatalogMonitor:
                     continue
                 
                 # Re-extract with SINGLE product extractor for full details (now passes category parameter)
-                # SPECIAL CASE: Revolve uses Patchright for catalog but Markdown for single products
-                single_product_method = 'markdown' if retailer == 'revolve' else method_used
+                # Use Markdown for retailers that support it (fast & cheap), Patchright for others
+                single_product_method = 'markdown' if retailer in MARKDOWN_SINGLE_PRODUCT_RETAILERS else 'patchright'
                 full_product = await self._extract_single_product(
                     product_url,
                     retailer,
@@ -327,8 +315,8 @@ class CatalogMonitor:
                     continue
                 
                 # Extract full product data (needed if promoted to modesty review later)
-                # SPECIAL CASE: Revolve uses Patchright for catalog but Markdown for single products
-                single_product_method = 'markdown' if retailer == 'revolve' else method_used
+                # Use Markdown for retailers that support it (fast & cheap), Patchright for others
+                single_product_method = 'markdown' if retailer in MARKDOWN_SINGLE_PRODUCT_RETAILERS else 'patchright'
                 full_product = await self._extract_single_product(
                     product_url,
                     retailer,
