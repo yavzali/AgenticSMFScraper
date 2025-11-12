@@ -338,6 +338,11 @@ if title_similarity > 0.90 and abs(price_diff) < 1.0:
 **Limitation**: Only captures initially visible products (~105)  
 **Reason**: Markdown can't simulate scrolling
 
+**✅ VERIFIED (Nov 2025)**: Current implementation correctly handles infinite scroll
+- Single URL extraction (no pagination loop)
+- Matches old architecture behavior (Hash: 621349b)
+- See Knowledge/RETAILER_CONFIG.json: `"pagination_type": "infinite_scroll"`
+
 ### Key Configuration
 ```json
 {
