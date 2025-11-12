@@ -554,19 +554,28 @@ product_cards = 'a[class*="ProductCard"]'  # Fallback
 
 ### Extraction Method Summary
 
-**Markdown (Cheap, Fast)**:
-- Revolve ✅
-- ASOS
-- Mango
-- H&M
-- Uniqlo
+**UNIVERSAL APPROACH** (as of Nov 2025):
 
-**Patchright (Powerful, Handles Anti-Bot)**:
-- Anthropologie ✅
-- Abercrombie ✅
-- Urban Outfitters ✅
-- Aritzia ⏳
-- Nordstrom ❓
+**Catalog Scanning** → **ALL use Patchright** (DOM extraction)
+- Reason: Modern retailers load product URLs via JavaScript
+- Markdown (Jina AI) only sees static HTML → misses links
+- Patchright executes JavaScript → extracts real URLs
+- Retailers: All 10 (Revolve, ASOS, Mango, H&M, Uniqlo, Anthropologie, Abercrombie, Urban Outfitters, Aritzia, Nordstrom)
+
+**Single Product Extraction** → **Hybrid approach**
+- **Markdown (Fast & Cheap: $0.002/product)**:
+  - Revolve ✅
+  - ASOS
+  - Mango  
+  - H&M
+  - Uniqlo
+  
+- **Patchright (Powerful: $0.003/product)**:
+  - Anthropologie ✅ (anti-bot)
+  - Abercrombie ✅ (anti-bot)
+  - Urban Outfitters ✅ (anti-bot)
+  - Aritzia ⏳ (anti-bot)
+  - Nordstrom ❓ (anti-bot)
 
 ---
 

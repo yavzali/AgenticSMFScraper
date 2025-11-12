@@ -357,20 +357,38 @@
     }
   },
   "strategy_matrix": {
-    "markdown_retailers": [
-      "revolve",
-      "asos",
-      "mango",
-      "uniqlo",
-      "hm"
-    ],
-    "patchright_retailers": [
-      "anthropologie",
-      "abercrombie",
-      "urban_outfitters",
-      "aritzia",
-      "nordstrom"
-    ],
+    "catalog_extraction": {
+      "method": "patchright_universal",
+      "reason": "JavaScript-loaded product URLs require browser execution",
+      "all_retailers": [
+        "revolve",
+        "asos",
+        "mango",
+        "uniqlo",
+        "hm",
+        "anthropologie",
+        "abercrombie",
+        "urban_outfitters",
+        "aritzia",
+        "nordstrom"
+      ]
+    },
+    "single_product_extraction": {
+      "markdown_retailers": [
+        "revolve",
+        "asos",
+        "mango",
+        "uniqlo",
+        "hm"
+      ],
+      "patchright_retailers": [
+        "anthropologie",
+        "abercrombie",
+        "urban_outfitters",
+        "aritzia",
+        "nordstrom"
+      ]
+    },
     "anti_bot_levels": {
       "none": [
         "revolve"
@@ -393,22 +411,37 @@
         "nordstrom"
       ]
     },
-    "extraction_modes": {
-      "markdown_primary": [
+    "catalog_extraction_modes": {
+      "note": "All retailers use Patchright for catalog (JavaScript URLs)",
+      "patchright_universal": [
+        "revolve",
+        "asos",
+        "mango",
+        "uniqlo",
+        "hm",
+        "anthropologie",
+        "abercrombie",
+        "urban_outfitters",
+        "aritzia",
+        "nordstrom"
+      ]
+    },
+    "single_product_extraction_modes": {
+      "markdown": [
         "revolve",
         "asos",
         "mango",
         "uniqlo",
         "hm"
       ],
-      "gemini_first": [
+      "patchright_gemini_first": [
         "abercrombie",
         "urban_outfitters"
       ],
-      "dom_first_fallback": [
+      "patchright_dom_first_fallback": [
         "anthropologie"
       ],
-      "extended_wait_scroll": [
+      "patchright_extended_wait_scroll": [
         "aritzia"
       ]
     },
