@@ -266,10 +266,10 @@ class DatabaseManager:
             
             cursor.execute('''
                 INSERT INTO products 
-                (url, retailer, title, price, brand, description, images, 
+                (url, retailer, title, price, brand, description, 
                  shopify_id, modesty_status, shopify_status, images_uploaded, 
                  images_uploaded_at, source, assessment_status, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 url,
                 retailer,
@@ -277,7 +277,6 @@ class DatabaseManager:
                 product_data.get('price'),
                 product_data.get('brand'),
                 product_data.get('description'),
-                json.dumps(product_data.get('images', [])),
                 shopify_id,
                 modesty_status,
                 shopify_status,
