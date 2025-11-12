@@ -610,7 +610,8 @@ Return JSON:
                 headless=False,
                 viewport={'width': 1920, 'height': 1080},
                 user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-                locale='en-US'
+                locale='en-US',
+                permissions=[]  # Deny all permissions (notifications, geolocation, etc.)
             )
             
             self.page = self.context.pages[0] if self.context.pages else await self.context.new_page()

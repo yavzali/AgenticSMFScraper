@@ -424,7 +424,13 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                     if fresh_token_estimate > 30000:
                         logger.warning(f"Fetched content very large ({fresh_token_estimate} tokens)")
                     
-                    # Cache the result
+                    # VALIDATION: Check if we got homepage redirect instead of product page
+                    if self._is_homepage_redirect(fresh_content, url):
+                        logger.warning(f"⚠️ Jina AI returned homepage redirect for {url}, NOT caching bad content")
+                        # Return None to trigger Patchright fallback (don't poison cache)
+                        return None, url
+                    
+                    # Only cache if validation passes
                     self._save_markdown_cache(url, fresh_content, clean_url)
                     logger.debug(f"Successfully fetched markdown ({fresh_token_estimate} tokens)")
                     return fresh_content, clean_url
@@ -444,6 +450,54 @@ Remember: Extract ALL products as a JSON array in the format specified above."""
                     logger.error(f"Jina AI failed after all retries: {e}")
         
         return None, url
+    
+    def _is_homepage_redirect(self, content: str, requested_url: str) -> bool:
+        """
+        Detect if Jina AI returned homepage instead of requested page
+        
+        Common with e-commerce "soft 404s" - returns HTTP 200 but redirects to homepage
+        
+        Args:
+            content: Markdown content from Jina AI
+            requested_url: The URL we actually requested
+            
+        Returns:
+            True if this appears to be a homepage redirect
+        """
+        # Check title (first 300 chars for Jina AI format)
+        title_section = content[:300]
+        
+        # Homepage indicators (generic titles, not product-specific)
+        homepage_indicators = [
+            'Clothing | REVOLVE',
+            'Women\'s Clothing | ',
+            'Shop Women | ',
+            'New Arrivals | ',
+            'Category: ',
+            'Browse | ',
+            '| Shop ',
+            'Welcome to '
+        ]
+        
+        for indicator in homepage_indicators:
+            if indicator in title_section:
+                logger.debug(f"Homepage indicator found: '{indicator}'")
+                return True
+        
+        # Check if URL Source line matches requested URL (Jina AI format)
+        url_match = re.search(r'URL Source:\s*(https?://[^\s\n]+)', content[:500])
+        if url_match:
+            source_url = url_match.group(1).strip()
+            # Normalize both URLs for comparison (remove protocol, www, query params)
+            requested_normalized = re.sub(r'https?://(www\.)?', '', requested_url).split('?')[0].rstrip('/')
+            source_normalized = re.sub(r'https?://(www\.)?', '', source_url).split('?')[0].rstrip('/')
+            
+            # For product pages, source should contain the full path
+            if requested_normalized not in source_normalized and source_normalized not in requested_normalized:
+                logger.debug(f"URL mismatch: requested={requested_normalized}, got={source_normalized}")
+                return True
+        
+        return False
     
     def _get_jina_headers(self, retailer: str) -> Dict[str, str]:
         """Get Jina AI request headers"""
