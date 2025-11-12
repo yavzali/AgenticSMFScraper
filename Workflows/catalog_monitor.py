@@ -771,6 +771,11 @@ class CatalogMonitor:
         try:
             if method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
+                
+                # FALLBACK: If markdown fails, try Patchright
+                if not result.success and result.should_fallback:
+                    logger.warning(f"Markdown extraction failed for {url}, falling back to Patchright")
+                    result = await self.patchright_product_tower.extract_product(url, retailer)
             else:
                 result = await self.patchright_product_tower.extract_product(url, retailer)
             
