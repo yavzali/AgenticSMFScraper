@@ -16,6 +16,7 @@ import time
 import random
 import pickle
 import requests
+import re
 from typing import List, Dict, Optional, Tuple, Any
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
