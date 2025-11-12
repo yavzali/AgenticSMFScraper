@@ -851,11 +851,14 @@ class CatalogMonitor:
                 logger.info(f"✅ Uploaded as draft to Shopify: {shopify_id}")
                 
                 # Save to local DB with image upload tracking
+                # Extract integer product_id from Shopify response
+                shopify_product_id = shopify_id.get('product_id') if isinstance(shopify_id, dict) else shopify_id
+                
                 await self.db_manager.save_product(
                     url=product['url'],
                     retailer=retailer,
                     product_data=product,
-                    shopify_id=shopify_id,
+                    shopify_id=shopify_product_id,
                     modesty_status='pending_review',
                     shopify_status='draft',  # Mark as draft in DB
                     images_uploaded=1 if downloaded_images else 0,  # Track image upload success
