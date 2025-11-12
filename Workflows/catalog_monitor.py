@@ -46,10 +46,11 @@ logger = setup_logging(__name__)
 
 # Retailer classification
 MARKDOWN_RETAILERS = [
-    'revolve', 'asos', 'mango', 'hm', 'uniqlo'
+    'asos', 'mango', 'hm', 'uniqlo'
 ]
 
 PATCHRIGHT_RETAILERS = [
+    'revolve',  # JavaScript-loaded product URLs require browser execution
     'anthropologie', 'urban_outfitters', 'abercrombie',
     'aritzia', 'nordstrom'
 ]

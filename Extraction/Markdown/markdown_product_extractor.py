@@ -51,10 +51,11 @@ class MarkdownExtractionResult:
 
 # Supported retailers for markdown extraction
 MARKDOWN_RETAILERS = [
-    'revolve', 'asos', 'mango', 'hm', 'uniqlo',
+    'asos', 'mango', 'hm', 'uniqlo',
     'aritzia', 'anthropologie', 'abercrombie',
     'urban_outfitters', 'nordstrom'
 ]
+# Note: Revolve removed - product URLs loaded via JavaScript, Jina AI gets redirects
 
 
 class MarkdownProductExtractor:
