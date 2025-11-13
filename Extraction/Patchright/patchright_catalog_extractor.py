@@ -1092,13 +1092,20 @@ DO NOT include products where you cannot read the title or price - skip them ins
             
             for idx, container in enumerate(containers[:100], 1):  # Limit to 100
                 try:
-                    # Extract URL
+                    # Extract URL (use JS evaluation, not get_attribute - handles aria-hidden links)
                     url = None
                     link = await container.query_selector('a[href*="/dp/"]')
                     if link:
-                        href = await link.get_attribute('href')
+                        # Try JS property first (works for aria-hidden links)
+                        try:
+                            href = await link.evaluate('el => el.href')
+                        except:
+                            # Fallback to attribute
+                            href = await link.get_attribute('href')
+                        
                         if href:
-                            if href.startswith('/'):
+                            # href from .evaluate() is already absolute
+                            if not href.startswith('http'):
                                 base_url = await self.page.evaluate('() => window.location.origin')
                                 url = f"{base_url}{href}"
                             else:
