@@ -113,26 +113,30 @@ All 12 products showed same pattern:
 
 ---
 
-## **Priority:** Medium (P2) ⚠️
+## **RESOLVED** ✅ (Nov 13, 2024)
 
-**Reasoning:**
-- ✅ System handles gracefully (skips instead of crashes)
-- ⚠️ **But these might be real products we're missing**
-- ⚠️ Patchright identified them with titles/prices
-- ⚠️ URL extraction failed specifically for "superdown" brand
-- ⚠️ Consistent pattern (not random failures)
+**Root Cause Found:**
+The issue was NOT with product extraction - it was a **configuration bug**:
 
-**Evidence They're Real Products:**
-- Catalog scan found 112 products (all had titles/prices)
-- 12 identified as "new" after deduplication
-- Specific brand: "superdown"
-- Specific prices: $78 or $88
-- If they were ads, they'd likely be filtered earlier
+1. **`patchright_retailer_strategies.py`** configured Revolve as `'catalog_mode': 'dom_first'`
+2. **`patchright_catalog_extractor.py`** IGNORED this configuration
+3. System still ran Gemini Vision (found 12 products in viewport)
+4. DOM extraction found 100 products (correct)
+5. Merge logic couldn't match some Gemini products to DOM
+6. **Bug:** Unmatched Gemini products were added with `url: None`
 
-**When to Investigate:**
-- ⏰ **Soon** - After Revolve Tops completes
-- Before next major Revolve import
-- These could be 10-15% of new Revolve products we're missing
+**Fix Applied:**
+- ✅ Check `strategy.get('catalog_mode')` before retailer-specific checks
+- ✅ Revolve now properly uses DOM-first mode (skips Gemini merge issues)
+- ✅ Never add products without URLs to merged results
+- ✅ Skip unmatched Gemini products (ads, duplicates, edge cases)
+
+**Result:**
+- Revolve will extract 100 products (all from DOM with URLs)
+- No more `url: None` products entering workflow
+- 0 products skipped during single product extraction
+
+**Commit:** bc9c5ad "FIX: Respect catalog_mode=dom_first configuration & never add URL-less products"
 
 ---
 
