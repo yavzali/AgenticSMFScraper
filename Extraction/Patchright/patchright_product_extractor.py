@@ -324,40 +324,24 @@ class PatchrightProductExtractor:
     
     async def _take_multi_region_screenshots(self, retailer: str) -> List[bytes]:
         """
-        Take screenshots of different page regions
+        Take full-page screenshot for product pages
         
-        Regions: header, mid, footer
+        NOTE: Changed from multi-region scrolling to single full-page screenshot
+        Product pages don't need scrolling - causes unnecessary page movement
         """
         screenshots = []
         
         try:
-            # Scroll to top
+            # Scroll to top first
             await self.page.evaluate("window.scrollTo(0, 0)")
             await asyncio.sleep(1)
             
-            # Get page height
-            page_height = await self.page.evaluate("document.body.scrollHeight")
-            viewport_height = await self.page.evaluate("window.innerHeight")
+            # Take ONE full-page screenshot (no scrolling!)
+            logger.debug("📸 Taking full-page screenshot...")
+            screenshot = await self.page.screenshot(type='png', full_page=True)
+            screenshots.append(screenshot)
             
-            # Take 3 screenshots: top, middle, bottom
-            positions = [
-                ('header', 0),
-                ('mid', (page_height - viewport_height) / 2),
-                ('footer', page_height - viewport_height)
-            ]
-            
-            for region, scroll_pos in positions:
-                await self.page.evaluate(f"window.scrollTo(0, {scroll_pos})")
-                await asyncio.sleep(0.5)
-                
-                screenshot = await self.page.screenshot(type='png')
-                screenshots.append(screenshot)
-                logger.debug(f"📸 Captured {region} screenshot")
-            
-            # Scroll back to top
-            await self.page.evaluate("window.scrollTo(0, 0)")
-            
-            logger.info(f"✅ Captured {len(screenshots)} region screenshots")
+            logger.info(f"✅ Captured full-page screenshot")
             return screenshots
             
         except Exception as e:

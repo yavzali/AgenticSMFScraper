@@ -192,6 +192,27 @@ RETAILER_STRATEGIES = {
         },
         'anti_bot_complexity': 'high',  # BLOCKED: "unusual activity" page
         'notes': 'BLOCKED by aggressive anti-bot protection (Nov 2024). Shows "unusual activity" warning and blocks automated traffic. Product URLs follow pattern: /s/{product-name}/{product-id}. May require residential proxies or manual session management.'
+    },
+    
+    'hm': {
+        'verification': 'none',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'dom_first',
+        'product_selectors': [
+            "a[href*='/productpage']",
+            "a[class*='item-link']"
+        ],
+        'dom_extraction': {
+            'title_selectors': ['h1[class*="product"]', '[class*="product-title"]', 'h1', 'h2'],
+            'price_selectors': [
+                '[class*="price"]',
+                '[data-testid*="price"]',
+                'span[itemprop="price"]'
+            ],
+            'product_container': 'article, [class*="product"], [data-product]'
+        },
+        'anti_bot_complexity': 'high',  # BLOCKED: "Access Denied"
+        'notes': 'BLOCKED by anti-bot protection (Nov 2024). Single product pages show "Access Denied". May require residential proxies or different user agent strategy.'
     }
 }
 
