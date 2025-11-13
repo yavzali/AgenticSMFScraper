@@ -367,43 +367,28 @@ class ImageProcessor:
         """
         Revolve-specific transformations
         
-        VERIFIED WORKING PATTERNS (2025-11):
-        - /n/d/ = ✅ HTTP 200 (detail view - WORKING)
-        - /n/c/ = ✅ HTTP 200 (catalog view - WORKING)
-        - /n/z/ = ❌ HTTP 404 (zoom - BROKEN, do NOT use)
-        - /n/f/ = ❌ HTTP 404 (full - BROKEN, do NOT use)
+        VERIFIED WORKING PATTERNS (Nov 2024):
+        - /n/ct/ = ✅ Thumbnail (works, but upgrade to full-size)
+        - /n/uv/ = ✅ Full-size (target quality)
+        - /n/c/ = ✅ Catalog view (keep as-is)
+        - /n/d/ = ❌ 404 (DO NOT USE)
+        - _V1, _V2, _V3 suffixes = ✅ Different angles (KEEP ALL)
         
-        STRATEGY: Keep original paths OR convert to /n/d/ (detail view)
+        STRATEGY: 
+        1. Convert thumbnails (/n/ct/) to full-size (/n/uv/)
+        2. Keep _V1, _V2, _V3 suffixes (different product angles)
+        3. Keep all other patterns as-is
         """
         enhanced = url
         
-        # DO NOT transform to /n/z/ - it returns 404!
-        # Instead, convert problematic patterns to /n/d/ (detail view, which works)
+        # Convert thumbnails to full-size (verified working)
+        # /n/ct/ (catalog thumbnail) → /n/uv/ (UV/full view)
+        enhanced = re.sub(r'/n/ct/', '/n/uv/', enhanced)
         
-        # Only transform known problematic patterns to /n/d/
-        enhanced = re.sub(r'/n/ct/', '/n/d/', enhanced)  # Thumbnail to Detail
-        enhanced = re.sub(r'/n/uv/', '/n/d/', enhanced)  # UV to Detail
-        enhanced = re.sub(r'/n/p/', '/n/d/', enhanced)   # Preview to Detail
-        enhanced = re.sub(r'/n/r/', '/n/d/', enhanced)   # Regular to Detail
-        enhanced = re.sub(r'/n/t/', '/n/d/', enhanced)   # Thumb to Detail
-        enhanced = re.sub(r'/n/z/', '/n/d/', enhanced)   # Zoom to Detail (broken URL fix)
-        enhanced = re.sub(r'/n/f/', '/n/d/', enhanced)   # Full to Detail (broken URL fix)
+        # KEEP _V1, _V2, _V3 suffixes - these are different product angles
+        # DO NOT remove them (old logic incorrectly stripped these)
         
-        # KEEP /n/d/, /n/c/, /n/dp/, /n/d5/ and similar - they work!
-        # No transformation needed for these
-        
-        # Size suffix transformations
-        enhanced = re.sub(r'_sm\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
-        enhanced = re.sub(r'_md\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
-        enhanced = re.sub(r'_thumb\.(jpg|jpeg|png)', r'_lg.\1', enhanced, flags=re.IGNORECASE)
-        
-        # Version suffix transformations (_V1, _V2, _V3 → full-size)
-        # These are often used in newer Revolve product URLs
-        enhanced = re.sub(r'_V\d+\.(jpg|jpeg|png)', r'.\1', enhanced, flags=re.IGNORECASE)
-        
-        # REMOVED: /n/z/ → /n/f/ conversion (those URLs don't exist!)
-        # The /n/z/ (zoom) URLs work fine as-is, verified from old architecture
-        # Old architecture downloaded URLs as-is without transformation
+        # Keep all other patterns unchanged (/n/c/, /n/uv/ already)
         
         return enhanced
     
