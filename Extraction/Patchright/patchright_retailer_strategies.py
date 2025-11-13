@@ -144,7 +144,8 @@ RETAILER_STRATEGIES = {
             'price_selectors': [],  # Prices in plain text nodes, extract from parent text
             'product_container': '#plp-prod-list',  # Main product grid
             'extract_price_from_text': True,  # Special flag: extract $ amounts from text content
-            'max_parent_levels': 2  # Only traverse 2 levels up (stay within product card)
+            'max_parent_levels': 3,  # Traverse 3 levels up to reach product card with price
+            'price_in_sibling': True  # Price might be in sibling element, not direct parent
         },
         'popup_selectors': [
             'button[aria-label*="Close"]',

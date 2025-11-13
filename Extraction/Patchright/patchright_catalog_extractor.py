@@ -673,17 +673,30 @@ DO NOT include products where you cannot read the title or price - skip them ins
                                         if not dom_price:
                                             try:
                                                 parent_text = await parent.inner_text()
-                                                # Find first line with $ that's short (likely a price)
-                                                for line in parent_text.split('\n'):
-                                                    line_clean = line.strip()
-                                                    if '$' in line_clean and len(line_clean) < 30:
-                                                        # Extract just the price part (e.g., "$115" or "$115.00")
-                                                        price_match = re.search(r'\$\s*\d+\.?\d*', line_clean)
+                                                lines = [l.strip() for l in parent_text.split('\n') if l.strip()]
+                                                
+                                                # Strategy A: Look for $ in short lines
+                                                for line in lines:
+                                                    if '$' in line and len(line) < 30:
+                                                        price_match = re.search(r'\$\s*(\d+\.?\d*)', line)
                                                         if price_match:
-                                                            dom_price = price_match.group().strip()
+                                                            dom_price = f"${price_match.group(1)}"
+                                                            logger.debug(f"💰 Found price in text (strategy A): {dom_price}")
                                                             break
-                                            except:
-                                                pass
+                                                
+                                                # Strategy B: Look for standalone numbers that could be prices
+                                                if not dom_price:
+                                                    for line in lines:
+                                                        if re.match(r'^\$?\d{2,4}\.?\d{0,2}$', line):
+                                                            price_match = re.search(r'(\d+\.?\d*)', line)
+                                                            if price_match:
+                                                                price_val = float(price_match.group(1))
+                                                                if 20 <= price_val <= 9999:
+                                                                    dom_price = f"${price_val:.2f}" if '.' in price_match.group(1) else f"${int(price_val)}"
+                                                                    logger.debug(f"💰 Found price as number (strategy B): {dom_price}")
+                                                                    break
+                                            except Exception as e:
+                                                logger.debug(f"Text price extraction failed: {e}")
                                         
                                         # Fallback 2: Look for any element with price-like text
                                         if not dom_price:
