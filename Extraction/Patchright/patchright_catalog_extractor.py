@@ -238,28 +238,58 @@ class PatchrightCatalogExtractor:
             
             screenshot_list = "\n".join([f"{i+1}. {desc}" for i, desc in enumerate(screenshot_descriptions)])
             
-            full_prompt = f"""{catalog_prompt}
+            full_prompt = f"""CATALOG EXTRACTION - CRITICAL INSTRUCTIONS
+
+You are analyzing a {retailer} catalog page with a product grid.
+
+YOUR PRIMARY TASK: Extract EVERY SINGLE PRODUCT visible on this page.
+
+IMPORTANT RULES:
+1. DO NOT skip products just because their images haven't loaded yet
+2. EXTRACT products even if you only see:
+   - Product title (text visible in product card)
+   - Price (text visible in product card)
+   - Placeholder image, loading spinner, or blank image area
+3. Images are OPTIONAL - your focus is on title and price
+4. Count all product cards/tiles in the grid, not just ones with fully loaded images
+
+REQUIRED FIELDS (extract if visible):
+- title: Product name/title (REQUIRED - extract from any visible text in product card)
+- price: Current price (REQUIRED - extract visible price number)
+
+OPTIONAL FIELDS (extract if visible and readable):
+- original_price: Original price if product shows sale pricing
+- sale_status: "on_sale" or "regular" (only if clearly visible)
+- image_urls: Product image URLs if visible in the screenshot (extract if you can read them)
+
+NOTE ON EXTRACTION LIMITATIONS:
+- Product URLs and product codes are typically NOT visible in screenshots - these will be extracted separately via DOM
+- If you CAN see image URLs in the screenshot, extract them
+- But if URLs/codes are not visible, do not make them up - DOM will handle this
+
+CRITICAL RULES - WHAT NOT TO DO:
+- NEVER create fake or placeholder titles like "[URL only: ...]" or "Unknown Product"
+- NEVER create fake or placeholder prices like 0 or "N/A"
+- NEVER make up data that you cannot see in the screenshot
+- IF you cannot read a product's title or price, SKIP that product entirely
+
+CRITICAL SUCCESS CRITERIA:
+- If you see 50+ product cards in the grid, your response should have 50+ products
+- If a product card shows title and price but image is loading, INCLUDE IT
+- Even products with placeholder images or loading icons should be extracted
+- Every product you return must have a REAL title (actual product name) and REAL price (actual number)
 
 SCREENSHOT ANALYSIS INSTRUCTIONS:
-You are viewing {len(screenshots)} screenshot(s) of a {retailer} catalog page.
+You are viewing {len(screenshots)} screenshot(s) of this catalog page.
 Analyze ALL visible products across all screenshots.
-Extract EVERY product you can see.
 
 Screenshots show:
 {screenshot_list}
 
-IMPORTANT: Extract ALL visual information you can see for each product:
-- Product title (as shown in the image)
-- Current price (visible in screenshot)
-- Original price if on sale (if product is on sale)
-- Product image URL (visible in screenshot, if available)
-- Sale status (on_sale or regular)
-- Any other visual details you can identify
+Return a JSON array with ALL products found across all screenshots.
+Each product should be a JSON object with title and price at minimum.
 
-NOTE: You cannot read URLs or product codes from screenshots.
-We will extract those separately using DOM after you provide the visual data.
-
-Return a JSON array with ALL products found across all screenshots."""
+DO NOT include products where you cannot read the title or price - skip them instead of making up data."""
             
             # Step 9: Call Gemini Vision
             image_parts = []
@@ -353,6 +383,22 @@ Return a JSON array with ALL products found across all screenshots."""
             logger.info("🔗 Step 2: DOM extracting URLs and validating...")
             dom_product_links = await self._extract_catalog_product_links_from_dom(retailer, strategy)
             logger.info(f"✅ DOM found {len(dom_product_links)} product URLs")
+            
+            # NEW: Validate extraction quality BEFORE merge
+            validation_result = self._validate_extraction_quality(
+                gemini_products=products,
+                dom_product_links=dom_product_links,
+                retailer=retailer
+            )
+            
+            # Log validation results
+            logger.info(f"📊 Extraction Ratio: {validation_result['extraction_ratio']:.1%} "
+                       f"(Gemini: {validation_result['gemini_count']}, DOM: {validation_result['dom_count']})")
+            
+            # If extraction is critically bad, trigger DOM-first mode
+            if not validation_result['valid']:
+                logger.warning("⚠️ Extraction validation failed, considering DOM-first fallback...")
+                # The existing DOM-first logic will handle this below
             
             # Step 11: DOM-first override for tall pages or when Gemini extraction is poor
             use_dom_first = False
@@ -614,6 +660,153 @@ Return a JSON array with ALL products found across all screenshots."""
         except Exception as e:
             logger.error(f"DOM extraction failed: {e}")
             return []
+    
+    def _validate_extraction_quality(
+        self,
+        gemini_products: List[Dict],
+        dom_product_links: List[Dict],
+        retailer: str
+    ) -> Dict[str, Any]:
+        """
+        Validate extraction quality to catch common mistakes
+        
+        Checks for:
+        1. Gemini extracted reasonable number of products vs DOM
+        2. No fake/placeholder titles or prices
+        3. Products have valid data structure
+        
+        Args:
+            gemini_products: Products extracted by Gemini Vision
+            dom_product_links: Product URLs extracted by DOM
+            retailer: Retailer name
+        
+        Returns:
+            {
+                'valid': bool,
+                'warnings': List[str],
+                'errors': List[str],
+                'gemini_count': int,
+                'dom_count': int,
+                'extraction_ratio': float
+            }
+        """
+        validation_result = {
+            'valid': True,
+            'warnings': [],
+            'errors': [],
+            'gemini_count': len(gemini_products),
+            'dom_count': len(dom_product_links),
+            'extraction_ratio': 0.0
+        }
+        
+        # Calculate extraction ratio
+        if len(dom_product_links) > 0:
+            validation_result['extraction_ratio'] = len(gemini_products) / len(dom_product_links)
+        
+        # Check 1: Gemini found significantly fewer products than DOM
+        # This indicates Gemini may have missed products
+        if len(dom_product_links) > 20 and validation_result['extraction_ratio'] < 0.3:
+            validation_result['warnings'].append(
+                f"Low extraction ratio: Gemini found {len(gemini_products)} products "
+                f"but DOM found {len(dom_product_links)} URLs. May have missed products without loaded images."
+            )
+            logger.warning(f"⚠️ Low extraction ratio: {validation_result['extraction_ratio']:.1%}")
+        
+        # Check 2: Validate each product has real data (not fake/placeholder)
+        fake_title_patterns = [
+            r'\[url only',
+            r'unknown product',
+            r'product \d+',
+            r'^\s*$',  # Empty or whitespace only
+            r'^n/a$',
+            r'^none$',
+            r'^null$'
+        ]
+        
+        products_with_fake_titles = 0
+        products_with_invalid_prices = 0
+        products_missing_title = 0
+        products_missing_price = 0
+        
+        for i, product in enumerate(gemini_products):
+            # Check for missing title
+            if not product.get('title'):
+                products_missing_title += 1
+                continue
+            
+            # Check for fake/placeholder titles
+            title_lower = product['title'].lower().strip()
+            is_fake_title = any(
+                re.search(pattern, title_lower, re.IGNORECASE) 
+                for pattern in fake_title_patterns
+            )
+            
+            if is_fake_title:
+                products_with_fake_titles += 1
+                logger.warning(f"⚠️ Fake title detected: '{product['title']}'")
+            
+            # Check for missing or invalid price
+            price = product.get('price')
+            if price is None:
+                products_missing_price += 1
+            elif not isinstance(price, (int, float)) or price <= 0:
+                products_with_invalid_prices += 1
+                logger.warning(f"⚠️ Invalid price detected: {price}")
+        
+        # Add validation errors/warnings
+        if products_with_fake_titles > 0:
+            validation_result['errors'].append(
+                f"Found {products_with_fake_titles} products with fake/placeholder titles. "
+                f"LLM should never create fake data."
+            )
+            validation_result['valid'] = False
+        
+        if products_missing_title > len(gemini_products) * 0.1:  # More than 10% missing titles
+            validation_result['warnings'].append(
+                f"{products_missing_title} products missing titles ({products_missing_title/len(gemini_products)*100:.1f}%)"
+            )
+        
+        if products_missing_price > len(gemini_products) * 0.1:  # More than 10% missing prices
+            validation_result['warnings'].append(
+                f"{products_missing_price} products missing prices ({products_missing_price/len(gemini_products)*100:.1f}%)"
+            )
+        
+        if products_with_invalid_prices > 0:
+            validation_result['warnings'].append(
+                f"{products_with_invalid_prices} products with invalid prices (0 or negative)"
+            )
+        
+        # Check 3: Minimum product count threshold
+        # For retailers we know have many products, ensure we extracted enough
+        expected_minimum_by_retailer = {
+            'revolve': 40,
+            'anthropologie': 50,
+            'urban_outfitters': 50,
+            'abercrombie': 60,
+            'nordstrom': 40,
+            'aritzia': 40
+        }
+        
+        expected_min = expected_minimum_by_retailer.get(retailer.lower(), 20)
+        
+        if len(gemini_products) < expected_min and len(dom_product_links) > expected_min:
+            validation_result['errors'].append(
+                f"Expected at least {expected_min} products for {retailer}, "
+                f"but only extracted {len(gemini_products)}. DOM found {len(dom_product_links)} URLs."
+            )
+            validation_result['valid'] = False
+        
+        # Log validation summary
+        if validation_result['valid']:
+            logger.info(f"✅ Extraction validation passed: {len(gemini_products)} products extracted")
+        else:
+            logger.error(f"❌ Extraction validation failed: {validation_result['errors']}")
+        
+        if validation_result['warnings']:
+            for warning in validation_result['warnings']:
+                logger.warning(f"⚠️ Validation warning: {warning}")
+        
+        return validation_result
     
     def _merge_catalog_dom_with_gemini(
         self,
