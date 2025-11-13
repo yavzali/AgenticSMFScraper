@@ -560,6 +560,71 @@ class ImageProcessor:
         logger.info(f"📥 Downloaded {len(file_paths)}/{len(image_urls)} images for {retailer}")
         return file_paths
     
+    def _get_download_headers(self, url: str, retailer: str) -> Dict[str, str]:
+        """
+        Get appropriate headers for image download with retailer-specific anti-scraping
+        (Restored from old architecture)
+        """
+        # Base headers (working pattern from old script)
+        base_headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'image/jpeg,image/png,image/webp,*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'DNT': '1',
+            'Sec-Fetch-Dest': 'image',
+            'Sec-Fetch-Mode': 'no-cors',
+            'Sec-Fetch-Site': 'cross-site',
+        }
+        
+        # Retailer-specific headers (from working old script)
+        retailer_lower = retailer.lower()
+        if retailer_lower == "hm":
+            base_headers.update({
+                'Referer': 'https://www2.hm.com/',
+                'Accept': 'image/jpeg,image/png,*/*',
+            })
+        elif retailer_lower == "aritzia":
+            base_headers.update({
+                'Referer': 'https://www.aritzia.com/',
+                'Origin': 'https://www.aritzia.com',
+                'Accept': 'image/jpeg,image/png,*/*',
+            })
+        elif retailer_lower == "abercrombie":
+            base_headers.update({
+                'Referer': 'https://www.abercrombie.com/',
+                'sec-ch-ua': '"Chromium";v="112"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+            })
+        elif retailer_lower == "revolve":
+            base_headers.update({
+                'Referer': 'https://www.revolve.com/',
+            })
+        elif retailer_lower == "asos":
+            base_headers.update({
+                'Referer': 'https://www.asos.com/',
+            })
+        elif retailer_lower == "anthropologie":
+            base_headers.update({
+                'Referer': 'https://www.anthropologie.com/',
+            })
+        elif retailer_lower == "urban_outfitters":
+            base_headers.update({
+                'Referer': 'https://www.urbanoutfitters.com/',
+            })
+        elif retailer_lower == "mango":
+            base_headers.update({
+                'Referer': 'https://shop.mango.com/',
+            })
+        elif retailer_lower == "uniqlo":
+            base_headers.update({
+                'Referer': 'https://www.uniqlo.com/',
+            })
+        
+        return base_headers
+    
     async def _download_single_image(
         self,
         session: aiohttp.ClientSession,
@@ -596,8 +661,11 @@ class ImageProcessor:
             filename = f"{safe_title}_{url_hash}_{index}.{ext}"
             file_path = os.path.join(save_dir, filename)
             
+            # Get retailer-specific headers (includes Referer for anti-hotlinking)
+            headers = self._get_download_headers(url, retailer)
+            
             # Download image
-            async with session.get(url, timeout=aiohttp.ClientTimeout(total=30)) as response:
+            async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=30)) as response:
                 if response.status == 200:
                     image_data = await response.read()
                     
