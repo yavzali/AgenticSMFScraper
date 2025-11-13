@@ -113,19 +113,26 @@ All 12 products showed same pattern:
 
 ---
 
-## **Priority:** Low (P3)
+## **Priority:** Medium (P2) ⚠️
 
 **Reasoning:**
-- Not blocking functionality
-- System handles gracefully
-- Might just be ads/sponsored content
-- Only affects edge cases
+- ✅ System handles gracefully (skips instead of crashes)
+- ⚠️ **But these might be real products we're missing**
+- ⚠️ Patchright identified them with titles/prices
+- ⚠️ URL extraction failed specifically for "superdown" brand
+- ⚠️ Consistent pattern (not random failures)
+
+**Evidence They're Real Products:**
+- Catalog scan found 112 products (all had titles/prices)
+- 12 identified as "new" after deduplication
+- Specific brand: "superdown"
+- Specific prices: $78 or $88
+- If they were ads, they'd likely be filtered earlier
 
 **When to Investigate:**
-- If pattern appears on other retailers
-- If number of missing URLs increases significantly
-- If we see legitimate products being skipped
-- During next Revolve-specific optimization pass
+- ⏰ **Soon** - After Revolve Tops completes
+- Before next major Revolve import
+- These could be 10-15% of new Revolve products we're missing
 
 ---
 
