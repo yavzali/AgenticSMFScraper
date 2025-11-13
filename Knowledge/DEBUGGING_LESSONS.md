@@ -15,6 +15,7 @@
 6. [Deduplication Strategies](#deduplication-strategies)
 7. [LLM Response Handling](#llm-response-handling)
 8. [Performance Optimizations](#performance-optimizations)
+9. [Configuration Management](#configuration-management)
 
 ---
 
@@ -996,9 +997,116 @@ Before adding/modifying retailer transformations:
 
 ---
 
+## CONFIGURATION MANAGEMENT
+
+### Problem: Configuration Flags Not Respected in Code
+
+**Context**: `catalog_mode: dom_first` was configured for Revolve but the code still ran Gemini Vision, leading to products with missing URLs.
+
+**Discovery Path** (Nov 13, 2024):
+1. ✅ Revolve configured as `catalog_mode: 'dom_first'` in strategies
+2. ❌ Code only checked for specific retailer names (Anthropologie, Nordstrom)
+3. ❌ Gemini Vision still ran for Revolve (found 12 viewport products)
+4. ❌ DOM found 100 products, merge couldn't match all Gemini products
+5. ❌ **Bug**: Unmatched Gemini products added with `url: None`
+6. ✅ **Result**: 12 "new" products skipped during single extraction (no URLs)
+
+**Root Cause**:
+```python
+# ❌ OLD: Hardcoded retailer checks
+if retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
+    use_dom_first = True
+elif retailer.lower() == 'nordstrom':
+    use_dom_first = True
+
+# Configuration ignored! Revolve never checked!
+```
+
+**Solution**:
+```python
+# ✅ NEW: Check configuration FIRST
+if strategy.get('catalog_mode') == 'dom_first':
+    use_dom_first = True
+    dom_first_reason = 'retailer_configured_dom_first'
+
+# Then retailer-specific overrides (if needed)
+elif retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
+    use_dom_first = True
+    dom_first_reason = 'screenshot_too_tall'
+```
+
+**Impact**:
+- ✅ Revolve: 100 products extracted (all with URLs)
+- ✅ All dom_first retailers now properly skip Gemini merge
+- ✅ No more products with `url: None`
+- ✅ 0 products skipped during single extraction
+
+**Critical Lessons**:
+
+1. **Configuration > Hardcoding**
+   - ✅ Check configuration flags FIRST
+   - ✅ Retailer-specific code should be overrides, not primary logic
+   - ❌ Don't duplicate configuration in code (single source of truth)
+
+2. **Test Configuration Changes**
+   - ✅ Changing config should change behavior
+   - ✅ If config doesn't work, it's a code bug
+   - ❌ Don't assume configuration is being used
+
+3. **Validation During Development**
+   - ✅ Add logging: "Using dom_first mode (reason: config)"
+   - ✅ Verify logs show expected behavior
+   - ❌ Silent failures hide configuration bugs
+
+4. **Secondary Bug: Merge Logic**
+   - The merge also had a bug: adding unmatched Gemini products with `url: None`
+   - This should never happen - products without URLs should be skipped
+   - Fixed by removing the `else` clause that added URL-less products
+
+**Testing Strategy**:
+```python
+# 1. Set catalog_mode in config
+'revolve': {
+    'catalog_mode': 'dom_first',
+    # ...
+}
+
+# 2. Verify in logs
+# Should see: "🔄 DOM-FIRST MODE: Using DOM URLs"
+# Should NOT see: "🔗 Step 3: Merging DOM URLs with Gemini visual data..."
+
+# 3. Check results
+# DOM products: 100
+# Gemini products: 0 (not used)
+# Final products: 100 (all with URLs)
+```
+
+**Prevention**:
+- ✅ Always check strategy configurations before hardcoded logic
+- ✅ Log which code path is taken and why
+- ✅ Validate that configuration changes produce expected behavior
+- ✅ Never add products without required fields (URLs, titles, prices)
+
+**Affected Retailers**:
+- All `dom_first` retailers were affected by this bug
+- Fixed for: Revolve, Anthropologie, Urban Outfitters, Aritzia, Abercrombie, Nordstrom, H&M
+- Also fixed for: ASOS, Mango, Uniqlo (newly configured)
+
+**Commits**:
+- `bc9c5ad` - "FIX: Respect catalog_mode=dom_first configuration"
+- `c9c262f` - "DOC: Mark Revolve missing URL issue as RESOLVED"
+- `3f32925` - "CONFIG: Set all Patchright retailers to dom_first"
+
+**Related Issues**:
+- Products with `url: None` should never enter the workflow
+- Configuration as documentation (if config says X, code must do X)
+- Debugging by questioning assumptions ("But the config says dom_first!")
+
+---
+
 **Last Updated**: 2025-11-13  
 **Status**: Production lessons documented  
-**Coverage**: 8/10 retailers, 95%+ success rate, image transformation lessons added
+**Coverage**: 9/10 retailers, 95%+ success rate, configuration management lessons added
 
 **Related Documents**:
 - `RETAILER_PLAYBOOK.md` - Retailer-specific solutions
