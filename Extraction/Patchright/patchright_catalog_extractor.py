@@ -551,6 +551,10 @@ DO NOT include products where you cannot read the title or price - skip them ins
             if retailer.lower() == 'revolve':
                 return await self._extract_revolve_from_containers(retailer, strategy)
             
+            # SPECIAL CASE: Anthropologie needs container-first extraction
+            if retailer.lower() == 'anthropologie':
+                return await self._extract_anthropologie_from_containers(retailer, strategy)
+            
             # Get selectors from strategy
             selectors = strategy.get('product_selectors', [])
             
@@ -1103,6 +1107,134 @@ DO NOT include products where you cannot read the title or price - skip them ins
         except:
             pass
         return 0.0
+    
+    async def _extract_anthropologie_from_containers(self, retailer: str, strategy: Dict) -> List[Dict]:
+        """
+        Specialized extraction for Anthropologie - extract from product containers directly
+        Anthropologie uses article.product-tile for each product
+        """
+        product_links = []
+        
+        try:
+            # Find all product containers (Anthropologie uses article.product-tile)
+            containers = await self.page.query_selector_all('article.product-tile')
+            logger.info(f"Found {len(containers)} Anthropologie product containers")
+            
+            for idx, container in enumerate(containers[:150], 1):  # Limit to 150
+                try:
+                    # Extract URL
+                    url = None
+                    link = await container.query_selector('a[href*="/shop/"]')
+                    if link:
+                        href = await link.evaluate('el => el.href')
+                        if href and href.startswith('http'):
+                            # Normalize (remove query params)
+                            url = href.split('?')[0]
+                    
+                    # Extract title - try multiple selectors
+                    dom_title = None
+                    
+                    # Try img alt first (most reliable)
+                    img = await container.query_selector('img[alt]')
+                    if img:
+                        alt = await img.get_attribute('alt')
+                        if alt and alt.strip() and len(alt.strip()) > 5:
+                            dom_title = alt.strip()
+                    
+                    # If no img alt, try aria-label
+                    if not dom_title:
+                        aria_link = await container.query_selector('a[aria-label]')
+                        if aria_link:
+                            aria = await aria_link.get_attribute('aria-label')
+                            if aria and aria.strip() and len(aria.strip()) > 5:
+                                dom_title = aria.strip()
+                    
+                    # If still no title, try h3 or product name divs
+                    if not dom_title:
+                        for sel in ['h3', 'h2', '[class*="product-name"]', '[class*="product-title"]']:
+                            try:
+                                title_el = await container.query_selector(sel)
+                                if title_el:
+                                    text = await title_el.inner_text()
+                                    if text and text.strip() and len(text.strip()) > 5:
+                                        dom_title = text.strip()
+                                        break
+                            except:
+                                continue
+                    
+                    # Extract price - try multiple selectors
+                    dom_price = None
+                    
+                    price_selectors = [
+                        'span[data-testid*="price"]',
+                        '[data-testid*="price"]',
+                        'span[class*="price"]',
+                        'span[class*="Price"]',
+                        'div[class*="price"]',
+                        '[aria-label*="price"]',
+                        'span[itemprop="price"]'
+                    ]
+                    
+                    for price_sel in price_selectors:
+                        try:
+                            price_el = await container.query_selector(price_sel)
+                            if price_el:
+                                price_text = await price_el.inner_text()
+                                if price_text and '$' in price_text:
+                                    # Extract first price found
+                                    price_match = re.search(r'\$\s*(\d+\.?\d*)', price_text)
+                                    if price_match:
+                                        price_val = float(price_match.group(1))
+                                        if 10 <= price_val <= 5000:  # Reasonable range
+                                            dom_price = f"${price_match.group(1)}"
+                                            break
+                        except:
+                            continue
+                    
+                    # Extract product code
+                    product_code = self._extract_product_code_from_url(url, retailer) if url else None
+                    
+                    # Only add if we have URL (title and price are optional but logged)
+                    if url:
+                        product_links.append({
+                            'url': url,
+                            'product_code': product_code,
+                            'position': idx,
+                            'dom_title': dom_title,
+                            'dom_price': dom_price
+                        })
+                        
+                        # Log first 5 for debugging
+                        if idx <= 5:
+                            logger.debug(f"✅ Product {idx}: URL={url[:50]}..., Title={'YES' if dom_title else 'NO'}, Price={dom_price or 'NO'}")
+                
+                except Exception as e:
+                    logger.debug(f"Failed to extract from container {idx}: {e}")
+                    continue
+            
+            logger.info(f"📦 Extracted {len(product_links)} products from Anthropologie containers")
+            
+            # Count how many have titles and prices
+            with_titles = sum(1 for p in product_links if p.get('dom_title'))
+            with_prices = sum(1 for p in product_links if p.get('dom_price'))
+            logger.info(f"   📊 {with_titles}/{len(product_links)} have titles, {with_prices}/{len(product_links)} have prices")
+            
+            # Deduplicate by URL
+            seen_urls = set()
+            deduplicated = []
+            for product in product_links:
+                if product['url'] not in seen_urls:
+                    seen_urls.add(product['url'])
+                    deduplicated.append(product)
+            
+            if len(deduplicated) < len(product_links):
+                logger.info(f"🧹 Deduplicated: {len(product_links)} → {len(deduplicated)} unique URLs")
+            
+            return deduplicated
+        
+        except Exception as e:
+            logger.error(f"Anthropologie container extraction failed: {e}")
+            return []
     
     async def _extract_revolve_from_containers(self, retailer: str, strategy: Dict) -> List[Dict]:
         """
