@@ -97,14 +97,18 @@ class PatchrightDOMValidator:
                     result['gaps_filled'].append('price')
                     logger.info("✅ DOM filled gap: price")
             
-            # IMAGES: Extract if < 2 images
-            if not product_data.get('image_urls') or len(product_data.get('image_urls', [])) < 2:
-                logger.debug(f"Images missing ({len(product_data.get('image_urls', []))}), DOM extracting...")
-                images = await self._extract_images(gemini_visual_hints)
-                if images:
-                    result['images'] = images
+            # IMAGES: ALWAYS extract from DOM (images aren't visible in screenshots!)
+            # DOM-FIRST LEARNING: Image URLs must come from DOM, not Gemini Vision
+            logger.debug(f"DOM extracting images (Gemini had: {len(product_data.get('image_urls', []))})")
+            images = await self._extract_images(gemini_visual_hints)
+            if images:
+                result['images'] = images
+                # Mark as filled if Gemini had none or few
+                if len(product_data.get('image_urls', [])) < 2:
                     result['gaps_filled'].append('images')
-                    logger.info(f"✅ DOM filled gap: {len(images)} images")
+                logger.info(f"✅ DOM extracted {len(images)} images")
+            else:
+                logger.warning("⚠️ DOM found no images!")
             
             gaps_msg = f"{len(result['gaps_filled'])} gaps" if result['gaps_filled'] else "no gaps"
             val_msg = f"{len(result['validations'])} validations" if result['validations'] else "no validations"
@@ -208,7 +212,11 @@ class PatchrightDOMValidator:
         return None
     
     async def _extract_images(self, gemini_hints: Dict) -> List[str]:
-        """Extract image URLs from DOM"""
+        """
+        Extract image URLs from DOM (ENHANCED with DOM-first learnings)
+        
+        Uses JS evaluation for reliable src extraction (learned from catalog extraction)
+        """
         image_selectors = []
         
         # Gemini's hints
@@ -216,25 +224,75 @@ class PatchrightDOMValidator:
         if gemini_selectors:
             image_selectors.extend(gemini_selectors)
         
-        # Fallback selectors
+        # Retailer-specific selectors (comprehensive)
+        retailer_selectors = {
+            'anthropologie': [
+                'img[src*="anthropologie"]',
+                '.product-images img',
+                'picture img',
+                '[data-testid="carousel"] img'
+            ],
+            'urban_outfitters': [
+                'img[src*="urbanoutfitters"]',
+                '.product-image img',
+                '.carousel-item img',
+                'picture img'
+            ],
+            'abercrombie': [
+                'img[src*="abercrombie"]',
+                'img[src*="scene7"]',
+                '.product-images img',
+                'picture img'
+            ],
+            'aritzia': [
+                'img[src*="aritzia"]',
+                '.product-carousel img',
+                'picture img',
+                'img[alt*="product"]'
+            ],
+            'hm': [
+                'img[src*="hm.com"]',
+                'img[src*="hmgroup"]',
+                '.product-detail-main-image-container img',
+                'picture img',
+                'img[data-testid="product-image"]'
+            ]
+        }
+        
+        # Add retailer-specific selectors
+        if self.retailer.lower() in retailer_selectors:
+            image_selectors.extend(retailer_selectors[self.retailer.lower()])
+        
+        # Generic fallback selectors
         image_selectors.extend([
             'img.product-image',
             '.product-images img',
             '.image-gallery img',
+            'picture img',
             '[data-testid="product-image"]',
-            'img[src*="product"]'
+            'img[src*="product"]',
+            'main img',  # Generic main content images
+            'img[alt]'   # Any img with alt text
         ])
         
         images = []
+        
         for selector in image_selectors:
             try:
                 elements = await self.page.query_selector_all(selector)
-                for img in elements[:5]:
-                    src = await img.get_attribute('src')
-                    if not src:
-                        src = await img.get_attribute('data-src')
-                    if not src:
-                        src = await img.get_attribute('data-original')
+                
+                for img in elements[:20]:  # Check more images (was :5)
+                    # DOM-FIRST LEARNING: Use JS evaluation (not get_attribute)
+                    # Works better for dynamically loaded images
+                    try:
+                        src = await img.evaluate('el => el.src || el.dataset.src || el.dataset.original')
+                    except:
+                        # Fallback to get_attribute
+                        src = await img.get_attribute('src')
+                        if not src:
+                            src = await img.get_attribute('data-src')
+                        if not src:
+                            src = await img.get_attribute('data-original')
                     
                     if src and self.is_valid_product_image_url(src):
                         # Convert relative to absolute
@@ -244,16 +302,22 @@ class PatchrightDOMValidator:
                             base_url = await self.page.evaluate('() => window.location.origin')
                             src = base_url + src
                         
+                        # Deduplicate
                         if src not in images:
                             images.append(src)
                 
-                if images:
+                # Continue searching if we have < 3 images (want multiple product images)
+                if len(images) >= 3:
                     break
-            except:
+                    
+            except Exception as e:
+                logger.debug(f"Selector {selector} failed: {e}")
                 continue
         
-        # Rank by quality
-        return self.rank_image_urls(images)[:5]
+        # Rank by quality and return top 10 images (was 5)
+        ranked = self.rank_image_urls(images)[:10]
+        logger.debug(f"Extracted {len(ranked)} images from {len(images)} total found")
+        return ranked
     
     async def extract_image_urls_from_dom(self) -> List[str]:
         """
