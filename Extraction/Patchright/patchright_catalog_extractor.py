@@ -1121,21 +1121,29 @@ DO NOT include products where you cannot read the title or price - skip them ins
                         if alt and alt.strip() and 'revolve' not in alt.lower():
                             dom_title = alt.strip()
                     
-                    # Extract price from container text
+                    # Extract price from container text (use textContent to avoid getting entire page)
                     dom_price = None
-                    container_text = await container.inner_text()
-                    lines = [l.strip() for l in container_text.split('\n') if l.strip()]
-                    
-                    # Look for price in short lines only (to avoid page header/footer)
-                    for line in lines[:20]:  # Only check first 20 lines of container
-                        if '$' in line and len(line) < 30:
-                            price_match = re.search(r'\$\s*(\d+\.?\d*)', line)
-                            if price_match:
-                                price_val = float(price_match.group(1))
-                                # Validate price range (avoid extracting random $1 or $99999)
-                                if 15 <= price_val <= 2000:
-                                    dom_price = f"${price_match.group(1)}"
-                                    break
+                    try:
+                        # Use textContent via JS to get ONLY this container's text (not child frames)
+                        container_text = await container.evaluate('(el) => el.textContent')
+                        lines = [l.strip() for l in container_text.split('\n') if l.strip()]
+                        
+                        if idx <= 3:  # Debug first 3
+                            logger.debug(f"Container {idx}: {len(lines)} text lines, first 10: {lines[:10]}")
+                        
+                        # Look for price in short lines
+                        for line in lines:
+                            if '$' in line and len(line) < 30:
+                                price_match = re.search(r'\$\s*(\d+\.?\d*)', line)
+                                if price_match:
+                                    price_val = float(price_match.group(1))
+                                    # Validate price range (avoid extracting random $1 or $99999)
+                                    if 15 <= price_val <= 2000:
+                                        dom_price = f"${price_match.group(1)}"
+                                        logger.debug(f"💰 Container {idx}: Found price {dom_price}")
+                                        break
+                    except Exception as e:
+                        logger.debug(f"Container {idx} price extraction failed: {e}")
                     
                     # Extract product code
                     product_code = self._extract_product_code_from_url(url, retailer) if url else None
