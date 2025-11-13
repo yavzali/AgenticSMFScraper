@@ -1111,13 +1111,13 @@ DO NOT include products where you cannot read the title or price - skip them ins
     async def _extract_anthropologie_from_containers(self, retailer: str, strategy: Dict) -> List[Dict]:
         """
         Specialized extraction for Anthropologie - extract from product containers directly
-        Anthropologie uses article.product-tile for each product
+        Anthropologie uses PWA structure with .o-pwa-product-tile for each product
         """
         product_links = []
         
         try:
-            # Find all product containers (Anthropologie uses article.product-tile)
-            containers = await self.page.query_selector_all('article.product-tile')
+            # Find all product containers (Anthropologie uses PWA structure)
+            containers = await self.page.query_selector_all('.o-pwa-product-tile')
             logger.info(f"Found {len(containers)} Anthropologie product containers")
             
             for idx, container in enumerate(containers[:150], 1):  # Limit to 150
@@ -1131,15 +1131,23 @@ DO NOT include products where you cannot read the title or price - skip them ins
                             # Normalize (remove query params)
                             url = href.split('?')[0]
                     
-                    # Extract title - try multiple selectors
+                    # Extract title - try multiple selectors (PWA-specific first)
                     dom_title = None
                     
-                    # Try img alt first (most reliable)
-                    img = await container.query_selector('img[alt]')
-                    if img:
-                        alt = await img.get_attribute('alt')
-                        if alt and alt.strip() and len(alt.strip()) > 5:
-                            dom_title = alt.strip()
+                    # Try PWA heading first (most reliable for Anthropologie)
+                    title_el = await container.query_selector('.o-pwa-product-tile__heading')
+                    if title_el:
+                        title_text = await title_el.inner_text()
+                        if title_text and title_text.strip() and len(title_text.strip()) > 5:
+                            dom_title = title_text.strip()
+                    
+                    # If no PWA heading, try img alt
+                    if not dom_title:
+                        img = await container.query_selector('img[alt]')
+                        if img:
+                            alt = await img.get_attribute('alt')
+                            if alt and alt.strip() and len(alt.strip()) > 5:
+                                dom_title = alt.strip()
                     
                     # If no img alt, try aria-label
                     if not dom_title:
@@ -1149,23 +1157,12 @@ DO NOT include products where you cannot read the title or price - skip them ins
                             if aria and aria.strip() and len(aria.strip()) > 5:
                                 dom_title = aria.strip()
                     
-                    # If still no title, try h3 or product name divs
-                    if not dom_title:
-                        for sel in ['h3', 'h2', '[class*="product-name"]', '[class*="product-title"]']:
-                            try:
-                                title_el = await container.query_selector(sel)
-                                if title_el:
-                                    text = await title_el.inner_text()
-                                    if text and text.strip() and len(text.strip()) > 5:
-                                        dom_title = text.strip()
-                                        break
-                            except:
-                                continue
-                    
-                    # Extract price - try multiple selectors
+                    # Extract price - try PWA-specific selectors first
                     dom_price = None
                     
                     price_selectors = [
+                        '.c-pwa-product-price__current',  # Anthropologie PWA
+                        '.s-pwa-product-price__current',  # Anthropologie PWA alternative
                         'span[data-testid*="price"]',
                         '[data-testid*="price"]',
                         'span[class*="price"]',
