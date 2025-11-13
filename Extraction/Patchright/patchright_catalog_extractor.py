@@ -777,9 +777,27 @@ DO NOT include products where you cannot read the title or price - skip them ins
             price = product.get('price')
             if price is None:
                 products_missing_price += 1
-            elif not isinstance(price, (int, float)) or price <= 0:
-                products_with_invalid_prices += 1
-                logger.warning(f"⚠️ Invalid price detected: {price}")
+            else:
+                # Handle both numeric and string prices
+                is_invalid = False
+                if isinstance(price, (int, float)):
+                    if price <= 0:
+                        is_invalid = True
+                elif isinstance(price, str):
+                    # Try to extract numeric value from string like "$115" or "115.00"
+                    try:
+                        import re
+                        price_match = re.search(r'\d+\.?\d*', price.replace('$', '').replace(',', ''))
+                        if not price_match or float(price_match.group()) <= 0:
+                            is_invalid = True
+                    except:
+                        is_invalid = True
+                else:
+                    is_invalid = True
+                
+                if is_invalid:
+                    products_with_invalid_prices += 1
+                    logger.warning(f"⚠️ Invalid price detected: {price}")
         
         # Add validation errors/warnings
         if products_with_fake_titles > 0:

@@ -64,8 +64,9 @@ RETAILER_STRATEGIES = {
     
     'aritzia': {
         'verification': 'cloudflare_automatic',
-        'wait_strategy': 'active_polling',  # NEW: Changed from fixed wait
+        'wait_strategy': 'domcontentloaded',  # Use standard wait
         'catalog_mode': 'dom_first',  # DOM extraction more reliable
+        'use_active_polling': True,  # Use active polling AFTER page load
         'polling_config': {
             'enabled': True,
             'max_attempts': 30,
@@ -117,7 +118,7 @@ RETAILER_STRATEGIES = {
     
     'revolve': {
         'verification': 'none',
-        'wait_strategy': 'networkidle',  # Well-behaved site
+        'wait_strategy': 'domcontentloaded',  # Use domcontentloaded (popups prevent networkidle)
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
         'product_selectors': [
             "a[href*='/dp/']"
@@ -128,8 +129,15 @@ RETAILER_STRATEGIES = {
             'product_container': 'div[class*="grid__product"], article',
             'extract_price_from_text': True  # Special flag: extract $ amounts from text content
         },
+        'popup_selectors': [
+            'button[aria-label*="Close"]',
+            'button[aria-label*="close"]',
+            'div[role="button"]:has-text("Close")',
+            'button:has-text("Don\'t Allow")',
+            'button:has-text("No Thanks")'
+        ],
         'anti_bot_complexity': 'low',
-        'notes': 'DOM-first for catalog URLs/titles. Markdown extraction for single product pages. Titles in img[alt], prices in text nodes.'
+        'notes': 'DOM-first for catalog URLs/titles. Markdown extraction for single product pages. Titles in img[alt], prices in text nodes. Has notification popups.'
     },
     
     'asos': {

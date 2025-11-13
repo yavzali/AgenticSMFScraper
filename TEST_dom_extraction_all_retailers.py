@@ -72,7 +72,18 @@ async def test_retailer(retailer: str, config: dict):
         # Analyze extraction quality
         with_urls = sum(1 for p in products if p.get('url'))
         with_titles = sum(1 for p in products if p.get('title') and len(p.get('title', '')) > 5)
-        with_prices = sum(1 for p in products if p.get('price') and p.get('price') > 0)
+        # Handle both string and numeric prices
+        def has_valid_price(p):
+            price = p.get('price')
+            if not price:
+                return False
+            if isinstance(price, str):
+                # Try to extract number from string like "$115" or "115.00"
+                import re
+                match = re.search(r'\d+\.?\d*', price.replace('$', '').replace(',', ''))
+                return bool(match and float(match.group()) > 0)
+            return price > 0
+        with_prices = sum(1 for p in products if has_valid_price(p))
         
         logger.info(f"  With URLs: {with_urls}/{len(products)} ({with_urls/len(products)*100:.1f}%)")
         logger.info(f"  With Titles: {with_titles}/{len(products)} ({with_titles/len(products)*100:.1f}%)")
