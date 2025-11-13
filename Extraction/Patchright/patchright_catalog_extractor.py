@@ -404,8 +404,13 @@ DO NOT include products where you cannot read the title or price - skip them ins
             use_dom_first = False
             dom_first_reason = None
             
+            # Check if retailer is configured for DOM-first mode
+            if strategy.get('catalog_mode') == 'dom_first':
+                use_dom_first = True
+                dom_first_reason = 'retailer_configured_dom_first'
+            
             # Anthropologie: Screenshot too tall/compressed
-            if retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
+            elif retailer.lower() == 'anthropologie' and len(dom_product_links) > len(products) * 2:
                 use_dom_first = True
                 dom_first_reason = 'screenshot_too_tall'
             
@@ -1025,9 +1030,13 @@ DO NOT include products where you cannot read the title or price - skip them ins
                             'match_confidence': best_similarity
                         })
                     else:
-                        gemini_product['url'] = None
-                        gemini_product['product_code'] = None
-                        merged.append(gemini_product)
+                        # Skip Gemini products that can't be matched to DOM URLs
+                        # These are likely:
+                        # - Ad tiles / sponsored content
+                        # - Products outside main grid
+                        # - Duplicate products with slightly different titles
+                        logger.debug(f"Skipping unmatched Gemini product: {gemini_product.get('title', 'N/A')}")
+                        # DO NOT add products without URLs!
                 
                 # Add unmatched DOM links (with their DOM-extracted data!)
                 matched_urls = {p['url'] for p in merged if p.get('url')}
