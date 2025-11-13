@@ -160,10 +160,23 @@ RETAILER_STRATEGIES = {
     
     'asos': {
         'verification': 'none',
-        'wait_strategy': 'networkidle',
-        'catalog_mode': 'markdown',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'product_selectors': [
+            "a[href*='/prd/']",  # ASOS product links use /prd/
+            "a[data-auto-id='productTile']"
+        ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', 'h2', '[data-auto-id="productTile"] h2', 'h3'],
+            'price_selectors': [
+                '[data-testid="current-price"]',
+                '[class*="price"]',
+                'span[data-id*="price"]'
+            ],
+            'product_container': '[data-auto-id="productList"], .products, [class*="product-list"]'
+        },
         'anti_bot_complexity': 'low',
-        'notes': 'Markdown extraction preferred'
+        'notes': 'DOM-first for catalog URLs/titles/prices. Markdown extraction for single product pages.'
     },
     
     'nordstrom': {
@@ -213,6 +226,50 @@ RETAILER_STRATEGIES = {
         },
         'anti_bot_complexity': 'high',  # BLOCKED: "Access Denied"
         'notes': 'BLOCKED by anti-bot protection (Nov 2024). Single product pages show "Access Denied". May require residential proxies or different user agent strategy.'
+    },
+    
+    'mango': {
+        'verification': 'none',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'product_selectors': [
+            "a[href*='/product']",
+            "a.product-link",
+            "a[class*='product']"
+        ],
+        'dom_extraction': {
+            'title_selectors': ['h2', 'h3', 'img[alt]', '[class*="product-name"]', '[class*="title"]'],
+            'price_selectors': [
+                '[class*="price"]',
+                'span[data-testid*="price"]',
+                '[data-price]'
+            ],
+            'product_container': '[class*="products"], [class*="product-list"], .product-grid'
+        },
+        'anti_bot_complexity': 'low',
+        'notes': 'DOM-first for catalog URLs/titles/prices. Markdown extraction for single product pages. Uses "What\'s New" section for monitoring workflow.'
+    },
+    
+    'uniqlo': {
+        'verification': 'none',
+        'wait_strategy': 'domcontentloaded',
+        'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'product_selectors': [
+            "a[href*='/products/']",
+            "a.product-tile",
+            "a[data-test*='product']"
+        ],
+        'dom_extraction': {
+            'title_selectors': ['h3', 'h2', '[class*="product-name"]', 'img[alt]', '[class*="title"]'],
+            'price_selectors': [
+                '[class*="price"]',
+                'span[data-test*="price"]',
+                '[aria-label*="$"]'
+            ],
+            'product_container': '[class*="product-grid"], [class*="product-list"], .products'
+        },
+        'anti_bot_complexity': 'low',
+        'notes': 'DOM-first for catalog URLs/titles/prices. Markdown extraction for single product pages.'
     }
 }
 
