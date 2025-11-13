@@ -785,9 +785,220 @@ for selector in learned[:3]:
 
 ---
 
-**Last Updated**: 2025-11-07  
+## IMAGE URL TRANSFORMATIONS
+
+### Problem: Breaking Working URLs with Aggressive Transformations
+
+**Context**: Revolve images failed (0/4 downloaded) due to incorrect URL transformation logic.
+
+**Root Cause Timeline**:
+1. **Original** (Nov 9): Minimal transformation (`_sm` → `_lg` only) ✅ Worked
+2. **Breaking Change** (Nov 11): Added path transformations (all → `/n/z/`) ❌ Broke
+3. **Missing**: No `Referer` headers throughout (anti-hotlinking) ❌ Problem
+
+**What Happened**:
+```python
+# Extracted URLs (4 different angles - ALL WORKING):
+https://is4.revolveassets.com/images/p4/n/ct/PILY-WD20_V1.jpg  ✅ 200
+https://is4.revolveassets.com/images/p4/n/ct/PILY-WD20_V2.jpg  ✅ 200
+https://is4.revolveassets.com/images/p4/n/ct/PILY-WD20_V3.jpg  ✅ 200
+https://is4.revolveassets.com/images/p4/n/uv/PILY-WD20_V1.jpg  ✅ 200
+
+# After transformation (1 broken URL):
+/n/ct/ → /n/d/  # Thumbnail → Detail (404!)
+_V1, _V2, _V3 removed  # Lost angles!
+https://is4.revolveassets.com/images/p4/n/d/PILY-WD20.jpg  ❌ 404
+
+# After deduplication:
+1 URL attempted, 0 images downloaded
+```
+
+**Fixed Transformation**:
+```python
+# Convert thumbnails to full-size (VERIFIED):
+/n/ct/ → /n/uv/  # Thumbnail → UV/Full ✅ 200
+# KEEP _V1, _V2, _V3 (different angles)
+
+# Result:
+4 full-size working URLs, 4 images downloaded
+```
+
+---
+
+### Critical Lessons Learned
+
+#### Lesson 1: Test Every Pattern You Document
+**Bad**:
+```python
+# Comment claims:
+# /n/z/ = ✅ WORKING (zoom)
+
+# Reality:
+curl -I "...//n/z/PRODUCT.jpg"  # → 404
+```
+
+**Good**:
+```bash
+# Actually test each pattern:
+for pattern in ct uv d z f; do
+  curl -I "https://.../n/$pattern/PRODUCT.jpg"
+done
+
+# Results:
+# /n/ct/ → 200 ✅
+# /n/uv/ → 200 ✅
+# /n/d/ → 404 ❌ (DO NOT USE)
+# /n/z/ → 404 ❌ (DO NOT USE)
+```
+
+**Rule**: "VERIFIED" = actually curl-tested, not assumed
+
+---
+
+#### Lesson 2: Don't Transform Working URLs
+**Problem**: Added "optimizations" when URLs already worked
+
+**Before Breaking Change**:
+- URLs from extraction worked as-is
+- Only changed obvious size indicators
+
+**After Breaking Change**:
+- "Optimized" to zoom quality
+- Broke all URLs in the process
+
+**Rule**: Only transform when URLs are actually broken (404s, thumbnails)
+
+---
+
+#### Lesson 3: Suffixes Might Be Features
+**Assumed**: `_V1`, `_V2`, `_V3` = version numbers (remove for "latest")
+**Actually**: Different product angles (front, side, back)
+**Impact**: 4 images → 1 image per product
+
+**Testing Method**:
+```python
+# Open URLs in browser:
+url1 = ".../PRODUCT_V1.jpg"  # Front view
+url2 = ".../PRODUCT_V2.jpg"  # Side view
+url3 = ".../PRODUCT_V3.jpg"  # Back view
+
+# Different images = KEEP ALL SUFFIXES
+```
+
+**Rule**: Visual-test suffixed URLs before removing
+
+---
+
+#### Lesson 4: Port ALL Old Architecture Features
+**What Was Forgotten**:
+```python
+# Old architecture (working):
+headers = {'Referer': 'https://www.revolve.com/'}
+response = session.get(url, headers=headers)
+
+# New architecture (broken):
+response = session.get(url)  # No headers!
+```
+
+**Impact**: Even correct URLs failed (anti-hotlinking blocked)
+
+**Rule**: Create port-over checklist when migrating
+
+---
+
+#### Lesson 5: Deduplication Can Hide Transform Bugs
+**Problem**: 4 URLs → 1 URL after transform → silent dedup
+
+**Symptom**:
+```
+📥 Downloaded 0/1 images  # Looks like 1 URL failed
+# Actually: 4 URLs transformed to same broken URL
+```
+
+**Better Logging**:
+```python
+logger.info(f"🖼️ Processing {len(image_urls)} images")
+enhanced = await self._enhance_urls(image_urls, retailer)
+if len(enhanced) < len(image_urls):
+    logger.warning(f"⚠️ Deduplication: {len(image_urls)} → {len(enhanced)} URLs")
+```
+
+**Rule**: Log before AND after transforms
+
+---
+
+### Testing Checklist for New Transformations
+
+Before adding/modifying retailer transformations:
+
+1. ✅ **Extract sample URLs** from real product page
+2. ✅ **Test original URLs** in browser (do they work?)
+3. ✅ **Test transformed URLs** with curl
+   ```bash
+   curl -I "https://transformed-url.jpg" -H "Referer: https://retailer.com/"
+   ```
+4. ✅ **Visual-check suffixed URLs** (_V1, _V2, _angle, _1, etc.)
+5. ✅ **Count unique images** (before vs after transform)
+6. ✅ **Check deduplication** (log URL count changes)
+7. ✅ **Test with Referer** (anti-hotlinking)
+
+---
+
+### Safe vs Risky Transformations
+
+**✅ SAFE** (Standard CDN patterns):
+```python
+# Size parameters
+'wid=400' → 'wid=1200'  # Adobe Scene7
+'_400x400' → '_1200x1200'  # Dimension suffixes
+'_small' → '_large'  # Simple size words
+
+# These don't change path structure, just parameters
+```
+
+**⚠️ RISKY** (Path/structure changes):
+```python
+# Path pattern changes
+'/thumbnails/' → '/fullsize/'  # Might not exist
+'/ct/' → '/d/'  # Different view types
+'_V1' → ''  # Might lose angles
+
+# TEST THESE EXTENSIVELY
+```
+
+---
+
+### Current Retailer Transformation Status
+
+| Retailer | Transform Type | Safety | Notes |
+|----------|---------------|---------|-------|
+| **Revolve** | Path `/n/ct/` → `/n/uv/` | ✅ TESTED | User-verified Nov 2024 |
+| **Anthropologie** | Size numbers | ✅ SAFE | Standard CDN |
+| **Aritzia** | Suffix `_small` → `_large` | ✅ SAFE | Simple pattern |
+| **Uniqlo** | Width `/400w/` → `/1200w/` | ✅ SAFE | URL parameter |
+| **Abercrombie** | Scene7 `wid=400` → `wid=1200` | ✅ SAFE | Adobe CDN |
+| **UO** | Size numbers | ✅ SAFE | Same as Anthropologie |
+| **Nordstrom** | Parameters | ✅ SAFE | Query params |
+
+**Recommendation**: Still curl-test each retailer's actual URLs to be 100% certain
+
+---
+
+**Files Modified**:
+- `Shared/image_processor.py` (transformation logic)
+- Commit `8b76c26` (breaking change - Nov 11)
+- Commit `bb65469` (fix - Nov 13)
+
+**Related Issues**:
+- Anti-hotlinking (missing Referer headers)
+- Deduplication hiding bugs
+- Assumption-based development
+
+---
+
+**Last Updated**: 2025-11-13  
 **Status**: Production lessons documented  
-**Coverage**: 8/10 retailers, 95%+ success rate
+**Coverage**: 8/10 retailers, 95%+ success rate, image transformation lessons added
 
 **Related Documents**:
 - `RETAILER_PLAYBOOK.md` - Retailer-specific solutions
