@@ -30,6 +30,11 @@ RETAILER_STRATEGIES = {
             "a[href*='/shop/']",
             "a[class*='product']"
         ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product-title"]', '[class*="product-name"]'],
+            'price_selectors': ['[class*="price"]', 'span[class*="Price"]', 'div[class*="price"]'],
+            'product_container': 'article[class*="product"], div[class*="product-card"], div[class*="product-tile"]'
+        },
         'popup_selectors': [
             'button[aria-label*="close"]',
             'button:has-text("No Thanks")'
@@ -43,11 +48,16 @@ RETAILER_STRATEGIES = {
         'verification_method': 'keyboard',
         'wait_strategy': 'domcontentloaded',
         'extended_wait_after_verification': 4,
-        'catalog_mode': 'gemini_first',  # Pages are reasonable height
+        'catalog_mode': 'dom_first',  # DOM extraction more reliable
         'product_selectors': [
             "a[href*='/products/']",
             "a[class*='product-card']"
         ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product-name"]', 'h3', 'h2'],
+            'price_selectors': ['[class*="price"]', 'span[class*="Price"]', '[data-price]'],
+            'product_container': 'article[class*="product"], div[class*="product-card"]'
+        },
         'anti_bot_complexity': 'high',
         'notes': 'Same PerimeterX as Anthropologie. Keyboard approach works.'
     },
@@ -55,7 +65,7 @@ RETAILER_STRATEGIES = {
     'aritzia': {
         'verification': 'cloudflare_automatic',
         'wait_strategy': 'active_polling',  # NEW: Changed from fixed wait
-        'catalog_mode': 'gemini_first',
+        'catalog_mode': 'dom_first',  # DOM extraction more reliable
         'polling_config': {
             'enabled': True,
             'max_attempts': 30,
@@ -76,6 +86,11 @@ RETAILER_STRATEGIES = {
             "a[href*='/product/']",
             "a[class*='ProductCard']"
         ],
+        'dom_extraction': {
+            'title_selectors': ['[class*="ProductCard"] h3', '[class*="product-name"]', 'img[alt]', 'a[aria-label]'],
+            'price_selectors': ['[class*="price"]', '[data-price]', 'span[class*="Price"]'],
+            'product_container': '[class*="ProductCard"], [data-product-id]'
+        },
         'anti_bot_complexity': 'very_high',
         'notes': 'Cloudflare + SPA with variable API delay (1-15s). Uses active polling instead of fixed waits for reliability. Polling detects products immediately when they appear.'
     },
@@ -83,12 +98,17 @@ RETAILER_STRATEGIES = {
     'abercrombie': {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',
-        'catalog_mode': 'gemini_first',
+        'catalog_mode': 'dom_first',  # DOM extraction more reliable
         'explicit_wait_for_products': True,  # JavaScript SPA
         'product_selectors': [
             "a[class*='product-tile']",
             "a[class*='ProductCard']"
         ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', '[class*="product-title"]', '[class*="product-name"]', 'h3', 'h2'],
+            'price_selectors': ['[class*="price"]', 'span[class*="Price"]', '[data-price]'],
+            'product_container': '[class*="product-tile"], [class*="ProductCard"]'
+        },
         'wait_for_selector': "a[class*='product-tile']",
         'wait_timeout': 10000,
         'anti_bot_complexity': 'low',
@@ -98,12 +118,18 @@ RETAILER_STRATEGIES = {
     'revolve': {
         'verification': 'none',
         'wait_strategy': 'networkidle',  # Well-behaved site
-        'catalog_mode': 'markdown',  # Use Markdown Tower (not Patchright)
+        'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
         'product_selectors': [
             "a[href*='/dp/']"
         ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', 'a[aria-label]'],  # Revolve uses img alt for titles
+            'price_selectors': [],  # Prices in plain text nodes, extract from parent text
+            'product_container': 'div[class*="grid__product"], article',
+            'extract_price_from_text': True  # Special flag: extract $ amounts from text content
+        },
         'anti_bot_complexity': 'low',
-        'notes': 'Markdown extraction preferred. URLs change frequently (use fuzzy dedup).'
+        'notes': 'DOM-first for catalog URLs/titles. Markdown extraction for single product pages. Titles in img[alt], prices in text nodes.'
     },
     
     'asos': {
@@ -117,14 +143,19 @@ RETAILER_STRATEGIES = {
     'nordstrom': {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',
-        'catalog_mode': 'gemini_first',
+        'catalog_mode': 'dom_first',  # DOM extraction more reliable
         'product_selectors': [
             "a[href*='/s/']",  # Primary: Nordstrom product links always use /s/
             "a.AFBJb",         # Backup: Product image links
             "a.dls-ogz194"     # Backup: Product title links
         ],
+        'dom_extraction': {
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product"] h3', '[class*="product-name"]'],
+            'price_selectors': ['span.qHz0a', 'span[class*="qHz0a"]', 'span.He8hw', '[class*="price"]'],  # Nordstrom-specific
+            'product_container': 'article[class*="product"], div[class*="product"]'
+        },
         'anti_bot_complexity': 'low',
-        'notes': 'Product URLs follow pattern: /s/{product-name}/{product-id}. Multiple links per product card.'
+        'notes': 'Product URLs follow pattern: /s/{product-name}/{product-id}. Multiple links per product card. Uses obfuscated price classes.'
     }
 }
 

@@ -590,28 +590,44 @@ DO NOT include products where you cannot read the title or price - skip them ins
                             dom_price = None
                             
                             try:
+                                # Get retailer-specific DOM extraction config
+                                dom_config = strategy.get('dom_extraction', {})
+                                title_selectors = dom_config.get('title_selectors', ['.title', '.product-title', 'img[alt]', 'h2', 'h3'])
+                                price_selectors = dom_config.get('price_selectors', ['.price', '.product-price', '[data-testid*="price"]'])
+                                extract_price_from_text = dom_config.get('extract_price_from_text', False)
+                                
                                 parent = link
                                 for _ in range(3):
                                     parent = await parent.evaluate_handle('el => el.parentElement')
                                     if parent:
-                                        # Try title selectors
-                                        title_selectors = ['.title', '.product-title', '.name', 'h2', 'h3']
+                                        # Try title selectors (retailer-specific)
                                         for title_sel in title_selectors:
                                             try:
-                                                title_el = await parent.query_selector(title_sel)
-                                                if title_el:
-                                                    dom_title = (await title_el.inner_text()).strip()
-                                                    if len(dom_title) > 5:
-                                                        break
+                                                # Handle img[alt] and a[aria-label] specially
+                                                if title_sel == 'img[alt]':
+                                                    title_el = await parent.query_selector('img[alt]')
+                                                    if title_el:
+                                                        dom_title = await title_el.get_attribute('alt')
+                                                        if dom_title and len(dom_title.strip()) > 5 and 'revolve' not in dom_title.lower():
+                                                            dom_title = dom_title.strip()
+                                                            break
+                                                elif title_sel == 'a[aria-label]':
+                                                    title_el = await parent.query_selector('a[aria-label]')
+                                                    if title_el:
+                                                        dom_title = await title_el.get_attribute('aria-label')
+                                                        if dom_title and len(dom_title.strip()) > 5:
+                                                            dom_title = dom_title.strip()
+                                                            break
+                                                else:
+                                                    title_el = await parent.query_selector(title_sel)
+                                                    if title_el:
+                                                        dom_title = (await title_el.inner_text()).strip()
+                                                        if len(dom_title) > 5:
+                                                            break
                                             except:
                                                 continue
                                         
-                                        # Try price selectors (retailer-specific + generic)
-                                        price_selectors = []
-                                        if retailer.lower() == 'nordstrom':
-                                            price_selectors = ['span.qHz0a', 'span[class*="qHz0a"]', 'span.He8hw']
-                                        price_selectors.extend(['.price', '.product-price', '[data-testid*="price"]'])
-                                        
+                                        # Try price selectors (retailer-specific)
                                         for price_sel in price_selectors:
                                             try:
                                                 price_el = await parent.query_selector(price_sel)
@@ -622,6 +638,18 @@ DO NOT include products where you cannot read the title or price - skip them ins
                                                         break
                                             except:
                                                 continue
+                                        
+                                        # Special case: Extract price from plain text (Revolve)
+                                        if not dom_price and extract_price_from_text:
+                                            try:
+                                                parent_text = await parent.inner_text()
+                                                # Find first line with $ that's short (likely a price)
+                                                for line in parent_text.split('\n'):
+                                                    if '$' in line and len(line.strip()) < 20:
+                                                        dom_price = line.strip()
+                                                        break
+                                            except:
+                                                pass
                                         
                                         if dom_title and dom_price:
                                             break
