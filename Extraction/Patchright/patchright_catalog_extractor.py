@@ -639,15 +639,35 @@ DO NOT include products where you cannot read the title or price - skip them ins
                                             except:
                                                 continue
                                         
-                                        # Special case: Extract price from plain text (Revolve)
-                                        if not dom_price and extract_price_from_text:
+                                        # Fallback 1: Extract price from plain text (Revolve-style or generic)
+                                        if not dom_price:
                                             try:
                                                 parent_text = await parent.inner_text()
                                                 # Find first line with $ that's short (likely a price)
                                                 for line in parent_text.split('\n'):
-                                                    if '$' in line and len(line.strip()) < 20:
-                                                        dom_price = line.strip()
-                                                        break
+                                                    line_clean = line.strip()
+                                                    if '$' in line_clean and len(line_clean) < 30:
+                                                        # Extract just the price part (e.g., "$115" or "$115.00")
+                                                        price_match = re.search(r'\$\s*\d+\.?\d*', line_clean)
+                                                        if price_match:
+                                                            dom_price = price_match.group().strip()
+                                                            break
+                                            except:
+                                                pass
+                                        
+                                        # Fallback 2: Look for any element with price-like text
+                                        if not dom_price:
+                                            try:
+                                                # Search for spans/divs containing $ within parent
+                                                price_candidates = await parent.query_selector_all('span, div, p')
+                                                for candidate in price_candidates[:10]:  # Limit search
+                                                    try:
+                                                        text = (await candidate.inner_text()).strip()
+                                                        if text.startswith('$') and len(text) < 20:
+                                                            dom_price = text
+                                                            break
+                                                    except:
+                                                        continue
                                             except:
                                                 pass
                                         

@@ -95,7 +95,9 @@ async def test_retailer(retailer: str, config: dict):
             logger.info(f"\n  Product {i}:")
             logger.info(f"    Title: {product.get('title', 'N/A')}")
             logger.info(f"    Price: ${product.get('price', 'N/A')}")
-            logger.info(f"    URL: {product.get('url', 'N/A')[:80]}...")
+            url = product.get('url', 'N/A')
+            url_display = url[:80] + "..." if url and url != 'N/A' else url if url else 'N/A'
+            logger.info(f"    URL: {url_display}")
         
         # Check if meets expectations
         expected_min = config['expected_min']

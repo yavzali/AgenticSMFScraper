@@ -31,9 +31,17 @@ RETAILER_STRATEGIES = {
             "a[class*='product']"
         ],
         'dom_extraction': {
-            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product-title"]', '[class*="product-name"]'],
-            'price_selectors': ['[class*="price"]', 'span[class*="Price"]', 'div[class*="price"]'],
-            'product_container': 'article[class*="product"], div[class*="product-card"], div[class*="product-tile"]'
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product-title"]', '[class*="product-name"]', 'h3', 'h2'],
+            'price_selectors': [
+                'span[data-testid*="price"]', 
+                '[data-testid*="price"]',
+                'span[class*="price"]', 
+                'span[class*="Price"]', 
+                'div[class*="price"]',
+                '[aria-label*="price"]',
+                'span[itemprop="price"]'
+            ],
+            'product_container': 'article[class*="product"], div[class*="product-card"], div[class*="product-tile"], [data-testid*="product"]'
         },
         'popup_selectors': [
             'button[aria-label*="close"]',
@@ -106,9 +114,17 @@ RETAILER_STRATEGIES = {
             "a[class*='ProductCard']"
         ],
         'dom_extraction': {
-            'title_selectors': ['img[alt]', '[class*="product-title"]', '[class*="product-name"]', 'h3', 'h2'],
-            'price_selectors': ['[class*="price"]', 'span[class*="Price"]', '[data-price]'],
-            'product_container': '[class*="product-tile"], [class*="ProductCard"]'
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product-title"]', '[class*="product-name"]', 'h3', 'h2', '[data-product-title]'],
+            'price_selectors': [
+                'span[data-price]',
+                '[data-price]',
+                'span[class*="price"]', 
+                'span[class*="Price"]',
+                'div[class*="price"]',
+                '[itemprop="price"]',
+                '[aria-label*="$"]'
+            ],
+            'product_container': '[class*="product-tile"], [class*="ProductCard"], [data-product-id]'
         },
         'wait_for_selector': "a[class*='product-tile']",
         'wait_timeout': 10000,
@@ -158,9 +174,19 @@ RETAILER_STRATEGIES = {
             "a.dls-ogz194"     # Backup: Product title links
         ],
         'dom_extraction': {
-            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product"] h3', '[class*="product-name"]'],
-            'price_selectors': ['span.qHz0a', 'span[class*="qHz0a"]', 'span.He8hw', '[class*="price"]'],  # Nordstrom-specific
-            'product_container': 'article[class*="product"], div[class*="product"]'
+            'title_selectors': ['img[alt]', 'a[aria-label]', '[class*="product"] h3', '[class*="product-name"]', 'h3', 'h2'],
+            'price_selectors': [
+                'span.qHz0a',  # Nordstrom obfuscated class
+                'span[class*="qHz0a"]',
+                'span.He8hw',  # Nordstrom obfuscated class
+                'span[class*="He8hw"]',
+                '[aria-label*="$"]',
+                'span[itemprop="price"]',
+                '[data-testid*="price"]',
+                'span[class*="price"]',
+                '[class*="price"]'
+            ],
+            'product_container': 'article[class*="product"], div[class*="product"], [data-product-id]'
         },
         'anti_bot_complexity': 'low',
         'notes': 'Product URLs follow pattern: /s/{product-name}/{product-id}. Multiple links per product card. Uses obfuscated price classes.'
