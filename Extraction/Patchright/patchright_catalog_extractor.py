@@ -786,7 +786,6 @@ DO NOT include products where you cannot read the title or price - skip them ins
                 elif isinstance(price, str):
                     # Try to extract numeric value from string like "$115" or "115.00"
                     try:
-                        import re
                         price_match = re.search(r'\d+\.?\d*', price.replace('$', '').replace(',', ''))
                         if not price_match or float(price_match.group()) <= 0:
                             is_invalid = True
