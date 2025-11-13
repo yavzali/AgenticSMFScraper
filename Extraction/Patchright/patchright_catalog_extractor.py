@@ -1029,16 +1029,33 @@ DO NOT include products where you cannot read the title or price - skip them ins
                         gemini_product['product_code'] = None
                         merged.append(gemini_product)
                 
-                # Add unmatched DOM links
+                # Add unmatched DOM links (with their DOM-extracted data!)
                 matched_urls = {p['url'] for p in merged if p.get('url')}
                 for dom_link in dom_links:
                     if dom_link['url'] not in matched_urls:
+                        # Use DOM title/price if available
+                        dom_title = dom_link.get('dom_title')
+                        dom_price_str = dom_link.get('dom_price')
+                        
+                        # Parse price
+                        price = 0
+                        if dom_price_str:
+                            price_match = re.search(r'[\d,]+\.?\d*', str(dom_price_str).replace(',', ''))
+                            if price_match:
+                                try:
+                                    price = float(price_match.group(0))
+                                except:
+                                    pass
+                        
+                        # Use DOM title or fallback to URL-based title
+                        title = dom_title if dom_title else f"[URL only: {dom_link['url'].split('/')[-1]}]"
+                        
                         merged.append({
                             'url': dom_link['url'],
                             'product_code': dom_link['product_code'],
-                            'title': f"[URL only: {dom_link['url'].split('/')[-1]}]",
-                            'price': 0,
-                            'needs_reprocessing': True
+                            'title': title,
+                            'price': price,
+                            'needs_reprocessing': not (dom_title and price > 0)  # Only reprocess if missing data
                         })
             
             logger.debug(f"Merged {len(merged)} products")
