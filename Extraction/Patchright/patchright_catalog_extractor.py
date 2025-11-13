@@ -542,6 +542,10 @@ DO NOT include products where you cannot read the title or price - skip them ins
         try:
             product_links = []
             
+            # SPECIAL CASE: Revolve needs container-first extraction
+            if retailer.lower() == 'revolve':
+                return await self._extract_revolve_from_containers(retailer, strategy)
+            
             # Get selectors from strategy
             selectors = strategy.get('product_selectors', [])
             
@@ -1073,6 +1077,97 @@ DO NOT include products where you cannot read the title or price - skip them ins
         except:
             pass
         return 0.0
+    
+    async def _extract_revolve_from_containers(self, retailer: str, strategy: Dict) -> List[Dict]:
+        """
+        Specialized extraction for Revolve - extract from product containers directly
+        This avoids the parent traversal issue where we hit the entire page
+        """
+        product_links = []
+        
+        try:
+            # Find all product containers
+            containers = await self.page.query_selector_all('li.plp__product')
+            logger.info(f"Found {len(containers)} Revolve product containers")
+            
+            for idx, container in enumerate(containers[:100], 1):  # Limit to 100
+                try:
+                    # Extract URL
+                    url = None
+                    link = await container.query_selector('a[href*="/dp/"]')
+                    if link:
+                        href = await link.get_attribute('href')
+                        if href:
+                            if href.startswith('/'):
+                                base_url = await self.page.evaluate('() => window.location.origin')
+                                url = f"{base_url}{href}"
+                            else:
+                                url = href
+                            # Normalize
+                            url = url.split('?')[0]
+                    
+                    # Extract title from img alt
+                    dom_title = None
+                    img = await container.query_selector('img[alt]')
+                    if img:
+                        alt = await img.get_attribute('alt')
+                        if alt and alt.strip() and 'revolve' not in alt.lower():
+                            dom_title = alt.strip()
+                    
+                    # Extract price from container text
+                    dom_price = None
+                    container_text = await container.inner_text()
+                    lines = [l.strip() for l in container_text.split('\n') if l.strip()]
+                    
+                    # Look for price in short lines only (to avoid page header/footer)
+                    for line in lines[:20]:  # Only check first 20 lines of container
+                        if '$' in line and len(line) < 30:
+                            price_match = re.search(r'\$\s*(\d+\.?\d*)', line)
+                            if price_match:
+                                price_val = float(price_match.group(1))
+                                # Validate price range (avoid extracting random $1 or $99999)
+                                if 15 <= price_val <= 2000:
+                                    dom_price = f"${price_match.group(1)}"
+                                    break
+                    
+                    # Extract product code
+                    product_code = self._extract_product_code_from_url(url, retailer) if url else None
+                    
+                    # Only add if we have URL
+                    if url:
+                        product_links.append({
+                            'url': url,
+                            'product_code': product_code,
+                            'position': idx,
+                            'dom_title': dom_title,
+                            'dom_price': dom_price
+                        })
+                        
+                        if dom_price:
+                            logger.debug(f"✅ Product {idx}: title={bool(dom_title)}, price={dom_price}")
+                    
+                except Exception as e:
+                    logger.debug(f"Failed to extract from container {idx}: {e}")
+                    continue
+            
+            logger.info(f"📦 Extracted {len(product_links)} products from Revolve containers")
+            
+            # Deduplicate by URL
+            seen_urls = set()
+            deduplicated = []
+            for product in product_links:
+                if product['url'] not in seen_urls:
+                    seen_urls.add(product['url'])
+                    deduplicated.append(product)
+            
+            if len(deduplicated) < len(product_links):
+                logger.info(f"🧹 Deduplicated: {len(product_links)} → {len(deduplicated)} unique URLs")
+            
+            return deduplicated
+            
+        except Exception as e:
+            logger.error(f"Revolve container extraction failed: {e}")
+            return []
     
     def _extract_product_code_from_url(self, url: str, retailer: str) -> str:
         """Extract product code from URL"""
