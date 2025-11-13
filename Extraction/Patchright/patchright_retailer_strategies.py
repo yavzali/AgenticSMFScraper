@@ -190,8 +190,8 @@ RETAILER_STRATEGIES = {
             ],
             'product_container': 'article[class*="product"], div[class*="product"], [data-product-id]'
         },
-        'anti_bot_complexity': 'low',
-        'notes': 'Product URLs follow pattern: /s/{product-name}/{product-id}. Multiple links per product card. Uses obfuscated price classes.'
+        'anti_bot_complexity': 'high',  # BLOCKED: "unusual activity" page
+        'notes': 'BLOCKED by aggressive anti-bot protection (Nov 2024). Shows "unusual activity" warning and blocks automated traffic. Product URLs follow pattern: /s/{product-name}/{product-id}. May require residential proxies or manual session management.'
     }
 }
 
