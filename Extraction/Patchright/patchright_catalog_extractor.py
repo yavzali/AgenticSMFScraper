@@ -555,10 +555,39 @@ DO NOT include products where you cannot read the title or price - skip them ins
                 'a[href*="/shop/"]', 'a[href*="/item/"]'
             ])
             
-            # Try each selector
+            # Try to find product container first for better scoping
+            product_container = None
+            container_selectors = [
+                '#plp-prod-list',  # Revolve
+                '.products-grid',  # Revolve, Anthropologie
+                '#product-search-results',  # Common
+                '[data-testid="product-results"]',  # Common
+                'main',  # Fallback
+            ]
+            
+            for cont_sel in container_selectors:
+                try:
+                    cont = await self.page.query_selector(cont_sel)
+                    if cont:
+                        product_container = cont
+                        logger.debug(f"✅ Using product container: {cont_sel}")
+                        break
+                except:
+                    continue
+            
+            # If no container found, use page
+            if not product_container:
+                product_container = self.page
+                logger.debug("Using entire page for link extraction")
+            
+            # Try each selector (scoped to product container)
             for selector in selectors:
                 try:
-                    links = await self.page.query_selector_all(selector)
+                    if product_container == self.page:
+                        links = await self.page.query_selector_all(selector)
+                    else:
+                        links = await product_container.query_selector_all(selector)
+                    
                     if links and len(links) > 0:
                         logger.info(f"✅ Found {len(links)} links with: {selector}")
                         
@@ -595,9 +624,10 @@ DO NOT include products where you cannot read the title or price - skip them ins
                                 title_selectors = dom_config.get('title_selectors', ['.title', '.product-title', 'img[alt]', 'h2', 'h3'])
                                 price_selectors = dom_config.get('price_selectors', ['.price', '.product-price', '[data-testid*="price"]'])
                                 extract_price_from_text = dom_config.get('extract_price_from_text', False)
+                                max_parent_levels = dom_config.get('max_parent_levels', 3)
                                 
                                 parent = link
-                                for _ in range(3):
+                                for _ in range(max_parent_levels):
                                     parent = await parent.evaluate_handle('el => el.parentElement')
                                     if parent:
                                         # Try title selectors (retailer-specific)

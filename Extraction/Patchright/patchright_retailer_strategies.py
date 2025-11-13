@@ -142,8 +142,9 @@ RETAILER_STRATEGIES = {
         'dom_extraction': {
             'title_selectors': ['img[alt]', 'a[aria-label]'],  # Revolve uses img alt for titles
             'price_selectors': [],  # Prices in plain text nodes, extract from parent text
-            'product_container': 'div[class*="grid__product"], article',
-            'extract_price_from_text': True  # Special flag: extract $ amounts from text content
+            'product_container': '#plp-prod-list',  # Main product grid
+            'extract_price_from_text': True,  # Special flag: extract $ amounts from text content
+            'max_parent_levels': 2  # Only traverse 2 levels up (stay within product card)
         },
         'popup_selectors': [
             'button[aria-label*="Close"]',
