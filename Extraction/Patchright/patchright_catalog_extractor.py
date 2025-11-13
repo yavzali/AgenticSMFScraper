@@ -1135,11 +1135,15 @@ DO NOT include products where you cannot read the title or price - skip them ins
                     dom_title = None
                     
                     # Try PWA heading first (most reliable for Anthropologie)
+                    # Use textContent (not inner_text) to avoid getting entire page content
                     title_el = await container.query_selector('.o-pwa-product-tile__heading')
                     if title_el:
-                        title_text = await title_el.inner_text()
-                        if title_text and title_text.strip() and len(title_text.strip()) > 5:
-                            dom_title = title_text.strip()
+                        try:
+                            title_text = await title_el.evaluate('el => el.textContent')
+                            if title_text and title_text.strip() and len(title_text.strip()) > 5:
+                                dom_title = title_text.strip()
+                        except:
+                            pass
                     
                     # If no PWA heading, try img alt
                     if not dom_title:
@@ -1176,7 +1180,8 @@ DO NOT include products where you cannot read the title or price - skip them ins
                         try:
                             price_el = await container.query_selector(price_sel)
                             if price_el:
-                                price_text = await price_el.inner_text()
+                                # Use textContent to avoid getting entire page content
+                                price_text = await price_el.evaluate('el => el.textContent')
                                 if price_text and '$' in price_text:
                                     # Extract first price found
                                     price_match = re.search(r'\$\s*(\d+\.?\d*)', price_text)
