@@ -1104,12 +1104,145 @@ elif retailer.lower() == 'anthropologie' and len(dom_product_links) > len(produc
 
 ---
 
-**Last Updated**: 2025-11-13  
+---
+
+## DATA VERIFICATION & SOURCE TRACKING
+
+### Problem: Assuming Products Are New Without Verifying Source
+
+**Context**: 71 Anthropologie products migrated to assessment queue were incorrectly assumed to be "genuinely new" based on discovery dates, without verifying if catalog monitor was ever run.
+
+**Symptoms**:
+```python
+# Initial incorrect conclusion:
+# "47 products discovered Nov 13 are genuinely new"
+# "They don't exist in Nov 6 baseline"
+# "Different dates = different workflows"
+```
+
+**Why It Failed**:
+1. **Assumed different dates = different workflows** (baseline vs monitor)
+2. **Didn't verify source tracking fields** (`products.source`, `assessment_queue.source_workflow`)
+3. **Didn't question high numbers** (47 "new" products is unusually high)
+4. **Trusted status field blindly** (`review_status='pending'` without verification)
+
+**Correct Verification Process**:
+```python
+# ✅ STEP 1: Check if catalog monitor was ever run
+cursor.execute("""
+    SELECT COUNT(*) FROM products 
+    WHERE retailer = ? AND source = 'monitor'
+""", (retailer,))
+monitor_count = cursor.fetchone()[0]
+
+if monitor_count == 0:
+    print(f"❌ No catalog monitor run for {retailer}")
+    print("   All queue products are likely baseline")
+    return
+
+# ✅ STEP 2: Check queue source_workflow
+cursor.execute("""
+    SELECT source_workflow, COUNT(*) 
+    FROM assessment_queue
+    WHERE retailer = ? AND status = 'pending'
+    GROUP BY source_workflow
+""", (retailer,))
+
+# ✅ STEP 3: Verify queue products aren't in baseline
+cursor.execute("""
+    SELECT COUNT(*) FROM assessment_queue aq
+    INNER JOIN catalog_products cp ON aq.product_url = cp.catalog_url
+    WHERE aq.retailer = ? AND cp.review_status = 'baseline'
+""", (retailer,))
+baseline_overlap = cursor.fetchone()[0]
+
+if baseline_overlap > 0:
+    print(f"❌ {baseline_overlap} products in queue are baseline duplicates")
+```
+
+**Critical Lessons**:
+
+1. **Always Verify Source Fields First**
+   - ✅ Check `products.source = 'monitor'` before concluding products are new
+   - ✅ Check `assessment_queue.source_workflow = 'catalog_monitor'`
+   - ❌ Don't assume discovery dates indicate workflow type
+
+2. **Question High Numbers**
+   - ✅ 47 "new" products in one day is unusually high → red flag
+   - ✅ Should trigger verification queries
+   - ❌ Don't accept large numbers without evidence
+
+3. **Don't Trust Status Fields Blindly**
+   - ✅ `review_status='pending'` might be mislabeled baseline
+   - ✅ Verify with source tracking fields
+   - ❌ Status fields can be wrong (bugs, migrations, old system)
+
+4. **Verify Workflow Execution**
+   - ✅ Check if catalog monitor was ever run for retailer
+   - ✅ Check products table for `source='monitor'` entries
+   - ❌ Don't assume workflow ran just because products exist
+
+5. **Baseline vs Monitor Distinction**
+   - ✅ Baseline scan: Creates `review_status='baseline'`, NEVER sends to queue
+   - ✅ Monitor scan: Creates `source='monitor'`, sends to queue
+   - ❌ If no monitor products exist, queue entries are likely baseline
+
+**Verification Checklist**:
+```python
+def verify_queue_products_are_genuine(retailer):
+    """Verify products in queue are genuinely new, not baseline"""
+    
+    # 1. Check monitor was run
+    monitor_count = check_products_source(retailer, 'monitor')
+    if monitor_count == 0:
+        return False, "No catalog monitor run detected"
+    
+    # 2. Check queue source
+    queue_sources = check_queue_sources(retailer)
+    if 'catalog_monitor' not in queue_sources:
+        return False, "No products from catalog_monitor workflow"
+    
+    # 3. Check baseline overlap
+    overlap = check_baseline_overlap(retailer)
+    if overlap > 0:
+        return False, f"{overlap} products overlap with baseline"
+    
+    return True, "Products verified as genuine"
+```
+
+**Real-World Example**:
+
+**Anthropologie (Incorrect Analysis)**:
+- ❌ Assumed: Nov 13 products = genuinely new (different date from Nov 6)
+- ❌ Evidence: No duplicate entries for same URLs
+- ❌ Conclusion: 47 products are genuinely new
+- ✅ **Reality**: 0 products with `source='monitor'` → All baseline
+
+**Revolve (Correct Analysis)**:
+- ✅ Verified: 98 products with `source='monitor'`
+- ✅ Verified: 0 queue products overlap with baseline
+- ✅ Conclusion: 71 products are genuinely new
+
+**Files**:
+- `Knowledge/ANTHROPOLOGIE_BASELINE_ISSUE_POSTMORTEM.md` - Complete postmortem
+- `Knowledge/PRODUCT_LIFECYCLE_MANAGEMENT.md` - Lifecycle rules
+
+**Prevention**:
+- ✅ Always run verification queries before concluding products are new
+- ✅ Question high numbers (should trigger verification)
+- ✅ Trust source tracking fields over status fields
+- ✅ Document verification process in migration scripts
+
+---
+
+**Last Updated**: 2025-11-22  
 **Status**: Production lessons documented  
-**Coverage**: 9/10 retailers, 95%+ success rate, configuration management lessons added
+**Coverage**: 9/10 retailers, 95%+ success rate, configuration management + data verification lessons added
 
 **Related Documents**:
 - `RETAILER_PLAYBOOK.md` - Retailer-specific solutions
 - `DUAL_TOWER_MIGRATION_PLAN.md` - New architecture design
 - `SYSTEM_OVERVIEW.md` - System architecture
+- `ANTHROPOLOGIE_BASELINE_ISSUE_POSTMORTEM.md` - Complete investigation
+- `PRODUCT_LIFECYCLE_MANAGEMENT.md` - Lifecycle rules and verification
 

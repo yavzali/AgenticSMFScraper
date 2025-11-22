@@ -228,6 +228,64 @@ User provides URL list
 
 ---
 
+## Verification Process
+
+### How to Verify Products Are Genuinely New
+
+Before concluding products in assessment queue are genuinely new (not baseline), run these verification queries:
+
+#### Step 1: Check if Catalog Monitor Was Ever Run
+```sql
+SELECT COUNT(*) FROM products 
+WHERE retailer = 'anthropologie' AND source = 'monitor';
+```
+**Expected**: >0 for retailers with genuine new products  
+**Red Flag**: 0 = No monitor run, all queue products likely baseline
+
+#### Step 2: Check Queue Source Workflow
+```sql
+SELECT source_workflow, COUNT(*) 
+FROM assessment_queue
+WHERE retailer = 'anthropologie' AND status = 'pending'
+GROUP BY source_workflow;
+```
+**Expected**: Includes `'catalog_monitor'` for genuine products  
+**Red Flag**: Only `'migration_from_catalog_products'` = Suspicious
+
+#### Step 3: Check Baseline Overlap
+```sql
+SELECT COUNT(*) FROM assessment_queue aq
+INNER JOIN catalog_products cp ON aq.product_url = cp.catalog_url
+WHERE aq.retailer = 'anthropologie' 
+AND aq.status = 'pending'
+AND cp.review_status = 'baseline';
+```
+**Expected**: 0 (no overlap with baseline)  
+**Red Flag**: >0 = Some products are baseline duplicates
+
+#### Step 4: Question High Numbers
+- >20 products in one day → Verify
+- >50 products total → Verify  
+- >10% of baseline count → Verify
+
+**Real-World Example**:
+- **Anthropologie**: 0 monitor products, 71 queue products → All baseline ❌
+- **Revolve**: 98 monitor products, 71 queue products, 0 baseline overlap → Genuine ✅
+
+### Verification Checklist
+
+Before migrating or trusting queue products:
+- [ ] Check `products.source = 'monitor'` count
+- [ ] Check `assessment_queue.source_workflow` distribution
+- [ ] Verify baseline overlap (queue URLs in baseline)
+- [ ] Question high numbers (>20 products)
+- [ ] Verify with user's domain knowledge
+- [ ] Document verification queries and results
+
+**See Also**: `ANTHROPOLOGIE_BASELINE_ISSUE_POSTMORTEM.md` for complete investigation example
+
+---
+
 ## Future Enhancements
 
 1. **Automated Lifecycle Tracking**
@@ -237,6 +295,7 @@ User provides URL list
 2. **Baseline Verification**
    - Flag products marked 'baseline' if later detected as 'new' on same scan
    - Prevent baseline products from entering assessment
+   - **NEW**: Automated verification queries in migration scripts
 
 3. **Price Change Thresholds**
    - Define when price changes warrant re-assessment
@@ -245,6 +304,11 @@ User provides URL list
 4. **Catalog vs Products Table Sync**
    - Approved products should be marked in catalog_products
    - Prevent re-flagging on subsequent scans
+
+5. **Source Tracking Validation**
+   - **NEW**: Add validation to prevent baseline products from entering queue
+   - **NEW**: Add source verification to migration scripts
+   - **NEW**: Log verification results for audit trail
 
 ---
 

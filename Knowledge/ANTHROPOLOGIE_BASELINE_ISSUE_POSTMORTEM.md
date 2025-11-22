@@ -218,20 +218,153 @@ await self.db_manager.save_product(
 ## Lessons Learned
 
 ### ✅ What Worked
-1. Multi-phase investigation approach
-2. Verification queries to check data consistency
-3. User's domain knowledge caught the error
+1. **Multi-phase investigation approach**: Systematic queries to narrow down the issue
+2. **Verification queries**: SQL queries to check data consistency across tables
+3. **User's domain knowledge**: Correctly identified that no catalog monitor was ever run
+4. **Corrective action**: Once verified, complete removal of all baseline products
 
 ### ❌ What Went Wrong
-1. **Assumption without verification**: Assumed different discovery dates meant genuinely new
-2. **Failed to check source fields**: Should have verified `products.source` and `assessment_queue.source_workflow`
-3. **Trusted status field blindly**: Did not validate if 'pending' status was legitimate
+
+#### 1. Assumption Without Verification
+**Error**: Assumed different discovery dates (Nov 6 vs Nov 13) meant different workflows (baseline vs monitor)
+
+**Why It Failed**:
+- Both dates were baseline scans
+- No catalog monitor was ever run for Anthropologie
+- Different dates ≠ different workflow types
+
+**Lesson**: Never assume workflow type from dates alone. Always verify with source tracking fields.
+
+#### 2. Failed to Check Source Fields First
+**Error**: Did not verify `products.source = 'monitor'` before concluding products were new
+
+**What Should Have Been Done**:
+```sql
+-- FIRST query (should have been first):
+SELECT COUNT(*) FROM products 
+WHERE retailer = 'anthropologie' AND source = 'monitor';
+-- Result: 0 → IMMEDIATE red flag
+```
+
+**Lesson**: Source tracking fields are the single source of truth. Check them FIRST.
+
+#### 3. Trusted Status Field Blindly
+**Error**: Assumed `review_status = 'pending'` meant "needs human review"
+
+**Why It Failed**:
+- Baseline scanner bug marked baseline products as 'pending'
+- Migration script trusted the status field
+- No validation that status was legitimate
+
+**Lesson**: Status fields can be wrong (bugs, migrations, old system). Verify with source tracking.
+
+#### 4. Didn't Question High Numbers
+**Error**: Accepted 47 "new" products without questioning if it was realistic
+
+**Why It Should Have Been Questioned**:
+- 47 new products in one day is unusually high
+- Should trigger verification queries
+- High numbers often indicate data issues
+
+**Lesson**: Question unusually high numbers. They're often red flags for data quality issues.
+
+#### 5. Made Conclusions Before Complete Verification
+**Error**: Concluded 47 were "genuinely new" based on partial evidence
+
+**What Was Missing**:
+- Verification of catalog monitor execution
+- Check of source tracking fields
+- Verification of baseline overlap
+
+**Lesson**: Complete verification before conclusions. Partial evidence leads to wrong conclusions.
 
 ### 🔧 Process Improvements
-1. **Always verify source tracking**: Check `source` field before concluding products are new
-2. **Question high numbers**: 47 "new" products is unusually high, should have raised red flag
-3. **Test hypotheses**: When user suggests alternative explanation, verify with data
-4. **Document assumptions**: Make explicit what we're assuming vs. what we've verified
+
+#### 1. Always Verify Source Tracking First
+**New Process**:
+```python
+def verify_products_are_genuine(retailer):
+    # STEP 1: Check if monitor was ever run
+    monitor_count = check_source_field(retailer, 'monitor')
+    if monitor_count == 0:
+        return False, "No catalog monitor run detected"
+    
+    # STEP 2: Check queue source_workflow
+    queue_sources = check_queue_sources(retailer)
+    if 'catalog_monitor' not in queue_sources:
+        return False, "No products from catalog_monitor"
+    
+    # STEP 3: Check baseline overlap
+    overlap = check_baseline_overlap(retailer)
+    if overlap > 0:
+        return False, f"{overlap} products overlap with baseline"
+    
+    return True, "Products verified as genuine"
+```
+
+#### 2. Question High Numbers
+**New Rule**: Any unusually high number of "new" products should trigger verification:
+- >20 products in one day → Verify
+- >50 products total → Verify
+- >10% of baseline → Verify
+
+#### 3. Test Hypotheses with Data
+**New Process**: When user suggests alternative explanation:
+1. ✅ Immediately verify with data queries
+2. ✅ Don't defend initial conclusion
+3. ✅ Accept user's domain knowledge
+4. ✅ Update analysis based on evidence
+
+#### 4. Document Assumptions Explicitly
+**New Practice**: Make explicit what we're assuming vs. what we've verified:
+```python
+# ❌ BAD: Implicit assumption
+# "47 products are genuinely new"
+
+# ✅ GOOD: Explicit verification
+# "47 products discovered Nov 13"
+# "Verified: 0 products with source='monitor'"
+# "Conclusion: All are baseline (no monitor run)"
+```
+
+#### 5. Verification Checklist for Migrations
+**New Checklist**:
+- [ ] Check if catalog monitor was ever run (`products.source = 'monitor'`)
+- [ ] Check queue source_workflow distribution
+- [ ] Verify baseline overlap (queue URLs in baseline)
+- [ ] Question high numbers (>20 products)
+- [ ] Verify with user's domain knowledge
+- [ ] Document verification queries and results
+
+### 📊 Verification Queries Reference
+
+**Quick Verification Script**:
+```sql
+-- 1. Check if monitor was run
+SELECT COUNT(*) FROM products 
+WHERE retailer = ? AND source = 'monitor';
+
+-- 2. Check queue sources
+SELECT source_workflow, COUNT(*) 
+FROM assessment_queue
+WHERE retailer = ? AND status = 'pending'
+GROUP BY source_workflow;
+
+-- 3. Check baseline overlap
+SELECT COUNT(*) FROM assessment_queue aq
+INNER JOIN catalog_products cp ON aq.product_url = cp.catalog_url
+WHERE aq.retailer = ? AND cp.review_status = 'baseline';
+```
+
+**Expected Results for Genuine Products**:
+- Monitor count: >0
+- Queue sources: Includes 'catalog_monitor'
+- Baseline overlap: 0
+
+**Red Flags**:
+- Monitor count: 0 → All products likely baseline
+- Queue sources: Only 'migration_from_catalog_products' → Suspicious
+- Baseline overlap: >0 → Some products are baseline duplicates
 
 ---
 
