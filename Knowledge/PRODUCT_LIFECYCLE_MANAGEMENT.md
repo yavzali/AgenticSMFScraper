@@ -204,17 +204,27 @@ User provides URL list
 **Issue Found**: 71 Anthropologie products migrated from old system to assessment_queue
 
 **Investigation Results**:
-- 24 products: `review_status = 'baseline'` (discovered Nov 6) → **REMOVED**
-- 47 products: `review_status = 'migrated_to_new_system'` (discovered Nov 13) → **KEPT**
+- **ALL 71 products were baseline products** → **ALL REMOVED**
+- 24 products: `review_status = 'baseline'` (discovered Nov 6)
+- 47 products: `review_status = 'migrated_to_new_system'` (discovered Nov 13)
 
-**Rationale**:
-- Nov 6 products were part of baseline scan, incorrectly flagged
-- Nov 13 products were genuinely new detections (no baseline scan on that date)
-- Nov 13 products do NOT exist in earlier baseline entries
+**Root Cause**:
+- **No catalog monitor was EVER run for Anthropologie**
+- Both Nov 6 and Nov 13 were baseline scans, not monitoring scans
+- Nov 13 scan incorrectly marked products as 'pending' instead of 'baseline'
+- Migration script trusted the 'pending' status without verifying source
+
+**Verification**:
+- `products` table: 0 Anthropologie products with `source='monitor'`
+- `assessment_queue`: 0 Anthropologie with `source_workflow='catalog_monitor'`
+- All queue entries were from `migration_from_catalog_products`
 
 **Final State**:
-- Assessment queue: 47 genuine Anthropologie products
-- Removed: 24 baseline duplicates
+- Assessment queue: 0 Anthropologie products (all baseline removed)
+- Total removed: 71 baseline products
+- Remaining in queue: 71 Revolve products (genuinely from catalog monitor)
+
+**See Also**: `ANTHROPOLOGIE_BASELINE_ISSUE_POSTMORTEM.md` for detailed analysis
 
 ---
 
