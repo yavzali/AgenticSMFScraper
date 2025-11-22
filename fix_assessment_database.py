@@ -72,25 +72,34 @@ class AssessmentDatabaseFixer:
             self.print_error(f"Local database is corrupted: {e}")
             return False
     
-    def get_credentials(self):
-        """Get DigitalOcean credentials interactively"""
+    def get_credentials(self, host=None, username=None, password=None, ssh_key_path=None):
+        """Get DigitalOcean credentials interactively or from parameters"""
         self.print_step(2, "Getting Server Credentials")
         
-        print("Please provide your DigitalOcean server credentials:")
-        host = input("Server IP/hostname: ").strip()
-        username = input("Username: ").strip()
-        
-        # Try SSH key first, then password
-        ssh_key_path = input("SSH private key path (press Enter for password auth): ").strip()
+        if not host or not username:
+            print("Please provide your DigitalOcean server credentials:")
+            host = host or input("Server IP/hostname: ").strip()
+            username = username or input("Username: ").strip()
         
         if ssh_key_path and os.path.exists(ssh_key_path):
             password = None
             key_filename = ssh_key_path
             print(f"Using SSH key: {ssh_key_path}")
-        else:
-            password = getpass.getpass("Password: ")
+        elif password:
             key_filename = None
             print("Using password authentication")
+        else:
+            # Try SSH key first, then password
+            ssh_key_path = input("SSH private key path (press Enter for password auth): ").strip()
+            
+            if ssh_key_path and os.path.exists(ssh_key_path):
+                password = None
+                key_filename = ssh_key_path
+                print(f"Using SSH key: {ssh_key_path}")
+            else:
+                password = getpass.getpass("Password: ")
+                key_filename = None
+                print("Using password authentication")
         
         return host, username, password, key_filename
     
@@ -433,7 +442,7 @@ try {{
         if self.ssh_client:
             self.ssh_client.close()
     
-    def run(self):
+    def run(self, host=None, username=None, password=None, ssh_key_path=None):
         """Main execution flow"""
         try:
             print("🚀 Assessment Database Diagnostic and Fix Tool")
@@ -445,7 +454,7 @@ try {{
                 return False
             
             # Step 2 & 3: Get credentials and connect
-            host, username, password, key_filename = self.get_credentials()
+            host, username, password, key_filename = self.get_credentials(host, username, password, ssh_key_path)
             if not self.connect_ssh(host, username, password, key_filename):
                 return False
             
@@ -480,6 +489,8 @@ try {{
 
 def main():
     """Main entry point"""
+    import argparse
+    
     # Check if paramiko and scp are installed
     try:
         import paramiko
@@ -490,8 +501,17 @@ def main():
         print("   pip install paramiko scp")
         return False
     
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Assessment Database Diagnostic and Fix Tool')
+    parser.add_argument('--host', help='Server IP/hostname')
+    parser.add_argument('--username', help='SSH username')
+    parser.add_argument('--password', help='SSH password')
+    parser.add_argument('--ssh-key', help='Path to SSH private key file')
+    
+    args = parser.parse_args()
+    
     fixer = AssessmentDatabaseFixer()
-    success = fixer.run()
+    success = fixer.run(args.host, args.username, args.password, args.ssh_key)
     
     if success:
         print("\n🎉 All done! Your assessment database should be working now.")
