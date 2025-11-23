@@ -226,7 +226,12 @@ class DatabaseManager:
         shopify_status: Optional[str] = None,
         images_uploaded: Optional[int] = None,
         source: Optional[str] = None,
-        assessment_status: Optional[str] = None
+        assessment_status: Optional[str] = None,
+        lifecycle_stage: Optional[str] = None,
+        data_completeness: Optional[str] = None,
+        last_workflow: Optional[str] = None,
+        extracted_at: Optional[str] = None,
+        assessed_at: Optional[str] = None
     ) -> bool:
         """
         Save new product to products table
@@ -236,6 +241,11 @@ class DatabaseManager:
             images_uploaded: 0 or 1 to track if images were successfully uploaded
             source: 'baseline_scan', 'monitor', or 'new_product_import'
             assessment_status: 'not_assessed', 'queued', 'assessed', or 'not_for_assessment'
+            lifecycle_stage: 'baseline_only', 'pending_assessment', 'assessed_approved', 'assessed_rejected', 'imported_direct'
+            data_completeness: 'lightweight', 'full', 'enriched'
+            last_workflow: Name of the last workflow that touched this product
+            extracted_at: Timestamp of extraction
+            assessed_at: Timestamp of human assessment
         """
         try:
             conn = self._get_connection()
@@ -268,8 +278,27 @@ class DatabaseManager:
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, 
                  shopify_id, modesty_status, shopify_status, images_uploaded, 
-                 images_uploaded_at, source, assessment_status, first_seen, last_updated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 images_uploaded_at, source, assessment_status, first_seen, last_updated,
+                 lifecycle_stage, data_completeness, last_workflow, extracted_at, assessed_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(url) DO UPDATE SET
+                    title = COALESCE(excluded.title, title),
+                    price = COALESCE(excluded.price, price),
+                    brand = COALESCE(excluded.brand, brand),
+                    description = COALESCE(excluded.description, description),
+                    shopify_id = COALESCE(excluded.shopify_id, shopify_id),
+                    modesty_status = COALESCE(excluded.modesty_status, modesty_status),
+                    shopify_status = COALESCE(excluded.shopify_status, shopify_status),
+                    images_uploaded = COALESCE(excluded.images_uploaded, images_uploaded),
+                    images_uploaded_at = COALESCE(excluded.images_uploaded_at, images_uploaded_at),
+                    source = COALESCE(excluded.source, source),
+                    assessment_status = COALESCE(excluded.assessment_status, assessment_status),
+                    lifecycle_stage = COALESCE(excluded.lifecycle_stage, lifecycle_stage),
+                    data_completeness = COALESCE(excluded.data_completeness, data_completeness),
+                    last_workflow = COALESCE(excluded.last_workflow, last_workflow),
+                    extracted_at = COALESCE(excluded.extracted_at, extracted_at),
+                    assessed_at = COALESCE(excluded.assessed_at, assessed_at),
+                    last_updated = excluded.last_updated
             ''', (
                 url,
                 retailer,
@@ -285,7 +314,12 @@ class DatabaseManager:
                 source,
                 assessment_status,
                 first_seen.isoformat(),
-                datetime.utcnow().isoformat()
+                datetime.utcnow().isoformat(),
+                lifecycle_stage,
+                data_completeness,
+                last_workflow,
+                extracted_at,
+                assessed_at
             ))
             
             conn.commit()
@@ -295,6 +329,91 @@ class DatabaseManager:
             
         except Exception as e:
             logger.error(f"Failed to save product: {e}")
+            return False
+    
+    async def save_catalog_product(
+        self,
+        product: Dict,
+        scan_type: str = 'baseline',
+        review_status: str = 'baseline',
+        image_url_source: str = 'catalog_extraction'
+    ) -> bool:
+        """
+        Save product to catalog_products table
+        
+        Args:
+            product: Product dictionary with url, retailer, title, price, etc.
+            scan_type: 'baseline' or 'monitor'
+            review_status: 'baseline', 'pending', 'flagged_new', etc.
+            image_url_source: Where images came from ('catalog_extraction', 'single_product_extraction')
+        """
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            
+            catalog_url = product.get('url') or product.get('catalog_url')
+            retailer = product.get('retailer')
+            
+            # Check if product already exists
+            cursor.execute('''
+                SELECT id FROM catalog_products 
+                WHERE catalog_url = ? AND retailer = ?
+            ''', (catalog_url, retailer))
+            
+            existing = cursor.fetchone()
+            
+            if existing:
+                # Update existing record
+                cursor.execute('''
+                    UPDATE catalog_products SET
+                        title = COALESCE(?, title),
+                        price = ?,
+                        product_code = COALESCE(?, product_code),
+                        image_urls = COALESCE(?, image_urls),
+                        review_status = COALESCE(?, review_status),
+                        scan_type = COALESCE(?, scan_type),
+                        image_url_source = COALESCE(?, image_url_source),
+                        updated_at = CURRENT_TIMESTAMP
+                    WHERE id = ?
+                ''', (
+                    product.get('title'),
+                    product.get('price'),
+                    product.get('product_code'),
+                    json.dumps(product.get('images', [])) if isinstance(product.get('images'), list) else product.get('images'),
+                    review_status,
+                    scan_type,
+                    image_url_source,
+                    existing[0]
+                ))
+            else:
+                # Insert new record
+                cursor.execute('''
+                    INSERT INTO catalog_products 
+                    (catalog_url, retailer, category, title, price, product_code,
+                     image_urls, discovered_date, review_status,
+                     scan_type, image_url_source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    catalog_url,
+                    retailer,
+                    product.get('category'),
+                    product.get('title'),
+                    product.get('price'),
+                    product.get('product_code'),
+                    json.dumps(product.get('images', [])) if isinstance(product.get('images'), list) else product.get('images'),
+                    datetime.utcnow().isoformat(),
+                    review_status,
+                    scan_type,
+                    image_url_source
+                ))
+            
+            conn.commit()
+            conn.close()
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to save catalog product: {e}")
             return False
     
     async def update_shopify_status(
