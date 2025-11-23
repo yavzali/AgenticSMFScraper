@@ -404,6 +404,85 @@ Weekly Cycle:
 
 ---
 
+## 🔄 Database Synchronization (Two-Way Sync) 🆕
+
+### **What It Does**
+After the catalog monitor completes and sends products to the assessment queue, it **automatically syncs** the local database to the web server, ensuring the assessment interface (AssessModesty.com) has the latest products.
+
+### **How Two-Way Sync Works**
+
+**STEP 1: Pull Assessments from Server** (before pushing)
+- Downloads server database to temp file
+- Finds products you assessed on phone (lifecycle_stage = 'assessed_approved' or 'assessed_rejected')
+- Compares assessed_at timestamps
+- Merges newer server assessments into local database
+- **Prevents data loss** if you assessed products on phone while laptop was offline
+
+**STEP 2: Push Local Changes to Server** (after merging)
+- Creates backup of server database
+- Uploads merged local database to server
+- Sets correct permissions
+- Both your phone assessments AND new products are preserved ✅
+
+### **When It Runs**
+- **Automatically**: At the end of catalog_monitor.py (if products were added to queue)
+- **Manually**: Run `python3 sync_now.py` anytime
+- **Status Check**: Run `python3 check_status.py` to see if sync is needed
+
+### **Manual Commands**
+
+**Check Status (Start of Day)**:
+```bash
+python3 check_status.py
+```
+Shows pending reviews on server, recent assessments, and sync status.
+
+**Manual Sync**:
+```bash
+python3 sync_now.py
+```
+Pulls assessments from server, merges into local, pushes to server.
+
+### **Typical Workflow**
+```
+Morning:
+  1. python3 check_status.py  # See what happened while laptop was off
+  2. python3 sync_now.py      # If sync needed (assessed on phone)
+
+During Day:
+  3. Run catalog monitor      # Automatically syncs at end
+
+Evening (On Phone):
+  4. Assess products          # Changes saved to server
+  5. Next time: Step 1-2 pulls your assessments
+```
+
+### **Built On**
+The two-way sync uses the lifecycle tracking fields from Phase 1-6:
+- `lifecycle_stage` - Track product state (pending_assessment, assessed_approved, assessed_rejected)
+- `assessed_at` - Assessment timestamp (for comparing local vs server)
+- `last_updated` - Track changes
+
+**Without these fields**, two-way sync would be impossible - we'd have to overwrite everything (data loss!).
+
+### **Performance**
+- **Overhead**: ~5 seconds per sync
+- **Worth it**: YES - prevents data loss when assessing on phone
+- **Non-blocking**: Failures don't crash workflows
+
+### **Troubleshooting**
+- Check SSH connectivity: `ssh root@167.172.148.145`
+- Verify local database: `ls -lh Shared/products.db`
+- Check sync logs in catalog monitor output
+- Visit https://assessmodesty.com/assess.php to verify
+
+### **Documentation**
+- `Knowledge/TWO_WAY_SYNC_WORKFLOW.md` - Complete workflow walkthrough
+- `Knowledge/TWO_WAY_SYNC_INTEGRATION.md` - Architecture integration details
+- `Knowledge/DATABASE_PATH_CONSOLIDATION.md` - Database path fix
+
+---
+
 ## Related Documentation
 - `CATALOG_BASELINE_SCANNER_GUIDE.md` - Initial baseline setup
 - `PRODUCT_UPDATER_GUIDE.md` - Updating existing products
@@ -411,4 +490,7 @@ Weekly Cycle:
 - `DUAL_TOWER_MIGRATION_PLAN.md` - System architecture
 - `PRODUCT_TYPE_CLASSIFICATION_IMPLEMENTATION.md` 🆕 - Product type classification feature details
 - `RETAILER_CONFIG.json` - Retailer-specific configurations including Mango dual-URL setup
+- `Knowledge/TWO_WAY_SYNC_WORKFLOW.md` 🆕 - Database synchronization workflow
+- `Knowledge/TWO_WAY_SYNC_INTEGRATION.md` 🆕 - Sync architecture integration
+- `Knowledge/DATABASE_PATH_CONSOLIDATION.md` 🆕 - Database path consolidation fix
 

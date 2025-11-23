@@ -223,12 +223,19 @@ The Agent Modest Scraper System v6.1 represents a **production-ready, modular** 
    - Suspected duplicates → Duplication assessment (with Shopify CDN images)
 8. **🆕 Human review** → Publish or keep as draft
 9. Record monitoring run metadata
+10. **🆕 Database sync** → Automatically syncs to web server (two-way sync)
 
 **When to Use**: After baseline + after Product Updater, periodic checks
 
-**Output**: Products scanned, new found, suspected duplicates, sent to review, uploaded as drafts
+**Output**: Products scanned, new found, suspected duplicates, sent to review, uploaded as drafts, database synced
 
-**See Also**: `Workflows/CATALOG_MONITOR_GUIDE.md`
+**🆕 Database Synchronization**: The catalog monitor automatically performs **two-way sync** at the end:
+- **STEP 1 (Pull)**: Downloads server database, finds phone assessments, merges into local
+- **STEP 2 (Push)**: Uploads merged database to server
+- **Prevents data loss** when assessing on phone while laptop is offline
+- **Performance**: ~5 seconds overhead, non-blocking
+
+**See Also**: `Workflows/CATALOG_MONITOR_GUIDE.md`, `Knowledge/TWO_WAY_SYNC_WORKFLOW.md`
 
 ---
 
