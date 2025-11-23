@@ -504,9 +504,30 @@ print('✅ Google Gemini API: Connected')
 
 ---
 
-## 🔄 **Database Synchronization**
+## 🔄 **Database Synchronization (Two-Way Sync)**
 
-The local `products.db` is automatically synced to the web server after each catalog monitoring run. This keeps the assessment pipeline (assessmodesty.com) up-to-date with newly discovered products.
+The system uses **intelligent two-way synchronization** to prevent data loss when assessing products on mobile while the laptop is offline.
+
+### **How Two-Way Sync Works**
+
+**STEP 1: Pull Assessments from Server** (before pushing)
+- Downloads server database to temp file
+- Queries for products with `lifecycle_stage` = 'assessed_approved' or 'assessed_rejected'
+- Compares `assessed_at` timestamps with local database
+- Merges newer server assessments into local database
+- **Prevents overwriting** assessments made on phone
+
+**STEP 2: Push Local Changes to Server** (after merging)
+- Validates local database
+- Creates backup of server database
+- Uploads merged local database to server
+- Sets correct permissions (www-data:www-data)
+- Verifies upload
+
+**This means**: You can assess products on your phone on the train. When your laptop wakes up and runs catalog monitoring, it will:
+1. Pull your phone assessments first
+2. Then push any new products found
+3. Both changes are preserved ✅
 
 ### **Automatic Sync**
 

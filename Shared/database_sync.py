@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Database Sync Module
-Syncs local products.db to web server for assessment pipeline
+Two-way sync: Pulls assessments from server, then pushes local changes
+Uses lifecycle tracking to merge changes intelligently
 """
 
 import paramiko
@@ -9,8 +10,11 @@ from scp import SCPClient
 import logging
 from pathlib import Path
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List, Dict
 import os
+import sqlite3
+import json
+import tempfile
 
 logger = logging.getLogger(__name__)
 
@@ -61,22 +65,169 @@ class DatabaseSync:
         
         return True, f"Local database valid ({size_mb:.2f} MB)"
     
+    def pull_assessments_from_server(self) -> Tuple[bool, int]:
+        """
+        Pull assessment decisions from server and apply to local database
+        
+        Uses lifecycle_stage and timestamps to identify server-side assessments
+        that need to be merged into local database.
+        
+        Returns:
+            (success, num_assessments_pulled)
+        """
+        try:
+            logger.info("🔽 Pulling assessments from server...")
+            
+            # Connect via SSH
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(
+                self.server_ip,
+                username=self.server_user,
+                password=self.server_password,
+                timeout=10
+            )
+            
+            # Download server database to temporary file
+            temp_server_db = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
+            temp_server_db.close()
+            
+            logger.info("📥 Downloading server database...")
+            with SCPClient(ssh.get_transport()) as scp:
+                scp.get(self.remote_db_path, temp_server_db.name)
+            
+            ssh.close()
+            logger.info("✅ Server database downloaded")
+            
+            # Query server database for assessed products
+            server_conn = sqlite3.connect(temp_server_db.name)
+            server_conn.row_factory = sqlite3.Row
+            server_cursor = server_conn.cursor()
+            
+            # Get products that were assessed on server (not locally)
+            # These have lifecycle_stage = 'assessed_approved' or 'assessed_rejected'
+            server_cursor.execute("""
+                SELECT 
+                    url, lifecycle_stage, assessed_at, modesty_status,
+                    shopify_status, shopify_id, last_updated
+                FROM products
+                WHERE lifecycle_stage IN ('assessed_approved', 'assessed_rejected')
+                AND assessed_at IS NOT NULL
+            """)
+            
+            server_assessments = [dict(row) for row in server_cursor.fetchall()]
+            server_conn.close()
+            
+            # Clean up temp file
+            os.unlink(temp_server_db.name)
+            
+            if not server_assessments:
+                logger.info("ℹ️  No server assessments to pull")
+                return True, 0
+            
+            logger.info(f"📊 Found {len(server_assessments)} assessments on server")
+            
+            # Apply assessments to local database
+            local_conn = sqlite3.connect(self.local_db_path)
+            local_cursor = local_conn.cursor()
+            
+            updated_count = 0
+            for assessment in server_assessments:
+                # Check if local product exists and needs updating
+                local_cursor.execute("""
+                    SELECT lifecycle_stage, assessed_at, last_updated
+                    FROM products
+                    WHERE url = ?
+                """, (assessment['url'],))
+                
+                local_product = local_cursor.fetchone()
+                
+                if not local_product:
+                    logger.debug(f"Skipping {assessment['url'][:50]} - not in local database")
+                    continue
+                
+                local_lifecycle, local_assessed_at, local_updated = local_product
+                
+                # Only update if server assessment is newer or local hasn't been assessed
+                server_assessed_at = assessment['assessed_at']
+                
+                should_update = (
+                    local_lifecycle not in ('assessed_approved', 'assessed_rejected') or
+                    (local_assessed_at is None) or
+                    (server_assessed_at and server_assessed_at > (local_assessed_at or ''))
+                )
+                
+                if should_update:
+                    local_cursor.execute("""
+                        UPDATE products
+                        SET lifecycle_stage = ?,
+                            assessed_at = ?,
+                            modesty_status = ?,
+                            shopify_status = ?,
+                            last_updated = ?
+                        WHERE url = ?
+                    """, (
+                        assessment['lifecycle_stage'],
+                        assessment['assessed_at'],
+                        assessment['modesty_status'],
+                        assessment['shopify_status'],
+                        assessment['last_updated'],
+                        assessment['url']
+                    ))
+                    updated_count += 1
+                    logger.debug(f"✅ Updated: {assessment['url'][:50]} -> {assessment['lifecycle_stage']}")
+            
+            local_conn.commit()
+            local_conn.close()
+            
+            logger.info(f"✅ Applied {updated_count} assessments to local database")
+            return True, updated_count
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to pull assessments: {e}")
+            return False, 0
+    
     def sync_to_server(
         self,
         create_backup: bool = True,
-        verify: bool = True
+        verify: bool = True,
+        pull_first: bool = True
     ) -> bool:
         """
-        Sync local database to web server
+        Two-way sync: Pull assessments from server, then push local changes
         
         Args:
             create_backup: Create backup of server DB before overwriting
             verify: Verify upload after completion
+            pull_first: Pull server assessments before pushing (default: True)
             
         Returns:
             True if successful, False otherwise
         """
         try:
+            # STEP 1: Pull assessments from server BEFORE pushing
+            if pull_first:
+                logger.info("=" * 60)
+                logger.info("STEP 1: PULL ASSESSMENTS FROM SERVER")
+                logger.info("=" * 60)
+                
+                pull_success, num_pulled = self.pull_assessments_from_server()
+                
+                if pull_success:
+                    if num_pulled > 0:
+                        logger.info(f"✅ Merged {num_pulled} server assessments into local database")
+                    else:
+                        logger.info("✅ No new server assessments to merge")
+                else:
+                    logger.warning("⚠️  Failed to pull assessments, continuing with push anyway...")
+                
+                logger.info("")
+            
+            # STEP 2: Validate and push local database to server
+            logger.info("=" * 60)
+            logger.info("STEP 2: PUSH LOCAL DATABASE TO SERVER")
+            logger.info("=" * 60)
+            
             # Validate local database
             valid, message = self.validate_local_db()
             if not valid:
