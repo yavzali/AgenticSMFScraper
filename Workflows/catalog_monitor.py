@@ -157,6 +157,240 @@ class CatalogMonitor:
         
         logger.info("✅ Catalog Monitor initialized (Dual Tower)")
     
+    async def _save_catalog_snapshot(
+        self,
+        catalog_products: List[Dict],
+        retailer: str,
+        category: str,
+        modesty_level: str
+    ) -> None:
+        """
+        Save ALL catalog products as historical snapshot
+        Called on EVERY monitor run to track catalog changes over time
+        
+        This creates new entries in catalog_products table with scan_type='monitor'
+        to maintain historical log of what was in catalog on each scan date.
+        """
+        logger.info(f"📸 Saving catalog snapshot: {len(catalog_products)} products")
+        
+        conn = self.db_manager._get_connection()
+        cursor = conn.cursor()
+        
+        saved = 0
+        for product in catalog_products:
+            try:
+                # Extract fields
+                url = product.get('url') or product.get('catalog_url')
+                title = product.get('title')
+                price = product.get('price')
+                product_code = product.get('product_code')
+                image_urls = product.get('image_urls') or product.get('images', [])
+                
+                # Convert image_urls to JSON string if it's a list
+                if isinstance(image_urls, list):
+                    image_urls = json.dumps(image_urls)
+                
+                # Insert into catalog_products
+                cursor.execute("""
+                    INSERT INTO catalog_products 
+                    (catalog_url, retailer, category, title, price, product_code, 
+                     image_urls, discovered_date, review_status, scan_type, image_url_source)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    url,
+                    retailer,
+                    category,
+                    title,
+                    price,
+                    product_code,
+                    image_urls,
+                    datetime.utcnow().isoformat(),
+                    'baseline',  # All catalog snapshots are marked 'baseline'
+                    'monitor',   # This distinguishes from baseline scanner
+                    'catalog_extraction'
+                ))
+                saved += 1
+                
+            except Exception as e:
+                logger.error(f"Failed to save catalog snapshot for {url}: {e}")
+                continue
+        
+        conn.commit()
+        conn.close()
+        
+        logger.info(f"✅ Catalog snapshot saved: {saved}/{len(catalog_products)} products")
+    
+    async def _detect_price_changes(
+        self,
+        catalog_products: List[Dict],
+        retailer: str
+    ) -> int:
+        """
+        Compare catalog prices to products table
+        Flag products where price changed for Product Updater priority queue
+        
+        Returns:
+            Number of price changes detected
+        """
+        conn = self.db_manager._get_connection()
+        cursor = conn.cursor()
+        
+        price_changes = 0
+        
+        for product in catalog_products:
+            try:
+                url = product.get('url') or product.get('catalog_url')
+                catalog_price = product.get('price')
+                
+                if not url or not catalog_price:
+                    continue
+                
+                # Check if product exists in products table
+                # Try exact match first, then normalized
+                cursor.execute("""
+                    SELECT url, price FROM products 
+                    WHERE (url = ? OR RTRIM(SUBSTR(url, 1, INSTR(url || '?', '?') - 1), '/') = ?)
+                    AND retailer = ?
+                """, (url, url.split('?')[0].rstrip('/'), retailer))
+                
+                result = cursor.fetchone()
+                
+                if result:
+                    product_url, product_price = result
+                    
+                    # Price changed?
+                    if product_price and abs(float(catalog_price) - float(product_price)) >= 0.01:
+                        price_diff = float(catalog_price) - float(product_price)
+                        
+                        # Add to priority queue
+                        cursor.execute("""
+                            INSERT INTO product_update_queue
+                            (product_url, retailer, priority, reason, 
+                             catalog_price, products_price, price_difference, detected_at)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        """, (
+                            product_url,
+                            retailer,
+                            'high' if abs(price_diff) > 50 else 'normal',
+                            'price_change_detected_in_catalog',
+                            catalog_price,
+                            product_price,
+                            price_diff,
+                            datetime.utcnow().isoformat()
+                        ))
+                        
+                        price_changes += 1
+                        logger.debug(f"💰 Price change: {product_url[:50]}... ${product_price} → ${catalog_price}")
+            
+            except Exception as e:
+                logger.error(f"Price change detection failed: {e}")
+                continue
+        
+        conn.commit()
+        conn.close()
+        
+        if price_changes > 0:
+            logger.info(f"💰 Detected {price_changes} price changes")
+        
+        return price_changes
+    
+    async def _link_to_products_table(
+        self,
+        catalog_product: Dict,
+        retailer: str
+    ) -> Optional[Dict]:
+        """
+        Try to link catalog product to products table using multi-level deduplication
+        
+        Returns:
+            dict with linked_product_url, link_confidence, link_method or None
+        """
+        conn = self.db_manager._get_connection()
+        cursor = conn.cursor()
+        
+        url = catalog_product.get('url') or catalog_product.get('catalog_url')
+        title = catalog_product.get('title')
+        price = catalog_product.get('price')
+        product_code = catalog_product.get('product_code')
+        
+        # Check retailer URL stability to decide strategy
+        cursor.execute("""
+            SELECT best_dedup_method, url_stability_score 
+            FROM retailer_url_patterns 
+            WHERE retailer = ?
+        """, (retailer,))
+        
+        pattern_result = cursor.fetchone()
+        
+        # If retailer has low URL stability, prefer fuzzy matching
+        prefer_fuzzy = False
+        if pattern_result:
+            best_method, stability = pattern_result
+            prefer_fuzzy = (stability < 0.50 or best_method == 'fuzzy_title_price')
+        
+        # Level 1: Exact URL (unless we prefer fuzzy)
+        if not prefer_fuzzy:
+            cursor.execute("SELECT url FROM products WHERE url = ? AND retailer = ?", (url, retailer))
+            result = cursor.fetchone()
+            if result:
+                conn.close()
+                return {'linked_product_url': result[0], 'link_confidence': 1.0, 'link_method': 'exact_url'}
+        
+        # Level 2: Normalized URL
+        if not prefer_fuzzy:
+            normalized = url.split('?')[0].rstrip('/')
+            cursor.execute("""
+                SELECT url FROM products 
+                WHERE RTRIM(SUBSTR(url, 1, INSTR(url || '?', '?') - 1), '/') = ?
+                AND retailer = ?
+            """, (normalized, retailer))
+            result = cursor.fetchone()
+            if result:
+                conn.close()
+                return {'linked_product_url': result[0], 'link_confidence': 0.95, 'link_method': 'normalized_url'}
+        
+        # Level 3: Product code
+        if product_code and not prefer_fuzzy:
+            cursor.execute("""
+                SELECT url FROM products 
+                WHERE product_code = ? AND retailer = ?
+            """, (product_code, retailer))
+            result = cursor.fetchone()
+            if result:
+                conn.close()
+                return {'linked_product_url': result[0], 'link_confidence': 0.90, 'link_method': 'product_code'}
+        
+        # Level 4: Fuzzy title + price (ALWAYS try this, especially for low-stability retailers)
+        if title and price:
+            cursor.execute("""
+                SELECT url, title FROM products 
+                WHERE ABS(price - ?) < 1.0 AND retailer = ?
+            """, (price, retailer))
+            
+            products = cursor.fetchall()
+            
+            best_match = None
+            best_similarity = 0.0
+            
+            for product_url, product_title in products:
+                similarity = SequenceMatcher(
+                    None,
+                    title.lower().strip(),
+                    product_title.lower().strip()
+                ).ratio()
+                
+                if similarity > best_similarity:
+                    best_similarity = similarity
+                    best_match = product_url
+            
+            if best_similarity > 0.90:
+                confidence = 0.85 + (best_similarity - 0.90) * 0.5
+                conn.close()
+                return {'linked_product_url': best_match, 'link_confidence': confidence, 'link_method': 'fuzzy_title_price'}
+        
+        conn.close()
+        return None
+    
     async def monitor_catalog(
         self,
         retailer: str,
@@ -244,6 +478,20 @@ class CatalogMonitor:
             logger.info(f"   New: {len(dedup_results['new'])}")
             logger.info(f"   Suspected duplicates: {len(dedup_results['suspected_duplicate'])}")
             logger.info(f"   Confirmed existing: {len(dedup_results['confirmed_existing'])}")
+            
+            # Step 4.5: Save catalog snapshot (ALL products, every run)
+            await self._save_catalog_snapshot(
+                catalog_products=catalog_products,
+                retailer=retailer,
+                category=category,
+                modesty_level=modesty_level
+            )
+            
+            # Step 4.6: Detect price changes
+            price_changes = await self._detect_price_changes(
+                catalog_products=catalog_products,
+                retailer=retailer
+            )
             
             # Step 5: Process new products
             sent_to_modesty = 0
@@ -862,7 +1110,11 @@ class CatalogMonitor:
                     modesty_status='pending_review',
                     shopify_status='draft',  # Mark as draft in DB
                     images_uploaded=1 if downloaded_images else 0,  # Track image upload success
-                    source='monitor'  # Track as discovered by catalog monitoring
+                    source='monitor',  # Track as discovered by catalog monitoring
+                    lifecycle_stage='pending_assessment',  # NEW - lifecycle tracking
+                    data_completeness='full',  # NEW - has full product details
+                    last_workflow='catalog_monitor',  # NEW - workflow attribution
+                    extracted_at=datetime.utcnow().isoformat()  # NEW - extraction timestamp
                 )
                 
                 return {
@@ -918,7 +1170,11 @@ class CatalogMonitor:
                     retailer=retailer,
                     product_data=product,
                     shopify_id=result.get('product_id'),
-                    modesty_status='not_assessed'
+                    modesty_status='not_assessed',
+                    lifecycle_stage='imported_direct',  # NEW - bypassed assessment
+                    data_completeness='full',  # NEW - has full product details
+                    last_workflow='catalog_monitor',  # NEW - workflow attribution
+                    extracted_at=datetime.utcnow().isoformat()  # NEW - extraction timestamp
                 )
             else:
                 logger.warning(f"❌ Draft upload failed: {result.get('error')}")
