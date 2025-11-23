@@ -401,7 +401,11 @@ class NewProductImporter:
                 shopify_id=shopify_product_id,
                 modesty_status=modesty_classification,
                 first_seen=datetime.utcnow(),
-                source='new_product_import'
+                source='new_product_import',
+                lifecycle_stage='imported_direct',  # NEW - bypassed assessment
+                data_completeness='full',  # NEW - has complete data
+                last_workflow='new_product_importer',  # NEW - track source
+                extracted_at=datetime.utcnow().isoformat()  # NEW - timestamp
             )
             
             processing_time = asyncio.get_event_loop().time() - start_time

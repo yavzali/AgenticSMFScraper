@@ -141,19 +141,30 @@ try {
             
             $productUrl = $productData['url'] ?? $productData['catalog_url'] ?? null;
             if ($productUrl) {
+                // Determine lifecycle_stage based on decision
+                $lifecycleStage = null;
+                if ($decision === 'modest' || $decision === 'moderately_modest') {
+                    $lifecycleStage = 'assessed_approved';
+                } elseif ($decision === 'not_modest') {
+                    $lifecycleStage = 'assessed_rejected';
+                }
+                
                 $updateStmt = $productsDb->prepare("
                     UPDATE products
                     SET shopify_status = :shopify_status,
                         modesty_status = :modesty_status,
+                        lifecycle_stage = :lifecycle_stage,
+                        assessed_at = datetime('now'),
                         last_updated = datetime('now')
                     WHERE url = :url
                 ");
                 $updateStmt->bindParam(':shopify_status', $dbShopifyStatus);
                 $updateStmt->bindParam(':modesty_status', $decision);
+                $updateStmt->bindParam(':lifecycle_stage', $lifecycleStage);
                 $updateStmt->bindParam(':url', $productUrl);
                 $updateStmt->execute();
                 
-                error_log("✅ Updated product DB: {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}");
+                error_log("✅ Updated product DB: {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}, lifecycle_stage={$lifecycleStage}");
             }
         } else {
             // No shopify_id - this shouldn't happen for products from catalog monitor
