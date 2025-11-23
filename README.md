@@ -537,14 +537,30 @@ The system uses **intelligent two-way synchronization** to prevent data loss whe
 - Logs all operations
 - Non-blocking - failures don't crash workflows
 
-### **Manual Sync**
+### **Manual Commands**
 
-If automatic sync fails or you need to sync manually:
-
+**Check Status (Start of Day)**:
 ```bash
-cd ~/Agent\ Modest\ Scraper\ System
+python3 check_status.py
+```
+- Compares server vs local databases
+- Shows pending reviews and recent assessments
+- Recommends if sync is needed
+
+**Manual Sync**:
+```bash
+python3 sync_now.py
+```
+- Pulls assessments from server
+- Merges into local database
+- Pushes to server
+
+**Direct Sync (Advanced)**:
+```bash
 python3 Shared/database_sync.py
 ```
+- Lower-level sync command
+- Same functionality as `sync_now.py`
 
 ### **Diagnostic Check**
 

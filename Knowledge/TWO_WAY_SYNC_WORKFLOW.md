@@ -6,6 +6,32 @@
 
 ---
 
+## Quick Commands (Run Anytime)
+
+### Check Status (Start of Day)
+```bash
+python3 check_status.py
+```
+- Compares server vs local databases
+- Shows pending reviews on server (from phone)
+- Shows new products on local (not yet synced)
+- Tells you if sync is needed
+
+### Manual Sync
+```bash
+python3 sync_now.py
+```
+- Pulls assessments from server → merges into local
+- Pushes local database → uploads to server
+- Run this anytime you want to sync
+
+### Automatic Sync (Within Workflows)
+- Catalog monitor **automatically syncs** at the end
+- Two-way sync (pull then push) happens automatically
+- You don't need to run sync separately after catalog monitor
+
+---
+
 ## The Scenario: You're on the Train
 
 You're on a train with your phone, no laptop. You open AssessModesty.com and start reviewing products.
@@ -71,11 +97,13 @@ You're on a train with your phone, no laptop. You open AssessModesty.com and sta
 
 ---
 
-## PHASE 3: Laptop Wakes Up, Catalog Monitor Runs 🔄
+## PHASE 3: You Open Laptop and Run Workflow 🔄
 
-**Location**: Home, laptop wakes from sleep  
-**Time**: 3:00 PM  
-**Workflow**: `catalog_monitor.py` runs automatically (cron job)
+**Location**: Home, you open laptop  
+**Time**: 3:00 PM (next day, or whenever)  
+**Workflow**: You manually tell Cursor to run `catalog_monitor.py`
+
+**IMPORTANT**: Nothing runs automatically! You control when workflows run.
 
 ### What Happens:
 
@@ -383,5 +411,57 @@ If both laptop AND phone modify same product:
 
 ---
 
-*You can now safely assess products on your phone while your laptop is offline. Everything syncs correctly when the laptop wakes up!* 🎉
+## Typical Daily Workflow
+
+### Morning: Start of Day
+```bash
+# 1. Open laptop, open Cursor
+# 2. Check status
+python3 check_status.py
+
+# Output shows:
+#   ⚠️  SERVER HAS 5 MORE ASSESSMENTS
+#   (You assessed products on phone yesterday)
+#   → Run: python3 sync_now.py
+
+# 3. If sync needed, run it
+python3 sync_now.py
+```
+
+### During Day: Run Workflows
+```bash
+# Tell me in Cursor:
+# "Run catalog monitor for Revolve dresses"
+
+# I run:
+catalog_monitor.py
+  → Finds 7 new products
+  → Adds to local database
+  → Automatically syncs to server (two-way sync)
+  → No manual sync needed!
+```
+
+### Evening: On Train
+```bash
+# Open AssessModesty.com on phone
+# Review pending products
+# Your assessments save to server database
+# Will sync next time you run check_status.py or catalog_monitor
+```
+
+---
+
+## When to Run What
+
+| Scenario | Command | Why |
+|----------|---------|-----|
+| Just opened laptop | `python3 check_status.py` | See if phone assessments need syncing |
+| Status shows differences | `python3 sync_now.py` | Manually sync before starting work |
+| Running catalog monitor | (automatic) | Sync happens automatically at end |
+| Need to push local changes | `python3 sync_now.py` | Force sync without running workflow |
+| Before closing laptop | (optional) | Ensure server has latest if you assessed locally |
+
+---
+
+*You can now safely assess products on your phone while your laptop is offline. Everything syncs correctly when you run workflows or manual sync!* 🎉
 
