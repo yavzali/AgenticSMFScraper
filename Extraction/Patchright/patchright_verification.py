@@ -375,24 +375,32 @@ Return ONLY valid JSON:
                         btn_y = box['y'] + box['height'] / 2
                         logger.info(f"📍 Button center: ({btn_x:.0f}, {btn_y:.0f})")
                         
-                        # CRITICAL: Keyboard approach (TAB + SPACE)
+                        # CRITICAL: Keyboard approach (TAB + SPACE) with randomization
                         logger.info("⌨️ Trying keyboard approach (TAB + SPACE)...")
                         
-                        # Press TAB 10x to focus button
-                        for i in range(10):
-                            await self.page.keyboard.press('Tab')
-                            await self.page.wait_for_timeout(300)
+                        # Randomize TAB count (8-15 instead of fixed 10)
+                        tab_count = random.randint(8, 15)
+                        logger.info(f"⌨️ Pressing TAB {tab_count} times to focus button...")
                         
-                        # Hold SPACE for 10 seconds
-                        logger.info("⏱️ Holding SPACE for 10s...")
+                        for i in range(tab_count):
+                            await self.page.keyboard.press('Tab')
+                            # Randomize delay between TABs (200-500ms instead of 300ms)
+                            await self.page.wait_for_timeout(random.randint(200, 500))
+                        
+                        # Randomize hold duration (8-12s instead of fixed 10s)
+                        hold_duration = random.randint(8000, 12000)
+                        logger.info(f"⏱️ Holding SPACE for {hold_duration/1000:.1f}s...")
+                        logger.info(f"🎲 Randomized verification: {tab_count} TABs, {hold_duration/1000:.1f}s hold")
+                        
                         await self.page.keyboard.down('Space')
-                        await self.page.wait_for_timeout(10000)
+                        await self.page.wait_for_timeout(hold_duration)
                         await self.page.keyboard.up('Space')
                         logger.info("✅ Keyboard press & hold completed!")
                         
-                        # Wait for page load
-                        await self.page.wait_for_timeout(3000)
-                        logger.info("⏱️ Waited 3s for page load")
+                        # Add random post-hold delay (2-4s instead of fixed 3s)
+                        post_delay = random.randint(2000, 4000)
+                        logger.info(f"⏱️ Waiting {post_delay/1000:.1f}s for page load...")
+                        await self.page.wait_for_timeout(post_delay)
                         
                         return True
                 except Exception as e:

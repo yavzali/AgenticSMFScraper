@@ -17,6 +17,69 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+# Per-retailer anti-scraping configuration
+ANTI_SCRAPING_CONFIG = {
+    'anthropologie': {
+        'enhanced_args': True,           # Browser arguments
+        'webdriver_hiding': True,        # JavaScript injection
+        'timing_variance': True,         # Randomized delays
+        'randomized_verification': True, # Variable TAB/SPACE timing
+        'notes': 'PerimeterX Press & Hold - needs all enhancements'
+    },
+    'abercrombie': {
+        'enhanced_args': True,
+        'webdriver_hiding': True,
+        'timing_variance': False,  # Working perfectly, don't touch timing
+        'randomized_verification': False,
+        'notes': 'Already working at 100% - minimal changes'
+    },
+    'urban_outfitters': {
+        'enhanced_args': True,
+        'webdriver_hiding': True,
+        'timing_variance': True,
+        'randomized_verification': False,  # Uses Gemini click, not keyboard
+        'notes': 'PerimeterX button click - Gemini handles it'
+    },
+    'aritzia': {
+        'enhanced_args': True,
+        'webdriver_hiding': True,
+        'timing_variance': True,
+        'randomized_verification': False,
+        'notes': 'Cloudflare + polling - timing variance OK except polling loop'
+    },
+    'revolve': {
+        'enhanced_args': False,  # Uses Markdown, not Patchright
+        'webdriver_hiding': False,
+        'timing_variance': False,
+        'randomized_verification': False,
+        'notes': 'Markdown extraction - not affected by browser changes'
+    },
+    'nordstrom': {
+        'enhanced_args': True,
+        'webdriver_hiding': True,
+        'timing_variance': True,
+        'randomized_verification': True,
+        'notes': 'Blocked by IP - needs all enhancements + future proxy'
+    },
+    # Default for new retailers
+    'default': {
+        'enhanced_args': True,
+        'webdriver_hiding': True,
+        'timing_variance': False,  # Conservative default
+        'randomized_verification': False,
+        'notes': 'Safe defaults - enable features as needed'
+    }
+}
+
+
+def get_anti_scraping_config(retailer: str) -> dict:
+    """Get anti-scraping config for retailer, fallback to default"""
+    return ANTI_SCRAPING_CONFIG.get(
+        retailer.lower(), 
+        ANTI_SCRAPING_CONFIG['default']
+    )
+
+
 # Retailer-specific strategies
 RETAILER_STRATEGIES = {
     'anthropologie': {

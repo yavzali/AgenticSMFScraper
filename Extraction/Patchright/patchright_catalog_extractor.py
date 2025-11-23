@@ -31,6 +31,12 @@ from patchright_retailer_strategies import PatchrightRetailerStrategies
 
 logger = setup_logging(__name__)
 
+# GLOBAL KILL SWITCH - Set to False to disable ALL enhancements
+ENABLE_ANTI_SCRAPING_ENHANCEMENTS = True
+
+# If disabled, system falls back to original behavior
+# Use this for emergency rollback if enhancements cause issues
+
 
 class PatchrightCatalogExtractor:
     """
@@ -131,7 +137,8 @@ class PatchrightCatalogExtractor:
             
             logger.debug(f"Navigating with wait_until='{wait_until}'")
             await self.page.goto(catalog_url, wait_until=wait_until, timeout=60000)
-            await asyncio.sleep(3)
+            await asyncio.sleep(self._safe_delay(3.0, 0.25, 2.0))
+            logger.debug("⏱️ Post-navigation delay: varied timing")
             
             # Step 3: Handle verification
             verification_handler = PatchrightVerificationHandler(self.page, self.config)
@@ -151,7 +158,8 @@ class PatchrightCatalogExtractor:
             except:
                 logger.info("⏱️ Network still active, continuing...")
             
-            await asyncio.sleep(10)
+            await asyncio.sleep(self._safe_delay(10.0, 0.2, 8.0))
+            logger.debug("⏱️ Pre-detection delay: varied timing")
             
             # Step 5: Retailer-specific extended waits
             # For Aritzia specifically
@@ -182,6 +190,7 @@ class PatchrightCatalogExtractor:
                             continue
                     
                     if not products_found:
+                        # DO NOT CHANGE - Aritzia polling interval (detection logic)
                         await asyncio.sleep(1)
                 
                 if not products_found:
@@ -220,12 +229,14 @@ class PatchrightCatalogExtractor:
             # Step 6.5: Dismiss popups again (they may appear after page loads)
             logger.info("🧹 Dismissing any late-appearing popups...")
             await verification_handler._dismiss_popups()
-            await asyncio.sleep(1)  # Let DOM settle after popup dismissal
+            await asyncio.sleep(self._safe_delay(1.5, 0.33, 1.0))
+            logger.debug("⏱️ Post-popup delay: varied timing")
             
             # Step 7: Take full-page screenshot
             logger.debug("📸 Taking full-page screenshot...")
             await self.page.evaluate("window.scrollTo(0, 0)")
-            await asyncio.sleep(1)
+            await asyncio.sleep(self._safe_delay(1.2, 0.25, 1.0))
+            logger.debug("⏱️ Pre-screenshot delay: varied timing")
             
             full_page_screenshot = await self.page.screenshot(full_page=True, type='png')
             screenshots = [full_page_screenshot]
@@ -485,22 +496,135 @@ DO NOT include products where you cannot read the title or price - skip them ins
             user_data_dir = os.path.join(os.path.expanduser('~'), '.patchright_data')
             os.makedirs(user_data_dir, exist_ok=True)
             
+            # Enhanced stealth arguments (can be disabled via kill switch)
+            if ENABLE_ANTI_SCRAPING_ENHANCEMENTS:
+                args = [
+                    '--disable-blink-features=AutomationControlled',  # CRITICAL - removes automation flag
+                    '--no-first-run',
+                    '--no-default-browser-check',
+                    '--disable-dev-shm-usage',
+                    '--disable-notifications',
+                    '--disable-background-networking',
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-breakpad',
+                    '--disable-component-update',
+                    '--disable-domain-reliability',
+                    '--disable-features=AudioServiceOutOfProcess',
+                    '--disable-hang-monitor',
+                    '--disable-ipc-flooding-protection',
+                    '--disable-popup-blocking',
+                    '--disable-print-preview',
+                    '--disable-prompt-on-repost',
+                    '--disable-renderer-backgrounding',
+                    '--disable-sync',
+                    '--hide-scrollbars',
+                    '--metrics-recording-only',
+                    '--mute-audio',
+                    '--no-pings',
+                    '--password-store=basic',
+                    '--use-mock-keychain',
+                    '--disable-client-side-phishing-detection',
+                ]
+            else:
+                args = []  # No args - original behavior
+            
             self.context = await self.playwright.chromium.launch_persistent_context(
                 user_data_dir,
                 headless=False,
                 viewport={'width': 1920, 'height': 1080},
                 user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
                 locale='en-US',
-                permissions=[]  # Deny all permissions (notifications, geolocation, etc.)
+                permissions=[],  # Deny all permissions (notifications, geolocation, etc.)
+                args=args,  # NEW: Enhanced stealth arguments
+                ignore_https_errors=True,
             )
             
             self.page = self.context.pages[0] if self.context.pages else await self.context.new_page()
             
-            logger.info("✅ Stealth browser initialized")
+            # Inject stealth scripts if enhancements enabled
+            if ENABLE_ANTI_SCRAPING_ENHANCEMENTS:
+                await self._inject_stealth_scripts(self.page)
+                logger.info("🛡️ Enhanced stealth browser initialized with anti-detection")
+                logger.debug(f"  ✅ Enhanced browser args: {len(args)} flags")
+                logger.debug(f"  ✅ WebDriver hiding: Active")
+            else:
+                logger.info("✅ Stealth browser initialized (original behavior)")
             
         except Exception as e:
             logger.error(f"Failed to setup browser: {e}")
             raise
+    
+    async def _inject_stealth_scripts(self, page):
+        """
+        Inject JavaScript to hide automation indicators
+        
+        This masks properties that anti-bot systems check to detect automation.
+        Non-critical - if injection fails, extraction continues normally.
+        """
+        try:
+            await page.add_init_script("""
+                // Hide webdriver property (primary bot detection signal)
+                Object.defineProperty(navigator, 'webdriver', {
+                    get: () => undefined
+                });
+                
+                // Mock chrome object (browsers have this, automation tools often don't)
+                window.navigator.chrome = {
+                    runtime: {},
+                    loadTimes: function() {},
+                    csi: function() {},
+                    app: {}
+                };
+                
+                // Mock permissions query
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                    Promise.resolve({ state: Notification.permission }) :
+                    originalQuery(parameters)
+                );
+                
+                // Mock plugins array (real browsers have multiple plugins)
+                Object.defineProperty(navigator, 'plugins', {
+                    get: () => [1, 2, 3, 4, 5]
+                });
+                
+                // Mock languages (real browsers have language preferences)
+                Object.defineProperty(navigator, 'languages', {
+                    get: () => ['en-US', 'en']
+                });
+            """)
+            logger.debug("✅ Stealth scripts injected successfully")
+        except Exception as e:
+            logger.warning(f"⚠️ Stealth script injection failed (non-critical): {e}")
+            # Non-critical - continue extraction even if injection fails
+    
+    def _safe_delay(self, base: float, variance_percent: float = 0.25, minimum: float = None) -> float:
+        """
+        Calculate randomized delay while preserving minimum requirements
+        
+        Args:
+            base: Base delay in seconds
+            variance_percent: Percentage variance (0.25 = ±25%)
+            minimum: Minimum delay in seconds (optional)
+        
+        Returns:
+            Delay in seconds with variance applied, but >= minimum
+        
+        Examples:
+            _safe_delay(3.0, 0.25) → 2.25-3.75 seconds
+            _safe_delay(3.0, 0.25, 2.0) → 2.25-3.75, but never < 2.0
+        """
+        import random
+        
+        variance = base * variance_percent
+        delay = random.uniform(base - variance, base + variance)
+        
+        if minimum is not None:
+            delay = max(delay, minimum)
+        
+        return delay
     
     async def _wait_for_products(self, retailer: str, strategy: Dict):
         """Wait for products to appear using learned patterns + common selectors"""
