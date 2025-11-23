@@ -271,11 +271,26 @@ await page.keyboard.up('Space')
 - ✅ No coordinate detection needed
 - ✅ SPACE key = native button activation
 
-**Success Rate**: 100% (20/20 tests on Anthropologie)
+**Success Rate**: ~~100%~~ → **0% (Nov 2025)** ⚠️
+
+**What Changed**:
+- ✅ Worked perfectly in November 2024 (100% success)
+- ❌ Failed completely by November 2025 (0% success)
+- PerimeterX likely updated detection algorithms
+- Pattern became predictable despite randomization
+- **Current Status**: Manual workaround required
+
+**Observed Issues (Nov 23, 2025)**:
+1. Long wait before attempting press & hold (button finding issues?)
+2. "Weak selection" - button not properly focused
+3. Hold doesn't register with PerimeterX
+4. Verification ultimately fails
 
 **Applicable To**:
-- Anthropologie ✅
-- Potentially: Free People, BHLDN (same PerimeterX config)
+- Anthropologie ❌ (broken as of Nov 2025 - see `ANTHROPOLOGIE_VERIFICATION_TECH_DEBT.md`)
+- Potentially: Free People, BHLDN (same PerimeterX config, likely also broken)
+
+**Recommended Fix**: Switch to Gemini Vision + mouse click (see Technique #2)
 
 ---
 
