@@ -274,13 +274,24 @@ class DatabaseManager:
                 else:
                     assessment_status = 'not_assessed'  # Monitor/import start as not_assessed
             
+            # Prepare image_urls for storage
+            image_urls_json = None
+            if product_data.get('images'):
+                image_urls_json = json.dumps(product_data['images'])
+            elif product_data.get('image_urls'):
+                if isinstance(product_data['image_urls'], list):
+                    image_urls_json = json.dumps(product_data['image_urls'])
+                elif isinstance(product_data['image_urls'], str):
+                    image_urls_json = product_data['image_urls']
+            
             cursor.execute('''
                 INSERT INTO products 
                 (url, retailer, title, price, brand, description, 
                  shopify_id, modesty_status, shopify_status, images_uploaded, 
                  images_uploaded_at, source, assessment_status, first_seen, last_updated,
-                 lifecycle_stage, data_completeness, last_workflow, extracted_at, assessed_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 lifecycle_stage, data_completeness, last_workflow, extracted_at, assessed_at,
+                 image_urls)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(url) DO UPDATE SET
                     title = COALESCE(excluded.title, title),
                     price = COALESCE(excluded.price, price),
@@ -298,6 +309,7 @@ class DatabaseManager:
                     last_workflow = COALESCE(excluded.last_workflow, last_workflow),
                     extracted_at = COALESCE(excluded.extracted_at, extracted_at),
                     assessed_at = COALESCE(excluded.assessed_at, assessed_at),
+                    image_urls = COALESCE(excluded.image_urls, image_urls),
                     last_updated = excluded.last_updated
             ''', (
                 url,
@@ -319,7 +331,8 @@ class DatabaseManager:
                 data_completeness,
                 last_workflow,
                 extracted_at,
-                assessed_at
+                assessed_at,
+                image_urls_json
             ))
             
             conn.commit()
