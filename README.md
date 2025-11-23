@@ -504,6 +504,44 @@ print('✅ Google Gemini API: Connected')
 
 ---
 
+## 🔄 **Database Synchronization**
+
+The local `products.db` is automatically synced to the web server after each catalog monitoring run. This keeps the assessment pipeline (assessmodesty.com) up-to-date with newly discovered products.
+
+### **Automatic Sync**
+
+- Triggers after each `catalog_monitor.py` run
+- Only syncs if products were added to assessment queue
+- Creates backup before overwriting
+- Logs all operations
+- Non-blocking - failures don't crash workflows
+
+### **Manual Sync**
+
+If automatic sync fails or you need to sync manually:
+
+```bash
+cd ~/Agent\ Modest\ Scraper\ System
+python3 Shared/database_sync.py
+```
+
+### **Diagnostic Check**
+
+Check what's in the local database before syncing:
+
+```bash
+python3 check_local_assessment_queue.py
+```
+
+### **Troubleshooting**
+
+- Check SSH connectivity: `ssh root@167.172.148.145`
+- Verify local database exists: `ls -lh Shared/products.db`
+- Check sync logs in catalog monitor output
+- Visit https://assessmodesty.com/assess.php to verify sync
+
+---
+
 ## 📞 **Support & Contribution**
 
 ### **Current Status**

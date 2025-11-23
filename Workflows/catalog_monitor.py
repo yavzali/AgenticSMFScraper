@@ -35,6 +35,7 @@ from cost_tracker import cost_tracker
 from notification_manager import NotificationManager
 from db_manager import DatabaseManager
 from assessment_queue_manager import AssessmentQueueManager
+from database_sync import sync_database_async
 
 # Pattern Learning (optional, non-critical)
 try:
@@ -1466,6 +1467,28 @@ async def main():
         custom_url=args.url,
         max_pages=args.max_pages
     )
+    
+    # Sync database to web server if products were added to assessment queue
+    if result.sent_to_modesty_review > 0 or result.sent_to_duplicate_review > 0:
+        logger.info("\n" + "=" * 60)
+        logger.info("SYNCING DATABASE TO WEB SERVER")
+        logger.info("=" * 60)
+        
+        try:
+            sync_success = await sync_database_async()
+            
+            if sync_success:
+                logger.info("✅ Database synced to assessmodesty.com")
+                logger.info("Assessment pipeline will show updated products")
+            else:
+                logger.warning("⚠️  Database sync failed - assessment pipeline may show stale data")
+                logger.warning("Run 'python3 Shared/database_sync.py' manually to sync")
+        
+        except Exception as e:
+            logger.error(f"❌ Database sync error: {e}")
+            logger.warning("Assessment pipeline may show stale data until manual sync")
+    else:
+        logger.info("ℹ️  No products added to assessment queue - skipping database sync")
     
     print(json.dumps({
         'success': result.success,

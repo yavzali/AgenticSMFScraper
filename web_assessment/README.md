@@ -28,6 +28,56 @@ Look for any red ERROR messages in the output.
 python3 fix_assessment_db.py --host 167.172.148.145 --username root --password modestyassessor
 ```
 
+## 🔄 Database Synchronization (v2.3.0)
+
+**NEW**: Database automatically syncs after catalog monitor runs.
+
+### Automatic Sync
+
+- **When**: After each `catalog_monitor.py` run (if products added to queue)
+- **What**: Uploads latest `products.db` to web server
+- **Backup**: Creates timestamped backup before overwriting
+- **Verification**: Confirms upload success and sets correct permissions
+- **No manual intervention needed for normal operations**
+- **Assessment pipeline updates within seconds of new product detection**
+
+### Manual Sync
+
+If automatic sync fails or you need to sync manually:
+
+```bash
+cd ~/Agent\ Modest\ Scraper\ System
+python3 Shared/database_sync.py
+```
+
+### Check Local Database
+
+Before syncing, check what will be uploaded:
+
+```bash
+python3 check_local_assessment_queue.py
+```
+
+This shows:
+- How many products are pending review
+- Breakdown by retailer and review type
+- Sample products with image data
+- Verifies database is ready for sync
+
+### How It Works
+
+1. Catalog monitor detects new products
+2. Products added to `assessment_queue`
+3. Database automatically syncs to server
+4. Assessment interface immediately shows new products
+5. Backup created: `/var/www/html/web_assessment/data/products.db.backup_YYYYMMDD_HHMMSS`
+
+### Sync Failure Handling
+
+- Sync failures are logged but don't crash workflows
+- Manual sync command provided in log output
+- Assessment pipeline may show stale data until manual sync
+
 ## 🔍 What the Diagnostic Tests
 
 The `debug_db.php` script tests:

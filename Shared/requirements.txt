@@ -52,3 +52,7 @@ langchain-google-genai>=1.0.0
 
 # Playwright Multi-Screenshot Agent (Browser Use replacement)
 playwright-stealth>=1.0.6
+
+# Database Syncing (for web assessment pipeline)
+paramiko>=3.0.0  # SSH connectivity for server sync
+scp>=0.14.0      # SCP file transfer
