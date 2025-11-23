@@ -388,6 +388,83 @@ class CatalogMonitor:
                 conn.close()
                 return {'linked_product_url': best_match, 'link_confidence': confidence, 'link_method': 'fuzzy_title_price'}
         
+        # Level 5: Image URL matching (secondary confidence signal)
+        catalog_images_raw = catalog_product.get('image_urls') or catalog_product.get('images')
+        if catalog_images_raw:
+            try:
+                # Parse catalog images
+                if isinstance(catalog_images_raw, str):
+                    catalog_images = set(json.loads(catalog_images_raw)) if catalog_images_raw and catalog_images_raw != '[]' else set()
+                elif isinstance(catalog_images_raw, list):
+                    catalog_images = set(catalog_images_raw)
+                else:
+                    catalog_images = set()
+                
+                if not catalog_images:
+                    conn.close()
+                    return None
+                
+                # Get products with images and matching price (within $10 for broader matching)
+                cursor.execute("""
+                    SELECT url, image_urls FROM products 
+                    WHERE ABS(price - ?) < 10.0
+                    AND retailer = ?
+                    AND image_urls IS NOT NULL
+                    AND image_urls != ''
+                    AND image_urls != '[]'
+                """, (price or 0, retailer))
+                
+                products_with_images = cursor.fetchall()
+                
+                best_match = None
+                best_overlap_ratio = 0.0
+                
+                for product_url, product_images_raw in products_with_images:
+                    # Parse product images
+                    if isinstance(product_images_raw, str):
+                        product_images = set(json.loads(product_images_raw)) if product_images_raw else set()
+                    elif isinstance(product_images_raw, list):
+                        product_images = set(product_images_raw)
+                    else:
+                        product_images = set()
+                    
+                    if not product_images:
+                        continue
+                    
+                    # Check for overlapping images (exact URL match)
+                    overlap = catalog_images.intersection(product_images)
+                    
+                    if overlap:
+                        overlap_ratio = len(overlap) / len(catalog_images)
+                        
+                        if overlap_ratio > best_overlap_ratio:
+                            best_overlap_ratio = overlap_ratio
+                            best_match = product_url
+                
+                if best_match and best_overlap_ratio >= 0.5:  # At least 50% overlap
+                    # Check retailer image consistency for confidence adjustment
+                    cursor.execute("""
+                        SELECT image_urls_consistent 
+                        FROM retailer_url_patterns 
+                        WHERE retailer = ?
+                    """, (retailer,))
+                    consistency_result = cursor.fetchone()
+                    
+                    # Calculate confidence based on overlap and retailer consistency
+                    if consistency_result and consistency_result[0] == 1:
+                        # High consistency retailer: images are reliable
+                        confidence = 0.75 + (best_overlap_ratio * 0.20)  # 0.75 to 0.95
+                    else:
+                        # Low consistency retailer: images less reliable
+                        confidence = 0.65 + (best_overlap_ratio * 0.15)  # 0.65 to 0.80
+                    
+                    conn.close()
+                    logger.debug(f"Image match: {best_overlap_ratio:.0%} overlap, confidence {confidence:.2f}")
+                    return {'linked_product_url': best_match, 'link_confidence': confidence, 'link_method': 'image_url_match'}
+            
+            except Exception as e:
+                logger.error(f"Image matching failed: {e}")
+        
         conn.close()
         return None
     
