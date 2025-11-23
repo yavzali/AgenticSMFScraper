@@ -702,27 +702,28 @@ class DatabaseManager:
             ''', (retailer, category, scan_date.date(), len(products), catalog_url))
             
             baseline_id = cursor.lastrowid
-            
-            # Store products
-            for product in products:
-                cursor.execute('''
-                    INSERT INTO catalog_products 
-                    (catalog_url, retailer, category, title, price, image_urls, 
-                     discovered_date, discovery_run_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    product.get('url'),
-                    retailer,
-                    category,
-                    product.get('title'),
-                    product.get('price'),
-                    json.dumps(product.get('images', [])),
-                    scan_date.date(),
-                    str(baseline_id)
-                ))
-            
             conn.commit()
             conn.close()
+            
+            # Store products using save_catalog_product (sets scan_type and image_url_source)
+            for product in products:
+                # Enrich product dict with required fields
+                product_dict = {
+                    'url': product.get('url'),
+                    'retailer': retailer,
+                    'category': category,
+                    'title': product.get('title'),
+                    'price': product.get('price'),
+                    'product_code': product.get('product_code'),
+                    'images': product.get('images', [])
+                }
+                
+                await self.save_catalog_product(
+                    product=product_dict,
+                    scan_type='baseline',
+                    review_status='baseline',
+                    image_url_source='catalog_extraction'
+                )
             
             logger.info(f"Baseline created (direct SQL): {baseline_id}")
             return str(baseline_id)

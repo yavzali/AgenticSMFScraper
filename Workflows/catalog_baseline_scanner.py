@@ -186,6 +186,8 @@ class CatalogBaselineScanner:
             
             # Step 3: Use Patchright for ALL retailers (JavaScript-loaded product URLs)
             logger.info(f"🔄 Using Patchright Tower for {retailer} baseline scan (DOM extraction)")
+            logger.info(f"📋 Extraction method for {retailer}: Patchright (catalog-level)")
+            logger.info(f"📸 Image extraction: Enabled (catalog-level)")
             catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
             extraction_result = await self.patchright_tower.extract_catalog(
                 catalog_url,
@@ -219,6 +221,24 @@ class CatalogBaselineScanner:
                     error=str(errors)
                 )
             logger.info(f"📦 Extracted {len(products)} products from catalog")
+            
+            # Verify image extraction
+            images_extracted = 0
+            images_missing = 0
+            
+            for product in products:
+                images = product.get('images') or product.get('image_urls', [])
+                if images and len(images) > 0:
+                    images_extracted += 1
+                    logger.debug(f"✅ {len(images)} images for {product.get('title', 'Unknown')[:50]}")
+                else:
+                    images_missing += 1
+                    logger.warning(f"⚠️ No images for {product.get('title', 'Unknown')[:50]} - {product.get('url', 'No URL')}")
+            
+            logger.info(f"📸 Image extraction: {images_extracted} with images, {images_missing} without")
+            
+            if images_missing > 0 and images_missing > images_extracted * 0.5:  # More than 50% missing
+                logger.warning(f"⚠️ HIGH IMAGE MISS RATE: {images_missing}/{images_extracted + images_missing} products missing images")
             
             # Step 4: In-memory deduplication (within this crawl session)
             unique_products, duplicates_removed = self._deduplicate_in_memory(products)
