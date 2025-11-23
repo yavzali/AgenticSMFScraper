@@ -36,6 +36,15 @@ from notification_manager import NotificationManager
 from db_manager import DatabaseManager
 from assessment_queue_manager import AssessmentQueueManager
 
+# Pattern Learning (optional, non-critical)
+try:
+    from pattern_learning_manager import get_pattern_learning_manager
+    PATTERN_LEARNING_AVAILABLE = True
+except ImportError:
+    PATTERN_LEARNING_AVAILABLE = False
+    logger_temp = logging.getLogger(__name__)
+    logger_temp.warning("⚠️ Pattern learning manager not available - will use defaults")
+
 # Tower imports
 from markdown_catalog_extractor import MarkdownCatalogExtractor
 from markdown_product_extractor import MarkdownProductExtractor
@@ -149,6 +158,15 @@ class CatalogMonitor:
         self.notification_manager = NotificationManager()
         self.assessment_queue = AssessmentQueueManager()
         
+        # Initialize pattern learning (optional, non-critical)
+        self.pattern_learner = None
+        if PATTERN_LEARNING_AVAILABLE:
+            try:
+                self.pattern_learner = get_pattern_learning_manager()
+                logger.info("✅ Pattern learning enabled")
+            except Exception as e:
+                logger.warning(f"⚠️ Pattern learning initialization failed: {e}")
+        
         # Initialize towers
         self.markdown_catalog_tower = None
         self.markdown_product_tower = None
@@ -219,6 +237,45 @@ class CatalogMonitor:
         conn.close()
         
         logger.info(f"✅ Catalog snapshot saved: {saved}/{len(catalog_products)} products")
+        
+        # Learn from linking attempts if pattern learning available
+        if self.pattern_learner:
+            try:
+                # Get linked products from this snapshot
+                conn = self.db_manager._get_connection()
+                cursor = conn.cursor()
+                
+                cursor.execute("""
+                    SELECT linked_product_url, link_method, link_confidence, catalog_url
+                    FROM catalog_products
+                    WHERE retailer = ?
+                    AND discovered_date >= datetime('now', '-1 hour')
+                    AND linked_product_url IS NOT NULL
+                """, (retailer,))
+                
+                linked_products = cursor.fetchall()
+                conn.close()
+                
+                # Record each linking attempt for learning
+                for linked_url, method, confidence, catalog_url in linked_products:
+                    # Check if URL changed
+                    normalized_catalog = catalog_url.split('?')[0].rstrip('/')
+                    normalized_linked = linked_url.split('?')[0].rstrip('/')
+                    url_changed = (normalized_catalog != normalized_linked)
+                    
+                    await self.pattern_learner.record_linking_attempt(
+                        retailer=retailer,
+                        method=method,
+                        success=True,  # It was linked
+                        confidence=confidence,
+                        url_changed=url_changed
+                    )
+                
+                if linked_products:
+                    logger.debug(f"📚 Recorded {len(linked_products)} linking attempts for pattern learning")
+                    
+            except Exception as e:
+                logger.warning(f"⚠️ Pattern learning failed (non-critical): {e}")
     
     async def _detect_price_changes(
         self,
