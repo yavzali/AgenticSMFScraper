@@ -212,7 +212,8 @@ class ProductUpdater:
                 'delisted': 0,  # NEW: Track delisted products
                 'failed': 0,
                 'not_found': 0,
-                'results': []
+                'results': [],
+                'failures': []  # NEW: Track detailed failures
             }
             
             # Process markdown products with PARALLEL PROCESSING
@@ -243,7 +244,30 @@ class ProductUpdater:
             results['total_cost'] = cost_tracker.get_session_cost()
             results['processing_time'] = (datetime.utcnow() - start_time).total_seconds()
             
-            # Step 7: Send notification
+            # Step 7: Save failures if any
+            if results['failures']:
+                from pathlib import Path
+                import json
+                
+                failures_data = {
+                    'batch_id': batch_id,
+                    'workflow': 'product_updater',
+                    'run_date': start_time.isoformat(),
+                    'total_failed': len(results['failures']),
+                    'failures': results['failures']
+                }
+                
+                # Save to failures folder
+                failures_dir = Path("failures")
+                failures_dir.mkdir(exist_ok=True)
+                failures_file = failures_dir / f"{batch_id}_failures.json"
+                
+                with open(failures_file, 'w') as f:
+                    json.dump(failures_data, f, indent=2)
+                
+                logger.warning(f"⚠️  {len(results['failures'])} failures saved to {failures_file}")
+            
+            # Step 8: Send notification
             await self.notification_manager.send_batch_completion(
                 'Product Updater',
                 results
@@ -708,6 +732,37 @@ class ProductUpdater:
             results['not_found'] += 1
         else:
             results['failed'] += 1
+            # Track detailed failure information with full context
+            error_message = result.error or 'Unknown error - no error details provided'
+            
+            # Determine stage based on error content and action
+            if result.action == 'failed':
+                if 'extraction' in str(error_message).lower():
+                    stage = 'extraction'
+                elif 'shopify' in str(error_message).lower():
+                    stage = 'shopify_update'
+                elif 'image' in str(error_message).lower():
+                    stage = 'image_processing'
+                else:
+                    stage = 'unknown'
+            elif result.action == 'not_found':
+                stage = 'database_lookup'
+            else:
+                stage = 'unknown'
+            
+            # Determine certainty
+            certainty = 'uncertain' if 'Unknown' in error_message or not result.error else 'known_error'
+            
+            results['failures'].append({
+                'url': result.url,
+                'reason': error_message,
+                'stage': stage,
+                'action': result.action,
+                'method_used': result.method_used,
+                'processing_time': result.processing_time,
+                'attempted_at': datetime.utcnow().isoformat(),
+                'certainty': certainty
+            })
         
         # Queue DB write (for batch commit)
         if result.success or result.action == 'unchanged':

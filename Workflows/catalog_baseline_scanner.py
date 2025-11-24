@@ -155,6 +155,7 @@ class CatalogBaselineScanner:
             BaselineResult
         """
         start_time = datetime.utcnow()
+        failures = []  # Track all failures for this run
         
         try:
             # Step 1: Get catalog URL
@@ -233,7 +234,31 @@ class CatalogBaselineScanner:
                     logger.debug(f"✅ {len(images)} images for {product.get('title', 'Unknown')[:50]}")
                 else:
                     images_missing += 1
-                    logger.warning(f"⚠️ No images for {product.get('title', 'Unknown')[:50]} - {product.get('url', 'No URL')}")
+                    product_url = product.get('url') or product.get('catalog_url', 'Unknown URL')
+                    logger.warning(f"⚠️ No images for {product.get('title', 'Unknown')[:50]} - {product_url}")
+                    
+                    # Determine why images are missing
+                    if product.get('images') is not None and len(product.get('images', [])) == 0:
+                        reason = 'Images field present but empty - extractor found no images at source'
+                        certainty = 'known_error'
+                    elif 'image_urls' in product and len(product.get('image_urls', [])) == 0:
+                        reason = 'Image URLs field present but empty - extractor found no images at source'
+                        certainty = 'known_error'
+                    else:
+                        reason = 'No image fields present in extracted data - extractor may have failed to process images'
+                        certainty = 'uncertain'
+                    
+                    # Track missing images as failures
+                    failures.append({
+                        'url': product_url,
+                        'reason': reason,
+                        'stage': 'image_extraction',
+                        'product_title': product.get('title', 'Unknown'),
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': certainty,
+                        'has_price': bool(product.get('price')),
+                        'has_title': bool(product.get('title'))
+                    })
             
             logger.info(f"📸 Image extraction: {images_extracted} with images, {images_missing} without")
             
@@ -256,7 +281,35 @@ class CatalogBaselineScanner:
             
             logger.info(f"✅ Baseline stored: {baseline_id}")
             
-            # Step 6: Send notification
+            # Step 6: Save failures if any
+            if failures:
+                from pathlib import Path
+                
+                # Create batch ID
+                batch_id = f"baseline_{retailer}_{category}_{modesty_level}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+                
+                failures_data = {
+                    'batch_id': batch_id,
+                    'workflow': 'catalog_baseline_scanner',
+                    'retailer': retailer,
+                    'category': category,
+                    'modesty_level': modesty_level,
+                    'run_date': start_time.isoformat(),
+                    'total_failed': len(failures),
+                    'failures': failures
+                }
+                
+                # Save to failures folder
+                failures_dir = Path("failures")
+                failures_dir.mkdir(exist_ok=True)
+                failures_file = failures_dir / f"{batch_id}_failures.json"
+                
+                with open(failures_file, 'w') as f:
+                    json.dump(failures_data, f, indent=2)
+                
+                logger.warning(f"⚠️  {len(failures)} failures saved to {failures_file}")
+            
+            # Step 7: Send notification
             processing_time = (datetime.utcnow() - start_time).total_seconds()
             total_cost = cost_tracker.get_session_cost()
             

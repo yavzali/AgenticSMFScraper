@@ -212,13 +212,15 @@ class NewProductImporter:
                     results['skipped'] += 1
                 else:
                     results['failed'] += 1
-                    # Track failure details
+                    # Track failure details with certainty
+                    error_message = result.error or 'Unknown error - no error details provided'
                     results['failures'].append({
                         'url': result.url,
-                        'reason': result.error,
+                        'reason': error_message,
                         'action': result.action,
                         'method_used': result.method_used,
-                        'attempted_at': datetime.utcnow().isoformat()
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'uncertain' if 'Unknown' in error_message or not result.error else 'known_error'
                     })
                 
                 # Count by modesty status
@@ -259,13 +261,15 @@ class NewProductImporter:
                     results['skipped'] += 1
                 else:
                     results['failed'] += 1
-                    # Track failure details
+                    # Track failure details with certainty
+                    error_message = result.error or 'Unknown error - no error details provided'
                     results['failures'].append({
                         'url': result.url,
-                        'reason': result.error,
+                        'reason': error_message,
                         'action': result.action,
                         'method_used': result.method_used,
-                        'attempted_at': datetime.utcnow().isoformat()
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'uncertain' if 'Unknown' in error_message or not result.error else 'known_error'
                     })
                 
                 # Count by modesty status

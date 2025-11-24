@@ -1,0 +1,86 @@
+{
+  "batch_id": "catalog_monitor_anthropologie_dresses_modest_20251124_173000",
+  "workflow": "catalog_monitor",
+  "retailer": "anthropologie",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-24T17:30:00",
+  "total_failed": 7,
+  "failures": [
+    {
+      "url": "unknown",
+      "reason": "Gemini analysis failed: 429 You exceeded your current quota. Please migrate to Gemini 2.0 Flash Preview (Image Generation) for higher quota limits.",
+      "stage": "extraction",
+      "product_type": "new",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:30:11",
+      "certainty": "known_error",
+      "notes": "Product extraction failed due to Gemini API quota"
+    },
+    {
+      "url": "unknown",
+      "reason": "Shopify upload failed: Shopify API error: 422 - {\"errors\":{\"title\":[\"is too long (maximum is 255 characters)\"]}}",
+      "stage": "shopify_upload",
+      "product_type": "new",
+      "product_title": "Skip to main content",
+      "attempted_at": "2025-11-24T17:30:01",
+      "certainty": "known_error",
+      "shopify_status_code": 422,
+      "notes": "Bad extraction data - title was 'Skip to main content' and exceeded 255 characters. Indicates extraction quality issue."
+    },
+    {
+      "url": "unknown",
+      "reason": "Gemini analysis failed: 429 You exceeded your current quota.",
+      "stage": "extraction",
+      "product_type": "suspected_duplicate",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:30:32",
+      "certainty": "known_error"
+    },
+    {
+      "url": "unknown",
+      "reason": "Shopify upload failed: Shopify API error: 422 - {\"errors\":{\"title\":[\"is too long (maximum is 255 characters)\"]}}",
+      "stage": "shopify_upload",
+      "product_type": "suspected_duplicate",
+      "product_title": "Skip to main content",
+      "attempted_at": "2025-11-24T17:30:35",
+      "certainty": "known_error",
+      "shopify_status_code": 422
+    },
+    {
+      "url": "unknown",
+      "reason": "Gemini analysis failed: 429 You exceeded your current quota.",
+      "stage": "extraction",
+      "product_type": "suspected_duplicate",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:31:06",
+      "certainty": "known_error"
+    },
+    {
+      "url": "unknown",
+      "reason": "Shopify upload failed: Shopify API error: 422 - {\"errors\":{\"title\":[\"is too long (maximum is 255 characters)\"]}}",
+      "stage": "shopify_upload",
+      "product_type": "suspected_duplicate",
+      "product_title": "Skip to main content",
+      "attempted_at": "2025-11-24T17:31:09",
+      "certainty": "known_error",
+      "shopify_status_code": 422
+    },
+    {
+      "url": "unknown",
+      "reason": "Gemini analysis failed: 429 You exceeded your current quota.",
+      "stage": "extraction",
+      "product_type": "suspected_duplicate",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:31:39",
+      "certainty": "known_error"
+    }
+  ],
+  "notes": "This catalog monitoring run encountered multiple failure types: (1) Gemini API quota errors prevented product extraction, (2) Bad extraction data resulted in 'Skip to main content' being used as product titles, which exceeded Shopify's 255-character limit. The presence of 'Skip to main content' as titles indicates the extractor was grabbing navigation/page elements instead of product data. This suggests both API quota issues AND extraction quality problems. Enhanced failure tracking was not yet deployed during this run, so product URLs are marked as 'unknown'.",
+  "action_items": [
+    "Upgrade or monitor Gemini API quota limits",
+    "Investigate why 'Skip to main content' is being extracted as product titles",
+    "Consider adding validation to reject products with obvious bad data before Shopify upload"
+  ]
+}
+

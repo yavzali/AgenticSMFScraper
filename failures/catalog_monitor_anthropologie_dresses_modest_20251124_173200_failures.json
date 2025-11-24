@@ -1,0 +1,45 @@
+{
+  "batch_id": "catalog_monitor_anthropologie_dresses_modest_20251124_173200",
+  "workflow": "catalog_monitor",
+  "retailer": "anthropologie",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-24T17:32:00",
+  "total_failed": 3,
+  "failures": [
+    {
+      "url": "unknown",
+      "reason": "Gemini verification failed: 429 You exceeded your current quota. Please migrate to Gemini 2.0 Flash Preview (Image Generation) for higher quota limits.",
+      "stage": "verification",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:31:53",
+      "certainty": "known_error",
+      "notes": "Verification step (PerimeterX check) failed due to Gemini API quota"
+    },
+    {
+      "url": "unknown",
+      "reason": "Gemini analysis failed: 429 You exceeded your current quota.",
+      "stage": "extraction",
+      "product_type": "suspected_duplicate",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T17:32:14",
+      "certainty": "known_error"
+    },
+    {
+      "url": "unknown",
+      "reason": "Shopify upload failed: Shopify API error: 422 - {\"errors\":{\"title\":[\"is too long (maximum is 255 characters)\"]}}",
+      "stage": "shopify_upload",
+      "product_type": "suspected_duplicate",
+      "product_title": "Skip to main content",
+      "attempted_at": "2025-11-24T17:32:16",
+      "certainty": "known_error",
+      "shopify_status_code": 422
+    }
+  ],
+  "notes": "Second attempt to scan Anthropologie dresses catalog. This run shows Gemini quota errors at both the verification stage (PerimeterX detection) and extraction stage. The workflow also encountered the same 'Skip to main content' bad extraction data. This was the retry attempt after the initial failure. Enhanced failure tracking was not yet deployed during this run, so product URLs are marked as 'unknown'.",
+  "action_items": [
+    "Wait for Gemini API quota reset before retrying",
+    "Fix extraction quality issue causing 'Skip to main content' to be captured"
+  ]
+}
+

@@ -1,0 +1,26 @@
+{
+  "batch_id": "catalog_monitor_anthropologie_dresses_modest_20251124_165544",
+  "workflow": "catalog_monitor",
+  "retailer": "anthropologie",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-24T16:55:44",
+  "total_failed": 1,
+  "failures": [
+    {
+      "url": "https://www.anthropologie.com/dresses",
+      "reason": "Extraction validation failed: Expected at least 50 products for anthropologie, but only extracted 46. DOM found 72 URLs.",
+      "stage": "catalog_extraction",
+      "method_attempted": "patchright",
+      "attempted_at": "2025-11-24T16:55:44",
+      "certainty": "known_error",
+      "notes": "Catalog extraction produced fewer products than expected. The DOM parser found 72 product URLs, but Gemini analysis only validated 46 products, falling short of the 50-product minimum threshold for Anthropologie. This triggered a DOM-first fallback attempt."
+    }
+  ],
+  "notes": "This was an earlier catalog monitoring attempt for Anthropologie dresses. The extraction validation detected that too few products were being returned (46 vs expected 50+), with DOM finding 72 URLs. This suggests Gemini was filtering out or failing to process a significant number of products. Enhanced failure tracking was not yet deployed during this run.",
+  "action_items": [
+    "Investigate why Gemini is rejecting/missing ~36% of products found in DOM",
+    "Consider adjusting validation thresholds or improving Gemini prompt for Anthropologie"
+  ]
+}
+

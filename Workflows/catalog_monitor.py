@@ -548,6 +548,7 @@ class CatalogMonitor:
             MonitorResult
         """
         start_time = datetime.utcnow()
+        failures = []  # Track all failures for this run
         
         try:
             logger.info("⚠️ PREREQUISITE CHECK: Product Updater should run before monitoring")
@@ -646,6 +647,32 @@ class CatalogMonitor:
                     category  # Pass category for override logic
                 )
                 
+                # Check if extraction failed (returns dict with _extraction_error key)
+                if full_product and '_extraction_error' in full_product:
+                    # Track extraction failure with full error details
+                    failures.append({
+                        'url': product_url,
+                        'reason': full_product['_extraction_error'],
+                        'stage': 'extraction',
+                        'product_type': 'new',
+                        'method_attempted': full_product.get('_method_used', single_product_method),
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'known_error' if 'Unknown' not in full_product['_extraction_error'] else 'uncertain'
+                    })
+                    full_product = None  # Treat as failed
+                elif not full_product:
+                    # Unexpected None return (shouldn't happen with new code, but handle it)
+                    failures.append({
+                        'url': product_url,
+                        'reason': 'Product extraction returned None unexpectedly - possible unhandled exception in extractor',
+                        'stage': 'extraction',
+                        'product_type': 'new',
+                        'method_attempted': single_product_method,
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'uncertain'
+                    })
+                    full_product = None
+                
                 if full_product:
                     # Add source URL (extractor doesn't include it)
                     full_product['url'] = product_url
@@ -684,6 +711,19 @@ class CatalogMonitor:
                         await self._send_to_modesty_assessment(full_product, retailer, category, modesty_level)
                         sent_to_modesty += 1
                     else:
+                        # Track Shopify upload failure with full error details
+                        shopify_error = shopify_result.get('error', 'Unknown error - no error details provided by Shopify')
+                        failures.append({
+                            'url': product_url,
+                            'reason': f"Shopify upload failed: {shopify_error}",
+                            'stage': 'shopify_upload',
+                            'product_type': 'new',
+                            'product_title': full_product.get('title', 'Unknown'),
+                            'retailer': retailer,
+                            'attempted_at': datetime.utcnow().isoformat(),
+                            'certainty': 'known_error' if 'Unknown' not in shopify_error else 'uncertain',
+                            'shopify_status_code': shopify_result.get('status_code') if 'status_code' in shopify_result else None
+                        })
                         logger.error(f"❌ Skipping assessment for {full_product.get('title')} - Shopify upload failed")
                 
                 # Respectful delay
@@ -706,6 +746,33 @@ class CatalogMonitor:
                     single_product_method,
                     category
                 )
+                
+                # Check if extraction failed (returns dict with _extraction_error key)
+                if full_product and '_extraction_error' in full_product:
+                    # Track extraction failure with full error details
+                    failures.append({
+                        'url': product_url,
+                        'reason': full_product['_extraction_error'],
+                        'stage': 'extraction',
+                        'product_type': 'suspected_duplicate',
+                        'method_attempted': full_product.get('_method_used', single_product_method),
+                        'suspected_match': product.get('suspected_match', {}).get('url') if product.get('suspected_match') else None,
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'known_error' if 'Unknown' not in full_product['_extraction_error'] else 'uncertain'
+                    })
+                    full_product = None  # Treat as failed
+                elif not full_product:
+                    # Unexpected None return (shouldn't happen with new code, but handle it)
+                    failures.append({
+                        'url': product_url,
+                        'reason': 'Product extraction returned None unexpectedly - possible unhandled exception in extractor',
+                        'stage': 'extraction',
+                        'product_type': 'suspected_duplicate',
+                        'method_attempted': single_product_method,
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'uncertain'
+                    })
+                    full_product = None
                 
                 if full_product:
                     # Add source URL
@@ -733,6 +800,20 @@ class CatalogMonitor:
                         await self._send_to_duplicate_assessment(full_product, retailer, category)
                         sent_to_duplicate_review += 1
                     else:
+                        # Track Shopify upload failure with full error details
+                        shopify_error = shopify_result.get('error', 'Unknown error - no error details provided by Shopify')
+                        failures.append({
+                            'url': product_url,
+                            'reason': f"Shopify upload failed: {shopify_error}",
+                            'stage': 'shopify_upload',
+                            'product_type': 'suspected_duplicate',
+                            'product_title': full_product.get('title', 'Unknown'),
+                            'suspected_match': product.get('suspected_match', {}).get('url') if product.get('suspected_match') else None,
+                            'retailer': retailer,
+                            'attempted_at': datetime.utcnow().isoformat(),
+                            'certainty': 'known_error' if 'Unknown' not in shopify_error else 'uncertain',
+                            'shopify_status_code': shopify_result.get('status_code') if 'status_code' in shopify_result else None
+                        })
                         logger.error(f"❌ Skipping duplicate assessment - Shopify upload failed for {full_product.get('title')}")
                 
                 # Respectful delay
@@ -749,7 +830,36 @@ class CatalogMonitor:
                 run_time=datetime.utcnow()
             )
             
-            # Step 8: Notifications
+            # Step 8: Save failures if any
+            if failures:
+                from pathlib import Path
+                import json
+                
+                # Create batch ID
+                batch_id = f"catalog_monitor_{retailer}_{category}_{modesty_level}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+                
+                failures_data = {
+                    'batch_id': batch_id,
+                    'workflow': 'catalog_monitor',
+                    'retailer': retailer,
+                    'category': category,
+                    'modesty_level': modesty_level,
+                    'run_date': start_time.isoformat(),
+                    'total_failed': len(failures),
+                    'failures': failures
+                }
+                
+                # Save to failures folder
+                failures_dir = Path("failures")
+                failures_dir.mkdir(exist_ok=True)
+                failures_file = failures_dir / f"{batch_id}_failures.json"
+                
+                with open(failures_file, 'w') as f:
+                    json.dump(failures_data, f, indent=2)
+                
+                logger.warning(f"⚠️  {len(failures)} failures saved to {failures_file}")
+            
+            # Step 9: Notifications
             processing_time = (datetime.utcnow() - start_time).total_seconds()
             total_cost = cost_tracker.get_session_cost()
             
@@ -1145,7 +1255,11 @@ class CatalogMonitor:
         method: str,
         category: str  # NEW parameter
     ) -> Optional[Dict]:
-        """Extract full product details and apply clothing_type logic"""
+        """Extract full product details and apply clothing_type logic
+        
+        Returns:
+            Dict with product data on success, or Dict with '_extraction_error' key on failure
+        """
         try:
             if method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
@@ -1177,8 +1291,14 @@ class CatalogMonitor:
                 
                 return product_data
             else:
-                logger.error(f"Failed to extract product: {url}")
-                return None
+                # Return error details for failure tracking
+                error_details = str(result.errors) if result.errors else "Unknown extraction error - no error details provided by extractor"
+                logger.error(f"Failed to extract product {url}: {error_details}")
+                return {
+                    '_extraction_error': error_details,
+                    '_method_used': result.method_used if hasattr(result, 'method_used') else method,
+                    '_url': url
+                }
                 
         except Exception as e:
             logger.error(f"Error extracting product {url}: {e}")
