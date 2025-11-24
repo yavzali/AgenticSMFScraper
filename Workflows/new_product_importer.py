@@ -189,7 +189,8 @@ class NewProductImporter:
                 'modest': 0,
                 'moderately_modest': 0,
                 'not_modest': 0,
-                'results': []
+                'results': [],
+                'failures': []  # Track failed products
             }
             
             # Process markdown URLs
@@ -211,6 +212,14 @@ class NewProductImporter:
                     results['skipped'] += 1
                 else:
                     results['failed'] += 1
+                    # Track failure details
+                    results['failures'].append({
+                        'url': result.url,
+                        'reason': result.error,
+                        'action': result.action,
+                        'method_used': result.method_used,
+                        'attempted_at': datetime.utcnow().isoformat()
+                    })
                 
                 # Count by modesty status
                 if result.modesty_status:
@@ -250,6 +259,14 @@ class NewProductImporter:
                     results['skipped'] += 1
                 else:
                     results['failed'] += 1
+                    # Track failure details
+                    results['failures'].append({
+                        'url': result.url,
+                        'reason': result.error,
+                        'action': result.action,
+                        'method_used': result.method_used,
+                        'attempted_at': datetime.utcnow().isoformat()
+                    })
                 
                 # Count by modesty status
                 if result.modesty_status:
@@ -283,6 +300,31 @@ class NewProductImporter:
             
             logger.info(f"✅ Batch complete: {results['uploaded']}/{results['total_urls']} uploaded to Shopify")
             logger.info(f"   Modesty breakdown: {results['modest']} modest, {results['moderately_modest']} moderately, {results['not_modest']} not modest")
+            
+            # Step 9: Save failures file if any failures occurred
+            if results['failures']:
+                # Extract retailer from first URL
+                first_url = unique_urls[0]
+                retailer = self._get_retailer(first_url)
+                
+                failures_data = {
+                    'batch_id': batch_id,
+                    'workflow': 'new_product_importer',
+                    'retailer': retailer,
+                    'product_type': product_type_override or 'unknown',
+                    'modesty_level': modesty_level or 'not_specified',
+                    'run_date': results['start_time'],
+                    'total_failed': results['failed'],
+                    'failures': results['failures']
+                }
+                
+                # Save to failures folder
+                failures_file = f"failures/{batch_id}_failures.json"
+                with open(failures_file, 'w') as f:
+                    import json
+                    json.dump(failures_data, f, indent=2)
+                
+                logger.warning(f"⚠️  {results['failed']} failures saved to {failures_file}")
             
             return results
             
