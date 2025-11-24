@@ -358,12 +358,18 @@ class NewProductImporter:
                 product_data['clothing_type'] = product_type_override
                 logger.debug(f"Product type overridden to: {product_type_override}")
             
-            # Step 2: Modesty assessment (Gemini classification)
-            logger.debug("🤖 Running modesty assessment")
-            modesty_classification = await self._assess_modesty(product_data)
-            product_data['modesty_status'] = modesty_classification
+            # Step 2: Modesty assessment (manual override or AI classification)
+            if expected_modesty:
+                # User specified modesty level - use it directly
+                modesty_classification = expected_modesty
+                logger.info(f"📊 Modesty: {modesty_classification} (manual override)")
+            else:
+                # No override - run AI classification
+                logger.debug("🤖 Running AI modesty assessment")
+                modesty_classification = await self._assess_modesty(product_data)
+                logger.info(f"📊 Modesty: {modesty_classification} (AI classified)")
             
-            logger.info(f"📊 Modesty: {modesty_classification}")
+            product_data['modesty_status'] = modesty_classification
             
             # Step 3: Process images (enhance URLs + download)
             image_urls = product_data.get('image_urls', [])
