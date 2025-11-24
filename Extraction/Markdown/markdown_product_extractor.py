@@ -332,7 +332,7 @@ REQUIRED OUTPUT (JSON format only - no explanations):
     "price": "",
     "original_price": "",  // Previous price if on sale, null if not applicable
     "description": "",
-    "stock_status": "",  // "in stock", "low in stock", or "out of stock"
+    "stock_status": "",  // "in stock", "low in stock", "out of stock", or "no longer available"
     "sale_status": "",   // "on sale" or "not on sale"
     "clothing_type": "", // e.g., "dress", "top", "bottom", "outerwear"
     "product_code": "",  // Product ID, SKU, or model number
@@ -365,9 +365,11 @@ CRITICAL REQUIREMENTS:
    - Often found in URL, near price, or in product details
 
 5. STOCK STATUS:
-   - Default to "in stock" unless explicitly stated otherwise
-   - Look for: "out of stock", "sold out", "unavailable"
+   - Check for delisting FIRST: "no longer available", "discontinued", "item not found", "removed", "product no longer exists"
+   - Set to "no longer available" if product is delisted/discontinued (NOT just out of stock)
+   - If temporarily unavailable: "out of stock", "sold out"
    - "low in stock" if mentioned
+   - Default to "in stock" if none of the above
 
 MARKDOWN CONTENT:
 {markdown_content}

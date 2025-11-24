@@ -152,9 +152,15 @@ class PatchrightProductExtractor:
             processing_time = time.time() - start_time
             logger.info(f"✅ Patchright extraction completed in {processing_time:.1f}s")
             
+            # Convert ProductData to dict and map availability → stock_status
+            data_dict = result.__dict__
+            # Map 'availability' to 'stock_status' for consistency with Markdown extraction
+            if 'availability' in data_dict:
+                data_dict['stock_status'] = data_dict.pop('availability')
+            
             return ExtractionResult(
                 success=True,
-                data=result.__dict__,
+                data=data_dict,
                 method_used="patchright_gemini_dom_hybrid",
                 processing_time=processing_time,
                 warnings=[],
@@ -393,7 +399,7 @@ REQUIRED FIELDS:
 - price: Current price (number)
 - original_price: Original price if on sale (number, null if not on sale)
 - sale_status: "on_sale" or "regular"
-- availability: "in_stock" or "out_of_stock"
+- availability: "in_stock", "out_of_stock", or "no_longer_available" (if product is discontinued/delisted)
 - description: Product description
 - sizes: Available sizes (array)
 - colors: Available colors (array)
@@ -402,6 +408,12 @@ REQUIRED FIELDS:
 - image_urls: Product image URLs (array)
 - product_code: SKU/product code
 - clothing_type: Type of clothing (dress, top, pants, etc.)
+
+AVAILABILITY DETECTION (CRITICAL):
+- Check FIRST if product is delisted: "no longer available", "discontinued", "item not found", "removed", "product no longer exists"
+- Set to "no_longer_available" if product is permanently removed (NOT just temporarily out of stock)
+- Set to "out_of_stock" if temporarily unavailable (sold out, coming soon)
+- Set to "in_stock" if available for purchase
 
 Return ONLY valid JSON with these fields. Extract every detail you can see."""
             

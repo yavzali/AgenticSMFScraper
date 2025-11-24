@@ -289,23 +289,6 @@ class ProductUpdater:
                 extraction_result = await self.patchright_tower.extract_product(url, retailer)
             
             if not extraction_result.success:
-                # Check if product is delisted (special handling)
-                if hasattr(extraction_result, 'is_delisted') and extraction_result.is_delisted:
-                    logger.warning(f"🚫 Product delisted: {url}")
-                    
-                    # Mark product as delisted in DB
-                    await self.db_manager.mark_product_delisted(url)
-                    
-                    return UpdateResult(
-                        url=url,
-                        success=False,
-                        shopify_id=None,
-                        method_used=extraction_result.method_used,
-                        processing_time=asyncio.get_event_loop().time() - start_time,
-                        action='delisted',
-                        error='Product delisted from retailer site'
-                    )
-                
                 # Regular extraction failure
                 logger.warning(f"❌ Extraction failed: {extraction_result.errors}")
                 return UpdateResult(
@@ -316,6 +299,38 @@ class ProductUpdater:
                     processing_time=asyncio.get_event_loop().time() - start_time,
                     action='failed',
                     error=str(extraction_result.errors)
+                )
+            
+            # Check if product is no longer available (even if extraction succeeded)
+            extracted_data = extraction_result.data
+            if extracted_data.get('stock_status') == 'no_longer_available':
+                logger.warning(f"🚫 Product no longer available: {url}")
+                
+                # Get existing product to find shopify_id
+                existing_product = await self.db_manager.get_product_by_url(url)
+                shopify_id = existing_product.get('shopify_id') if existing_product else None
+                
+                # Delist in Shopify if it exists there
+                if shopify_id:
+                    delist_result = await self.shopify_manager.delist_product(shopify_id)
+                    if delist_result['success']:
+                        logger.info(f"✅ Delisted product {shopify_id} in Shopify")
+                    else:
+                        logger.error(f"❌ Failed to delist product {shopify_id}: {delist_result.get('error')}")
+                
+                # Mark as no longer available in DB (update stock_status)
+                if existing_product:
+                    existing_product['stock_status'] = 'no_longer_available'
+                    await self.db_manager.update_product(url, existing_product, retailer)
+                
+                return UpdateResult(
+                    url=url,
+                    success=True,  # Success because we handled the delisting
+                    shopify_id=shopify_id,
+                    method_used=extraction_result.method_used,
+                    processing_time=asyncio.get_event_loop().time() - start_time,
+                    action='delisted',
+                    error=None
                 )
             
             # Step 2: Find existing product in DB

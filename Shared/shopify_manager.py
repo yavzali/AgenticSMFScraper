@@ -288,6 +288,71 @@ class ShopifyManager:
             logger.error(f"Exception unpublishing product {product_id}: {e}")
             return {'success': False, 'error': str(e)}
     
+    async def delist_product(self, product_id: int) -> Dict[str, Any]:
+        """
+        Delist a product that is no longer available at the retailer
+        - Changes status from 'active' to 'draft' (hides from storefront)
+        - Adds 'No Longer Available' tag
+        
+        Args:
+            product_id: Shopify product ID
+            
+        Returns:
+            Dict with success status and details
+        """
+        try:
+            async with aiohttp.ClientSession() as session:
+                # First, get current product to read existing tags
+                async with session.get(
+                    f"{self.base_api_url}/products/{product_id}.json",
+                    headers=self.headers
+                ) as get_response:
+                    
+                    if get_response.status != 200:
+                        return {'success': False, 'error': f"Could not fetch product {product_id}"}
+                    
+                    current_product = await get_response.json()
+                    product = current_product['product']
+                    
+                    # Get current tags and add "No Longer Available"
+                    current_tags = product.get('tags', '').split(', ') if product.get('tags') else []
+                    if 'No Longer Available' not in current_tags:
+                        current_tags.append('No Longer Available')
+                    
+                    # Update product: set to draft and add tag
+                    update_payload = {
+                        "product": {
+                            "id": product_id,
+                            "status": "draft",
+                            "tags": ', '.join(current_tags)
+                        }
+                    }
+                    
+                    async with session.put(
+                        f"{self.base_api_URL}/products/{product_id}.json",
+                        headers=self.headers,
+                        data=json.dumps(update_payload)
+                    ) as response:
+                        
+                        if response.status == 200:
+                            logger.info(f"✅ Delisted product {product_id} (draft + tagged 'No Longer Available')")
+                            return {
+                                'success': True,
+                                'product_id': product_id,
+                                'action': 'delisted'
+                            }
+                        else:
+                            error_text = await response.text()
+                            logger.error(f"❌ Failed to delist product {product_id}: {error_text}")
+                            return {
+                                'success': False,
+                                'error': f"Delist failed: {response.status} - {error_text}"
+                            }
+        
+        except Exception as e:
+            logger.error(f"Exception delisting product {product_id}: {e}")
+            return {'success': False, 'error': str(e)}
+    
     def _standardize_product_type(self, clothing_type: str) -> str:
         """Standardize product type for Shopify consistency"""
         if not clothing_type:

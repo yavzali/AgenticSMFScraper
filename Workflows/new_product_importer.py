@@ -339,6 +339,20 @@ class NewProductImporter:
             
             product_data = extraction_result.data
             
+            # Check if product is no longer available - skip import
+            if product_data.get('stock_status') == 'no_longer_available':
+                logger.warning(f"🚫 Product no longer available, skipping: {url}")
+                return ImportResult(
+                    url=url,
+                    success=False,
+                    shopify_id=None,
+                    method_used=extraction_result.method_used,
+                    processing_time=asyncio.get_event_loop().time() - start_time,
+                    action='skipped_delisted',
+                    modesty_classification='not_applicable',
+                    error='Product no longer available at retailer'
+                )
+            
             # Apply product type override if provided
             if product_type_override:
                 product_data['clothing_type'] = product_type_override
