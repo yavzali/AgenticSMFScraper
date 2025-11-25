@@ -1,7 +1,7 @@
-# 🛍️ **Agent Modest Scraper System v2.2.0**
-## *Comprehensive E-commerce Intelligence Platform - Enhanced with Assessment Pipeline*
+# 🛍️ **Agent Modest Scraper System v6.2**
+## *Comprehensive E-commerce Intelligence Platform - Triple Tower Architecture*
 
-A sophisticated, **tripartite system** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence, powered by AI extraction, **Patchright anti-detection**, **human assessment pipeline**, and comprehensive Shopify integration.
+A sophisticated, **production-ready** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence. Powered by **Triple Tower Architecture** (Markdown, Patchright, Commercial API), **Bright Data enterprise anti-bot**, AI extraction (DeepSeek V3, Gemini Flash, Gemini Vision), **human assessment pipeline**, and comprehensive Shopify integration.
 
 ---
 
@@ -49,10 +49,11 @@ The Agent Modest Scraper System consists of **three independent but complementar
 **Core Principle**: All three systems use the same powerful extraction technologies but with different business logic and focused responsibilities.
 
 **Shared Components** (`/Shared/`):
-- **AI Extraction Engines**: `markdown_extractor.py`, `playwright_agent.py` (Patchright v1.52.5)
+- **AI Extraction Engines**: Markdown Tower, Patchright Tower, Commercial API Tower (🆕 v6.2)
 - **Database Management**: `duplicate_detector.py`, `cost_tracker.py`
 - **Pattern Learning**: `pattern_learner.py`, `notification_manager.py`
 - **E-commerce Integration**: `shopify_manager.py`
+- **Commercial API**: Bright Data Web Unlocker, BeautifulSoup, LLM fallback (🆕 v6.2)
 - **Configuration**: `config.json`, API key management
 
 **System-Specific Orchestration**:
@@ -95,6 +96,53 @@ The Agent Modest Scraper System consists of **three independent but complementar
 - ✅ **Stealth Capabilities**: Anti-detection working (some WebDriver traces expected)
 - ✅ **Real Navigation**: Successfully navigates to challenging retailers
 - ✅ **End-to-End Extraction**: Full product extraction pipeline functional
+
+---
+
+## 🌐 **Commercial API Tower** (🆕 v6.2)
+
+### **Enterprise Anti-Bot with Bright Data**
+
+**v6.2** introduces the **Commercial API Tower** - a third extraction method using **Bright Data's Web Unlocker** for enterprise-grade anti-bot bypass:
+
+#### **🔥 Key Features**
+- **Bright Data Integration**: Rotating residential proxies handle anti-bot challenges automatically
+- **Cost-Effective**: $1.50 per 1,000 requests (vs. Gemini Vision costs in Patchright)
+- **Fast**: No browser overhead, 30-40s per product (vs. 60-120s with Patchright)
+- **Smart Fallbacks**: BeautifulSoup → LLM (Gemini Flash) → Patchright fallback chain
+- **Pattern Learning**: System learns successful HTML selectors over time
+- **1-Day HTML Caching**: Reduces redundant requests during development
+
+#### **🎯 Architecture**
+```python
+# Triple-Layer Fallback Strategy
+1. BeautifulSoup (fast, cheap) - CSS selector parsing
+2. LLM Fallback (Gemini Flash) - structured HTML extraction
+3. Patchright Fallback (browser automation) - if all else fails
+```
+
+#### **📊 Active Retailers**
+- **Nordstrom** (Phase 1 - Active in v6.2)
+- Anthropologie, Urban Outfitters (Phase 2 - Planned)
+- All remaining retailers (Phase 3-4 - Planned expansion)
+
+#### **💡 How It Works**
+1. **Fetch**: Bright Data API fetches raw HTML through anti-bot proxies
+2. **Parse**: BeautifulSoup extracts product data using learned CSS selectors
+3. **Validate**: Check for required fields (title, price, images, description)
+4. **Fallback**: If incomplete, LLM (Gemini Flash) extracts from HTML
+5. **Ultimate Fallback**: If both fail, route to Patchright Tower
+6. **Learn**: Pattern Learner tracks successful selectors for future use
+
+#### **📁 Components** (`/Extraction/CommercialAPI/`)
+- `commercial_catalog_extractor.py` - Catalog page extraction
+- `commercial_product_extractor.py` - Single product extraction
+- `brightdata_client.py` - Bright Data API client
+- `html_cache_manager.py` - 1-day SQLite cache
+- `html_parser.py` - BeautifulSoup + LLM coordinator
+- `llm_fallback_parser.py` - Gemini Flash fallback
+- `pattern_learner.py` - CSS selector optimization
+- `commercial_retailer_strategies.py` - Retailer-specific selectors
 
 ---
 

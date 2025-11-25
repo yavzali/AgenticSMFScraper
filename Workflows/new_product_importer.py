@@ -19,6 +19,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Markdown"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Patchright"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/CommercialAPI"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../New Product Importer"))
 
 import asyncio
@@ -41,6 +42,16 @@ from image_processor import image_processor
 # Tower imports
 from markdown_product_extractor import MarkdownProductExtractor
 from patchright_product_extractor import PatchrightProductExtractor
+
+# Commercial API Tower (Third Tower - Bright Data)
+try:
+    from commercial_config import CommercialAPIConfig
+    from commercial_product_extractor import CommercialProductExtractor
+    COMMERCIAL_API_AVAILABLE = True
+except ImportError:
+    COMMERCIAL_API_AVAILABLE = False
+    logger_temp = logging.getLogger(__name__)
+    logger_temp.warning("⚠️ Commercial API tower not available - will use Patchright/Markdown")
 
 logger = setup_logging(__name__)
 
@@ -94,11 +105,17 @@ class NewProductImporter:
         # Initialize towers
         self.markdown_tower = None
         self.patchright_tower = None
+        self.commercial_tower = None
         
         # Modesty assessment (Gemini)
         self.modesty_assessor = None
         
-        logger.info("✅ New Product Importer initialized (Dual Tower)")
+        # Tower count
+        tower_count = "Dual Tower"
+        if COMMERCIAL_API_AVAILABLE:
+            tower_count = "Triple Tower (Markdown, Patchright, Commercial API)"
+        
+        logger.info(f"✅ New Product Importer initialized ({tower_count})")
     
     async def run_batch_import(
         self,
@@ -330,10 +347,22 @@ class NewProductImporter:
                 
                 logger.warning(f"⚠️  {results['failed']} failures saved to {failures_file}")
             
+            # Cleanup Commercial API tower if used
+            if COMMERCIAL_API_AVAILABLE and self.commercial_tower:
+                await self.commercial_tower.cleanup()
+            
             return results
             
         except Exception as e:
             logger.error(f"Batch import failed: {e}")
+            
+            # Cleanup Commercial API tower if used
+            try:
+                if COMMERCIAL_API_AVAILABLE and self.commercial_tower:
+                    await self.commercial_tower.cleanup()
+            except:
+                pass  # Don't fail on cleanup errors
+            
             return {
                 'success': False,
                 'batch_id': batch_id if 'batch_id' in locals() else 'unknown',
@@ -365,8 +394,26 @@ class NewProductImporter:
             retailer = self._get_retailer(url)
             logger.info(f"🔄 Importing {retailer}: {url}")
             
-            # Step 1: Extract product data from tower
-            if tower == 'markdown':
+            # Step 1: Extract product data from appropriate tower
+            # Check if retailer should use Commercial API tower
+            if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
+                logger.debug(f"🌐 Using Commercial API Tower for product: {url[:70]}...")
+                extraction_result = await self.commercial_tower.extract_product(url, retailer)
+                
+                # Handle Commercial API result format
+                if extraction_result.success:
+                    # Convert to expected format
+                    extraction_result = type('obj', (object,), {
+                        'success': True,
+                        'data': extraction_result.product_data,
+                        'method_used': 'commercial_api',
+                        'errors': []
+                    })()
+                else:
+                    # Fallback to Patchright if Commercial API fails
+                    logger.warning(f"Commercial API extraction failed for {url}, falling back to Patchright")
+                    extraction_result = await self.patchright_tower.extract_product(url, retailer)
+            elif tower == 'markdown':
                 extraction_result = await self.markdown_tower.extract_product(url, retailer)
             else:
                 extraction_result = await self.patchright_tower.extract_product(url, retailer)
@@ -595,6 +642,13 @@ class NewProductImporter:
         if not self.patchright_tower:
             self.patchright_tower = PatchrightProductExtractor()
             logger.debug("Patchright Tower initialized")
+        
+        # Initialize Commercial API tower if available
+        if COMMERCIAL_API_AVAILABLE:
+            if not self.commercial_tower:
+                self.commercial_tower = CommercialProductExtractor()
+                await self.commercial_tower.initialize()
+                logger.debug("✅ Commercial API tower initialized")
     
     async def _initialize_modesty_assessor(self):
         """Initialize Gemini modesty assessor"""

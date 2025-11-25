@@ -1,10 +1,14 @@
-# 🏗️ **Agent Modest Scraper System v6.1 - Dual Tower + Assessment Pipeline**
+# 🏗️ **Agent Modest Scraper System v6.2 - Triple Tower + Assessment Pipeline**
 
 ## 🎯 **Executive Summary**
 
-The Agent Modest Scraper System v6.1 represents a **production-ready, modular** e-commerce scraping platform built on a **Dual Tower Architecture** with **integrated assessment pipeline**. The system combines two independent extraction methods (**Markdown Tower** and **Patchright Tower**), advanced AI models (**DeepSeek V3** + **Gemini Flash 2.0** + **Gemini Vision**), **Shopify draft upload workflow**, and sophisticated **anti-bot protection** to deliver **90-98% success rates** across all supported retailers.
+The Agent Modest Scraper System v6.2 represents a **production-ready, modular** e-commerce scraping platform built on a **Triple Tower Architecture** with **integrated assessment pipeline**. The system combines three independent extraction methods (**Markdown Tower**, **Patchright Tower**, and **Commercial API Tower**), advanced AI models (**DeepSeek V3** + **Gemini Flash 2.0** + **Gemini Vision**), **Bright Data API** for enterprise-grade anti-bot bypass, **Shopify draft upload workflow**, and sophisticated **anti-bot protection** to deliver **90-98% success rates** across all supported retailers.
 
-### **🚀 Key Achievements (v6.1)**
+### **🚀 Key Achievements (v6.2)**
+- **✅ 🆕 Triple Tower Architecture**: Markdown, Patchright, and Commercial API (Bright Data)
+- **✅ 🆕 Bright Data Integration**: Enterprise anti-bot bypass with Web Unlocker
+- **✅ 🆕 Pattern Learning**: HTML selector optimization based on success/failure rates
+- **✅ 🆕 Smart Fallbacks**: Commercial API → LLM → Patchright fallback chain
 - **✅ Dual Tower Architecture**: Independent Markdown & Patchright extraction systems
 - **✅ Modular Design**: All scripts <900 lines, easy to maintain and debug
 - **✅ 4 Production Workflows**: Baseline Scanner, Monitor, Updater, Importer
@@ -21,53 +25,54 @@ The Agent Modest Scraper System v6.1 represents a **production-ready, modular** 
 
 ## 🏗️ **System Architecture**
 
-### **🎪 v6.0 Dual Tower Design**
+### **🎪 v6.2 Triple Tower Design**
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        WORKFLOWS LAYER                           │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │   Catalog    │  │   Catalog    │  │   Product    │          │
-│  │   Baseline   │  │   Monitor    │  │   Updater    │          │
-│  │   Scanner    │  │              │  │              │          │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘          │
-│         │                  │                  │                  │
-│         │    ┌─────────────┴──────────────────┴─────┐          │
-│         │    │      New Product Importer            │          │
-│         │    └────────────┬──────────────────────────┘          │
-└─────────┼─────────────────┼──────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           WORKFLOWS LAYER                                │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│  │   Catalog    │  │   Catalog    │  │   Product    │                  │
+│  │   Baseline   │  │   Monitor    │  │   Updater    │                  │
+│  │   Scanner    │  │              │  │              │                  │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘                  │
+│         │                  │                  │                          │
+│         │    ┌─────────────┴──────────────────┴─────┐                  │
+│         │    │      New Product Importer            │                  │
+│         │    └────────────┬──────────────────────────┘                  │
+└─────────┼─────────────────┼──────────────────────────────────────────────┘
           │                 │
-┌─────────┴─────────────────┴──────────────────────────────────────┐
-│                    INTEGRATION LAYER                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │      DB      │  │ Shopify      │  │ Assessment   │          │
-│  │    Manager   │  │ Manager      │  │ Queue        │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
-└──────────────────────────────────────────────────────────────────┘
-          │                              │
-┌─────────┴──────────────┐      ┌───────┴─────────────┐
-│   MARKDOWN TOWER       │      │  PATCHRIGHT TOWER   │
-│  ┌──────────────────┐  │      │  ┌──────────────┐  │
-│  │ Catalog          │  │      │  │ Catalog      │  │
-│  │ Extractor        │  │      │  │ Extractor    │  │
-│  ├──────────────────┤  │      │  ├──────────────┤  │
-│  │ Product          │  │      │  │ Product      │  │
-│  │ Extractor        │  │      │  │ Extractor    │  │
-│  ├──────────────────┤  │      │  ├──────────────┤  │
-│  │ Retailer Logic   │  │      │  │ Verification │  │
-│  ├──────────────────┤  │      │  ├──────────────┤  │
-│  │ Pattern Learner  │  │      │  │ DOM Validator│  │
-│  ├──────────────────┤  │      │  ├──────────────┤  │
-│  │ Dedup Helper     │  │      │  │ Retailer     │  │
-│  │                  │  │      │  │ Strategies   │  │
-│  └──────────────────┘  │      │  └──────────────┘  │
-└────────────────────────┘      └────────────────────┘
-         │                                  │
-┌────────┴────────────┐          ┌─────────┴───────────┐
-│ Jina AI Reader     │          │ Patchright Browser │
-│ DeepSeek V3        │          │ Gemini Vision      │
-│ Gemini Flash 2.0   │          │ DOM Extraction     │
-└────────────────────┘          └────────────────────┘
+┌─────────┴─────────────────┴──────────────────────────────────────────────┐
+│                       INTEGRATION LAYER                                   │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│  │      DB      │  │ Shopify      │  │ Assessment   │                  │
+│  │    Manager   │  │ Manager      │  │ Queue        │                  │
+│  └──────────────┘  └──────────────┘  └──────────────┘                  │
+└──────────────────────────────────────────────────────────────────────────┘
+          │                              │                      │
+┌─────────┴────────────┐   ┌─────────────┴───────────┐   ┌─────┴──────────────┐
+│  MARKDOWN TOWER      │   │   PATCHRIGHT TOWER      │   │ COMMERCIAL API     │
+│ ┌──────────────────┐ │   │  ┌──────────────┐      │   │ TOWER (🆕 v6.2)   │
+│ │ Catalog          │ │   │  │ Catalog      │      │   │ ┌────────────────┐ │
+│ │ Extractor        │ │   │  │ Extractor    │      │   │ │ Catalog        │ │
+│ ├──────────────────┤ │   │  ├──────────────┤      │   │ │ Extractor      │ │
+│ │ Product          │ │   │  │ Product      │      │   │ ├────────────────┤ │
+│ │ Extractor        │ │   │  │ Extractor    │      │   │ │ Product        │ │
+│ ├──────────────────┤ │   │  ├──────────────┤      │   │ │ Extractor      │ │
+│ │ Retailer Logic   │ │   │  │ Verification │      │   │ ├────────────────┤ │
+│ ├──────────────────┤ │   │  ├──────────────┤      │   │ │ HTML Parser    │ │
+│ │ Pattern Learner  │ │   │  │ DOM Validator│      │   │ ├────────────────┤ │
+│ ├──────────────────┤ │   │  ├──────────────┤      │   │ │ LLM Fallback   │ │
+│ │ Dedup Helper     │ │   │  │ Retailer     │      │   │ ├────────────────┤ │
+│ │                  │ │   │  │ Strategies   │      │   │ │ Pattern        │ │
+│ │                  │ │   │  │              │      │   │ │ Learner        │ │
+│ └──────────────────┘ │   │  └──────────────┘      │   │ └────────────────┘ │
+└──────────────────────┘   └─────────────────────────┘   └────────────────────┘
+         │                           │                              │
+┌────────┴──────────┐    ┌──────────┴────────────┐   ┌────────────┴──────────┐
+│ Jina AI Reader   │    │ Patchright Browser   │   │ Bright Data API      │
+│ DeepSeek V3      │    │ Gemini Vision        │   │ BeautifulSoup        │
+│ Gemini Flash 2.0 │    │ DOM Extraction       │   │ Gemini Flash (LLM)   │
+└──────────────────┘    └──────────────────────┘   └──────────────────────┘
 ```
 
 ---
@@ -172,6 +177,94 @@ The Agent Modest Scraper System v6.1 represents a **production-ready, modular** 
 - Screenshot strategies
 
 **6. Patchright Dedup Helper** (`patchright_dedup_helper.py` - 58 lines)
+
+---
+
+### **🔵 Commercial API Tower** (🆕 v6.2 - Enterprise Anti-Bot)
+
+#### **Supported Retailers**
+- **Nordstrom** (Phase 1 - Active)
+- Anthropologie (Phase 2 - Planned)
+- Urban Outfitters (Phase 2 - Planned)
+- Aritzia, H&M, and remaining retailers (Phase 3-4 - Planned)
+
+#### **Purpose**
+The Commercial API Tower provides **enterprise-grade anti-bot bypass** using **Bright Data's Web Unlocker** API. It fetches raw HTML through rotating residential proxies, then parses it using **BeautifulSoup** (fast) with **LLM fallback** (Gemini Flash). This approach combines:
+- **Cost savings**: $1.50 per 1,000 requests (vs. Patchright's Gemini Vision costs)
+- **Speed**: No browser overhead (30-40s vs. 60-120s)
+- **Reliability**: Enterprise proxy infrastructure handles anti-bot challenges
+- **Smart fallbacks**: HTML parsing → LLM → Patchright fallback chain
+
+#### **Components**
+
+**1. Commercial Catalog Extractor** (`commercial_catalog_extractor.py` - 500 lines)
+- Fetches catalog HTML via Bright Data API
+- BeautifulSoup parsing with retailer-specific CSS selectors
+- LLM fallback (Gemini Flash) if BeautifulSoup fails
+- Pattern learning optimizes selectors over time
+- Fallback to Patchright Tower if all methods fail
+- **Speed**: 30-50s per catalog page
+- **Cost**: ~$0.001-0.002 per page (Bright Data) + LLM if needed
+
+**2. Commercial Product Extractor** (`commercial_product_extractor.py` - 700 lines)
+- Single product page extraction via Bright Data
+- Triple-layer parsing strategy:
+  1. **BeautifulSoup** with learned selectors (primary)
+  2. **LLM** (Gemini Flash) if BeautifulSoup incomplete (fallback #1)
+  3. **Patchright Tower** if both fail (fallback #2)
+- Image URL enhancement (converts thumbnails to high-res)
+- Field validation (title, price, description, images, stock)
+- **Speed**: 20-40s per product
+- **Cost**: ~$0.001 per product (Bright Data) + LLM if needed
+
+**3. Bright Data Client** (`brightdata_client.py` - 350 lines)
+- HTTP proxy authentication (API key as username/password)
+- Exponential backoff on retries (2^attempt seconds)
+- HTML validation (detects "access denied", "captcha", error pages)
+- Cost tracking per retailer
+- Usage statistics (success/failure rates, bytes downloaded)
+
+**4. HTML Cache Manager** (`html_cache_manager.py` - 250 lines)
+- **1-day HTML caching** for debugging (SQLite)
+- Reduces redundant Bright Data requests during development
+- Cache hit/miss tracking
+- Automatic expiration after 24 hours
+- Can be disabled in production
+
+**5. HTML Parser** (`html_parser.py` - 450 lines)
+- Coordinates BeautifulSoup and LLM fallback parsing
+- Integrates with Pattern Learner for optimized selectors
+- Validates extracted data (required fields, image count)
+- Handles both product and catalog parsing
+- Error handling and logging
+
+**6. LLM Fallback Parser** (`llm_fallback_parser.py` - 350 lines)
+- Uses Gemini Flash for HTML parsing when BeautifulSoup fails
+- Extracts structured JSON from raw HTML
+- Handles truncated HTML (50k characters max)
+- Cost tracking (Gemini Flash: $0.075/$0.225 per 1M tokens)
+- Supports Gemini and DeepSeek providers
+
+**7. Pattern Learner** (`pattern_learner.py` - 450 lines)
+- **Learns successful HTML patterns** over time (SQLite)
+- Tracks success/failure rates per CSS selector
+- Suggests optimal selectors based on confidence scores
+- Retailer-specific pattern storage
+- Automatic pattern cleanup (removes old/unused patterns)
+
+**8. Commercial Retailer Strategies** (`commercial_retailer_strategies.py` - 700 lines)
+- CSS selectors for all 10 retailers (product + catalog)
+- Multiple selectors per field (tries in order until success)
+- Image URL validation (filters placeholders, icons)
+- Price parsing (handles currency symbols, decimals)
+- Stock status inference
+
+**9. Commercial Config** (`commercial_config.py` - 250 lines)
+- Central configuration for Bright Data, LLM, caching
+- Retailer routing (`ACTIVE_RETAILERS` list)
+- Parsing strategies per retailer
+- Pattern learning settings
+- Fallback configuration
 - URL normalization
 - Product code extraction from image URLs
 

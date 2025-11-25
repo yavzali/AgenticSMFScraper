@@ -19,6 +19,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Markdown"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Patchright"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/CommercialAPI"))
 
 import asyncio
 import json
@@ -51,6 +52,17 @@ from markdown_catalog_extractor import MarkdownCatalogExtractor
 from markdown_product_extractor import MarkdownProductExtractor
 from patchright_catalog_extractor import PatchrightCatalogExtractor
 from patchright_product_extractor import PatchrightProductExtractor
+
+# Commercial API Tower (Third Tower - Bright Data)
+try:
+    from commercial_config import CommercialAPIConfig
+    from commercial_catalog_extractor import CommercialCatalogExtractor
+    from commercial_product_extractor import CommercialProductExtractor
+    COMMERCIAL_API_AVAILABLE = True
+except ImportError:
+    COMMERCIAL_API_AVAILABLE = False
+    logger_temp = logging.getLogger(__name__)
+    logger_temp.warning("⚠️ Commercial API tower not available - will use Patchright/Markdown")
 
 logger = setup_logging(__name__)
 
@@ -173,8 +185,15 @@ class CatalogMonitor:
         self.markdown_product_tower = None
         self.patchright_catalog_tower = None
         self.patchright_product_tower = None
+        self.commercial_catalog_tower = None
+        self.commercial_product_tower = None
         
-        logger.info("✅ Catalog Monitor initialized (Dual Tower)")
+        # Tower count
+        tower_count = "Dual Tower"
+        if COMMERCIAL_API_AVAILABLE:
+            tower_count = "Triple Tower (Markdown, Patchright, Commercial API)"
+        
+        logger.info(f"✅ Catalog Monitor initialized ({tower_count})")
     
     async def _save_catalog_snapshot(
         self,
@@ -570,26 +589,47 @@ class CatalogMonitor:
             # Step 2: Initialize towers
             await self._initialize_towers()
             
-            # Step 3: Scan catalog with tower CATALOG extractor
-            # ALL retailers use Patchright for catalog (JavaScript-loaded product URLs)
-            logger.info(f"🔄 Using Patchright Tower for {retailer} catalog (DOM extraction)")
-            catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
-            extraction_result = await self.patchright_catalog_tower.extract_catalog(
-                catalog_url,
-                retailer,
-                catalog_prompt
-            )
-            method_used = 'patchright'
-            
-            # Handle both dict and object return types
-            if isinstance(extraction_result, dict):
-                success = extraction_result.get('success', False)
-                catalog_products = extraction_result.get('products', [])
-                errors = extraction_result.get('errors', [])
+            # Step 3: Scan catalog with appropriate tower
+            # Check if retailer should use Commercial API tower
+            if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
+                logger.info(f"🌐 Using Commercial API Tower for {retailer} catalog (Bright Data + BeautifulSoup)")
+                extraction_result = await self.commercial_catalog_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    category,
+                    max_products=100
+                )
+                method_used = 'commercial_api'
+                
+                # Handle Commercial API result format
+                if extraction_result.success:
+                    success = True
+                    catalog_products = extraction_result.products
+                    errors = []
+                else:
+                    success = False
+                    catalog_products = []
+                    errors = [extraction_result.error] if extraction_result.error else ['Unknown error']
             else:
-                success = extraction_result.success
-                catalog_products = extraction_result.data.get('products', [])
-                errors = extraction_result.errors
+                # ALL other retailers use Patchright for catalog (JavaScript-loaded product URLs)
+                logger.info(f"🔄 Using Patchright Tower for {retailer} catalog (DOM extraction)")
+                catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
+                extraction_result = await self.patchright_catalog_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    catalog_prompt
+                )
+                method_used = 'patchright'
+                
+                # Handle Patchright result format (dict or object)
+                if isinstance(extraction_result, dict):
+                    success = extraction_result.get('success', False)
+                    catalog_products = extraction_result.get('products', [])
+                    errors = extraction_result.get('errors', [])
+                else:
+                    success = extraction_result.success
+                    catalog_products = extraction_result.data.get('products', [])
+                    errors = extraction_result.errors
             
             if not success:
                 return self._error_result(
@@ -874,6 +914,12 @@ class CatalogMonitor:
                 total_cost=total_cost
             )
             
+            # Cleanup Commercial API towers if used
+            if COMMERCIAL_API_AVAILABLE and self.commercial_catalog_tower:
+                await self.commercial_catalog_tower.cleanup()
+            if COMMERCIAL_API_AVAILABLE and self.commercial_product_tower:
+                await self.commercial_product_tower.cleanup()
+            
             return MonitorResult(
                 success=True,
                 retailer=retailer,
@@ -891,6 +937,16 @@ class CatalogMonitor:
             
         except Exception as e:
             logger.error(f"Catalog monitoring failed: {e}")
+            
+            # Cleanup Commercial API towers if used
+            try:
+                if COMMERCIAL_API_AVAILABLE and self.commercial_catalog_tower:
+                    await self.commercial_catalog_tower.cleanup()
+                if COMMERCIAL_API_AVAILABLE and self.commercial_product_tower:
+                    await self.commercial_product_tower.cleanup()
+            except:
+                pass  # Don't fail on cleanup errors
+            
             return self._error_result(retailer, category, modesty_level, start_time, str(e))
     
     async def _deduplicate_catalog_products(
@@ -1261,7 +1317,24 @@ class CatalogMonitor:
             Dict with product data on success, or Dict with '_extraction_error' key on failure
         """
         try:
-            if method == 'markdown':
+            # Check if retailer should use Commercial API tower
+            if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
+                logger.debug(f"🌐 Using Commercial API Tower for product: {url[:70]}...")
+                result = await self.commercial_product_tower.extract_product(url, retailer, category)
+                
+                # Handle Commercial API result format
+                if result.success:
+                    # Convert to expected format
+                    result_obj = type('obj', (object,), {
+                        'success': True,
+                        'data': result.product_data
+                    })()
+                    result = result_obj
+                else:
+                    # Fallback to Patchright if Commercial API fails
+                    logger.warning(f"Commercial API extraction failed for {url}, falling back to Patchright")
+                    result = await self.patchright_product_tower.extract_product(url, retailer)
+            elif method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
                 
                 # FALLBACK: If markdown fails, try Patchright
@@ -1533,6 +1606,17 @@ class CatalogMonitor:
             self.patchright_catalog_tower = PatchrightCatalogExtractor()
         if not self.patchright_product_tower:
             self.patchright_product_tower = PatchrightProductExtractor()
+        
+        # Initialize Commercial API towers if available
+        if COMMERCIAL_API_AVAILABLE:
+            if not self.commercial_catalog_tower:
+                self.commercial_catalog_tower = CommercialCatalogExtractor()
+                await self.commercial_catalog_tower.initialize()
+                logger.debug("✅ Commercial API catalog tower initialized")
+            if not self.commercial_product_tower:
+                self.commercial_product_tower = CommercialProductExtractor()
+                await self.commercial_product_tower.initialize()
+                logger.debug("✅ Commercial API product tower initialized")
         
         logger.debug("All towers initialized")
     
