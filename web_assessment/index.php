@@ -1,4 +1,7 @@
 <?php
+// Session configuration
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_httponly', 1);
 session_start();
 
 // Check if already logged in
@@ -11,6 +14,14 @@ if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (($_POST['password'] ?? '') === 'clothing') {
         $_SESSION['authenticated'] = true;
+        
+        // Force session to save
+        session_write_close();
+        session_start();
+        
+        // Add debugging
+        error_log("Login successful - Session ID: " . session_id());
+        
         header('Location: assess.php');
         exit;
     }

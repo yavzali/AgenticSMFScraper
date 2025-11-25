@@ -6,22 +6,41 @@
  * Supports both modesty and duplication review types
  */
 
-require_once 'config.php';
+// Load local configuration if it exists, otherwise fall back to config.php
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require_once 'config.local.php';
+} else {
+    require_once 'config.php';
+}
 require_once 'shopify_api.php';
 requireAuth();
+
+// Prevent caching - ensure real-time responses
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     jsonResponse(['error' => 'Method not allowed'], 405);
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+$rawInput = file_get_contents('php://input');
+error_log("Raw input: " . $rawInput);
+
+$data = json_decode($rawInput, true);
+error_log("Decoded data: " . print_r($data, true));
+
 $queueId = $data['product_id'] ?? $data['queue_id'] ?? null;  // Support both product_id and queue_id
 $decision = $data['decision'] ?? null;
 $notes = $data['notes'] ?? '';
 $clothingTypeVerified = $data['clothing_type'] ?? null;  // NEW: Capture verified clothing type
 
+error_log("Queue ID: " . ($queueId ?? 'NULL'));
+error_log("Decision: " . ($decision ?? 'NULL'));
+error_log("Clothing Type: " . ($clothingTypeVerified ?? 'NULL'));
+
 if (!$queueId || !$decision) {
-    jsonResponse(['error' => 'Missing queue_id or decision'], 400);
+    error_log("MISSING PARAMETERS - queueId: " . var_export($queueId, true) . ", decision: " . var_export($decision, true));
+    jsonResponse(['error' => 'Missing queue_id or decision', 'debug' => ['received_data' => $data, 'queue_id' => $queueId, 'decision' => $decision]], 400);
 }
 
 // Validate decision
@@ -136,9 +155,7 @@ try {
             $dbShopifyStatus = ($newShopifyStatus === 'active') ? 'published' : 'draft';
             
             // Step 2: Update local product DB with new shopify_status
-            $productsDb = new PDO('sqlite:' . PRODUCTS_DB_PATH);
-            $productsDb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
+            // IMPORTANT: Reuse $db connection instead of creating new one (prevents SQLite locking)
             $productUrl = $productData['url'] ?? $productData['catalog_url'] ?? null;
             if ($productUrl) {
                 // Determine lifecycle_stage based on decision
@@ -149,22 +166,63 @@ try {
                     $lifecycleStage = 'assessed_rejected';
                 }
                 
-                $updateStmt = $productsDb->prepare("
-                    UPDATE products
-                    SET shopify_status = :shopify_status,
-                        modesty_status = :modesty_status,
-                        lifecycle_stage = :lifecycle_stage,
-                        assessed_at = datetime('now'),
-                        last_updated = datetime('now')
-                    WHERE url = :url
-                ");
-                $updateStmt->bindParam(':shopify_status', $dbShopifyStatus);
-                $updateStmt->bindParam(':modesty_status', $decision);
-                $updateStmt->bindParam(':lifecycle_stage', $lifecycleStage);
-                $updateStmt->bindParam(':url', $productUrl);
-                $updateStmt->execute();
+                // Check if product exists first
+                $checkStmt = $db->prepare("SELECT id FROM products WHERE url = :url");
+                $checkStmt->execute(['url' => $productUrl]);
+                $productExists = $checkStmt->fetch();
                 
-                error_log("✅ Updated product DB: {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}, lifecycle_stage={$lifecycleStage}");
+                if ($productExists) {
+                    // UPDATE existing product
+                    $updateStmt = $db->prepare("
+                        UPDATE products
+                        SET shopify_status = :shopify_status,
+                            modesty_status = :modesty_status,
+                            lifecycle_stage = :lifecycle_stage,
+                            assessed_at = datetime('now'),
+                            last_updated = datetime('now')
+                        WHERE url = :url
+                    ");
+                    $updateStmt->bindParam(':shopify_status', $dbShopifyStatus);
+                    $updateStmt->bindParam(':modesty_status', $decision);
+                    $updateStmt->bindParam(':lifecycle_stage', $lifecycleStage);
+                    $updateStmt->bindParam(':url', $productUrl);
+                    $updateStmt->execute();
+                    
+                    error_log("✅ Updated product DB: {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}, lifecycle_stage={$lifecycleStage}");
+                } else {
+                    // INSERT new product (handles old assessment_queue items without products table entries)
+                    $retailer = $queueItem['retailer'] ?? 'unknown';
+                    $category = $queueItem['category'] ?? 'unknown';
+                    
+                    $insertStmt = $db->prepare("
+                        INSERT INTO products (
+                            url, retailer, category, title, price, brand, description, images, 
+                            shopify_id, shopify_status, modesty_status, lifecycle_stage, 
+                            source, data_completeness, last_workflow, first_seen, assessed_at, last_updated
+                        ) VALUES (
+                            :url, :retailer, :category, :title, :price, :brand, :description, :images,
+                            :shopify_id, :shopify_status, :modesty_status, :lifecycle_stage,
+                            'web_assessment_backfill', 'partial', 'web_assessment', datetime('now'), datetime('now'), datetime('now')
+                        )
+                    ");
+                    
+                    $insertStmt->execute([
+                        'url' => $productUrl,
+                        'retailer' => $retailer,
+                        'category' => $category,
+                        'title' => $productData['title'] ?? 'Unknown',
+                        'price' => $productData['price'] ?? null,
+                        'brand' => $productData['brand'] ?? null,
+                        'description' => $productData['description'] ?? null,
+                        'images' => json_encode($productData['images'] ?? []),
+                        'shopify_id' => $shopifyId,
+                        'shopify_status' => $dbShopifyStatus,
+                        'modesty_status' => $decision,
+                        'lifecycle_stage' => $lifecycleStage
+                    ]);
+                    
+                    error_log("✅ Inserted NEW product to DB (backfill): {$productUrl} -> shopify_status={$dbShopifyStatus}, modesty_status={$decision}");
+                }
             }
         } else {
             // No shopify_id - this shouldn't happen for products from catalog monitor

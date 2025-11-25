@@ -38,11 +38,25 @@ async function loadProducts() {
             retailer: retailer,
             category: category,
             confidence: confidence,
-            review_type: currentReviewType
+            review_type: currentReviewType,
+            _t: Date.now()  // Cache buster - ensure fresh data
         });
         
-        const response = await fetch(`api/get_products.php?${params}`);
+        const response = await fetch(`api/get_products.php?${params}`, {
+            credentials: 'same-origin',  // CRITICAL: Include cookies/session
+            cache: 'no-store'  // Force browser to always fetch fresh data
+        });
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server response:', errorText);
+            throw new Error(`Server error: ${response.status}`);
+        }
+        
         const data = await response.json();
+        
+        console.log('API Response - Stats:', data.stats);
+        console.log('API Response - Products count:', data.products.length);
         
         if (data.error) {
             throw new Error(data.error);
@@ -59,10 +73,12 @@ async function loadProducts() {
 }
 
 function updateStats(stats) {
+    console.log('updateStats called with:', stats);
     document.getElementById('pendingCount').textContent = stats.total_pending || 0;
     document.getElementById('approvedCount').textContent = stats.approved_today || 0;
     document.getElementById('totalProcessed').textContent = stats.total_processed || 0;
     document.getElementById('lowConfidenceCount').textContent = stats.low_confidence || 0;
+    console.log('Stats updated - Pending:', stats.total_pending, 'Approved Today:', stats.approved_today, 'Total:', stats.total_processed);
 }
 
 // Render products
@@ -209,7 +225,7 @@ function generatePotentialMatchesHtml(similarityMatches) {
 function generateActionsHtml(reviewType, productId) {
     if (reviewType === 'duplicate_uncertain') {
         return `
-            <button onclick="submitReview(${productId}, 'new_product')" class="action-btn btn-approve">New Product</button>
+            <button onclick="submitReview(${productId}, 'not_duplicate')" class="action-btn btn-approve">New Product</button>
             <button onclick="submitReview(${productId}, 'duplicate')" class="action-btn btn-reject">Duplicate</button>
         `;
     } else {
@@ -264,29 +280,38 @@ async function submitReview(productId, decision, notes = '') {
             return;
         }
         
+        const requestData = {
+            product_id: productId,
+            decision: decision,
+            notes: notes,
+            clothing_type: clothingType
+        };
+        
+        console.log('Submitting review with data:', requestData);
+        
         const response = await fetch('api/submit_review.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                product_id: productId,
-                decision: decision,
-                notes: notes,
-                clothing_type: clothingType  // NEW: Include verified clothing type
-            })
+            credentials: 'same-origin',  // CRITICAL: Include cookies/session
+            body: JSON.stringify(requestData)
         });
+        
+        // Add better error handling
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server response:', errorText);
+            throw new Error(`Server error: ${response.status} - ${errorText}`);
+        }
         
         const result = await response.json();
         
         if (result.success) {
-            // Remove product from view
-            currentProducts = currentProducts.filter(p => p.id !== productId);
-            renderProducts(currentProducts);
             showToast(result.message || 'Review submitted successfully!', 'success');
             
-            // Refresh stats
-            loadSystemStats();
+            // Reload products and stats from server
+            await loadProducts();
         } else {
             throw new Error(result.error || 'Unknown error');
         }

@@ -6,8 +6,19 @@
  * Supports both modesty and duplication review types
  */
 
-require_once 'config.php';
+// Load local configuration if it exists, otherwise fall back to config.php
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require_once 'config.local.php';
+} else {
+    require_once 'config.php';
+}
 requireAuth();
+
+// Prevent caching - CRITICAL for real-time stats updates
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Expires: 0');
 
 $retailer = $_GET['retailer'] ?? '';
 $category = $_GET['category'] ?? '';
@@ -83,6 +94,7 @@ try {
         
         // Flatten product data into row
         $product = [
+            'id' => $row['id'],  // ADD: For JavaScript compatibility
             'queue_id' => $row['id'],
             'url' => $row['product_url'],
             'retailer' => $row['retailer'],
@@ -100,23 +112,27 @@ try {
             'shopify_id' => $productData['shopify_id'] ?? null,  // NEW: Track Shopify ID
             'brand' => $productData['brand'] ?? '',
             'description' => $productData['description'] ?? '',
+            'confidence_score' => $productData['confidence_score'] ?? 1.0,  // ADD: For display
+            'clothing_type' => $productData['clothing_type'] ?? 'unknown',  // ADD: For dropdown
             
             // For duplication review
-            'suspected_match' => $suspectedMatch
+            'suspected_match' => $suspectedMatch,
+            'similarity_matches' => $suspectedMatch ? [$suspectedMatch] : []  // ADD: For compatibility
         ];
         
         $products[] = $product;
     }
     
-    // Get stats
+    // Get stats (matching JavaScript field names)
     $statsQuery = "
         SELECT 
-            COUNT(*) as total_pending,
+            COUNT(CASE WHEN status = 'pending' THEN 1 END) as total_pending,
             COUNT(CASE WHEN review_type = 'modesty' AND status = 'pending' THEN 1 END) as pending_modesty,
             COUNT(CASE WHEN review_type = 'duplication' AND status = 'pending' THEN 1 END) as pending_duplication,
-            COUNT(CASE WHEN status = 'reviewed' AND DATE(reviewed_at) = DATE('now') THEN 1 END) as reviewed_today,
-            COUNT(CASE WHEN status = 'reviewed' THEN 1 END) as total_reviewed,
-            COUNT(CASE WHEN priority = 'high' AND status = 'pending' THEN 1 END) as high_priority
+            COUNT(CASE WHEN status = 'reviewed' AND DATE(reviewed_at) = DATE('now') THEN 1 END) as approved_today,
+            COUNT(CASE WHEN status = 'reviewed' THEN 1 END) as total_processed,
+            COUNT(CASE WHEN priority = 'high' AND status = 'pending' THEN 1 END) as high_priority,
+            0 as low_confidence
         FROM assessment_queue
     ";
     $stats = $db->query($statsQuery)->fetch(PDO::FETCH_ASSOC);

@@ -1,5 +1,12 @@
 <?php
+// Session configuration
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_httponly', 1);
 session_start();
+
+// Add debugging (remove after testing)
+error_log("Assess.php - Session ID: " . session_id());
+error_log("Assess.php - Authenticated: " . (isset($_SESSION['authenticated']) ? 'YES' : 'NO'));
 
 // Check authentication
 if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
@@ -115,7 +122,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
         Logout
     </button>
 
-    <script src="assets/app.js"></script>
+    <script src="assets/app.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
 

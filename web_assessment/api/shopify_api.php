@@ -1,5 +1,10 @@
 <?php
-require_once 'config.php';
+// Load local configuration if it exists, otherwise fall back to config.php
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require_once 'config.local.php';
+} else {
+    require_once 'config.php';
+}
 
 class ShopifyAPI {
     
