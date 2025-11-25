@@ -395,6 +395,8 @@ class NewProductImporter:
             logger.info(f"🔄 Importing {retailer}: {url}")
             
             # Step 1: Extract product data from appropriate tower
+            commercial_api_error = None  # Track Commercial API failures for error reporting
+            
             # Check if retailer should use Commercial API tower
             if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
                 logger.debug(f"🌐 Using Commercial API Tower for product: {url[:70]}...")
@@ -410,8 +412,11 @@ class NewProductImporter:
                         'errors': []
                     })()
                 else:
+                    # Capture Commercial API error for later reporting
+                    commercial_api_error = extraction_result.error or "Commercial API extraction failed (no specific error)"
+                    
                     # Fallback to Patchright if Commercial API fails
-                    logger.warning(f"Commercial API extraction failed for {url}, falling back to Patchright")
+                    logger.warning(f"Commercial API extraction failed for {url}: {commercial_api_error}, falling back to Patchright")
                     extraction_result = await self.patchright_tower.extract_product(url, retailer)
             elif tower == 'markdown':
                 extraction_result = await self.markdown_tower.extract_product(url, retailer)
@@ -419,7 +424,13 @@ class NewProductImporter:
                 extraction_result = await self.patchright_tower.extract_product(url, retailer)
             
             if not extraction_result.success:
-                logger.warning(f"❌ Extraction failed: {extraction_result.errors}")
+                error_msg = str(extraction_result.errors)
+                
+                # If Commercial API was tried first and failed, include that in error message
+                if commercial_api_error:
+                    error_msg = f"Commercial API failed: {commercial_api_error}. Then Patchright fallback failed: {error_msg}"
+                
+                logger.warning(f"❌ Extraction failed: {error_msg}")
                 return ImportResult(
                     url=url,
                     success=False,
@@ -427,7 +438,7 @@ class NewProductImporter:
                     method_used=extraction_result.method_used,
                     processing_time=asyncio.get_event_loop().time() - start_time,
                     action='failed',
-                    error=str(extraction_result.errors)
+                    error=error_msg
                 )
             
             product_data = extraction_result.data

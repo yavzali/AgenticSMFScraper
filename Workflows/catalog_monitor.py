@@ -1317,6 +1317,8 @@ class CatalogMonitor:
             Dict with product data on success, or Dict with '_extraction_error' key on failure
         """
         try:
+            commercial_api_error = None  # Track Commercial API failures for error reporting
+            
             # Check if retailer should use Commercial API tower
             if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
                 logger.debug(f"🌐 Using Commercial API Tower for product: {url[:70]}...")
@@ -1331,8 +1333,11 @@ class CatalogMonitor:
                     })()
                     result = result_obj
                 else:
+                    # Capture Commercial API error for later reporting
+                    commercial_api_error = result.error or "Commercial API extraction failed (no specific error)"
+                    
                     # Fallback to Patchright if Commercial API fails
-                    logger.warning(f"Commercial API extraction failed for {url}, falling back to Patchright")
+                    logger.warning(f"Commercial API extraction failed for {url}: {commercial_api_error}, falling back to Patchright")
                     result = await self.patchright_product_tower.extract_product(url, retailer)
             elif method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
@@ -1366,11 +1371,17 @@ class CatalogMonitor:
             else:
                 # Return error details for failure tracking
                 error_details = str(result.errors) if result.errors else "Unknown extraction error - no error details provided by extractor"
+                
+                # If Commercial API was tried first and failed, include that in error details
+                if commercial_api_error:
+                    error_details = f"Commercial API failed: {commercial_api_error}. Then Patchright fallback failed: {error_details}"
+                
                 logger.error(f"Failed to extract product {url}: {error_details}")
                 return {
                     '_extraction_error': error_details,
                     '_method_used': result.method_used if hasattr(result, 'method_used') else method,
-                    '_url': url
+                    '_url': url,
+                    '_commercial_api_attempted': commercial_api_error is not None
                 }
                 
         except Exception as e:
