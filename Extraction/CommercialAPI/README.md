@@ -1,6 +1,6 @@
 # Commercial API Extraction Tower (Third Tower)
 
-**Status**: 🚧 Phase 1 Foundation - Core modules implemented  
+**Status**: ✅ Phase 2 Complete - Full extraction tower operational  
 **Active Retailers**: Nordstrom (Phase 1), expanding to all 10 retailers  
 **Date**: November 25, 2025
 
@@ -29,16 +29,19 @@ Extraction/CommercialAPI/
 ├── brightdata_client.py                 ✅ Bright Data API wrapper (350 lines)
 ├── html_cache_manager.py                ✅ 1-day HTML caching (250 lines)
 ├── commercial_retailer_strategies.py    ✅ CSS selectors per retailer (700 lines)
-├── commercial_catalog_extractor.py      🚧 PLACEHOLDER (next phase)
-├── commercial_product_extractor.py      🚧 PLACEHOLDER (next phase)
+├── html_parser.py                       ✅ BeautifulSoup coordinator (450 lines)
+├── llm_fallback_parser.py               ✅ LLM parsing fallback (350 lines)
+├── pattern_learner.py                   ✅ Pattern learning (450 lines)
+├── commercial_catalog_extractor.py      ✅ Catalog extraction (500 lines)
+├── commercial_product_extractor.py      ✅ Product extraction (700 lines)
 └── README.md                            ✅ This file
 ```
 
-**Total Lines**: ~1,550 lines (all under 800-line limit ✅)
+**Total Lines**: ~4,000 lines (all files under 800-line limit ✅)
 
 ---
 
-## ✅ Phase 1: Foundation (COMPLETE)
+## ✅ Phase 1: Foundation (COMPLETE - Nov 25, 2025)
 
 ### Implemented Files
 
@@ -72,38 +75,43 @@ Extraction/CommercialAPI/
 
 ---
 
-## 🚧 Phase 2: Extractors (NEXT)
+## ✅ Phase 2: Extractors (COMPLETE - Nov 25, 2025)
 
-### To Be Implemented
+### Implemented Files
 
-1. **`html_parser.py`** (~450 lines)
+1. **`html_parser.py`** (~450 lines) ✅
    - BeautifulSoup coordinator
    - Try CSS selectors from strategies
    - Record pattern successes/failures
    - Fall back to LLM if parsing fails
 
-2. **`llm_fallback_parser.py`** (~350 lines)
+2. **`llm_fallback_parser.py`** (~350 lines) ✅
    - LLM-based HTML parsing when selectors fail
    - Gemini Flash (fast & cheap)
-   - Structured output for product/catalog data
+   - Structured JSON output for product/catalog data
+   - Cost tracking per LLM call
 
-3. **`pattern_learner.py`** (~450 lines)
+3. **`pattern_learner.py`** (~450 lines) ✅
    - Learn which CSS selectors work best
-   - Track success/failure rates
-   - Auto-improve over time
-   - Integrate with `Shared/pattern_learning.py`
+   - Track success/failure rates per retailer
+   - SQLite database for pattern storage
+   - Auto-cleanup of old attempts
+   - Identify failing patterns for optimization
 
-4. **`commercial_catalog_extractor.py`** (~500 lines)
+4. **`commercial_catalog_extractor.py`** (~500 lines) ✅
    - Fetch catalog HTML (Bright Data)
    - Parse with BeautifulSoup + CSS selectors
-   - LLM fallback if needed
+   - LLM fallback if parsing fails
+   - Patchright fallback if LLM fails
    - Return list of product URLs
 
-5. **`commercial_product_extractor.py`** (~700 lines)
+5. **`commercial_product_extractor.py`** (~700 lines) ✅
    - Fetch product HTML (Bright Data)
    - Parse with BeautifulSoup + CSS selectors
-   - LLM fallback if needed
-   - Integrate with `Shared/image_processor.py` for image enhancement
+   - LLM fallback if parsing fails
+   - Patchright fallback if LLM fails
+   - Image enhancement (Anthropologie, Revolve, Aritzia patterns)
+   - Batch extraction support
    - Return full product data
 
 ---
@@ -162,7 +170,7 @@ ACTIVE_RETAILERS = [
 
 ## 🧪 Testing
 
-### Manual Test (once extractors are implemented)
+### Manual Test (Product Extraction)
 
 ```python
 import asyncio
@@ -170,6 +178,7 @@ from Extraction.CommercialAPI import CommercialProductExtractor
 
 async def test():
     extractor = CommercialProductExtractor()
+    await extractor.initialize()
     
     # Test Nordstrom product
     result = await extractor.extract_product(
@@ -177,7 +186,39 @@ async def test():
         retailer="nordstrom"
     )
     
-    print(result)
+    print(f"Success: {result.success}")
+    print(f"Method: {result.method_used}")
+    print(f"Product: {result.product_data.get('title')}")
+    print(f"Cost: ${result.brightdata_cost + result.llm_cost:.4f}")
+    
+    await extractor.cleanup()
+
+asyncio.run(test())
+```
+
+### Manual Test (Catalog Extraction)
+
+```python
+import asyncio
+from Extraction.CommercialAPI import CommercialCatalogExtractor
+
+async def test():
+    extractor = CommercialCatalogExtractor()
+    await extractor.initialize()
+    
+    # Test Nordstrom catalog
+    result = await extractor.extract_catalog(
+        url="https://www.nordstrom.com/browse/women/clothing/dresses",
+        retailer="nordstrom",
+        category="dresses"
+    )
+    
+    print(f"Success: {result.success}")
+    print(f"Products: {len(result.products)}")
+    print(f"Method: {result.method_used}")
+    print(f"Cost: ${result.brightdata_cost + result.llm_cost:.4f}")
+    
+    await extractor.cleanup()
 
 asyncio.run(test())
 ```
@@ -213,12 +254,12 @@ else:
 
 ---
 
-## ⚠️ Known Limitations (Phase 1)
+## ⚠️ Known Limitations
 
-1. **Extractors not implemented** - Only foundation modules complete
-2. **No workflow integration** - Manual routing required
-3. **CSS selectors untested** - Need real Bright Data HTML to verify
-4. **Pattern learning not active** - Waiting for extractor implementation
+1. **No workflow integration yet** - Manual testing only (Phase 3)
+2. **CSS selectors need real-world testing** - May require adjustments per retailer
+3. **Bright Data API key required** - Must be configured in .env
+4. **Pattern learning needs data** - Improves over time with usage
 
 ---
 
@@ -238,25 +279,29 @@ else:
 - [x] Bright Data client
 - [x] HTML cache manager
 - [x] Retailer strategies (CSS selectors)
-- [x] Placeholder extractors
+- [x] Package structure
 
-### Phase 2: Extractors (NEXT)
-- [ ] HTML parser with BeautifulSoup
-- [ ] LLM fallback parser
-- [ ] Pattern learning
-- [ ] Catalog extractor
-- [ ] Product extractor
+### Phase 2: Extractors ✅ (COMPLETE - Nov 25, 2025)
+- [x] HTML parser with BeautifulSoup
+- [x] LLM fallback parser
+- [x] Pattern learning
+- [x] Catalog extractor
+- [x] Product extractor
+- [x] Image enhancement integration
 
-### Phase 3: Integration
-- [ ] Workflow routing logic
-- [ ] Test with Nordstrom
-- [ ] Verify cost tracking
-- [ ] Pattern learning validation
+### Phase 3: Integration (NEXT)
+- [ ] Workflow routing logic in catalog_monitor.py
+- [ ] Workflow routing logic in product_updater.py
+- [ ] Workflow routing logic in new_product_importer.py
+- [ ] Test with Nordstrom (real extraction)
+- [ ] Verify cost tracking accuracy
+- [ ] Pattern learning validation with real data
 
 ### Phase 4: Expansion
-- [ ] Activate Anthropologie, Urban Outfitters (PerimeterX)
-- [ ] Activate Aritzia, H&M (Cloudflare)
+- [ ] Activate Anthropologie, Urban Outfitters (PerimeterX bypass)
+- [ ] Activate Aritzia, H&M (Cloudflare bypass)
 - [ ] Gradual migration of all retailers
+- [ ] CSS selector optimization based on pattern learning
 
 ---
 
@@ -271,6 +316,6 @@ When adding new retailers or updating selectors:
 
 ---
 
-**Foundation Complete** ✅  
-**Next**: Implement extractors and HTML parser modules
+**Phase 1 & 2 Complete** ✅  
+**Next**: Integrate with workflows (catalog_monitor, product_updater, new_product_importer)
 
