@@ -165,6 +165,41 @@ class BrightDataClient:
             f"{last_exception}"
         )
     
+    def _get_expect_selector(self, retailer: str) -> str:
+        """
+        Get CSS selector for JavaScript rendering wait
+        
+        Bright Data will wait for this element to appear before returning HTML.
+        This ensures JavaScript-loaded content is fully rendered.
+        
+        Based on Bright Data documentation:
+        https://docs.brightdata.com/scraping-automation/web-unlocker/request-response/expect-elements
+        
+        Args:
+            retailer: Retailer name (e.g., 'nordstrom', 'anthropologie')
+        
+        Returns:
+            JSON string with element selector for x-unblock-expect header
+        """
+        selectors = {
+            'nordstrom': '{"element": "a[data-testid=\'product-link\']"}',
+            'anthropologie': '{"element": "a[href*=\'/shop/\']"}',
+            'urban_outfitters': '{"element": "a[href*=\'/products/\']"}',
+            'urbanoutfitters': '{"element": "a[href*=\'/products/\']"}',  # Alias
+            'abercrombie': '{"element": "a[data-testid=\'product-card-link\']"}',
+            'aritzia': '{"element": "div[class*=\'product-tile\']"}',
+            'hm': '{"element": "article[class*=\'product\']"}',
+            'h&m': '{"element": "article[class*=\'product\']"}',  # Alias
+        }
+        
+        # Get selector for retailer (case-insensitive)
+        retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
+        selector = selectors.get(retailer_lower, '{"element": "a[href]"}')
+        
+        logger.debug(f"🎯 x-unblock-expect selector for {retailer}: {selector}")
+        
+        return selector
+    
     async def _fetch_with_proxy(
         self,
         url: str,
@@ -190,7 +225,8 @@ class BrightDataClient:
             f"{self.config.BRIGHTDATA_PROXY_PORT}"
         )
         
-        # Minimal headers (Bright Data adds realistic headers)
+        # Headers with JavaScript rendering support (x-unblock-expect)
+        # Bright Data will wait for the specified element to appear before returning HTML
         headers = {
             'User-Agent': (
                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -199,12 +235,14 @@ class BrightDataClient:
             ),
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.9',
+            'x-unblock-expect': self._get_expect_selector(retailer),  # JavaScript rendering
         }
         
         try:
             logger.debug(f"📡 Sending request via Bright Data HTTP Proxy (attempt {attempt})")
             logger.debug(f"   Proxy: {self.config.BRIGHTDATA_PROXY_HOST}:{self.config.BRIGHTDATA_PROXY_PORT}")
             logger.debug(f"   URL: {url[:70]}...")
+            logger.info(f"🎯 JavaScript rendering enabled with x-unblock-expect header")
             
             async with self.session.get(
                 url,
