@@ -111,7 +111,7 @@ class BrightDataClient:
         last_exception = None
         for attempt in range(1, self.config.MAX_RETRIES + 1):
             try:
-                html = await self._fetch_with_rest_api(url, retailer, page_type, attempt)
+                html = await self._fetch_with_proxy(url, retailer, page_type, attempt)
                 
                 # Success! Update stats
                 self.total_requests += 1
@@ -165,7 +165,7 @@ class BrightDataClient:
             f"{last_exception}"
         )
     
-    async def _fetch_with_rest_api(
+    async def _fetch_with_proxy(
         self,
         url: str,
         retailer: str,
@@ -173,62 +173,66 @@ class BrightDataClient:
         attempt: int
     ) -> str:
         """
-        Internal: Fetch HTML using Bright Data REST API
+        Internal: Fetch HTML using Bright Data HTTP Proxy
         
-        Bright Data REST API:
-        - Endpoint: https://api.brightdata.com/request
-        - Authentication: Bearer token (API key)
-        - Request body: {"zone": "zone_name", "url": target_url, "format": "raw"}
-        - Handles all anti-bot bypass automatically
+        Bright Data HTTP Proxy (Web Unlocker):
+        - Proxy server: brd.superproxy.io:33335
+        - Authentication: Username = zone credentials, Password = zone password
+        - Proxy handles all anti-bot bypass automatically
+        - Format: http://username:password@host:port
         """
-        # API endpoint
-        api_url = "https://api.brightdata.com/request"
+        # Construct proxy URL with authentication
+        # Format: http://username:password@host:port
+        proxy_url = (
+            f"http://{self.config.BRIGHTDATA_USERNAME}:"
+            f"{self.config.BRIGHTDATA_PASSWORD}@"
+            f"{self.config.BRIGHTDATA_PROXY_HOST}:"
+            f"{self.config.BRIGHTDATA_PROXY_PORT}"
+        )
         
-        # Request headers
+        # Minimal headers (Bright Data adds realistic headers)
         headers = {
-            'Authorization': f'Bearer {self.config.BRIGHTDATA_API_KEY}',
-            'Content-Type': 'application/json',
-        }
-        
-        # Request body
-        payload = {
-            'zone': 'hardsite_modfash_extower',  # Zone name from username
-            'url': url,
-            'format': 'raw',  # Get raw HTML
-            'country': 'us',  # US geo-targeting for US retailers
+            'User-Agent': (
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'AppleWebKit/537.36 (KHTML, like Gecko) '
+                'Chrome/120.0.0.0 Safari/537.36'
+            ),
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.9',
         }
         
         try:
-            logger.debug(f"📡 Sending request to Bright Data REST API (attempt {attempt})")
-            logger.debug(f"   Zone: {payload['zone']}")
+            logger.debug(f"📡 Sending request via Bright Data HTTP Proxy (attempt {attempt})")
+            logger.debug(f"   Proxy: {self.config.BRIGHTDATA_PROXY_HOST}:{self.config.BRIGHTDATA_PROXY_PORT}")
             logger.debug(f"   URL: {url[:70]}...")
             
-            async with self.session.post(
-                api_url,
+            async with self.session.get(
+                url,
+                proxy=proxy_url,
                 headers=headers,
-                json=payload,
-                ssl=True,
+                ssl=False,  # Bright Data handles SSL termination
+                allow_redirects=True,
             ) as response:
                 
                 # Log response status
-                logger.debug(f"📥 Bright Data API response: HTTP {response.status}")
+                logger.debug(f"📥 Bright Data proxy response: HTTP {response.status}")
                 
                 # Check status code
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(f"Bright Data API error {response.status}: {error_text[:500]}")
+                    logger.error(f"Bright Data proxy error {response.status}: {error_text[:500]}")
                     raise Exception(
                         f"HTTP {response.status}: {error_text[:200]}"
                     )
                 
-                # Get HTML from response
+                # Get HTML
                 html = await response.text()
-                logger.debug(f"📥 Received {len(html)} bytes from Bright Data API")
+                logger.debug(f"📥 Received {len(html):,} bytes from Bright Data proxy")
                 
                 # Check if response is empty
                 if not html or len(html) == 0:
-                    logger.error("❌ Bright Data API returned empty response (0 bytes)")
-                    raise Exception("Empty response from Bright Data API")
+                    logger.error("❌ Bright Data proxy returned empty response (0 bytes)")
+                    raise Exception("Empty response from Bright Data proxy")
                 
                 # Validate HTML (not an error page)
                 await self._validate_html(html, url, retailer)
@@ -237,14 +241,14 @@ class BrightDataClient:
         
         except asyncio.TimeoutError:
             raise Exception(
-                f"Bright Data API timeout after {self.config.REQUEST_TIMEOUT_SECONDS}s"
+                f"Bright Data proxy timeout after {self.config.REQUEST_TIMEOUT_SECONDS}s"
             )
         
         except aiohttp.ClientError as e:
-            raise Exception(f"Bright Data API connection error: {e}")
+            raise Exception(f"Bright Data proxy connection error: {e}")
         
         except Exception as e:
-            raise Exception(f"Bright Data API request failed: {e}")
+            raise Exception(f"Bright Data proxy request failed: {e}")
     
     async def _validate_html(self, html: str, url: str, retailer: str):
         """
