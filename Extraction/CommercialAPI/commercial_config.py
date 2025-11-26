@@ -107,7 +107,12 @@ class CommercialAPIConfig:
     # NOTE: Revolve tested successfully (4.3MB HTML, 100 products, 3.3s, $0.0015)
     # but keeping on Markdown tower until final architecture decisions made
     ACTIVE_RETAILERS = [
-        'nordstrom',
+        'nordstrom',       # ✅ 67 products  - Akamai Bot Manager
+        'anthropologie',   # ✅ 78 products  - PerimeterX Press & Hold
+        'abercrombie',     # ✅ 180 products - JavaScript rendering
+        'hm',              # ✅ 48 products  - "Blocked" false positive
+        'aritzia',         # ✅ 84 products  - Cloudflare Turnstile (VERIFIED!)
+        # Note: Urban Outfitters excluded (ZenRows IPs blocked by PerimeterX)
     ]
     
     @classmethod
