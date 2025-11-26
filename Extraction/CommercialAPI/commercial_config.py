@@ -34,7 +34,7 @@ class CommercialAPIConfig:
     
     # Bright Data Web Unlocker endpoint
     BRIGHTDATA_PROXY_HOST = "brd.superproxy.io"
-    BRIGHTDATA_PROXY_PORT = 22225  # Standard Web Unlocker port (trying 22225 instead of 33335)
+    BRIGHTDATA_PROXY_PORT = 33335  # Port from Bright Data dashboard
     
     # Bright Data credentials (username/password authentication)
     BRIGHTDATA_USERNAME = os.getenv('BRIGHTDATA_USERNAME', '')
@@ -65,6 +65,7 @@ class CommercialAPIConfig:
     # Start with Nordstrom only, expand gradually
     ACTIVE_RETAILERS = [
         'nordstrom',
+        'revolve',  # TEMPORARY - for diagnostic testing (Revolve has no anti-bot)
     ]
     
     @classmethod

@@ -111,7 +111,7 @@ class BrightDataClient:
         last_exception = None
         for attempt in range(1, self.config.MAX_RETRIES + 1):
             try:
-                html = await self._fetch_with_proxy(url, retailer, page_type, attempt)
+                html = await self._fetch_with_rest_api(url, retailer, page_type, attempt)
                 
                 # Success! Update stats
                 self.total_requests += 1
@@ -165,7 +165,7 @@ class BrightDataClient:
             f"{last_exception}"
         )
     
-    async def _fetch_with_proxy(
+    async def _fetch_with_rest_api(
         self,
         url: str,
         retailer: str,
@@ -173,53 +173,62 @@ class BrightDataClient:
         attempt: int
     ) -> str:
         """
-        Internal: Fetch HTML using Bright Data proxy
+        Internal: Fetch HTML using Bright Data REST API
         
-        Bright Data Web Unlocker uses HTTP proxy:
-        - Proxy server: brd.superproxy.io:33335
-        - Authentication: Username = zone username, Password = zone password
-        - Proxy handles all anti-bot bypass automatically
+        Bright Data REST API:
+        - Endpoint: https://api.brightdata.com/request
+        - Authentication: Bearer token (API key)
+        - Request body: {"zone": "zone_name", "url": target_url, "format": "raw"}
+        - Handles all anti-bot bypass automatically
         """
-        # Construct proxy URL with authentication
-        # Format: http://username:password@host:port
-        proxy_url = (
-            f"http://{self.config.BRIGHTDATA_USERNAME}:"
-            f"{self.config.BRIGHTDATA_PASSWORD}@"
-            f"{self.config.BRIGHTDATA_PROXY_HOST}:"
-            f"{self.config.BRIGHTDATA_PROXY_PORT}"
-        )
+        # API endpoint
+        api_url = "https://api.brightdata.com/request"
         
-        # Minimal headers (Bright Data adds realistic headers)
+        # Request headers
         headers = {
-            'User-Agent': (
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                'AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/120.0.0.0 Safari/537.36'
-            ),
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
+            'Authorization': f'Bearer {self.config.BRIGHTDATA_API_KEY}',
+            'Content-Type': 'application/json',
+        }
+        
+        # Request body
+        payload = {
+            'zone': 'hardsite_modfash_extower',  # Zone name from username
+            'url': url,
+            'format': 'raw',  # Get raw HTML
+            'country': 'us',  # US geo-targeting for US retailers
         }
         
         try:
-            logger.debug(f"📡 Sending request via Bright Data proxy (attempt {attempt})")
+            logger.debug(f"📡 Sending request to Bright Data REST API (attempt {attempt})")
+            logger.debug(f"   Zone: {payload['zone']}")
+            logger.debug(f"   URL: {url[:70]}...")
             
-            async with self.session.get(
-                url,
-                proxy=proxy_url,
+            async with self.session.post(
+                api_url,
                 headers=headers,
-                ssl=False,  # Bright Data handles SSL termination
-                allow_redirects=True,
+                json=payload,
+                ssl=True,
             ) as response:
+                
+                # Log response status
+                logger.debug(f"📥 Bright Data API response: HTTP {response.status}")
                 
                 # Check status code
                 if response.status != 200:
                     error_text = await response.text()
+                    logger.error(f"Bright Data API error {response.status}: {error_text[:500]}")
                     raise Exception(
                         f"HTTP {response.status}: {error_text[:200]}"
                     )
                 
-                # Get HTML
+                # Get HTML from response
                 html = await response.text()
+                logger.debug(f"📥 Received {len(html)} bytes from Bright Data API")
+                
+                # Check if response is empty
+                if not html or len(html) == 0:
+                    logger.error("❌ Bright Data API returned empty response (0 bytes)")
+                    raise Exception("Empty response from Bright Data API")
                 
                 # Validate HTML (not an error page)
                 await self._validate_html(html, url, retailer)
@@ -228,14 +237,14 @@ class BrightDataClient:
         
         except asyncio.TimeoutError:
             raise Exception(
-                f"Bright Data timeout after {self.config.REQUEST_TIMEOUT_SECONDS}s"
+                f"Bright Data API timeout after {self.config.REQUEST_TIMEOUT_SECONDS}s"
             )
         
         except aiohttp.ClientError as e:
-            raise Exception(f"Bright Data connection error: {e}")
+            raise Exception(f"Bright Data API connection error: {e}")
         
         except Exception as e:
-            raise Exception(f"Bright Data request failed: {e}")
+            raise Exception(f"Bright Data API request failed: {e}")
     
     async def _validate_html(self, html: str, url: str, retailer: str):
         """
@@ -256,24 +265,31 @@ class BrightDataClient:
         
         html_lower = html.lower()
         
-        # Check for common error indicators
-        error_indicators = [
+        # Check for common error indicators (but be careful with false positives)
+        # Only fail if these appear in suspicious contexts (not in meta tags)
+        critical_error_indicators = [
             'access denied',
-            'blocked',
+            'you have been blocked',
             'captcha',
-            'security check',
-            'unusual traffic',
-            'robot',
+            'security check required',
+            'unusual traffic detected',
             'verification required',
             '403 forbidden',
             '503 service unavailable',
+            'please verify you are a human',
+            'cloudflare',  # Only if blocking, not just using Cloudflare
         ]
         
-        for indicator in error_indicators:
+        for indicator in critical_error_indicators:
             if indicator in html_lower:
-                raise Exception(
-                    f"HTML contains error indicator: '{indicator}'"
-                )
+                # Check if it's in an error context (not just meta tags)
+                if 'access denied' in indicator or 'blocked' in indicator or 'captcha' in indicator:
+                    logger.warning(
+                        f"⚠️ HTML contains potential error indicator: '{indicator}'"
+                    )
+                    raise Exception(
+                        f"HTML contains error indicator: '{indicator}'"
+                    )
         
         # Check for retailer-specific indicators (basic validation)
         retailer_indicators = {

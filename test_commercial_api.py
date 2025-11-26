@@ -34,16 +34,18 @@ logger = setup_logging(__name__)
 
 async def test_commercial_api_tower():
     """Test Commercial API Tower end-to-end"""
+    import time
+    test_start = time.time()
     
     print("=" * 80)
-    print("🧪 COMMERCIAL API TOWER - ISOLATED TEST")
+    print("🧪 COMMERCIAL API TOWER - ISOLATED TEST (REVOLVE DIAGNOSTIC)")
     print("=" * 80)
     print()
     
-    # Test configuration
-    retailer = "nordstrom"
+    # Test configuration - USING REVOLVE (No anti-bot, easiest retailer)
+    retailer = "revolve"
     category = "dresses"
-    test_url = "https://www.nordstrom.com/browse/women/clothing/dresses?breadcrumb=Home%2FWomen%2FDresses&origin=topnav&sort=Newest"
+    test_url = "https://www.revolve.com/dresses/br/a8e981/?navsrc=subDresses&sortBy=newest&vnitems=length_and_midi&vnitems=length_and_maxi&vnitems=cut_and_straight&vnitems=cut_and_flared&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_bardot-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_turtleneck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4&loadVisNav=true&pageNumVisNav=1"
     
     print(f"📋 Test Configuration:")
     print(f"   Retailer: {retailer}")
@@ -109,12 +111,16 @@ async def test_commercial_api_tower():
     print("STEP 3: HTML Content Sample")
     print("=" * 80)
     
+    print(f"HTML Size: {len(html):,} bytes")
+    print()
     print(f"First 500 characters:")
     print(html[:500])
     print()
-    print(f"HTML contains 'nordstrom': {('nordstrom' in html.lower())}")
+    print(f"HTML contains '{retailer}': {(retailer in html.lower())}")
     print(f"HTML contains 'product': {('product' in html.lower())}")
     print(f"HTML contains 'dress': {('dress' in html.lower())}")
+    print(f"HTML contains '/dp/' (Revolve product URLs): {('/dp/' in html)}")
+    print(f"HTML contains 'revolveassets' (Revolve images): {('revolveassets' in html.lower())}")
     print()
     
     # Step 4: Test BeautifulSoup Parsing
@@ -143,7 +149,7 @@ async def test_commercial_api_tower():
     
     selectors = strategies.CATALOG_SELECTORS[retailer.lower()]
     
-    print(f"📋 Testing Nordstrom catalog selectors:")
+    print(f"📋 Testing {retailer.upper()} catalog selectors:")
     print()
     
     # Test each selector type
@@ -152,11 +158,11 @@ async def test_commercial_api_tower():
         for selector in selector_list:
             elements = soup.select(selector)
             print(f"      '{selector}' → Found {len(elements)} elements")
-            if elements and len(elements) <= 3:
-                for i, elem in enumerate(elements[:3], 1):
-                    text = elem.get_text(strip=True)[:50]
-                    href = elem.get('href', 'N/A')[:50] if field == 'product_links' else 'N/A'
-                    print(f"         [{i}] {text} | href: {href}")
+            if elements and len(elements) <= 5:
+                for i, elem in enumerate(elements[:5], 1):
+                    text = elem.get_text(strip=True)[:60]
+                    href = elem.get('href', 'N/A')[:80] if field == 'product_links' else 'N/A'
+                    print(f"         [{i}] {text} | {href}")
         print()
     
     # Step 6: Attempt Full Extraction
@@ -189,9 +195,15 @@ async def test_commercial_api_tower():
     # Cleanup
     await brightdata.close()
     
+    test_duration = time.time() - test_start
+    
+    print()
     print("=" * 80)
     print("✅ TEST COMPLETE")
     print("=" * 80)
+    print(f"⏱️  Total test duration: {test_duration:.2f} seconds")
+    print(f"📊 Products extracted: {len(catalog_products)}")
+    print()
 
 
 if __name__ == "__main__":
