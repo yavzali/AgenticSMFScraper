@@ -1,0 +1,395 @@
+"""
+ZenRows Provider
+Commercial API client for ZenRows scraping service
+"""
+
+import aiohttp
+import asyncio
+import logging
+from typing import Optional, Dict
+from datetime import datetime
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+from Shared.logger_config import setup_logging
+from Extraction.CommercialAPI.commercial_api_client import CommercialAPIClient
+
+logger = setup_logging(__name__)
+
+
+class ZenRowsClient(CommercialAPIClient):
+    """
+    ZenRows API Client
+    
+    Features:
+    - JavaScript rendering with headless browser
+    - Premium residential proxies
+    - Anti-bot bypass (CAPTCHA solving, PerimeterX, Cloudflare, Akamai)
+    - Automatic retries with exponential backoff
+    - Cost tracking and usage statistics
+    
+    ZenRows Documentation:
+    https://docs.zenrows.com/universal-scraper-api/
+    """
+    
+    def __init__(self, config):
+        self.config = config
+        self.session: Optional[aiohttp.ClientSession] = None
+        
+        # Statistics tracking
+        self.total_requests = 0
+        self.successful_requests = 0
+        self.failed_requests = 0
+        self.total_cost = 0.0
+        self.total_bytes_downloaded = 0
+        
+        # Per-retailer statistics
+        self.retailer_stats = {}
+        
+        logger.info("✅ ZenRows client initialized")
+        logger.info(f"📍 API Endpoint: {config.ZENROWS_API_ENDPOINT}")
+        logger.info(f"🔑 API Key: {config.ZENROWS_API_KEY[:10]}...{config.ZENROWS_API_KEY[-4:]}")
+    
+    async def initialize(self):
+        """Initialize aiohttp session"""
+        if self.session is None or self.session.closed:
+            timeout = aiohttp.ClientTimeout(
+                total=self.config.REQUEST_TIMEOUT_SECONDS,
+                connect=15,
+                sock_read=self.config.REQUEST_TIMEOUT_SECONDS
+            )
+            self.session = aiohttp.ClientSession(timeout=timeout)
+            logger.debug("🔌 Created new aiohttp session")
+    
+    async def fetch_html(
+        self,
+        url: str,
+        retailer: str,
+        page_type: str = 'product'
+    ) -> str:
+        """
+        Fetch HTML from URL using ZenRows API
+        
+        Args:
+            url: Target URL to scrape
+            retailer: Retailer name (for logging and stats)
+            page_type: Type of page ('product' or 'catalog')
+        
+        Returns:
+            Raw HTML string (ready for BeautifulSoup parsing)
+        
+        Raises:
+            Exception: If all retries fail
+        """
+        await self.initialize()
+        
+        logger.info(
+            f"🌐 ZenRows fetch: {page_type.upper()} "
+            f"{url[:70]}... ({retailer})"
+        )
+        
+        # Initialize retailer stats if needed
+        if retailer not in self.retailer_stats:
+            self.retailer_stats[retailer] = {
+                'requests': 0,
+                'successes': 0,
+                'failures': 0,
+                'cost': 0.0
+            }
+        
+        # Try with retries
+        last_exception = None
+        for attempt in range(1, self.config.MAX_RETRIES + 1):
+            try:
+                html = await self._fetch_with_zenrows(url, retailer, page_type, attempt)
+                
+                # Success! Update stats
+                self.total_requests += 1
+                self.successful_requests += 1
+                self.retailer_stats[retailer]['requests'] += 1
+                self.retailer_stats[retailer]['successes'] += 1
+                
+                # Track cost (ZenRows pricing: ~$0.01 per request with js_render + premium_proxy)
+                request_cost = self.config.COST_PER_REQUEST
+                self.total_cost += request_cost
+                self.retailer_stats[retailer]['cost'] += request_cost
+                
+                # Track bytes
+                html_size = len(html.encode('utf-8'))
+                self.total_bytes_downloaded += html_size
+                
+                logger.info(
+                    f"✅ ZenRows SUCCESS: "
+                    f"{html_size:,} bytes, "
+                    f"${request_cost:.4f}, "
+                    f"attempt {attempt}/{self.config.MAX_RETRIES}"
+                )
+                
+                return html
+            
+            except Exception as e:
+                last_exception = e
+                logger.warning(
+                    f"⚠️ ZenRows attempt {attempt}/{self.config.MAX_RETRIES} failed: {e}"
+                )
+                
+                if attempt < self.config.MAX_RETRIES:
+                    # Exponential backoff
+                    wait_time = self.config.RETRY_BASE_DELAY ** attempt
+                    logger.info(f"🔄 Retrying in {wait_time} seconds...")
+                    await asyncio.sleep(wait_time)
+        
+        # All retries failed
+        self.total_requests += 1
+        self.failed_requests += 1
+        self.retailer_stats[retailer]['requests'] += 1
+        self.retailer_stats[retailer]['failures'] += 1
+        
+        logger.error(
+            f"❌ ZenRows FAILED after {self.config.MAX_RETRIES} attempts: "
+            f"{url[:70]}..."
+        )
+        
+        raise Exception(
+            f"ZenRows fetch failed after {self.config.MAX_RETRIES} attempts: "
+            f"{last_exception}"
+        )
+    
+    async def _fetch_with_zenrows(
+        self,
+        url: str,
+        retailer: str,
+        page_type: str,
+        attempt: int
+    ) -> str:
+        """
+        Internal: Fetch HTML using ZenRows API
+        
+        ZenRows API Parameters:
+        - url: Target URL to scrape
+        - apikey: Your ZenRows API key
+        - js_render: 'true' - JavaScript rendering (essential for anti-bot)
+        - premium_proxy: 'true' - Residential IPs (essential for anti-bot)
+        - proxy_country: 'us' - Use US proxies for US retailers
+        - wait: milliseconds - Wait after page load (optional)
+        - wait_for: CSS selector - Wait for element (optional)
+        """
+        # Build query parameters
+        params = {
+            'url': url,
+            'apikey': self.config.ZENROWS_API_KEY,
+            'js_render': 'true',       # JavaScript rendering (headless browser)
+            'premium_proxy': 'true',   # Residential IPs
+            'proxy_country': 'us',     # US proxies for US retailers
+        }
+        
+        # Optional: Wait for specific elements for catalog pages
+        if page_type == 'catalog':
+            wait_selector = self._get_wait_selector(retailer)
+            if wait_selector:
+                params['wait_for'] = wait_selector
+                logger.debug(f"🎯 Waiting for element: {wait_selector}")
+        
+        try:
+            logger.debug(f"📡 Sending request to ZenRows API (attempt {attempt})")
+            logger.debug(f"   URL: {url[:70]}...")
+            logger.debug(f"   JS Render: {params['js_render']}")
+            logger.debug(f"   Premium Proxy: {params['premium_proxy']}")
+            
+            async with self.session.get(
+                self.config.ZENROWS_API_ENDPOINT,
+                params=params,
+                ssl=True,
+            ) as response:
+                # Log response status
+                logger.debug(f"📥 ZenRows API response: HTTP {response.status}")
+                
+                # Check status code
+                if response.status != 200:
+                    error_text = await response.text()
+                    logger.error(f"ZenRows API error {response.status}: {error_text[:500]}")
+                    raise Exception(
+                        f"HTTP {response.status}: {error_text[:200]}"
+                    )
+                
+                # Get HTML
+                html = await response.text()
+                logger.debug(f"📥 Received {len(html):,} bytes from ZenRows API")
+                
+                # Check if response is empty
+                if not html or len(html) == 0:
+                    logger.error("❌ ZenRows API returned empty response (0 bytes)")
+                    raise Exception("Empty response from ZenRows API")
+                
+                # Validate HTML (not an error page)
+                await self._validate_html(html, url, retailer)
+                
+                return html
+        
+        except asyncio.TimeoutError:
+            raise Exception(
+                f"ZenRows API timeout after {self.config.REQUEST_TIMEOUT_SECONDS}s"
+            )
+        
+        except aiohttp.ClientError as e:
+            raise Exception(f"ZenRows API connection error: {e}")
+        
+        except Exception as e:
+            raise Exception(f"ZenRows API request failed: {e}")
+    
+    def _get_wait_selector(self, retailer: str) -> Optional[str]:
+        """
+        Get CSS selector to wait for (optional, for slow-loading pages)
+        
+        This tells ZenRows to wait for a specific element to appear
+        before returning the HTML. Useful for JavaScript-heavy pages.
+        """
+        wait_selectors = {
+            'nordstrom': 'a[data-testid="product-link"]',
+            'anthropologie': 'a[href*="/shop/"]',
+            'urban_outfitters': 'a[href*="/products/"]',
+            'urbanoutfitters': 'a[href*="/products/"]',
+            'abercrombie': 'a[data-testid="product-card-link"]',
+            'aritzia': 'div[class*="product-tile"]',
+            'hm': 'article[class*="product"]',
+            'h&m': 'article[class*="product"]',
+        }
+        
+        retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
+        return wait_selectors.get(retailer_lower)
+    
+    async def _validate_html(self, html: str, url: str, retailer: str):
+        """
+        Validate fetched HTML is not an error page
+        
+        Checks:
+        - Minimum length (not empty)
+        - Not blocked/CAPTCHA page
+        - Contains expected retailer indicators
+        """
+        html_size = len(html)
+        
+        # Check minimum size
+        if html_size < 1000:
+            raise Exception(
+                f"HTML too short ({html_size} bytes) - likely error page"
+            )
+        
+        html_lower = html.lower()
+        
+        # Check for common error indicators (but be careful with false positives)
+        # Only fail if these appear in suspicious contexts
+        critical_error_indicators = [
+            'access denied',
+            'you have been blocked',
+            'security check required',
+            'unusual traffic detected',
+            'verification required',
+            '403 forbidden',
+            '503 service unavailable',
+            'please verify you are a human',
+        ]
+        
+        for indicator in critical_error_indicators:
+            if indicator in html_lower:
+                # Check if it's in an error context
+                if 'access denied' in indicator or 'blocked' in indicator:
+                    logger.warning(
+                        f"⚠️ HTML contains potential error indicator: '{indicator}'"
+                    )
+                    raise Exception(
+                        f"HTML contains error indicator: '{indicator}'"
+                    )
+        
+        # Check for retailer-specific indicators (basic validation)
+        retailer_indicators = {
+            'nordstrom': ['nordstrom', 'data-reactroot', 'product'],
+            'anthropologie': ['anthropologie', 'product', 'anf'],
+            'revolve': ['revolve', 'revolveassets', 'product'],
+            'aritzia': ['aritzia', 'product', 'productinfo'],
+            'hm': ['h&m', 'hm.com', 'product'],
+            'abercrombie': ['abercrombie', 'product', 'anf'],
+            'urban_outfitters': ['urban outfitters', 'urbanoutfitters', 'product'],
+            'urbanoutfitters': ['urban outfitters', 'urbanoutfitters', 'product'],
+            'asos': ['asos', 'product'],
+            'mango': ['mango', 'product'],
+            'uniqlo': ['uniqlo', 'product'],
+        }
+        
+        retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
+        if retailer_lower in retailer_indicators:
+            indicators = retailer_indicators[retailer_lower]
+            found = any(ind in html_lower for ind in indicators)
+            if not found:
+                logger.warning(
+                    f"⚠️ HTML missing expected retailer indicators: {indicators}"
+                )
+                # Don't fail, just warn (might be legitimate page)
+        
+        logger.debug(f"✅ HTML validation passed ({html_size:,} bytes)")
+    
+    def get_usage_stats(self) -> Dict:
+        """Get usage statistics"""
+        return {
+            'provider': 'zenrows',
+            'total_requests': self.total_requests,
+            'successful_requests': self.successful_requests,
+            'failed_requests': self.failed_requests,
+            'success_rate': (
+                self.successful_requests / max(self.total_requests, 1)
+            ),
+            'total_cost': self.total_cost,
+            'avg_cost_per_request': (
+                self.total_cost / max(self.total_requests, 1)
+            ),
+            'total_bytes': self.total_bytes_downloaded,
+            'retailer_stats': self.retailer_stats,
+        }
+    
+    def log_usage_summary(self):
+        """Log summary of usage statistics"""
+        stats = self.get_usage_stats()
+        
+        logger.info("=" * 60)
+        logger.info("📊 ZENROWS USAGE SUMMARY")
+        logger.info("=" * 60)
+        logger.info(f"Total Requests: {stats['total_requests']}")
+        logger.info(f"Successful: {stats['successful_requests']}")
+        logger.info(f"Failed: {stats['failed_requests']}")
+        logger.info(f"Success Rate: {stats['success_rate']*100:.1f}%")
+        logger.info(f"Total Cost: ${stats['total_cost']:.2f}")
+        logger.info(f"Avg Cost/Request: ${stats['avg_cost_per_request']:.4f}")
+        logger.info(f"Total Data: {stats['total_bytes']/1024/1024:.1f} MB")
+        
+        if stats['retailer_stats']:
+            logger.info("-" * 60)
+            logger.info("Per-Retailer Stats:")
+            for retailer, rstats in stats['retailer_stats'].items():
+                success_rate = (
+                    rstats['successes'] / max(rstats['requests'], 1)
+                ) * 100
+                logger.info(
+                    f"  {retailer}: "
+                    f"{rstats['requests']} requests, "
+                    f"{success_rate:.1f}% success, "
+                    f"${rstats['cost']:.2f}"
+                )
+        
+        logger.info("=" * 60)
+    
+    async def close(self):
+        """Clean up resources and log final statistics"""
+        # Log summary
+        self.log_usage_summary()
+        
+        # Close session
+        if self.session and not self.session.closed:
+            await self.session.close()
+            logger.debug("🔌 Closed aiohttp session")
+        
+        logger.info("✅ ZenRows client closed")
+
+
+__all__ = ['ZenRowsClient']
+

@@ -1,7 +1,8 @@
 """
 Commercial API Configuration
 
-Central configuration for Bright Data integration and parsing strategies
+Central configuration for Commercial scraping APIs (ZenRows, ScraperAPI, Bright Data, etc.)
+Service-agnostic configuration with pluggable providers
 """
 
 import os
@@ -15,7 +16,8 @@ class CommercialAPIConfig:
     Configuration for Commercial API Extraction Tower
     
     Key Features:
-    - Bright Data credentials and settings
+    - Service provider selection (ZenRows, ScraperAPI, Bright Data, etc.)
+    - Service-specific credentials and settings
     - Retailer routing (which retailers use this tower)
     - HTML caching configuration (1-day debugging cache)
     - Parsing strategies (BeautifulSoup first, LLM fallback)
@@ -24,24 +26,63 @@ class CommercialAPIConfig:
     """
     
     # ============================================
-    # BRIGHT DATA API CONFIGURATION
+    # PROVIDER SELECTION
     # ============================================
     
-    BRIGHTDATA_API_KEY = os.getenv(
-        'BRIGHTDATA_API_KEY',
-        ''  # Must be set in .env file
-    )
+    # Active provider: 'zenrows', 'scraperapi', or 'brightdata'
+    ACTIVE_PROVIDER = os.getenv('COMMERCIAL_API_PROVIDER', 'zenrows')
     
-    # Bright Data Web Unlocker endpoint
+    # ============================================
+    # ZENROWS API CONFIGURATION
+    # ============================================
+    
+    ZENROWS_API_KEY = os.getenv('ZENROWS_API_KEY', '')
+    ZENROWS_API_ENDPOINT = 'https://api.zenrows.com/v1/'
+    
+    # ZenRows pricing: ~$0.01 per request with js_render + premium_proxy
+    # Pricing: https://www.zenrows.com/pricing
+    # 1,000 API credits = $9 = 100 requests with js_render+premium_proxy
+    # ~$0.09 per request, or ~$0.01 with lower settings
+    ZENROWS_COST_PER_REQUEST = 0.01  # Approximate cost per request
+    
+    # ============================================
+    # SCRAPERAPI CONFIGURATION
+    # ============================================
+    
+    SCRAPERAPI_KEY = os.getenv('SCRAPERAPI_KEY', '')
+    SCRAPERAPI_ENDPOINT = 'http://api.scraperapi.com'
+    
+    # ScraperAPI pricing: $49/month for 100,000 requests = $0.00049 per request
+    SCRAPERAPI_COST_PER_REQUEST = 0.0005
+    
+    # ============================================
+    # BRIGHT DATA API CONFIGURATION (Legacy)
+    # ============================================
+    
+    BRIGHTDATA_API_KEY = os.getenv('BRIGHTDATA_API_KEY', '')
     BRIGHTDATA_PROXY_HOST = "brd.superproxy.io"
-    BRIGHTDATA_PROXY_PORT = 33335  # Port from Bright Data dashboard
-    
-    # Bright Data credentials (username/password authentication)
+    BRIGHTDATA_PROXY_PORT = 33335
     BRIGHTDATA_USERNAME = os.getenv('BRIGHTDATA_USERNAME', '')
     BRIGHTDATA_PASSWORD = os.getenv('BRIGHTDATA_PASSWORD', '')
     
-    # Cost tracking (Bright Data pricing)
-    COST_PER_1000_REQUESTS = 1.50  # $1.50 per 1,000 requests
+    # Bright Data pricing: $1.50 per 1,000 requests = $0.0015 per request
+    BRIGHTDATA_COST_PER_REQUEST = 0.0015
+    
+    # ============================================
+    # COST TRACKING (Provider-agnostic)
+    # ============================================
+    
+    @property
+    def COST_PER_REQUEST(self):
+        """Get cost per request for active provider"""
+        if self.ACTIVE_PROVIDER == 'zenrows':
+            return self.ZENROWS_COST_PER_REQUEST
+        elif self.ACTIVE_PROVIDER == 'scraperapi':
+            return self.SCRAPERAPI_COST_PER_REQUEST
+        elif self.ACTIVE_PROVIDER == 'brightdata':
+            return self.BRIGHTDATA_COST_PER_REQUEST
+        else:
+            return 0.01  # Default estimate
     
     # ============================================
     # RETAILER ROUTING CONFIGURATION

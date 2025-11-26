@@ -17,7 +17,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from Shared.logger_config import setup_logging
 from commercial_config import CommercialAPIConfig
-from brightdata_client import BrightDataClient
+from Extraction.CommercialAPI.commercial_api_client import get_client
 from html_cache_manager import HTMLCacheManager
 from html_parser import HTMLParser
 from llm_fallback_parser import LLMFallbackParser
@@ -60,7 +60,7 @@ class CommercialCatalogExtractor:
         self.config = CommercialAPIConfig()
         
         # Initialize components
-        self.brightdata_client = None
+        self.api_client = None
         self.html_cache = None
         self.html_parser = None
         self.llm_parser = None
@@ -71,7 +71,7 @@ class CommercialCatalogExtractor:
         """Initialize all components"""
         try:
             # Initialize Bright Data client
-            self.brightdata_client = BrightDataClient()
+            self.api_client = get_client(self.config)
             
             # Initialize HTML cache
             if self.config.HTML_CACHING_ENABLED:
@@ -132,7 +132,7 @@ class CommercialCatalogExtractor:
             # Step 2: If not cached, fetch via Bright Data
             if not html:
                 try:
-                    html = await self.brightdata_client.fetch_html(
+                    html = await self.api_client.fetch_html(
                         url, retailer, 'catalog'
                     )
                     
@@ -177,7 +177,7 @@ class CommercialCatalogExtractor:
                     products=products,
                     method_used='beautifulsoup',
                     processing_time=processing_time,
-                    brightdata_cost=self.brightdata_client.total_cost if not cache_hit else 0.0,
+                    api_cost=self.api_client.total_cost if not cache_hit else 0.0,
                     cache_hit=cache_hit
                 )
             
@@ -203,7 +203,7 @@ class CommercialCatalogExtractor:
                         products=products,
                         method_used='llm',
                         processing_time=processing_time,
-                        brightdata_cost=self.brightdata_client.total_cost if not cache_hit else 0.0,
+                        api_cost=self.api_client.total_cost if not cache_hit else 0.0,
                         llm_cost=self.llm_parser.total_llm_cost,
                         cache_hit=cache_hit
                     )
@@ -315,8 +315,8 @@ class CommercialCatalogExtractor:
         """Clean up resources and log statistics"""
         try:
             # Close Bright Data client
-            if self.brightdata_client:
-                await self.brightdata_client.close()
+            if self.api_client:
+                await self.api_client.close()
             
             # Log HTML cache stats
             if self.html_cache:
