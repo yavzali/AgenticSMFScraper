@@ -128,8 +128,8 @@ class PatchrightCatalogExtractor:
         try:
             logger.info(f"🎭 Starting Patchright catalog extraction for {retailer}: {catalog_url}")
             
-            # Step 1: Setup browser
-            await self._setup_stealth_browser()
+            # Step 1: Setup browser (with retailer-specific headless setting)
+            await self._setup_stealth_browser(retailer)
             
             # Step 2: Navigate with retailer-specific wait strategy
             strategy = self.strategies.get_strategy(retailer)
@@ -488,13 +488,21 @@ DO NOT include products where you cannot read the title or price - skip them ins
         finally:
             await self._cleanup()
     
-    async def _setup_stealth_browser(self):
-        """Setup Patchright stealth browser"""
+    async def _setup_stealth_browser(self, retailer: str = None):
+        """Setup Patchright stealth browser with retailer-specific settings"""
         try:
             self.playwright = await async_playwright().start()
             
             user_data_dir = os.path.join(os.path.expanduser('~'), '.patchright_data')
             os.makedirs(user_data_dir, exist_ok=True)
+            
+            # Get retailer-specific headless setting (default: False for maximum compatibility)
+            headless_mode = False
+            if retailer:
+                strategy = self.strategies.get_strategy(retailer)
+                headless_mode = strategy.get('headless', False)
+                if headless_mode:
+                    logger.info(f"🚀 Using headless mode for {retailer} (low anti-bot complexity)")
             
             # Enhanced stealth arguments (can be disabled via kill switch)
             if ENABLE_ANTI_SCRAPING_ENHANCEMENTS:
@@ -531,7 +539,7 @@ DO NOT include products where you cannot read the title or price - skip them ins
             
             self.context = await self.playwright.chromium.launch_persistent_context(
                 user_data_dir,
-                headless=False,
+                headless=headless_mode,
                 viewport={'width': 1920, 'height': 1080},
                 user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
                 locale='en-US',

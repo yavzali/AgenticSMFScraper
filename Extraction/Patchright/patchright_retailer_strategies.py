@@ -199,6 +199,7 @@ RETAILER_STRATEGIES = {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',  # Use domcontentloaded (popups prevent networkidle)
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'headless': True,  # Safe to run headless (low anti-bot complexity)
         'product_selectors': [
             "a[href*='/dp/']"
         ],
@@ -225,6 +226,7 @@ RETAILER_STRATEGIES = {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'headless': True,  # Safe to run headless (low anti-bot complexity)
         'product_selectors': [
             "a[href*='/prd/']",  # ASOS product links use /prd/
             "a[data-auto-id='productTile']"
@@ -295,6 +297,7 @@ RETAILER_STRATEGIES = {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'headless': True,  # Safe to run headless (low anti-bot complexity)
         'product_selectors': [
             "a[href*='/product']",
             "a.product-link",
@@ -317,6 +320,7 @@ RETAILER_STRATEGIES = {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
+        'headless': True,  # Safe to run headless (low anti-bot complexity)
         'product_selectors': [
             "a[href*='/products/']",
             "a.product-tile",
