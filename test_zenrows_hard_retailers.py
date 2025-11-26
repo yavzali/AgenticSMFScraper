@@ -19,11 +19,12 @@ from Extraction.CommercialAPI.commercial_api_client import get_client
 TEST_RETAILERS = [
     {
         'name': 'H&M',
-        'difficulty': 'Low (hCaptcha)',
+        'difficulty': 'HIGH (Access Denied - BLOCKED)',
         'url': 'https://www2.hm.com/en_us/ladies/shop-by-product/dresses.html?sort=newProduct',
         'product_pattern': r'/en_us/productpage\.[0-9]+\.html',
         'expected_indicator': 'hm.com',
-        'expected_min': 20,  # Minimum products expected (from Patchright validation)
+        'expected_min': 20,
+        'notes': 'Patchright shows "Access Denied" - high anti-bot, may be blocked by IP',
     },
     {
         'name': 'Abercrombie',
@@ -35,19 +36,21 @@ TEST_RETAILERS = [
     },
     {
         'name': 'Aritzia',
-        'difficulty': 'Cloudflare Turnstile',
+        'difficulty': 'Cloudflare Turnstile + SPA (1-15s API delay)',
         'url': 'https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest',
         'product_pattern': r'/us/en/product/[\w\-]+/\d+',  # Capture full product URL
         'expected_indicator': 'aritzia',
         'expected_min': 40,
+        'notes': 'Patchright uses 30s polling - variable API delay requires long wait',
     },
     {
         'name': 'Urban Outfitters',
-        'difficulty': 'PerimeterX',
+        'difficulty': 'PerimeterX (same as Anthropologie)',
         'url': 'https://www.urbanoutfitters.com/womens-dresses?sort=newest',
         'product_pattern': r'/products/[\w\-]+',  # Capture full product URL
         'expected_indicator': 'urbanoutfitters',
         'expected_min': 50,
+        'notes': 'Same PerimeterX as Anthropologie - should work with same config',
     },
     {
         'name': 'Anthropologie',
@@ -56,6 +59,7 @@ TEST_RETAILERS = [
         'product_pattern': r'/shop/[\w\-]+',  # Capture full product URL
         'expected_indicator': 'anthropologie',
         'expected_min': 50,
+        'notes': 'ZenRows works but Patchright sometimes fails - may need additional tuning for 100% reliability',
     },
     {
         'name': 'Nordstrom',

@@ -268,12 +268,14 @@ class ZenRowsClient(CommercialAPIClient):
             # Abercrombie: Wait for product card links (data-testid)
             'abercrombie': 'a[href*="/shop/us/p/"]',
             
-            # Aritzia: Wait for product tile containers
-            'aritzia': 'div[class*="product"]',
+            # Aritzia: Wait for product links (Patchright's primary selector)
+            # Cloudflare + SPA - products load via API with variable 1-15s delay
+            'aritzia': 'a[href*="/product/"]',
             
-            # H&M: Wait for product article elements
-            'hm': 'article.product-item',
-            'h&m': 'article.product-item',
+            # H&M: Wait for product page links (Patchright's selector)
+            # High anti-bot complexity, may be blocked
+            'hm': 'a[href*="/productpage"]',
+            'h&m': 'a[href*="/productpage"]',
         }
         
         retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
@@ -289,7 +291,7 @@ class ZenRowsClient(CommercialAPIClient):
         Returns:
             Milliseconds to wait, or None for no fixed wait
         """
-        # Wait times in milliseconds (5-8 seconds recommended for dynamic content)
+        # Wait times in milliseconds (5-20 seconds based on Patchright's proven timings)
         wait_times = {
             # Nordstrom: Heavy JavaScript, needs 8s for product grid to fully load
             'nordstrom': 8000,
@@ -297,19 +299,21 @@ class ZenRowsClient(CommercialAPIClient):
             # Anthropologie: PerimeterX + dynamic loading, needs 7s
             'anthropologie': 7000,
             
-            # Aritzia: Cloudflare + React SPA, needs 8s
-            'aritzia': 8000,
+            # Aritzia: Cloudflare + React SPA with VARIABLE API delay (1-15s)
+            # Patchright uses active polling up to 30s - we need maximum wait
+            'aritzia': 30000,  # 30 seconds (MAXIMUM) to handle worst-case 15s+ API delay
             
-            # Urban Outfitters: PerimeterX + React, needs 7s
+            # Urban Outfitters: PerimeterX (same as Anthropologie), needs 7s
             'urban_outfitters': 7000,
             'urbanoutfitters': 7000,
             
             # Abercrombie: Medium complexity, needs 6s
             'abercrombie': 6000,
             
-            # H&M: Relatively fast, but still dynamic, needs 5s
-            'hm': 5000,
-            'h&m': 5000,
+            # H&M: HIGH anti-bot complexity, may be blocked entirely
+            # Patchright shows "Access Denied" - try longer wait
+            'hm': 15000,  # 15 seconds to give maximum time
+            'h&m': 15000,
         }
         
         retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
