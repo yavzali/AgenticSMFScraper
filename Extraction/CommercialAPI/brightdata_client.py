@@ -176,15 +176,15 @@ class BrightDataClient:
         Internal: Fetch HTML using Bright Data proxy
         
         Bright Data Web Unlocker uses HTTP proxy:
-        - Proxy server: brd.superproxy.io:22225
-        - Authentication: Username = API key, Password = API key
+        - Proxy server: brd.superproxy.io:33335
+        - Authentication: Username = zone username, Password = zone password
         - Proxy handles all anti-bot bypass automatically
         """
         # Construct proxy URL with authentication
         # Format: http://username:password@host:port
         proxy_url = (
-            f"http://{self.config.BRIGHTDATA_API_KEY}:"
-            f"{self.config.BRIGHTDATA_API_KEY}@"
+            f"http://{self.config.BRIGHTDATA_USERNAME}:"
+            f"{self.config.BRIGHTDATA_PASSWORD}@"
             f"{self.config.BRIGHTDATA_PROXY_HOST}:"
             f"{self.config.BRIGHTDATA_PROXY_PORT}"
         )

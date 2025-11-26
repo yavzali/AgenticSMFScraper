@@ -266,17 +266,14 @@ class CommercialCatalogExtractor:
             # Import Patchright catalog extractor
             from Extraction.Patchright.patchright_catalog_extractor import PatchrightCatalogExtractor
             
-            # Initialize and use Patchright extractor
+            # Use Patchright extractor (no async initialization needed)
             patchright_extractor = PatchrightCatalogExtractor()
-            await patchright_extractor.initialize()
             
             # Extract using Patchright
             # Note: Patchright extractor has different interface, adapt as needed
             patchright_result = await patchright_extractor.extract_catalog(
                 url, retailer, category
             )
-            
-            await patchright_extractor.cleanup()
             
             processing_time = asyncio.get_event_loop().time() - start_time
             

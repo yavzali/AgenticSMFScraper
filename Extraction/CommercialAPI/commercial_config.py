@@ -34,7 +34,11 @@ class CommercialAPIConfig:
     
     # Bright Data Web Unlocker endpoint
     BRIGHTDATA_PROXY_HOST = "brd.superproxy.io"
-    BRIGHTDATA_PROXY_PORT = 22225
+    BRIGHTDATA_PROXY_PORT = 33335
+    
+    # Bright Data credentials (username/password authentication)
+    BRIGHTDATA_USERNAME = os.getenv('BRIGHTDATA_USERNAME', '')
+    BRIGHTDATA_PASSWORD = os.getenv('BRIGHTDATA_PASSWORD', '')
     
     # Cost tracking (Bright Data pricing)
     COST_PER_1000_REQUESTS = 1.50  # $1.50 per 1,000 requests
