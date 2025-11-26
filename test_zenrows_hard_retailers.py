@@ -23,41 +23,47 @@ TEST_RETAILERS = [
         'url': 'https://www2.hm.com/en_us/ladies/shop-by-product/dresses.html?sort=newProduct',
         'product_pattern': r'/en_us/productpage\.[0-9]+\.html',
         'expected_indicator': 'hm.com',
+        'expected_min': 20,  # Minimum products expected (from Patchright validation)
     },
     {
         'name': 'Abercrombie',
         'difficulty': 'Medium (JavaScript)',
         'url': 'https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?pagefm=navigation-left+nav&rows=90&sort=newest&start=0',
-        'product_pattern': r'/shop/us/p/',
+        'product_pattern': r'/shop/us/p/[^"\'>\s]+',  # Capture full product URL with query params
         'expected_indicator': 'abercrombie',
+        'expected_min': 60,  # Expected 90 products (60 minimum)
     },
     {
         'name': 'Aritzia',
         'difficulty': 'Cloudflare Turnstile',
         'url': 'https://www.aritzia.com/us/en/clothing/dresses?srule=production_ecommerce_aritzia__Aritzia_US__products__en_US__newest',
-        'product_pattern': r'/us/en/product/',
+        'product_pattern': r'/us/en/product/[\w\-]+/\d+',  # Capture full product URL
         'expected_indicator': 'aritzia',
+        'expected_min': 40,
     },
     {
         'name': 'Urban Outfitters',
         'difficulty': 'PerimeterX',
         'url': 'https://www.urbanoutfitters.com/womens-dresses?sort=newest',
-        'product_pattern': r'/products/',
+        'product_pattern': r'/products/[\w\-]+',  # Capture full product URL
         'expected_indicator': 'urbanoutfitters',
+        'expected_min': 50,
     },
     {
         'name': 'Anthropologie',
         'difficulty': 'PerimeterX (Press & Hold)',
         'url': 'https://www.anthropologie.com/dresses?order=Descending&sleevelength=Long%20Sleeve%2C3%2F4%20Sleeve%2CShort%20Sleeve&sort=tile.product.newestColorDate',
-        'product_pattern': r'/shop/',
+        'product_pattern': r'/shop/[\w\-]+',  # Capture full product URL
         'expected_indicator': 'anthropologie',
+        'expected_min': 50,
     },
     {
         'name': 'Nordstrom',
         'difficulty': 'Strongest (Akamai)',
         'url': 'https://www.nordstrom.com/browse/women/clothing/dresses?breadcrumb=Home%2FWomen%2FDresses&origin=topnav&sort=Newest',
-        'product_pattern': r'/s/',
+        'product_pattern': r'/s/[\w\-]+/\d+',  # Capture full product URL (not just "/s/")
         'expected_indicator': 'nordstrom',
+        'expected_min': 40,  # Expected 90+ products (40 minimum from Patchright)
     },
 ]
 
@@ -105,22 +111,29 @@ async def test_retailer(client, retailer: Dict) -> Dict:
         # Check for error indicators
         html_lower = html.lower()
         
-        error_indicators = [
+        # Validate using Patchright's approach: check for real error pages
+        # Large HTML (>500KB) with error keywords is likely legitimate content (JS variable names)
+        error_phrases = [
             'access denied',
             'you have been blocked',
-            'captcha',
+            'captcha challenge',  # More specific than just "captcha"
             'security check required',
             'unusual traffic detected',
             'verification required',
             'please verify you are a human',
         ]
         
-        for indicator in error_indicators:
-            if indicator in html_lower:
-                result['error'] = f"Error page detected: '{indicator}'"
-                print(f"⚠️  {result['error']}")
-                result['duration'] = time.time() - start_time
-                return result
+        for phrase in error_phrases:
+            if phrase in html_lower:
+                # Only fail if HTML is small (likely actual error page)
+                if result['response_size'] < 500000:  # 500 KB threshold
+                    result['error'] = f"Error page detected: '{phrase}' (size: {result['response_size']:,} bytes)"
+                    print(f"⚠️  {result['error']}")
+                    result['duration'] = time.time() - start_time
+                    return result
+                else:
+                    # Large HTML with error keyword - likely false positive
+                    print(f"   ℹ️  Found '{phrase}' but HTML is large ({result['response_size']:,} bytes) - likely in JavaScript code")
         
         # Check if HTML contains expected retailer content
         if retailer['expected_indicator'] not in html_lower:
@@ -139,18 +152,20 @@ async def test_retailer(client, retailer: Dict) -> Dict:
         print(result['sample_html'])
         print("...")
         
-        # Validate success
-        if result['response_size'] > 10000 and result['products_found'] > 5:
+        # Validate success using Patchright's expected minimums
+        expected_min = retailer.get('expected_min', 20)
+        
+        if result['products_found'] >= expected_min:
             result['status'] = 'SUCCESS'
-            print(f"\n✅ {retailer['name']}: SUCCESS!")
-        elif result['products_found'] > 0:
+            print(f"\n✅ {retailer['name']}: SUCCESS! ({result['products_found']}/{expected_min} minimum)")
+        elif result['products_found'] >= expected_min * 0.5:  # At least 50% of expected
             result['status'] = 'PARTIAL'
-            result['error'] = 'Low product count (might be pagination issue)'
-            print(f"\n⚠️  {retailer['name']}: PARTIAL SUCCESS (low product count)")
+            result['error'] = f'Below minimum: {result["products_found"]}/{expected_min} expected'
+            print(f"\n⚠️  {retailer['name']}: PARTIAL ({result['products_found']}/{expected_min})")
         else:
             result['status'] = 'FAILED'
-            result['error'] = 'No product URLs found in HTML'
-            print(f"\n❌ {retailer['name']}: FAILED (no products found)")
+            result['error'] = f'Far below minimum: {result["products_found"]}/{expected_min} expected'
+            print(f"\n❌ {retailer['name']}: FAILED ({result['products_found']}/{expected_min})")
     
     except Exception as e:
         result['error'] = str(e)[:200]

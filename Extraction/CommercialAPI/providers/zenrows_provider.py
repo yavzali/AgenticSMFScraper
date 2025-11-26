@@ -334,28 +334,29 @@ class ZenRowsClient(CommercialAPIClient):
         
         html_lower = html.lower()
         
-        # Check for common error indicators (but be careful with false positives)
-        # Only fail if these appear in suspicious contexts
-        critical_error_indicators = [
+        # Check for ACTUAL error indicators (not JavaScript variable names)
+        # Based on Patchright's validation approach - check for real error messages
+        critical_error_phrases = [
             'access denied',
             'you have been blocked',
             'security check required',
             'unusual traffic detected',
             'verification required',
-            '403 forbidden',
-            '503 service unavailable',
             'please verify you are a human',
+            'captcha challenge',
+            'we apologize',  # Common in error pages
         ]
         
-        for indicator in critical_error_indicators:
-            if indicator in html_lower:
-                # Check if it's in an error context
-                if 'access denied' in indicator or 'blocked' in indicator:
-                    logger.warning(
-                        f"⚠️ HTML contains potential error indicator: '{indicator}'"
-                    )
+        for phrase in critical_error_phrases:
+            if phrase in html_lower:
+                logger.warning(
+                    f"⚠️ HTML may contain error message: '{phrase}'"
+                )
+                # Only fail if we also have a small HTML size (likely error page)
+                # Large HTML (>500KB) with these phrases is likely legitimate content
+                if html_size < 500000:  # 500 KB threshold
                     raise Exception(
-                        f"HTML contains error indicator: '{indicator}'"
+                        f"HTML contains error indicator: '{phrase}' (size: {html_size:,} bytes)"
                     )
         
         # Check for retailer-specific indicators (basic validation)
