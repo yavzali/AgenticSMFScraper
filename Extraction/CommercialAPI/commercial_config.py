@@ -34,7 +34,7 @@ class CommercialAPIConfig:
     
     # Bright Data Web Unlocker endpoint
     BRIGHTDATA_PROXY_HOST = "brd.superproxy.io"
-    BRIGHTDATA_PROXY_PORT = 33335
+    BRIGHTDATA_PROXY_PORT = 22225  # Standard Web Unlocker port (trying 22225 instead of 33335)
     
     # Bright Data credentials (username/password authentication)
     BRIGHTDATA_USERNAME = os.getenv('BRIGHTDATA_USERNAME', '')
@@ -155,7 +155,7 @@ class CommercialAPIConfig:
     MAX_RETRIES = 2
     
     # Request timeout for Bright Data API
-    REQUEST_TIMEOUT_SECONDS = 30
+    REQUEST_TIMEOUT_SECONDS = 60  # Increased from 30 to 60 for complex sites like Nordstrom
     
     # Retry delay (exponential backoff)
     RETRY_BASE_DELAY = 2  # seconds
