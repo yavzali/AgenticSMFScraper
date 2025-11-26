@@ -184,12 +184,19 @@ class ZenRowsClient(CommercialAPIClient):
             'proxy_country': 'us',     # US proxies for US retailers
         }
         
-        # Optional: Wait for specific elements for catalog pages
+        # Dynamic content loading: Wait for product grids (lesson from Patchright)
         if page_type == 'catalog':
+            # Get wait_for selector (waits for specific element to appear)
             wait_selector = self._get_wait_selector(retailer)
             if wait_selector:
                 params['wait_for'] = wait_selector
-                logger.debug(f"🎯 Waiting for element: {wait_selector}")
+                logger.info(f"🎯 wait_for: {wait_selector}")
+            
+            # Add fixed wait for stability (5-8 seconds recommended for dynamic content)
+            wait_time = self._get_wait_time(retailer)
+            if wait_time:
+                params['wait'] = wait_time
+                logger.info(f"⏱️  wait: {wait_time}ms")
         
         try:
             logger.debug(f"📡 Sending request to ZenRows API (attempt {attempt})")
@@ -240,24 +247,73 @@ class ZenRowsClient(CommercialAPIClient):
     
     def _get_wait_selector(self, retailer: str) -> Optional[str]:
         """
-        Get CSS selector to wait for (optional, for slow-loading pages)
+        Get CSS selector to wait for (dynamic waiting)
         
         This tells ZenRows to wait for a specific element to appear
-        before returning the HTML. Useful for JavaScript-heavy pages.
+        before returning the HTML. Waits up to 30 seconds for element.
+        
+        Based on actual product card selectors from each retailer's HTML.
         """
         wait_selectors = {
+            # Nordstrom: Wait for product link cards (data-testid attribute)
             'nordstrom': 'a[data-testid="product-link"]',
+            
+            # Anthropologie: Wait for product shop links
             'anthropologie': 'a[href*="/shop/"]',
+            
+            # Urban Outfitters: Wait for product detail links
             'urban_outfitters': 'a[href*="/products/"]',
             'urbanoutfitters': 'a[href*="/products/"]',
-            'abercrombie': 'a[data-testid="product-card-link"]',
-            'aritzia': 'div[class*="product-tile"]',
-            'hm': 'article[class*="product"]',
-            'h&m': 'article[class*="product"]',
+            
+            # Abercrombie: Wait for product card links (data-testid)
+            'abercrombie': 'a[href*="/shop/us/p/"]',
+            
+            # Aritzia: Wait for product tile containers
+            'aritzia': 'div[class*="product"]',
+            
+            # H&M: Wait for product article elements
+            'hm': 'article.product-item',
+            'h&m': 'article.product-item',
         }
         
         retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
         return wait_selectors.get(retailer_lower)
+    
+    def _get_wait_time(self, retailer: str) -> Optional[int]:
+        """
+        Get fixed wait time in milliseconds (stability wait)
+        
+        ZenRows docs recommend 5000-8000ms for dynamic content.
+        Use after wait_for to ensure all products have loaded.
+        
+        Returns:
+            Milliseconds to wait, or None for no fixed wait
+        """
+        # Wait times in milliseconds (5-8 seconds recommended for dynamic content)
+        wait_times = {
+            # Nordstrom: Heavy JavaScript, needs 8s for product grid to fully load
+            'nordstrom': 8000,
+            
+            # Anthropologie: PerimeterX + dynamic loading, needs 7s
+            'anthropologie': 7000,
+            
+            # Aritzia: Cloudflare + React SPA, needs 8s
+            'aritzia': 8000,
+            
+            # Urban Outfitters: PerimeterX + React, needs 7s
+            'urban_outfitters': 7000,
+            'urbanoutfitters': 7000,
+            
+            # Abercrombie: Medium complexity, needs 6s
+            'abercrombie': 6000,
+            
+            # H&M: Relatively fast, but still dynamic, needs 5s
+            'hm': 5000,
+            'h&m': 5000,
+        }
+        
+        retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
+        return wait_times.get(retailer_lower)
     
     async def _validate_html(self, html: str, url: str, retailer: str):
         """
