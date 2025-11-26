@@ -63,9 +63,10 @@ class CommercialAPIConfig:
     
     # Retailers CURRENTLY ACTIVE on Commercial API tower
     # Start with Nordstrom only, expand gradually
+    # NOTE: Revolve tested successfully (4.3MB HTML, 100 products, 3.3s, $0.0015)
+    # but keeping on Markdown tower until final architecture decisions made
     ACTIVE_RETAILERS = [
         'nordstrom',
-        'revolve',  # TEMPORARY - for diagnostic testing (Revolve has no anti-bot)
     ]
     
     @classmethod
