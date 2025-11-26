@@ -16,6 +16,31 @@ A **service-agnostic Commercial API Extraction Tower** that:
 - Provides 3x faster response times
 - Uses factory pattern for easy provider switching
 
+### **Final Production Architecture**
+
+```
+10 RETAILERS - PRODUCTION CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Commercial API Tower (ZenRows) - 5 retailers (50%)
+   ✅ Nordstrom (Akamai Bot Manager)
+   ✅ Anthropologie (PerimeterX Press & Hold)
+   ✅ Abercrombie (JavaScript rendering)
+   ✅ H&M (Slow loading)
+   ✅ Aritzia (Cloudflare Turnstile)
+
+📊 Markdown Tower + Headless Patchright - 4 retailers (40%)
+   ✅ Revolve (catalog: headless Patchright, products: Markdown)
+   ✅ ASOS (catalog: headless Patchright, products: Markdown)
+   ✅ Mango (catalog: headless Patchright, products: Markdown)
+   ✅ Uniqlo (catalog: headless Patchright, products: Markdown)
+
+📊 Patchright Tower (Full Protection) - 1 retailer (10%)
+   ✅ Urban Outfitters (all Commercial APIs actively blocked)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 ### **Final Results**
 
 ```

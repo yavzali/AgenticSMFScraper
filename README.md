@@ -1,7 +1,29 @@
 # 🛍️ **Agent Modest Scraper System v6.2**
 ## *Comprehensive E-commerce Intelligence Platform - Triple Tower Architecture*
 
-A sophisticated, **production-ready** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence. Powered by **Triple Tower Architecture** (Markdown, Patchright, Commercial API), **Bright Data enterprise anti-bot**, AI extraction (DeepSeek V3, Gemini Flash, Gemini Vision), **human assessment pipeline**, and comprehensive Shopify integration.
+A sophisticated, **production-ready** platform combining **new product import**, **existing product updates**, and **catalog monitoring** for automated e-commerce intelligence. Powered by **Triple Tower Architecture** (Markdown, Patchright, Commercial API), **ZenRows enterprise anti-bot** (5/6 retailers, 75% cost savings), AI extraction (DeepSeek V3, Gemini Flash, Gemini Vision), **human assessment pipeline**, and comprehensive Shopify integration.
+
+### **🎯 Current Architecture Summary**
+
+```
+10 RETAILERS - PRODUCTION CONFIGURATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Commercial API Tower (ZenRows) - 5 retailers (50%)
+   ✅ Nordstrom, Anthropologie, Abercrombie, H&M, Aritzia
+   → 3x faster, 75% cost savings
+
+📊 Markdown Tower + Headless Patchright - 4 retailers (40%)
+   ✅ Revolve, ASOS, Mango, Uniqlo
+   → Catalog: Headless Patchright (fast, low resource)
+   → Products: Markdown (cost-effective)
+
+📊 Patchright Tower (Full Protection) - 1 retailer (10%)
+   ✅ Urban Outfitters
+   → Commercial APIs blocked, requires full anti-bot protection
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ---
 
@@ -53,7 +75,7 @@ The Agent Modest Scraper System consists of **three independent but complementar
 - **Database Management**: `duplicate_detector.py`, `cost_tracker.py`
 - **Pattern Learning**: `pattern_learner.py`, `notification_manager.py`
 - **E-commerce Integration**: `shopify_manager.py`
-- **Commercial API**: Bright Data Web Unlocker, BeautifulSoup, LLM fallback (🆕 v6.2)
+- **Commercial API**: ZenRows API (5/6 retailers), BeautifulSoup, LLM fallback (🆕 v6.2)
 - **Configuration**: `config.json`, API key management
 
 **System-Specific Orchestration**:

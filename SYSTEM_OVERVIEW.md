@@ -2,11 +2,11 @@
 
 ## 🎯 **Executive Summary**
 
-The Agent Modest Scraper System v6.2 represents a **production-ready, modular** e-commerce scraping platform built on a **Triple Tower Architecture** with **integrated assessment pipeline**. The system combines three independent extraction methods (**Markdown Tower**, **Patchright Tower**, and **Commercial API Tower**), advanced AI models (**DeepSeek V3** + **Gemini Flash 2.0** + **Gemini Vision**), **Bright Data API** for enterprise-grade anti-bot bypass, **Shopify draft upload workflow**, and sophisticated **anti-bot protection** to deliver **90-98% success rates** across all supported retailers.
+The Agent Modest Scraper System v6.2 represents a **production-ready, modular** e-commerce scraping platform built on a **Triple Tower Architecture** with **integrated assessment pipeline**. The system combines three independent extraction methods (**Markdown Tower**, **Patchright Tower**, and **Commercial API Tower**), advanced AI models (**DeepSeek V3** + **Gemini Flash 2.0** + **Gemini Vision**), **ZenRows API** for enterprise-grade anti-bot bypass, **Shopify draft upload workflow**, and sophisticated **anti-bot protection** to deliver **90-98% success rates** across all supported retailers.
 
 ### **🚀 Key Achievements (v6.2)**
-- **✅ 🆕 Triple Tower Architecture**: Markdown, Patchright, and Commercial API (Bright Data)
-- **✅ 🆕 Bright Data Integration**: Enterprise anti-bot bypass with Web Unlocker
+- **✅ 🆕 Triple Tower Architecture**: Markdown, Patchright, and Commercial API (ZenRows)
+- **✅ 🆕 ZenRows Integration**: 5/6 retailers working with 75% cost savings
 - **✅ 🆕 Pattern Learning**: HTML selector optimization based on success/failure rates
 - **✅ 🆕 Smart Fallbacks**: Commercial API → LLM → Patchright fallback chain
 - **✅ Dual Tower Architecture**: Independent Markdown & Patchright extraction systems
@@ -69,7 +69,7 @@ The Agent Modest Scraper System v6.2 represents a **production-ready, modular** 
 └──────────────────────┘   └─────────────────────────┘   └────────────────────┘
          │                           │                              │
 ┌────────┴──────────┐    ┌──────────┴────────────┐   ┌────────────┴──────────┐
-│ Jina AI Reader   │    │ Patchright Browser   │   │ Bright Data API      │
+│ Jina AI Reader   │    │ Patchright Browser   │   │ ZenRows API         │
 │ DeepSeek V3      │    │ Gemini Vision        │   │ BeautifulSoup        │
 │ Gemini Flash 2.0 │    │ DOM Extraction       │   │ Gemini Flash (LLM)   │
 └──────────────────┘    └──────────────────────┘   └──────────────────────┘
@@ -79,16 +79,15 @@ The Agent Modest Scraper System v6.2 represents a **production-ready, modular** 
 
 ## 📚 **Core Components**
 
-### **🔷 Markdown Tower** (Fast, Cost-Effective)
+### **🔷 Markdown Tower** (Fast, Cost-Effective) - 4 Retailers
 
-#### **Supported Retailers**
-- Revolve (90-95% success)
-- ASOS (85-90% success)
-- Mango (85-90% success)
-- H&M (80-85% success)
-- Uniqlo (85-90% success)
-- Aritzia (85-90% success)
-- Nordstrom (85-90% success)
+#### **Supported Retailers** (Single Product Pages Only)
+- Revolve (90-95% success) - Catalog: Headless Patchright
+- ASOS (85-90% success) - Catalog: Headless Patchright
+- Mango (85-90% success) - Catalog: Headless Patchright
+- Uniqlo (85-90% success) - Catalog: Headless Patchright
+
+**Note**: These retailers use **Headless Patchright** for catalog extraction (fast, low resource) and **Markdown Tower** for single product pages (cost-effective).
 
 #### **Components**
 
@@ -127,12 +126,20 @@ The Agent Modest Scraper System v6.2 represents a **production-ready, modular** 
 
 ---
 
-### **🔶 Patchright Tower** (Handles Anti-Bot)
+### **🔶 Patchright Tower** (Handles Anti-Bot) - 5 Retailers
 
 #### **Supported Retailers**
-- Anthropologie (75-85% success) - PerimeterX "Press & Hold"
-- Urban Outfitters (70-80% success) - PerimeterX
-- Abercrombie (70-80% success) - Multi-step verification
+
+**Headless Mode (Catalog Only)** - 4 Retailers:
+- Revolve (90-95% success) - Low anti-bot, catalog extraction only
+- ASOS (85-90% success) - Low anti-bot, catalog extraction only
+- Mango (85-90% success) - Low anti-bot, catalog extraction only
+- Uniqlo (85-90% success) - Low anti-bot, catalog extraction only
+
+**Headed Mode (Full Protection)** - 1 Retailer:
+- Urban Outfitters (70-80% success) - PerimeterX (Commercial API blocked)
+
+**Note**: Revolve/ASOS/Mango/Uniqlo use **headless Patchright** for fast catalog extraction (no GUI overhead), while Urban Outfitters requires **full headed mode** due to aggressive PerimeterX protection.
 
 #### **Components**
 
@@ -180,44 +187,47 @@ The Agent Modest Scraper System v6.2 represents a **production-ready, modular** 
 
 ---
 
-### **🔵 Commercial API Tower** (🆕 v6.2 - Enterprise Anti-Bot)
+### **🔵 Commercial API Tower** (🆕 v6.2 - Enterprise Anti-Bot) - 5 Retailers
 
-#### **Supported Retailers**
-- **Nordstrom** (Phase 1 - Active)
-- Anthropologie (Phase 2 - Planned)
-- Urban Outfitters (Phase 2 - Planned)
-- Aritzia, H&M, and remaining retailers (Phase 3-4 - Planned)
+#### **Active Retailers** (ZenRows API)
+- **Nordstrom** (67 products) - Akamai Bot Manager defeated ✅
+- **Anthropologie** (78 products) - PerimeterX Press & Hold defeated ✅
+- **Abercrombie** (180 products) - JavaScript rendering handled ✅
+- **H&M** (48 products) - Slow loading optimized ✅
+- **Aritzia** (84 products) - Cloudflare Turnstile defeated ✅
+
+**Note**: Urban Outfitters excluded (ZenRows IPs actively blocked by PerimeterX - uses Patchright instead)
 
 #### **Purpose**
-The Commercial API Tower provides **enterprise-grade anti-bot bypass** using **Bright Data's Web Unlocker** API. It fetches raw HTML through rotating residential proxies, then parses it using **BeautifulSoup** (fast) with **LLM fallback** (Gemini Flash). This approach combines:
-- **Cost savings**: $1.50 per 1,000 requests (vs. Patchright's Gemini Vision costs)
-- **Speed**: No browser overhead (30-40s vs. 60-120s)
-- **Reliability**: Enterprise proxy infrastructure handles anti-bot challenges
-- **Smart fallbacks**: HTML parsing → LLM → Patchright fallback chain
+The Commercial API Tower provides **enterprise-grade anti-bot bypass** using **ZenRows API** (chosen after testing Bright Data, ZenRows, and ScraperAPI). It fetches pre-rendered HTML through premium residential proxies with JavaScript rendering, then parses it using **BeautifulSoup** (fast) with **LLM fallback** (Gemini Flash). This approach delivers:
+- **Cost savings**: 75% reduction ($540/year vs $2,160/year with Patchright) ✅
+- **Speed**: 3x faster (12.5s vs 38.7s average) ✅
+- **Reliability**: 5/6 retailers working (83% success rate) ✅
+- **Smart fallbacks**: HTML parsing → LLM → Patchright fallback chain ✅
 
 #### **Components**
 
 **1. Commercial Catalog Extractor** (`commercial_catalog_extractor.py` - 500 lines)
-- Fetches catalog HTML via Bright Data API
+- Fetches catalog HTML via ZenRows API (service-agnostic architecture)
 - BeautifulSoup parsing with retailer-specific CSS selectors
 - LLM fallback (Gemini Flash) if BeautifulSoup fails
 - Pattern learning optimizes selectors over time
 - Fallback to Patchright Tower if all methods fail
-- **Speed**: 30-50s per catalog page
-- **Cost**: ~$0.001-0.002 per page (Bright Data) + LLM if needed
+- **Speed**: 8-15s per catalog page (3x faster than Patchright)
+- **Cost**: ~$0.0015 per page (ZenRows) + LLM if needed
 
 **2. Commercial Product Extractor** (`commercial_product_extractor.py` - 700 lines)
-- Single product page extraction via Bright Data
+- Single product page extraction via ZenRows API
 - Triple-layer parsing strategy:
   1. **BeautifulSoup** with learned selectors (primary)
   2. **LLM** (Gemini Flash) if BeautifulSoup incomplete (fallback #1)
   3. **Patchright Tower** if both fail (fallback #2)
 - Image URL enhancement (converts thumbnails to high-res)
 - Field validation (title, price, description, images, stock)
-- **Speed**: 20-40s per product
-- **Cost**: ~$0.001 per product (Bright Data) + LLM if needed
+- **Speed**: 10-15s per product (3x faster than Patchright)
+- **Cost**: ~$0.0015 per product (ZenRows) + LLM if needed
 
-**3. Bright Data Client** (`brightdata_client.py` - 350 lines)
+**3. ZenRows Client** (`providers/zenrows_provider.py` - 350 lines)
 - HTTP proxy authentication (API key as username/password)
 - Exponential backoff on retries (2^attempt seconds)
 - HTML validation (detects "access denied", "captcha", error pages)
@@ -226,7 +236,7 @@ The Commercial API Tower provides **enterprise-grade anti-bot bypass** using **B
 
 **4. HTML Cache Manager** (`html_cache_manager.py` - 250 lines)
 - **1-day HTML caching** for debugging (SQLite)
-- Reduces redundant Bright Data requests during development
+- Reduces redundant ZenRows requests during development
 - Cache hit/miss tracking
 - Automatic expiration after 24 hours
 - Can be disabled in production
@@ -260,8 +270,9 @@ The Commercial API Tower provides **enterprise-grade anti-bot bypass** using **B
 - Stock status inference
 
 **9. Commercial Config** (`commercial_config.py` - 250 lines)
-- Central configuration for Bright Data, LLM, caching
-- Retailer routing (`ACTIVE_RETAILERS` list)
+- Central configuration for ZenRows, LLM, caching
+- Retailer routing (`ACTIVE_RETAILERS` list - currently 5 retailers active)
+- Service-agnostic provider selection (`ACTIVE_PROVIDER`)
 - Parsing strategies per retailer
 - Pattern learning settings
 - Fallback configuration
