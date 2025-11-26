@@ -14,8 +14,8 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from Shared.logger_config import setup_logging
-from .commercial_config import CommercialAPIConfig
-from .commercial_retailer_strategies import CommercialRetailerStrategies
+from commercial_config import CommercialAPIConfig
+from commercial_retailer_strategies import CommercialRetailerStrategies
 
 logger = setup_logging(__name__)
 

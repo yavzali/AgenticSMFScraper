@@ -18,11 +18,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from Shared.logger_config import setup_logging
 from Shared.image_processor import ImageProcessor
-from .commercial_config import CommercialAPIConfig
-from .brightdata_client import BrightDataClient
-from .html_cache_manager import HTMLCacheManager
-from .html_parser import HTMLParser
-from .llm_fallback_parser import LLMFallbackParser
+from commercial_config import CommercialAPIConfig
+from brightdata_client import BrightDataClient
+from html_cache_manager import HTMLCacheManager
+from html_parser import HTMLParser
+from llm_fallback_parser import LLMFallbackParser
 
 logger = setup_logging(__name__)
 
