@@ -261,9 +261,9 @@ class ZenRowsClient(CommercialAPIClient):
             # Anthropologie: Wait for product shop links
             'anthropologie': 'a[href*="/shop/"]',
             
-            # Urban Outfitters: Wait for product detail links
-            'urban_outfitters': 'a[href*="/products/"]',
-            'urbanoutfitters': 'a[href*="/products/"]',
+            # Urban Outfitters: Wait for product shop links (FIXED with correct URL!)
+            'urban_outfitters': 'a[href*="/shop/"]',
+            'urbanoutfitters': 'a[href*="/shop/"]',
             
             # Abercrombie: Wait for product card links (data-testid)
             'abercrombie': 'a[href*="/shop/us/p/"]',

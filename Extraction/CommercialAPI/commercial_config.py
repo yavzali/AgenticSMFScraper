@@ -112,7 +112,7 @@ class CommercialAPIConfig:
         'abercrombie',     # ✅ 180 products - JavaScript rendering
         'hm',              # ✅ 48 products  - "Blocked" false positive
         'aritzia',         # ✅ 84 products  - Cloudflare Turnstile (VERIFIED!)
-        # Note: Urban Outfitters excluded (ZenRows IPs blocked by PerimeterX)
+        'urban_outfitters', # ✅ 72 products - Fixed with correct URL! 🎉
     ]
     
     @classmethod
