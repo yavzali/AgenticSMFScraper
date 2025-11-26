@@ -106,13 +106,15 @@ def get_client(config) -> CommercialAPIClient:
         return ScraperAPIClient(config)
     
     elif provider == 'brightdata':
-        from .providers.brightdata_provider import BrightDataClient
-        return BrightDataClient(config)
+        raise ValueError(
+            f"Bright Data provider is deprecated (0/6 success rate in testing). "
+            f"Use 'zenrows' (recommended) or 'scraperapi' instead."
+        )
     
     else:
         raise ValueError(
             f"Unknown Commercial API provider: '{provider}'. "
-            f"Supported providers: zenrows, scraperapi, brightdata"
+            f"Supported providers: zenrows, scraperapi"
         )
 
 
