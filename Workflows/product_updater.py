@@ -51,14 +51,17 @@ except ImportError:
 
 logger = setup_logging(__name__)
 
-# Retailer classification
+# Retailer classification (for routing/grouping - actual routing checks Commercial API first)
 MARKDOWN_RETAILERS = [
-    'revolve', 'asos', 'mango', 'hm', 'uniqlo'
+    'revolve', 'asos', 'mango', 'uniqlo'  # H&M now on Commercial API
 ]
 
+# NOTE: These retailers are now on Commercial API tower, not Patchright:
+# - nordstrom, anthropologie, abercrombie, hm, aritzia, urban_outfitters
+# The routing logic checks CommercialAPIConfig.should_use_commercial_api() first
 PATCHRIGHT_RETAILERS = [
-    'anthropologie', 'urban_outfitters', 'abercrombie',
-    'aritzia', 'nordstrom'
+    # All retailers with strong anti-bot are now on Commercial API
+    # This list is kept for legacy compatibility but not actively used for routing
 ]
 
 

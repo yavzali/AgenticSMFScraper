@@ -74,29 +74,39 @@ class MarkdownCatalogExtractor:
     def _setup_llm_clients(self):
         """Initialize DeepSeek and Gemini clients"""
         try:
-            # DeepSeek V3 setup
-            try:
-                from openai import OpenAI
-                
-                deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
-                if not deepseek_api_key:
-                    deepseek_api_key = self.config.get("llm_providers", {}).get("deepseek", {}).get("api_key")
-                
-                if deepseek_api_key:
-                    self.deepseek_client = OpenAI(
-                        api_key=deepseek_api_key,
-                        base_url="https://api.deepseek.com"
-                    )
-                    self.deepseek_enabled = True
-                    logger.info("✅ DeepSeek V3 client initialized")
-                else:
-                    self.deepseek_enabled = False
-                    logger.debug("ℹ️ DeepSeek API key not found - using Gemini only")
-            except ImportError:
-                self.deepseek_enabled = False
-                logger.warning("⚠️ OpenAI client not available for DeepSeek")
+            # DeepSeek V3 setup (with test model override support)
+            # Check if we're testing Gemini models (skip DeepSeek in Gemini test mode)
+            test_model = os.getenv("TEST_LLM_MODEL")
+            test_provider = os.getenv("TEST_LLM_PROVIDER")
             
-            # Gemini Flash 2.0 setup
+            if test_model and test_provider == "google":
+                # Test mode: Testing Gemini models, disable DeepSeek
+                self.deepseek_enabled = False
+                logger.info(f"🧪 TEST MODE: DeepSeek disabled (testing {test_model} instead)")
+            else:
+                # Production mode or DeepSeek test mode
+                try:
+                    from openai import OpenAI
+                    
+                    deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+                    if not deepseek_api_key:
+                        deepseek_api_key = self.config.get("llm_providers", {}).get("deepseek", {}).get("api_key")
+                    
+                    if deepseek_api_key:
+                        self.deepseek_client = OpenAI(
+                            api_key=deepseek_api_key,
+                            base_url="https://api.deepseek.com"
+                        )
+                        self.deepseek_enabled = True
+                        logger.info("✅ DeepSeek V3 client initialized")
+                    else:
+                        self.deepseek_enabled = False
+                        logger.debug("ℹ️ DeepSeek API key not found - using Gemini only")
+                except ImportError:
+                    self.deepseek_enabled = False
+                    logger.warning("⚠️ OpenAI client not available for DeepSeek")
+            
+            # Gemini Flash 2.0 setup (with test model override support)
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI
                 
@@ -107,13 +117,25 @@ class MarkdownCatalogExtractor:
                 if not google_api_key:
                     raise ValueError("No Google API key found in environment or config")
                 
+                # Check for test model override
+                test_model = os.getenv("TEST_LLM_MODEL")
+                test_provider = os.getenv("TEST_LLM_PROVIDER", "google")
+                
+                if test_model and test_provider == "google":
+                    # Use test model override
+                    gemini_model = test_model
+                    logger.info(f"🧪 TEST MODE: Using {test_model} (override)")
+                else:
+                    # Use production model
+                    gemini_model = "gemini-2.0-flash-exp"
+                
                 self.gemini_client = ChatGoogleGenerativeAI(
-                    model="gemini-2.0-flash-exp",
+                    model=gemini_model,
                     temperature=0.1,
                     max_output_tokens=8000,  # Increased for large catalog arrays
                     google_api_key=google_api_key
                 )
-                logger.info("✅ Gemini Flash 2.0 client initialized")
+                logger.info(f"✅ Gemini client initialized: {gemini_model}")
             except Exception as e:
                 logger.error(f"❌ Failed to initialize Gemini client: {e}")
                 raise
