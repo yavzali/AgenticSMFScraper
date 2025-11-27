@@ -1,0 +1,38 @@
+{
+  "batch_id": "filter_20251127_000205",
+  "workflow": "product_updater",
+  "run_date": "2025-11-27T05:02:05.122257",
+  "total_failed": 3,
+  "failures": [
+    {
+      "url": "https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4quickview-THEO-WS978&loadVisNav=true&pageNumVisNav=2",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 53.83102241693996,
+      "attempted_at": "2025-11-27T05:02:59.352170",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ulla-johnson-soren-shirt-in-acacia/dp/ULLA-WS460/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 13.622272124979645,
+      "attempted_at": "2025-11-27T05:04:25.425163",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/mayle-vasquez-santa-maria-dress-in-gold-degrade/dp/MVAS-WD5/?d=Womens&page=1&lc=55&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 13.982097666012123,
+      "attempted_at": "2025-11-27T05:12:44.516909",
+      "certainty": "known_error"
+    }
+  ]
+}

@@ -626,8 +626,7 @@ class ProductUpdater:
         
         Images are processed only if:
         1. Never uploaded before (images_uploaded = 0 or NULL)
-        2. Previous upload failed (images_failed_count > 0)
-        3. Image URLs have changed (different from what's in DB)
+        2. Image URLs have changed (different from what's in DB)
         
         Args:
             existing_product: Current product record from DB
@@ -642,12 +641,7 @@ class ProductUpdater:
             logger.debug("Images never uploaded before → process")
             return True
         
-        # Check if previous uploads failed
-        images_failed_count = existing_product.get('images_failed_count', 0)
-        if images_failed_count > 0:
-            logger.debug(f"Previous upload failed {images_failed_count} times → retry")
-            return True
-        
+        # If images were successfully uploaded, only re-process if URLs changed
         # Check if image URLs changed
         # Note: This is simplified - in production you'd compare normalized URLs
         old_image_count = existing_product.get('image_count', 0)
