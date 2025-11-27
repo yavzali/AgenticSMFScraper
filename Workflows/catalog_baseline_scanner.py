@@ -81,7 +81,7 @@ CATALOG_URLS = {
         'tops': 'https://www.abercrombie.com/shop/us/womens-tops--1?rows=90&sort=newest&start=0'
     },
     'urban_outfitters': {
-        'dresses': 'https://www.urbanoutfitters.com/dresses?sort=tile.product.newestColorDate&order=Descending&sleeve=Short+Sleeve,Long+Sleeve,3/4+Sleeve',
+        'dresses': 'https://www.urbanoutfitters.com/dresses?sort=tile.product.newestColorDate&order=Descending&sleeve=Long+Sleeve,3/4+Sleeve,Short+Sleeve',
         'tops': 'https://www.urbanoutfitters.com/tops?sort=tile.product.newestColorDate&order=Descending&sleeve=Short+Sleeve,Long+Sleeve,3/4+Sleeve'
     },
     'nordstrom': {
