@@ -1,0 +1,18 @@
+{
+  "batch_id": "filter_20251126_235837",
+  "workflow": "product_updater",
+  "run_date": "2025-11-27T04:58:37.305482",
+  "total_failed": 1,
+  "failures": [
+    {
+      "url": "https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4quickview-THEO-WS978&loadVisNav=true&pageNumVisNav=2",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 52.45946766692214,
+      "attempted_at": "2025-11-27T04:59:30.244694",
+      "certainty": "known_error"
+    }
+  ]
+}
