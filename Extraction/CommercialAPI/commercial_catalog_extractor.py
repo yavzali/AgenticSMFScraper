@@ -177,7 +177,7 @@ class CommercialCatalogExtractor:
                     products=products,
                     method_used='beautifulsoup',
                     processing_time=processing_time,
-                    api_cost=self.api_client.total_cost if not cache_hit else 0.0,
+                    brightdata_cost=self.api_client.total_cost if not cache_hit else 0.0,
                     cache_hit=cache_hit
                 )
             
@@ -203,7 +203,7 @@ class CommercialCatalogExtractor:
                         products=products,
                         method_used='llm',
                         processing_time=processing_time,
-                        api_cost=self.api_client.total_cost if not cache_hit else 0.0,
+                        brightdata_cost=self.api_client.total_cost if not cache_hit else 0.0,
                         llm_cost=self.llm_parser.total_llm_cost,
                         cache_hit=cache_hit
                     )
