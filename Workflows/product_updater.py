@@ -491,6 +491,7 @@ class ProductUpdater:
                                 extraction_result.data['images_uploaded_at'] = datetime.utcnow().isoformat()
                                 extraction_result.data['images_failed_count'] = 0
                                 extraction_result.data['last_image_error'] = None
+                                extraction_result.data['image_count'] = len(image_urls)
                                 
                                 logger.info(f"✅ Uploaded {len(uploaded_images)} images to Shopify product {shopify_id}")
                             else:
