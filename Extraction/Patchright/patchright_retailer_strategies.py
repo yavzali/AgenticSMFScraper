@@ -48,11 +48,12 @@ ANTI_SCRAPING_CONFIG = {
         'notes': 'Cloudflare + polling - timing variance OK except polling loop'
     },
     'revolve': {
+        'headless': False,  # HTTP2 protocol error in headless mode
         'enhanced_args': False,  # Uses Markdown, not Patchright
         'webdriver_hiding': False,
         'timing_variance': False,
         'randomized_verification': False,
-        'notes': 'Markdown extraction - not affected by browser changes'
+        'notes': 'Markdown extraction for single products, headed mode required for catalog due to HTTP2 errors'
     },
     'nordstrom': {
         'enhanced_args': True,
@@ -199,7 +200,7 @@ RETAILER_STRATEGIES = {
         'verification': 'none',
         'wait_strategy': 'domcontentloaded',  # Use domcontentloaded (popups prevent networkidle)
         'catalog_mode': 'dom_first',  # DOM-first for catalog (Markdown for single product)
-        'headless': True,  # Safe to run headless (low anti-bot complexity)
+        'headless': False,  # HTTP2 protocol error in headless mode
         'product_selectors': [
             "a[href*='/dp/']"
         ],
