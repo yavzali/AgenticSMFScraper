@@ -642,16 +642,8 @@ class ProductUpdater:
             logger.debug("Images never uploaded before → process")
             return True
         
-        # If images were successfully uploaded, only re-process if URLs changed
-        # Check if image URLs changed
-        # Note: This is simplified - in production you'd compare normalized URLs
-        old_image_count = existing_product.get('image_count', 0)
-        new_image_urls = new_data.get('image_urls', [])
-        if len(new_image_urls) != old_image_count:
-            logger.debug(f"Image count changed ({old_image_count} → {len(new_image_urls)}) → process")
-            return True
-        
-        # Images already uploaded successfully and unchanged
+        # If images were successfully uploaded, ALWAYS skip re-upload
+        # We trust that Shopify has the correct images from previous upload
         logger.debug("Images already uploaded successfully → skip")
         return False
     
