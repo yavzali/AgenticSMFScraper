@@ -710,8 +710,8 @@ class ProductUpdater:
             changed_fields.append('description')
         
         # Image URLs (compare sets to ignore order)
-        old_images = set(json.loads(existing_product.get('images', '[]')) if isinstance(existing_product.get('images'), str) else existing_product.get('image_urls', []))
-        new_images = set(extracted_data.get('image_urls', []))
+        old_images = set(json.loads(existing_product.get('images', '[]')) if isinstance(existing_product.get('images'), str) else (existing_product.get('image_urls') or []))
+        new_images = set(extracted_data.get('image_urls') or [])
         if old_images != new_images:
             changed_fields.append('images')
         

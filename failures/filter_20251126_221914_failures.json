@@ -1,0 +1,1008 @@
+{
+  "batch_id": "filter_20251126_221914",
+  "workflow": "product_updater",
+  "run_date": "2025-11-27T03:19:14.302098",
+  "total_failed": 100,
+  "failures": [
+    {
+      "url": "https://www.revolve.com/polo-ralph-lauren-x-revolve-graphic-cropped-quarter-zip-sweatshirt-in-signal-yellow-polo-black-multi/dp/PLOR-WS53/?d=Womens&page=1&lc=25&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 40.046712334034964,
+      "attempted_at": "2025-11-27T03:19:54.812870",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/all-the-ways-sophia-oversized-henley-top-in-brown-blue-stripe/dp/AAYR-WS167/?d=Womens&page=1&lc=5&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 60.09199541597627,
+      "attempted_at": "2025-11-27T03:20:14.858279",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lioness-bottega-tshirt-in-grey/dp/LIOR-WS197/?d=Womens&page=1&lc=68&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 35.836840208852664,
+      "attempted_at": "2025-11-27T03:20:30.751052",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4quickview-THEO-WS978&loadVisNav=true&pageNumVisNav=2",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 89.40892029204406,
+      "attempted_at": "2025-11-27T03:20:44.174616",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/525-ginny-short-sleeve-johnny-collar-top-in-oxblood/dp/525A-WS238/?d=Womens&page=1&lc=73&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 30.99475625017658,
+      "attempted_at": "2025-11-27T03:20:45.954428",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-kaylee-top-in-placed-fog-floral/dp/AFFM-WS445/?d=Womens&page=1&lc=86&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.773261207854375,
+      "attempted_at": "2025-11-27T03:21:14.625180",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/simkhai-kenlie-midi-dress-in-cypress/dp/JSKI-WD577/?d=Womens&page=1&lc=22&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 39.07225533295423,
+      "attempted_at": "2025-11-27T03:21:23.348186",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/show-me-your-mumu-bowie-top-in-black-dancing/dp/SHOW-WS537/?d=Womens&page=1&lc=27&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.6824764998164,
+      "attempted_at": "2025-11-27T03:21:29.739193",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-zadie-top-in-peach-roses/dp/AFFM-WS498/?d=Womens&page=1&lc=96&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.383814125088975,
+      "attempted_at": "2025-11-27T03:21:56.109823",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/steve-madden-cherie-top-in-black-onyx/dp/SMAD-WS104/?d=Womens&page=1&lc=52&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 40.898977959062904,
+      "attempted_at": "2025-11-27T03:22:04.352091",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bash-dylak-top-in-grischine/dp/BAAN-WS42/?d=Womens&page=1&lc=80&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.053192417137325,
+      "attempted_at": "2025-11-27T03:22:14.893422",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helsa-linen-button-down-shirt-in-chambray-blue/dp/HLSA-WS50/?d=Womens&page=1&lc=37&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 44.99727841699496,
+      "attempted_at": "2025-11-27T03:22:41.208203",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/eaves-saeunn-drape-neck-blouse-in-caviar/dp/EAVR-WS77/?d=Womens&page=1&lc=84&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 40.747280958108604,
+      "attempted_at": "2025-11-27T03:22:45.201577",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/autumn-cashmere-rib-crew-neck-top-in-flame/dp/AUTU-WS332/?d=Womens&page=1&lc=10&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.79643404111266,
+      "attempted_at": "2025-11-27T03:22:56.790754",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/vince-essential-long-sleeve-turtleneck-in-black/dp/VINCE-WS1144/?d=Womens&page=1&lc=78&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 25.773985999869183,
+      "attempted_at": "2025-11-27T03:23:11.076881",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/favorite-daughter-the-ex-boyfriend-shirt-in-white/dp/FAVR-WS12/?d=Womens&page=1&lc=36&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 46.1869850831572,
+      "attempted_at": "2025-11-27T03:23:27.496333",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bronx-and-banco-eleanor-bodysuit-in-cream/dp/BROR-WS100/?d=Womens&page=1&lc=16&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 30.939819500083104,
+      "attempted_at": "2025-11-27T03:23:27.831196",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helmut-lang-shirt-jacket-in-mid-indigo-painter/dp/HLNR-WS137/?d=Womens&page=1&lc=88&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 19.73640820919536,
+      "attempted_at": "2025-11-27T03:23:47.668962",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/le-superbe-subtle-shine-ex-bf-shirt-in-pink-shine/dp/LSPB-WS84/?d=Womens&page=1&lc=46&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 44.471728208940476,
+      "attempted_at": "2025-11-27T03:23:55.650744",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/eaves-amiya-long-sleeve-knit-top-in-black/dp/EAVR-WS72/?d=Womens&page=1&lc=53&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 50.17465995787643,
+      "attempted_at": "2025-11-27T03:24:17.772051",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ulla-johnson-soren-shirt-in-acacia/dp/ULLA-WS460/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 30.00420062500052,
+      "attempted_at": "2025-11-27T03:24:25.755931",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-kaylee-top-in-citrus-petals/dp/AFFM-WS387/?d=Womens&page=1&lc=36&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 42.14372562500648,
+      "attempted_at": "2025-11-27T03:24:29.913855",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/agolde-talia-shirt-in-episode/dp/AGOL-WS326/?d=Womens&page=1&lc=4&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 37.686294416897,
+      "attempted_at": "2025-11-27T03:24:55.560986",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/hemant-and-nandita-longsleeve-top-in-merlot/dp/BENE-WS175/?d=Womens&page=1&lc=9&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.266998041886836,
+      "attempted_at": "2025-11-27T03:25:11.124085",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/zimmermann-cascadian-tunic-dress-in-tan-leopard/dp/ZIMM-WD597/?d=Womens&page=1&lc=83&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.93879412510432,
+      "attempted_at": "2025-11-27T03:25:13.953960",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/miscreants-roll-neck-top-with-faux-fur-trim-in-black-white/dp/MCRE-WS11/?d=Womens&page=1&lc=26&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D3&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 24.623436291934922,
+      "attempted_at": "2025-11-27T03:25:20.286339",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/generation-love-noor-crystal-blouse-in-cabernet/dp/GLOV-WS397/?d=Womens&page=1&lc=71&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 25.6509679579176,
+      "attempted_at": "2025-11-27T03:25:46.039613",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ow-collection-eliza-shirt-in-blue-stripe/dp/OWIR-WS152/?d=Womens&page=1&lc=40&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 35.776377708185464,
+      "attempted_at": "2025-11-27T03:25:49.834031",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rails-kate-top-in-ivory-horses/dp/RAIL-WS1100/?d=Womens&page=1&lc=40&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 44.440881917020306,
+      "attempted_at": "2025-11-27T03:25:55.666604",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/eaves-lene-polo-in-heather-grey/dp/EAVR-WS85/?d=Womens&page=1&lc=85&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 40.54566075000912,
+      "attempted_at": "2025-11-27T03:26:30.483175",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lioness-rugby-jersey-in-onyx-multi/dp/LIOR-WS155/?d=Womens&page=1&lc=54&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 51.35232241591439,
+      "attempted_at": "2025-11-27T03:26:37.492482",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/barefoot-dreams-cozychic-ultra-lite-ribbed-ruffle-cuff-shirt-in-stone/dp/BDRE-WS14/?d=Womens&page=1&lc=61&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.18665933399461,
+      "attempted_at": "2025-11-27T03:26:42.955316",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-ashland-crochet-lace-dress-in-painted-roses/dp/AFFM-WD534/?d=Womens&page=1&lc=29&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.76723008300178,
+      "attempted_at": "2025-11-27T03:27:16.356412",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ulla-johnson-amari-jersey-long-sleeve-dress-in-night-lily/dp/ULLA-WD553/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 39.0150392500218,
+      "attempted_at": "2025-11-27T03:27:22.072531",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/retrofete-opaline-dress-in-melting-animal-print/dp/ROFR-WD1082/?d=Womens&page=1&lc=32&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.727628875058144,
+      "attempted_at": "2025-11-27T03:27:23.322351",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/alc-wells-dress-in-evening-blue/dp/ALX-WD588/?d=Womens&page=1&lc=50&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 38.34613637509756,
+      "attempted_at": "2025-11-27T03:28:00.520882",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-shailene-midi-dress-in-fuchsia-rose/dp/AFFM-WD539/?d=Womens&page=1&lc=38&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.00454966700636,
+      "attempted_at": "2025-11-27T03:28:03.462323",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/sans-faff-amberly-evening-blazer-dress-in-bordeaux/dp/SAFR-WD32/?d=Womens&page=1&lc=52&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 48.84160604188219,
+      "attempted_at": "2025-11-27T03:28:12.267451",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helsa-hildie-polo-dress-in-pink/dp/HLSA-WD233/?d=Womens&page=1&lc=61&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 39.657735500019044,
+      "attempted_at": "2025-11-27T03:28:43.220666",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/cala-de-la-cruz-isidora-dress-in-barrococafe/dp/CCRR-WD23/?d=Womens&page=1&lc=69&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.30866275005974,
+      "attempted_at": "2025-11-27T03:28:59.678246",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/mayle-vasquez-el-pez-long-dress-in-mocha/dp/MVAS-WD3/?d=Womens&page=1&lc=54&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 65.71620033401996,
+      "attempted_at": "2025-11-27T03:29:06.337678",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/simkhai-hathaway-midi-dress-ferrera-midi-dress-in-horizon/dp/JSKI-WD571/?d=Womens&page=1&lc=65&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 46.256094167008996,
+      "attempted_at": "2025-11-27T03:29:29.577012",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helsa-godet-shirt-dress-in-black/dp/HLSA-WD210/?d=Womens&page=1&lc=71&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 37.98963116714731,
+      "attempted_at": "2025-11-27T03:29:37.770821",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lioness-resolution-maxi-dress-in-blue/dp/LIOR-WD120/?d=Womens&page=1&lc=70&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.77834124979563,
+      "attempted_at": "2025-11-27T03:29:48.218241",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/sau-lee-irene-print-dress-in-leopard/dp/SLEE-WD461/?d=Womens&page=1&lc=88&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 30.6218201671727,
+      "attempted_at": "2025-11-27T03:30:00.301142",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/zimmermann-buttoned-midi-dress-in-cream-peony/dp/ZIMM-WD608/?d=Womens&page=1&lc=93&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.13329266710207,
+      "attempted_at": "2025-11-27T03:30:25.005902",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ulla-johnson-koa-jersey-turtleneck-dress-in-desert-jasper/dp/ULLA-WD554/?d=Womens&page=1&lc=17&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 64.30917770811357,
+      "attempted_at": "2025-11-27T03:30:52.629388",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/house-of-harlow-1960-x-revolve-suki-gown-in-olive-green/dp/HOOF-WD1142/?d=Womens&page=1&lc=84&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 54.395187417045236,
+      "attempted_at": "2025-11-27T03:30:54.799923",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/eaves-shir-dress-in-brown/dp/EAVR-WD2/?d=Womens&page=1&lc=72&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.54281095811166,
+      "attempted_at": "2025-11-27T03:31:10.649633",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rotate-barsha-dress-in-carmine-rose/dp/TATE-WD66/?d=Womens&page=1&lc=93&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 28.28001454193145,
+      "attempted_at": "2025-11-27T03:31:23.182364",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/muma-world-phoenix-maxi-dress-in-la-plage/dp/MUMR-WD12/?d=Womens&page=1&lc=84&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 60.31055724993348,
+      "attempted_at": "2025-11-27T03:31:53.041969",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/scarlett-poppies-mariposa-long-dress-in-vanilla/dp/SPOP-WD1/?d=Womens&page=1&lc=8&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.92324116709642,
+      "attempted_at": "2025-11-27T03:31:58.674277",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rowen-rose-long-sleeve-polo-dress-in-yellow/dp/ROWR-WD7/?d=Womens&page=1&lc=6&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.98588208318688,
+      "attempted_at": "2025-11-27T03:32:11.271595",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/alemais-surrealist-summer-ramie-shirt-dress-in-multi/dp/AMAI-WD44/?d=Womens&page=1&lc=37&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.362359791994095,
+      "attempted_at": "2025-11-27T03:32:42.138880",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rue-sophie-beca-shirt-dress-in-white/dp/SRUE-WD27/?d=Womens&page=1&lc=20&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 50.27890641684644,
+      "attempted_at": "2025-11-27T03:32:43.422987",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/aya-muse-helia-dress-in-white/dp/AYAR-WD96/?d=Womens&page=1&lc=58&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 53.75975170801394,
+      "attempted_at": "2025-11-27T03:33:05.133347",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/simonmiller-axon-dress-in-distorted-stripe/dp/SIMO-WD28/?d=Womens&page=1&lc=71&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 46.65808295807801,
+      "attempted_at": "2025-11-27T03:33:30.182844",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/house-of-harlow-1960-x-revolve-gabrielle-maxi-dress-in-brown/dp/HOOF-WD1066/?d=Womens&page=1&lc=70&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 50.537489665905014,
+      "attempted_at": "2025-11-27T03:33:32.778702",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/steve-madden-maxine-dress-in-dark-blue/dp/SMAD-WD262/?d=Womens&page=1&lc=87&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 48.94877320784144,
+      "attempted_at": "2025-11-27T03:33:54.183452",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/good-american-satin-shine-funnel-neck-midi-dress-in-fierce-leopard001/dp/GAME-WD64/?d=Womens&page=1&lc=79&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 48.37047683307901,
+      "attempted_at": "2025-11-27T03:34:18.655424",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/herve-leger-the-sloane-gown-in-black/dp/HVLG-WD54/?d=Womens&page=1&lc=49&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.839670167071745,
+      "attempted_at": "2025-11-27T03:34:20.720623",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/alemais-constance-shirt-dress-in-cream/dp/AMAI-WD26/?d=Womens&page=1&lc=62&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 46.4417527501937,
+      "attempted_at": "2025-11-27T03:34:40.727396",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/alc-lia-dress-in-black-camel/dp/ALX-WD593/?d=Womens&page=1&lc=56&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 48.824947291985154,
+      "attempted_at": "2025-11-27T03:35:09.647745",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/the-line-by-k-leticia-dress-in-red/dp/TLIN-WD54/?d=Womens&page=1&lc=22&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 55.089858332881704,
+      "attempted_at": "2025-11-27T03:35:13.848370",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ronny-kobo-sebastian-dress-in-dark-wash/dp/RONR-WD801/?d=Womens&page=1&lc=80&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 33.499118458945304,
+      "attempted_at": "2025-11-27T03:35:14.365843",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/simkhai-ferrera-midi-dress-in-black/dp/JSKI-WD575/?d=Womens&page=1&lc=28&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 25.39692037482746,
+      "attempted_at": "2025-11-27T03:35:39.347672",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helsa-boden-cashmere-maxi-dress-in-black/dp/HLSA-WD136/?d=Womens&page=1&lc=54&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 48.943691791035235,
+      "attempted_at": "2025-11-27T03:36:03.412527",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/solid-striped-soglio-dress-in-ecru/dp/SLST-WD115/?d=Womens&page=1&lc=19&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 65.53874150011688,
+      "attempted_at": "2025-11-27T03:36:15.287811",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lioness-resolution-midi-dress-in-beige/dp/LIOR-WD119/?d=Womens&page=1&lc=42&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.31852929107845,
+      "attempted_at": "2025-11-27T03:36:22.766949",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/seroya-melonie-knit-maxi-dress-in-sapphire/dp/SERR-WD184/?d=Womens&page=1&lc=15&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 42.712890832917765,
+      "attempted_at": "2025-11-27T03:36:58.102962",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/deme-by-gabriella-isla-dress-in-baby-pink/dp/DEBY-WD49/?d=Womens&page=1&lc=6&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 38.813603040995076,
+      "attempted_at": "2025-11-27T03:37:01.682814",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/runaway-the-label-saylor-maxi-dress-in-leopard/dp/RUNR-WD122/?d=Womens&page=1&lc=83&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 63.0806622907985,
+      "attempted_at": "2025-11-27T03:37:06.594256",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/significant-other-yasmine-maxi-dress-in-cherry/dp/SIGR-WD293/?d=Womens&page=1&lc=33&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.40949966595508,
+      "attempted_at": "2025-11-27T03:37:45.194411",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/the-line-by-k-valentina-dress-in-pale-green/dp/TLIN-WD49/?d=Womens&page=1&lc=70&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 38.59973262483254,
+      "attempted_at": "2025-11-27T03:37:45.295499",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/tanner-fletcher-patsy-pointelle-midi-dress-in-ivory/dp/TFLE-WD2/?d=Womens&page=1&lc=20&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 61.94004387501627,
+      "attempted_at": "2025-11-27T03:38:00.146583",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/cult-gaia-vera-dress-in-java/dp/CULG-WD465/?d=Womens&page=1&lc=21&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 40.657768458127975,
+      "attempted_at": "2025-11-27T03:38:26.053787",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/elliatt-astrid-dress-in-multi/dp/ELLI-WD344/?d=Womens&page=1&lc=10&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 27.064278583042324,
+      "attempted_at": "2025-11-27T03:38:27.312975",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/hemant-and-nandita-long-dress-in-burgundy/dp/BENE-WD415/?d=Womens&page=1&lc=4&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.06111833290197,
+      "attempted_at": "2025-11-27T03:38:30.355471",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/polo-ralph-lauren-cableknit-vneck-sweater-dress-in-gingerbread-brown-melange/dp/PLOR-WD26/?d=Womens&page=1&lc=58&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.1826164170634,
+      "attempted_at": "2025-11-27T03:39:10.596709",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-ariel-midi-dress-in-kiss-red/dp/AFFM-WD533/?d=Womens&page=1&lc=37&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.52585241687484,
+      "attempted_at": "2025-11-27T03:39:11.680685",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/norma-kamali-x-revolve-long-sleeve-turtleneck-flared-gown-in-bark/dp/NKAM-WD802/?d=Womens&page=1&lc=43&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.46690395800397,
+      "attempted_at": "2025-11-27T03:39:15.923519",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/delfi-anastasia-dress-in-army/dp/DELR-WD103/?d=Womens&page=1&lc=60&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 22.327779290964827,
+      "attempted_at": "2025-11-27T03:39:33.025635",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/mayle-vasquez-santa-maria-dress-in-gold-degrade/dp/MVAS-WD5/?d=Womens&page=1&lc=55&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 27.457765833009034,
+      "attempted_at": "2025-11-27T03:39:43.482998",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/free-people-gianni-maxi-dress-in-violet-siren-combo/dp/FREE-WD3075/?d=Womens&page=1&lc=42&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.312010125024244,
+      "attempted_at": "2025-11-27T03:39:53.095161",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rohe-poplin-silk-combined-gilet-dress-in-optic-white/dp/ROHR-WD3/?d=Womens&page=1&lc=66&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.51450483314693,
+      "attempted_at": "2025-11-27T03:40:20.644229",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bardot-remy-mini-dress-in-ivory/dp/BARD-WD706/?d=Womens&page=1&lc=46&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 42.36567287496291,
+      "attempted_at": "2025-11-27T03:40:25.957721",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/retrofete-fenella-dress-in-gunmetal/dp/ROFR-WD867/?d=Womens&page=1&lc=62&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 65.1693112498615,
+      "attempted_at": "2025-11-27T03:40:58.383224",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/brochu-walker-kate-maxi-dress-in-barolo/dp/BROC-WD44/?d=Womens&page=1&lc=26&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.36591091589071,
+      "attempted_at": "2025-11-27T03:41:06.127601",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/aje-isabella-shirtdress-in-leopard/dp/AJER-WD70/?d=Womens&page=1&lc=29&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.90025937510654,
+      "attempted_at": "2025-11-27T03:41:11.969848",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/helsa-the-alva-caped-jersey-dress-in-shocking-pink/dp/HLSA-WD235/?d=Womens&page=1&lc=73&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.53107179189101,
+      "attempted_at": "2025-11-27T03:41:40.017018",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/simkhai-odessa-midi-dress-in-pear/dp/JSKI-WD582/?d=Womens&page=1&lc=9&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 49.962645375169814,
+      "attempted_at": "2025-11-27T03:42:02.034363",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-shona-dress-in-organic-rose/dp/AFFM-WD436/?d=Womens&page=1&lc=45&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 60.61950458283536,
+      "attempted_at": "2025-11-27T03:42:06.849299",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lacademie-by-marianna-kayden-maxi-dress-in-beige/dp/LCDE-WD905/?d=Womens&page=1&lc=79&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 39.229814999969676,
+      "attempted_at": "2025-11-27T03:42:19.349384",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/all-the-ways-belina-mini-dress-in-grey/dp/AAYR-WD150/?d=Womens&page=1&lc=94&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.47018420789391,
+      "attempted_at": "2025-11-27T03:42:43.605829",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/steve-madden-rosabella-dress-in-durberry/dp/SMAD-WD328/?d=Womens&page=1&lc=90&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 45.39269520808011,
+      "attempted_at": "2025-11-27T03:42:52.343489",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-paola-dress-in-gold-halo-dot/dp/AFFM-WD514/?d=Womens&page=1&lc=96&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 47.69699654192664,
+      "attempted_at": "2025-11-27T03:43:07.147757",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/elliatt-melissa-gown-in-white/dp/ELLI-WD968/?d=Womens&page=1&lc=4&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 43.3012557500042,
+      "attempted_at": "2025-11-27T03:43:27.009581",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bardot-triple-frill-dress-in-pink-gardenia/dp/BARD-WD404/?d=Womens&page=1&lc=61&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 39.18644658382982,
+      "attempted_at": "2025-11-27T03:43:31.632613",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/la-fuori-coralia-gathered-cape-dress-in-coralia-floral/dp/LFUO-WD6/?d=Womens&page=1&lc=78&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.76553320791572,
+      "attempted_at": "2025-11-27T03:43:49.015757",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lacademie-by-marianna-odelya-asymmetrical-dress-in-wine/dp/LCDE-WD924/?d=Womens&page=1&lc=12&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "'NoneType' object is not iterable",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown",
+      "processing_time": 41.11745566711761,
+      "attempted_at": "2025-11-27T03:44:08.229294",
+      "certainty": "known_error"
+    }
+  ]
+}
