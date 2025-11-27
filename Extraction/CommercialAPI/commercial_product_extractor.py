@@ -75,8 +75,8 @@ class CommercialProductExtractor:
     async def initialize(self):
         """Initialize all components"""
         try:
-            # Initialize Bright Data client
-            self.api_client = BrightDataClient()
+            # Initialize Commercial API client (ZenRows)
+            self.api_client = get_client(self.config)
             
             # Initialize HTML cache
             if self.config.HTML_CACHING_ENABLED:
