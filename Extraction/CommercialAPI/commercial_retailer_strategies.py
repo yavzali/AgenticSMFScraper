@@ -569,15 +569,42 @@ class CommercialRetailerStrategies:
         Parse stock status from text or element presence
         
         Returns:
-            'in_stock', 'out_of_stock', or 'unknown'
+            'no_longer_available', 'in_stock', 'out_of_stock', or 'unknown'
         """
-        # Check text
+        # Check for delisted/discontinued products FIRST
         if stock_text:
             stock_lower = stock_text.lower()
-            if 'in stock' in stock_lower or 'available' in stock_lower:
+            
+            # Keywords indicating permanent removal (not just temporary out of stock)
+            delisted_keywords = [
+                'no longer available',
+                'not available',
+                'discontinued',
+                'item not found',
+                'removed',
+                'product no longer exists',
+                'page not found',
+                '404',
+                'this product is unavailable',
+                'item unavailable'
+            ]
+            
+            for keyword in delisted_keywords:
+                if keyword in stock_lower:
+                    return 'no_longer_available'
+            
+            # Now check for regular stock statuses
+            if 'in stock' in stock_lower or 'available' in stock_lower or 'add to bag' in stock_lower:
                 return 'in_stock'
-            elif 'out of stock' in stock_lower or 'sold out' in stock_lower:
+            elif 'out of stock' in stock_lower or 'sold out' in stock_lower or 'coming soon' in stock_lower:
                 return 'out_of_stock'
+        
+        # Check page content for 404 or error indicators
+        page_text = soup.get_text(separator=' ', strip=True).lower()
+        if any(keyword in page_text for keyword in ['404', 'page not found', 'item not found', 'product not found']):
+            # But only if there's no product title or price (confirms it's an error page)
+            if not soup.select_one('h1') or not soup.select_one('[class*="price"]'):
+                return 'no_longer_available'
         
         # Check element presence (e.g., "Add to Bag" button)
         for selector in selectors:

@@ -1,0 +1,378 @@
+{
+  "batch_id": "filter_20251127_010421",
+  "workflow": "product_updater",
+  "run_date": "2025-11-27T06:04:21.451816",
+  "total_failed": 37,
+  "failures": [
+    {
+      "url": "https://www.revolve.com/ulla-johnson-soren-shirt-in-acacia/dp/ULLA-WS460/?d=Womens&page=1&lc=34&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 14.94012274988927,
+      "attempted_at": "2025-11-27T06:04:36.865936",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/mayle-vasquez-santa-maria-dress-in-gold-degrade/dp/MVAS-WD5/?d=Womens&page=1&lc=55&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_midi%26vnitems%3Dlength_and_maxi%26vnitems%3Dcut_and_straight%26vnitems%3Dcut_and_flared%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_bardot-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26vnitems%3Dsleeve-style_and_one-shoulder%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 15.738805416971445,
+      "attempted_at": "2025-11-27T06:04:37.664815",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/skims-fits-everybody-long-sleeve-tshirt-in-onyx/dp/SIMX-WS13/?d=Womens&page=1&lc=51&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 14.642558083171025,
+      "attempted_at": "2025-11-27T06:04:51.610252",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/tops/br/db773d/?navsrc=left&sortBy=newest&vnitems=length_and_mid&vnitems=length_and_long-top&vnitems=neckline_and_round-neck&vnitems=neckline_and_jewel-neck&vnitems=neckline_and_collar&vnitems=neckline_and_v-neck&vnitems=neckline_and_sweetheart&vnitems=neckline_and_turtleneck&vnitems=neckline_and_cowl-neck&vnitems=sleeve_and_long&vnitems=sleeve_and_3_4quickview-THEO-WS978&loadVisNav=true&pageNumVisNav=2",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 56.525029957992956,
+      "attempted_at": "2025-11-27T06:05:18.450773",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/la-made-long-sleeve-thermal-tee-in-merlot/dp/LAMA-WS2277/?d=Womens&page=1&lc=6&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 46.492084624944255,
+      "attempted_at": "2025-11-27T06:21:23.480741",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/michael-lauren-vance-henley-tee-in-heather-grey/dp/MLAU-WS417/?d=Womens&page=1&lc=3&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 36.59397395909764,
+      "attempted_at": "2025-11-27T06:28:00.640593",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/cultnaked-good-girl-bodysuit-in-blue/dp/CULR-WS54/?d=Womens&page=1&lc=90&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 33.44407241581939,
+      "attempted_at": "2025-11-27T06:34:20.753717",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/nakedvice-the-watson-shirt-in-dark-indigo/dp/NEDV-WS33/?d=Womens&page=1&lc=90&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dtype_and_blouse%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 46.853827208979055,
+      "attempted_at": "2025-11-27T06:49:53.056840",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/ulla-johnson-aurelia-turtleneck-top-in-night-lily/dp/ULLA-WS483/?d=Womens&page=1&lc=88&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D1&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 38.567724250024185,
+      "attempted_at": "2025-11-27T07:18:54.078693",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/cuts-long-sleeve-tomboy-tee-in-black/dp/CUTR-WS27/?d=Womens&page=1&lc=52&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "['LLM extraction failed']",
+      "stage": "extraction",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 47.35649554198608,
+      "attempted_at": "2025-11-27T07:39:28.428250",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rails-x-lspace-idania-shirt-in-black-blanket-stitch/dp/RAIL-WS1057/?d=Womens&page=1&lc=31&plpSrc=%2Fr%2FBrands.jsp%3FsortBy%3Dnewest%26vnitems%3Dlength_and_mid%26vnitems%3Dlength_and_long-top%26vnitems%3Dneckline_and_round-neck%26vnitems%3Dneckline_and_jewel-neck%26vnitems%3Dneckline_and_collar%26vnitems%3Dneckline_and_v-neck%26vnitems%3Dneckline_and_sweetheart%26vnitems%3Dneckline_and_turtleneck%26vnitems%3Dneckline_and_cowl-neck%26vnitems%3Dsleeve_and_long%26vnitems%3Dsleeve_and_3_4%26loadVisNav%3Dtrue%26pageNumVisNav%3D2&vn=true&vnclk=true",
+      "reason": "['Failed to fetch markdown content']",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 25.723534958204255,
+      "attempted_at": "2025-11-27T07:41:14.722155",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/violetta-top/dp/FAITF-WS1/",
+      "reason": "['Failed to fetch markdown content']",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 21.662499625002965,
+      "attempted_at": "2025-11-27T09:00:19.561956",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/rue-sophie-agni-dress-in-harbour/dp/SRUE-WD42/",
+      "reason": "Could not fetch product 14835384385906",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 29.210004874970764,
+      "attempted_at": "2025-11-27T09:13:07.908898",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/all-the-ways-cressida-maxi-dress-in-black/dp/AAYR-WD134/",
+      "reason": "Could not fetch product 14835385008498",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 31.436044290894642,
+      "attempted_at": "2025-11-27T09:13:14.444282",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/pq-billie-button-down-dress-in-water-lily/dp/PILY-WD20/",
+      "reason": "Could not fetch product 14835383435634",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 55.63436691602692,
+      "attempted_at": "2025-11-27T09:13:25.235100",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bronx-and-banco-colette-lace-gown-in-white/dp/BROR-WD726/",
+      "reason": "Could not fetch product 14835386876274",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 32.86975412489846,
+      "attempted_at": "2025-11-27T09:13:36.774429",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/astr-the-label-anora-dress-in-leopard-print/dp/ASTR-WD817/",
+      "reason": "Could not fetch product 14835387662706",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 29.170869291061535,
+      "attempted_at": "2025-11-27T09:13:37.181338",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/elodie-the-label-elodie-denis-dress-in-cocoa/dp/EDIE-WD24/",
+      "reason": "Could not fetch product 14835385729394",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 43.14887387515046,
+      "attempted_at": "2025-11-27T09:13:40.533007",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/nicholas-diantha-long-sleeve-midi-dress-with-circle-cutout-in-cacao/dp/NHOX-WD533/",
+      "reason": "Could not fetch product 14835388383602",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 39.351621417095885,
+      "attempted_at": "2025-11-27T09:13:53.907177",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/the-line-by-k-bexley-dress-in-black/dp/TLIN-WD55/",
+      "reason": "Could not fetch product 14835389333874",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 29.769207749981433,
+      "attempted_at": "2025-11-27T09:13:55.105891",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/astr-the-label-calantha-dress-in-wine-floral/dp/ASTR-WD808/",
+      "reason": "Could not fetch product 14835389858162",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 35.970066708978266,
+      "attempted_at": "2025-11-27T09:14:16.604628",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lagence-stormi-maxi-tux-dress-in-black/dp/LAGR-WD271/",
+      "reason": "Could not fetch product 14835389956466",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 27.842009749962017,
+      "attempted_at": "2025-11-27T09:14:21.859456",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/norma-kamali-obie-gown-in-black/dp/NKAM-WD777/",
+      "reason": "Could not fetch product 14835390251378",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 30.32713024993427,
+      "attempted_at": "2025-11-27T09:14:25.534649",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/missoni-midi-dress-in-blue-brown-tones/dp/MSNI-WD88/",
+      "reason": "Could not fetch product 14835389694322",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 52.04113249992952,
+      "attempted_at": "2025-11-27T09:14:29.323240",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/bronx-and-banco-cassandra-maxi-dress-in-blue-multi/dp/BROR-WD861/",
+      "reason": "Could not fetch product 14835389497714",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 53.812461083056405,
+      "attempted_at": "2025-11-27T09:14:30.688304",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/the-sei-open-back-long-sleeve-gown-in-cocoa/dp/TSEI-WD144/",
+      "reason": "Could not fetch product 14835390349682",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 33.99127812497318,
+      "attempted_at": "2025-11-27T09:14:50.697444",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/des-phemmes-backless-long-dress-in-noir/dp/DESR-WD4/",
+      "reason": "Could not fetch product 14835390644594",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 31.61288912501186,
+      "attempted_at": "2025-11-27T09:14:53.573851",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-bryony-midi-dress-in-photo-rose/dp/AFFM-WD538/",
+      "reason": "Could not fetch product 14835390742898",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 32.533618916990235,
+      "attempted_at": "2025-11-27T09:14:58.169733",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/more-to-come-annabelle-off-shoulder-maxi-in-white/dp/MOTO-WD768/",
+      "reason": "Could not fetch product 14835390841202",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 31.485320374835283,
+      "attempted_at": "2025-11-27T09:15:00.919808",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/runaway-the-label-romy-ruched-maxi-dress-in-bitter-chocolate/dp/RUNR-WD245/",
+      "reason": "Could not fetch product 14835390972274",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 51.06858295807615,
+      "attempted_at": "2025-11-27T09:15:21.858666",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/steve-madden-shiloh-dress-in-black-onyx/dp/SMAD-WD325/",
+      "reason": "Could not fetch product 14835391234418",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 35.214012207929045,
+      "attempted_at": "2025-11-27T09:15:28.890292",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-thelma-dress-in-feather-swirl/dp/AFFM-WD525/",
+      "reason": "Could not fetch product 14835391431026",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 31.76344604184851,
+      "attempted_at": "2025-11-27T09:15:30.035512",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/astr-the-label-cora-sweater-dress-in-taupe/dp/ASTR-WD506/",
+      "reason": "Could not fetch product 14835391070578",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 41.05928699998185,
+      "attempted_at": "2025-11-27T09:15:31.859375",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/camilla-back-detail-jersey-dress-in-istanbul-animalia/dp/CILL-WD450/",
+      "reason": "Could not fetch product 14835391529330",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 47.72747579193674,
+      "attempted_at": "2025-11-27T09:15:48.759165",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/lioness-field-of-dreams-maxi-dress-in-onyx/dp/LIOR-WD92/",
+      "reason": "Could not fetch product 14835391660402",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 28.359120416920632,
+      "attempted_at": "2025-11-27T09:15:50.319514",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/nookie-roxana-long-sleeve-gown-in-black/dp/NKIE-WD853/",
+      "reason": "Could not fetch product 14835392151922",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 32.06620662496425,
+      "attempted_at": "2025-11-27T09:16:01.060022",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.revolve.com/afrm-billie-dress-in-navy-block-floral/dp/AFFM-WD392/",
+      "reason": "Could not fetch product 14835399164274",
+      "stage": "unknown",
+      "action": "failed",
+      "method_used": "markdown_extractor",
+      "processing_time": 35.124682042049244,
+      "attempted_at": "2025-11-27T09:16:05.262758",
+      "certainty": "known_error"
+    }
+  ]
+}

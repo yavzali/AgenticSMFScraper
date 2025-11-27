@@ -205,7 +205,7 @@ Return a JSON object with these fields:
     "original_price": 129.99,  // Optional, if on sale
     "description": "Product description",
     "image_urls": ["url1", "url2", ...],  // All product images
-    "stock_status": "in_stock" | "out_of_stock" | "unknown"
+    "stock_status": "in_stock" | "out_of_stock" | "no_longer_available" | "unknown"
 }}
 
 Rules:
@@ -214,6 +214,13 @@ Rules:
 - image_urls must be full URLs (not relative paths)
 - If a field is not found, set it to null
 - Return ONLY valid JSON (no markdown formatting)
+
+STOCK STATUS DETECTION:
+- Check FIRST if product is delisted/discontinued: "no longer available", "discontinued", "item not found", "404", "page not found", "removed", "product no longer exists"
+- Set to "no_longer_available" if product is permanently removed (NOT just temporarily out of stock)
+- Set to "out_of_stock" if temporarily unavailable (sold out, coming soon)
+- Set to "in_stock" if available for purchase
+- Set to "unknown" only if status cannot be determined
 
 HTML:
 {html}
