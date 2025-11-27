@@ -910,7 +910,7 @@ async def main():
     parser.add_argument('--retailer', help='Filter by retailer')
     parser.add_argument('--min-age-days', type=int, help='Minimum age in days')
     parser.add_argument('--sale-status', choices=['on_sale', 'regular'], help='Sale status filter')
-    parser.add_argument('--limit', type=int, default=100, help='Maximum products to update')
+    parser.add_argument('--limit', type=int, default=5000, help='Maximum products to update')
     
     args = parser.parse_args()
     

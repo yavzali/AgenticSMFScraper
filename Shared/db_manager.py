@@ -121,6 +121,9 @@ class DatabaseManager:
                 if has_shopify_id:
                     query += ' AND shopify_id IS NOT NULL'
                 
+                # Exclude "not modest" and "no longer available" products
+                query += " AND (lifecycle_stage IS NULL OR (lifecycle_stage NOT LIKE '%not_modest%' AND lifecycle_stage NOT LIKE '%no_longer_available%'))"
+                
                 if sale_status:
                     query += ' AND sale_status = ?'
                     params.append(sale_status)
