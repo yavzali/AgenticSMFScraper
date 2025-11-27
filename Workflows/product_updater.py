@@ -639,12 +639,12 @@ class ProductUpdater:
         # Check if images were successfully uploaded before
         images_uploaded = existing_product.get('images_uploaded', 0)
         if not images_uploaded:
-            logger.debug("Images never uploaded before → process")
+            logger.info("🖼️ Processing images (first time upload)")
             return True
         
         # If images were successfully uploaded, ALWAYS skip re-upload
         # We trust that Shopify has the correct images from previous upload
-        logger.debug("Images already uploaded successfully → skip")
+        logger.info("⏭️ Skipping image processing (already uploaded)")
         return False
     
     def _has_changes(self, existing_product: Dict, extracted_data: Dict) -> tuple:
