@@ -111,7 +111,7 @@ CATALOG_URLS = {
         'tops': 'https://www.anthropologie.com/tops?sort=tile.product.newestColorDate&order=Descending'
     },
     'abercrombie': {
-        'dresses': 'https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?pagefm=navigation-left+nav&rows=90&sort=newest&start=0',
+        'dresses': 'https://www.abercrombie.com/shop/us/womens-dresses-and-jumpsuits?categoryId=12265&facet=sleeveLength%3A%28%22Long+Sleeve%22+%22Short+Sleeve%22%29&facet=neckline%3A%28%22Mock%22+%22Crew%22+%22Collared%22+%22Sweetheart%22%29&filtered=true&rows=90&sort=newest&start=0',
         'tops': 'https://www.abercrombie.com/shop/us/womens-tops--1?rows=90&sort=newest&start=0'
     },
     'urban_outfitters': {
