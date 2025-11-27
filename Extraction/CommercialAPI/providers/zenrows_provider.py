@@ -184,19 +184,28 @@ class ZenRowsClient(CommercialAPIClient):
             'proxy_country': 'us',     # US proxies for US retailers
         }
         
-        # Dynamic content loading: Wait for product grids (lesson from Patchright)
+        # Dynamic content loading: Wait for content (lesson from Patchright)
+        # Apply wait parameters for BOTH catalog and product pages
         if page_type == 'catalog':
-            # Get wait_for selector (waits for specific element to appear)
+            # CATALOG: Wait for product grid selectors
             wait_selector = self._get_wait_selector(retailer)
             if wait_selector:
                 params['wait_for'] = wait_selector
-                logger.info(f"🎯 wait_for: {wait_selector}")
+                logger.info(f"🎯 wait_for (catalog): {wait_selector}")
             
-            # Add fixed wait for stability (5-8 seconds recommended for dynamic content)
+            # Add fixed wait for stability
             wait_time = self._get_wait_time(retailer)
             if wait_time:
                 params['wait'] = wait_time
-                logger.info(f"⏱️  wait: {wait_time}ms")
+                logger.info(f"⏱️  wait (catalog): {wait_time}ms")
+        
+        elif page_type == 'product':
+            # PRODUCT: Wait for product detail elements to load
+            # Use same wait times as catalog since products have similar JS complexity
+            wait_time = self._get_wait_time(retailer)
+            if wait_time:
+                params['wait'] = wait_time
+                logger.info(f"⏱️  wait (product): {wait_time}ms")
         
         try:
             logger.debug(f"📡 Sending request to ZenRows API (attempt {attempt})")

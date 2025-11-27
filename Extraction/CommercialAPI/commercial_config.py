@@ -197,7 +197,7 @@ class CommercialAPIConfig:
     # ============================================
     
     # Enable fallback to Patchright tower if Commercial API fails
-    FALLBACK_TO_PATCHRIGHT = True
+    FALLBACK_TO_PATCHRIGHT = False  # Disabled: Commercial API retailers should not fall back to Patchright
     
     # Maximum retry attempts before fallback
     MAX_RETRIES = 2
