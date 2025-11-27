@@ -201,7 +201,8 @@ class ZenRowsClient(CommercialAPIClient):
         
         elif page_type == 'product':
             # PRODUCT: Wait for product detail elements to load
-            # Use same wait times as catalog since products have similar JS complexity
+            # For now, ONLY use fixed wait (no wait_for) to avoid timeouts
+            # wait_for can cause 60s timeouts if the selector is blocked or wrong
             wait_time = self._get_wait_time(retailer)
             if wait_time:
                 params['wait'] = wait_time
@@ -327,6 +328,38 @@ class ZenRowsClient(CommercialAPIClient):
         
         retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
         return wait_times.get(retailer_lower)
+    
+    def _get_product_wait_selector(self, retailer: str) -> Optional[str]:
+        """
+        Get CSS selector for product page wait_for parameter
+        
+        These selectors wait for critical product elements (price, title, add-to-cart)
+        to appear before capturing HTML. Based on ZenRows best practices.
+        """
+        product_selectors = {
+            # Nordstrom: Wait for price element (Akamai Bot Manager)
+            'nordstrom': '.product-price, [data-price], .price',
+            
+            # Anthropologie: Wait for price or add-to-cart button (PerimeterX)
+            'anthropologie': '.product-sale-price, .product-standard-price, button[data-addtobag]',
+            
+            # Urban Outfitters: Wait for price or product details
+            'urban_outfitters': '.product-price, .price, [data-product-price]',
+            'urbanoutfitters': '.product-price, .price, [data-product-price]',
+            
+            # Abercrombie: Wait for price or add-to-bag button
+            'abercrombie': '.product-price, button[data-addtobag], .price',
+            
+            # Aritzia: Wait for price (Cloudflare + SPA)
+            'aritzia': '.product-price, [data-price], .price',
+            
+            # H&M: Wait for price element
+            'hm': '.product-price, .price-value, [data-price]',
+            'h&m': '.product-price, .price-value, [data-price]',
+        }
+        
+        retailer_lower = retailer.lower().replace(' ', '').replace('&', '')
+        return product_selectors.get(retailer_lower)
     
     async def _validate_html(self, html: str, url: str, retailer: str):
         """

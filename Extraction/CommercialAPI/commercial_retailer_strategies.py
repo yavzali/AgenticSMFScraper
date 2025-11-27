@@ -106,11 +106,13 @@ class CommercialRetailerStrategies:
             
             'anthropologie': {
                 'title': [
+                    'h1.c-pwa-product-meta__name',  # Anthropologie PWA structure
                     'h1.product-name',
                     'h1[data-productname]',
                     'h1',
                 ],
                 'price': [
+                    '.c-pwa-product-price__current',  # Anthropologie PWA current price
                     'span.product-sale-price',
                     'span.product-standard-price',
                     'span[data-price]',
@@ -125,6 +127,8 @@ class CommercialRetailerStrategies:
                     'div[data-description]',
                 ],
                 'images': [
+                    'img[srcset*="urbndata"]',  # Anthropologie product images
+                    'img[src*="urbndata"]',
                     'img[src*="anthropologie"]',
                     'img.product-image',
                     'img[data-zoom-image]',
