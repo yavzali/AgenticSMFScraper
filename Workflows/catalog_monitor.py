@@ -1336,9 +1336,11 @@ class CatalogMonitor:
                     # Capture Commercial API error for later reporting
                     commercial_api_error = result.error or "Commercial API extraction failed (no specific error)"
                     
-                    # Fallback to Patchright if Commercial API fails
-                    logger.warning(f"Commercial API extraction failed for {url}: {commercial_api_error}, falling back to Patchright")
-                    result = await self.patchright_product_tower.extract_product(url, retailer)
+                    # NO FALLBACK: Commercial API retailers should NOT fall back to Patchright
+                    # If Commercial API fails, we log it and move on
+                    logger.error(f"❌ Commercial API extraction failed for {url}: {commercial_api_error}")
+                    logger.error(f"   Skipping product (no fallback to Patchright)")
+                    return {'_extraction_error': commercial_api_error}
             elif method == 'markdown':
                 result = await self.markdown_product_tower.extract_product(url, retailer)
                 
