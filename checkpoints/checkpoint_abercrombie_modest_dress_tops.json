@@ -1,0 +1,16 @@
+{
+  "batch_id": "abercrombie_modest_dress_tops",
+  "workflow_type": "modest",
+  "total_urls": 4,
+  "all_urls": [
+    "https://www.abercrombie.com/shop/us/p/long-sleeve-zip-up-fleece-mini-dress-58772819?categoryId=12265&faceout=prod&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+    "https://www.abercrombie.com/shop/us/p/utility-skort-56726342?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+    "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+    "https://www.abercrombie.com/shop/us/p/flannel-shirt-dress-61008349?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid"
+  ],
+  "processed_urls": [],
+  "successful_count": 0,
+  "failed_count": 0,
+  "created_at": "2025-11-28T19:57:05.610310",
+  "last_checkpoint": "2025-11-28T19:57:05.610314"
+}

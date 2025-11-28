@@ -1,0 +1,43 @@
+{
+  "batch_id": "urban_outfitters_modest_dress_tops",
+  "workflow_type": "modest",
+  "total_urls": 15,
+  "all_urls": [
+    "https://www.urbanoutfitters.com/shop/edikted-turtle-neck-ribbed-knit-mini-dress?color=012&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/nocturne-tailored-collar-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-leiden-cobalt-blue-sequin-hourglass-long-sleeve-mini-dress?color=040&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-delphi-hourglass-long-sleeve-mini-dress?color=061&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/lioness-cheri-long-sleeve-blazer-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/daisy-street-brulee-drop-waist-smocked-puff-sleeve-midi-dress?color=020&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-lexter-polo-knit-mini-dress?color=021&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/daisy-street-ribbed-knit-long-sleeve-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/afrm-mirza-risky-micro-dot-long-sleeve-ruched-mesh-mini-dress?color=085&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-knotted-front-jersey-knit-midi-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-short-sleeve-jersey-knit-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/frankie-collective-camo-hooded-dress-001?color=031&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-antonia-lace-trim-balloon-sleeve-shirt-dress?color=040&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/edikted-norah-contrast-layered-mini-dress?color=018&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-oversized-eyelet-lace-collar-babydoll-midi-dress?color=010&type=REGULAR"
+  ],
+  "processed_urls": [
+    "https://www.urbanoutfitters.com/shop/edikted-turtle-neck-ribbed-knit-mini-dress?color=012&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/nocturne-tailored-collar-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-leiden-cobalt-blue-sequin-hourglass-long-sleeve-mini-dress?color=040&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-delphi-hourglass-long-sleeve-mini-dress?color=061&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/lioness-cheri-long-sleeve-blazer-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/daisy-street-brulee-drop-waist-smocked-puff-sleeve-midi-dress?color=020&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-lexter-polo-knit-mini-dress?color=021&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/daisy-street-ribbed-knit-long-sleeve-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/afrm-mirza-risky-micro-dot-long-sleeve-ruched-mesh-mini-dress?color=085&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-knotted-front-jersey-knit-midi-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-short-sleeve-jersey-knit-mini-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/frankie-collective-camo-hooded-dress-001?color=031&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/bardot-antonia-lace-trim-balloon-sleeve-shirt-dress?color=040&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/edikted-norah-contrast-layered-mini-dress?color=018&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/glamorous-oversized-eyelet-lace-collar-babydoll-midi-dress?color=010&type=REGULAR"
+  ],
+  "successful_count": 15,
+  "failed_count": 0,
+  "created_at": "2025-11-28T20:08:49.341249",
+  "last_checkpoint": "2025-11-28T20:15:15.577455"
+}
