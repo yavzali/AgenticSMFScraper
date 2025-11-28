@@ -1,0 +1,27 @@
+{
+  "batch_id": "urban_outfitters_modest_dresses",
+  "workflow": "new_product_importer",
+  "retailer": "urban_outfitters",
+  "product_type": "unknown",
+  "modesty_level": "modest",
+  "run_date": "2025-11-28T19:45:49.871457",
+  "total_failed": 2,
+  "failures": [
+    {
+      "url": "https://www.urbanoutfitters.com/shop/leau-rhea-ruche-maxi-dress?color=001&type=REGULAR",
+      "reason": "Commercial API failed: All extraction methods failed (BeautifulSoup, LLM, Patchright). Then Patchright fallback failed: All extraction methods failed (BeautifulSoup, LLM, Patchright)",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:46:07.019747",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.urbanoutfitters.com/shop/nocturne-high-neck-ruched-maxi-dress?color=060&type=REGULAR",
+      "reason": "Commercial API failed: All extraction methods failed (BeautifulSoup, LLM, Patchright). Then Patchright fallback failed: All extraction methods failed (BeautifulSoup, LLM, Patchright)",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:46:19.697316",
+      "certainty": "known_error"
+    }
+  ]
+}

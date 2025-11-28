@@ -1,0 +1,14 @@
+{
+  "batch_id": "urban_outfitters_modest_dresses",
+  "workflow_type": "modest",
+  "total_urls": 2,
+  "all_urls": [
+    "https://www.urbanoutfitters.com/shop/leau-rhea-ruche-maxi-dress?color=001&type=REGULAR",
+    "https://www.urbanoutfitters.com/shop/nocturne-high-neck-ruched-maxi-dress?color=060&type=REGULAR"
+  ],
+  "processed_urls": [],
+  "successful_count": 0,
+  "failed_count": 0,
+  "created_at": "2025-11-28T19:45:49.871653",
+  "last_checkpoint": "2025-11-28T19:45:49.871656"
+}

@@ -16,6 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from Shared.logger_config import setup_logging
 from Extraction.CommercialAPI.commercial_config import CommercialAPIConfig
 from Extraction.CommercialAPI.commercial_retailer_strategies import CommercialRetailerStrategies
+from Extraction.CommercialAPI.javascript_parser import JavaScriptDataParser
 
 logger = setup_logging(__name__)
 
@@ -39,6 +40,7 @@ class HTMLParser:
     def __init__(self):
         self.config = CommercialAPIConfig()
         self.strategies = CommercialRetailerStrategies()
+        self.js_parser = JavaScriptDataParser()
         
         # Import pattern learner if enabled
         self.pattern_learner = None
@@ -84,8 +86,13 @@ class HTMLParser:
             # Create BeautifulSoup object
             soup = BeautifulSoup(html, 'html.parser')
             
-            # Extract product data using strategies
-            product_data = self.strategies.extract_product(soup, retailer)
+            # Try JavaScript extraction first (for Abercrombie, Urban Outfitters, Aritzia)
+            product_data = self.js_parser.extract_product_data(html, soup, retailer)
+            
+            # If JavaScript extraction failed, fall back to CSS selectors
+            if not product_data or not product_data.get('title'):
+                logger.debug("JavaScript extraction failed or incomplete, trying CSS selectors")
+                product_data = self.strategies.extract_product(soup, retailer)
             
             # Validate extracted data
             is_valid, validation_errors = self._validate_product(product_data, retailer)

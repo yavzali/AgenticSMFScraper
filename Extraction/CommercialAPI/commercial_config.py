@@ -229,7 +229,7 @@ class CommercialAPIConfig:
     }
     
     # Minimum images for successful product extraction
-    MIN_PRODUCT_IMAGES = 3
+    MIN_PRODUCT_IMAGES = 1  # Lowered to 1: some variants only have 1 image
     
     # Minimum products for successful catalog extraction
     MIN_CATALOG_PRODUCTS = 10

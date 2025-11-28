@@ -1,0 +1,35 @@
+{
+  "batch_id": "aritzia_modest_dresses",
+  "workflow": "new_product_importer",
+  "retailer": "aritzia",
+  "product_type": "unknown",
+  "modesty_level": "modest",
+  "run_date": "2025-11-28T19:47:58.396821",
+  "total_failed": 3,
+  "failures": [
+    {
+      "url": "https://www.aritzia.com/us/en/product/hopper-dress/128803.html?color=169",
+      "reason": "Commercial API failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s. Then Patchright fallback failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:50:00.876773",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/salon-dress/128484.html?color=30751",
+      "reason": "Commercial API failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s. Then Patchright fallback failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:52:09.920622",
+      "certainty": "known_error"
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/broadway-dress/126827.html?color=34920",
+      "reason": "Commercial API failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s. Then Patchright fallback failed: ZenRows fetch failed after 2 attempts: ZenRows API timeout after 60s",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:53:46.486100",
+      "certainty": "known_error"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "batch_id": "abercrombie_modest_dresses",
+  "workflow": "new_product_importer",
+  "retailer": "abercrombie",
+  "product_type": "unknown",
+  "modesty_level": "modest",
+  "run_date": "2025-11-28T19:43:57.436516",
+  "total_failed": 1,
+  "failures": [
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=life&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "Commercial API failed: All extraction methods failed (BeautifulSoup, LLM, Patchright). Then Patchright fallback failed: All extraction methods failed (BeautifulSoup, LLM, Patchright)",
+      "action": "failed",
+      "method_used": "failed",
+      "attempted_at": "2025-11-28T19:44:13.788171",
+      "certainty": "known_error"
+    }
+  ]
+}

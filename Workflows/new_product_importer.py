@@ -189,10 +189,24 @@ class NewProductImporter:
             await self._initialize_modesty_assessor()
             
             # Step 5: Group by extraction method
-            markdown_urls = [u for u in unique_urls if self._get_retailer(u) in MARKDOWN_RETAILERS]
-            patchright_urls = [u for u in unique_urls if self._get_retailer(u) in PATCHRIGHT_RETAILERS]
+            # Priority: Commercial API > Markdown > Patchright
+            commercial_urls = []
+            markdown_urls = []
+            patchright_urls = []
             
-            logger.info(f"📊 Routing: {len(markdown_urls)} markdown, {len(patchright_urls)} patchright")
+            for url in unique_urls:
+                retailer = self._get_retailer(url)
+                if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
+                    commercial_urls.append(url)
+                elif retailer in MARKDOWN_RETAILERS:
+                    markdown_urls.append(url)
+                elif retailer in PATCHRIGHT_RETAILERS:
+                    patchright_urls.append(url)
+                else:
+                    # Unknown retailer - default to markdown
+                    markdown_urls.append(url)
+            
+            logger.info(f"📊 Routing: {len(commercial_urls)} commercial_api, {len(markdown_urls)} markdown, {len(patchright_urls)} patchright")
             
             # Step 6: Process products
             results = {
@@ -209,6 +223,55 @@ class NewProductImporter:
                 'results': [],
                 'failures': []  # Track failed products
             }
+            
+            # Process commercial API URLs
+            for url in commercial_urls:
+                result = await self._import_single_product(
+                    url,
+                    'commercial_api',
+                    modesty_level,
+                    product_type_override
+                )
+                # Convert ImportResult to dict for JSON serialization
+                from dataclasses import asdict
+                results['results'].append(asdict(result))
+                results['processed'] += 1
+                
+                if result.success and result.action == 'uploaded':
+                    results['uploaded'] += 1
+                elif result.action == 'skipped':
+                    results['skipped'] += 1
+                else:
+                    results['failed'] += 1
+                    # Track failure details with certainty
+                    error_message = result.error or 'Unknown error - no error details provided'
+                    results['failures'].append({
+                        'url': result.url,
+                        'reason': error_message,
+                        'action': result.action,
+                        'method_used': result.method_used,
+                        'attempted_at': datetime.utcnow().isoformat(),
+                        'certainty': 'uncertain' if 'Unknown' in error_message or not result.error else 'known_error'
+                    })
+                
+                # Count by modesty status
+                if result.modesty_status:
+                    if result.modesty_status == 'modest':
+                        results['modest'] += 1
+                    elif result.modesty_status == 'moderately_modest':
+                        results['moderately_modest'] += 1
+                    elif result.modesty_status == 'not_modest':
+                        results['not_modest'] += 1
+                
+                # Update checkpoint
+                self.checkpoint_manager.update_progress({
+                    'url': result.url,
+                    'success': result.success,
+                    'shopify_id': result.shopify_id
+                })
+                
+                # Respectful delay
+                await asyncio.sleep(1)
             
             # Process markdown URLs
             for url in markdown_urls:
@@ -342,7 +405,6 @@ class NewProductImporter:
                 # Save to failures folder
                 failures_file = f"failures/{batch_id}_failures.json"
                 with open(failures_file, 'w') as f:
-                    import json
                     json.dump(failures_data, f, indent=2)
                 
                 logger.warning(f"⚠️  {results['failed']} failures saved to {failures_file}")
@@ -381,7 +443,7 @@ class NewProductImporter:
         
         Args:
             url: Product URL
-            tower: 'markdown' or 'patchright'
+            tower: 'commercial_api', 'markdown', or 'patchright'
             expected_modesty: Expected modesty level (optional)
             product_type_override: Product type override (optional)
             
@@ -415,16 +477,21 @@ class NewProductImporter:
                     # Capture Commercial API error for later reporting
                     commercial_api_error = extraction_result.error or "Commercial API extraction failed (no specific error)"
                     
-                    # Fallback to Patchright if Commercial API fails
-                    logger.warning(f"Commercial API extraction failed for {url}: {commercial_api_error}, falling back to Patchright")
-                    extraction_result = await self.patchright_tower.extract_product(url, retailer)
+                    # Fallback to Patchright if Commercial API fails (only if fallback enabled)
+                    if CommercialAPIConfig.FALLBACK_TO_PATCHRIGHT:
+                        logger.warning(f"Commercial API extraction failed for {url}: {commercial_api_error}, falling back to Patchright")
+                        extraction_result = await self.patchright_tower.extract_product(url, retailer)
+                    else:
+                        logger.error(f"Commercial API extraction failed for {url}: {commercial_api_error} (Patchright fallback disabled)")
+                        # Keep the failed extraction_result to report the error
             elif tower == 'markdown':
                 extraction_result = await self.markdown_tower.extract_product(url, retailer)
             else:
                 extraction_result = await self.patchright_tower.extract_product(url, retailer)
             
             if not extraction_result.success:
-                error_msg = str(extraction_result.errors)
+                # Handle both 'error' (Commercial API) and 'errors' (Markdown/Patchright) attributes
+                error_msg = str(getattr(extraction_result, 'error', None) or getattr(extraction_result, 'errors', 'Unknown error'))
                 
                 # If Commercial API was tried first and failed, include that in error message
                 if commercial_api_error:

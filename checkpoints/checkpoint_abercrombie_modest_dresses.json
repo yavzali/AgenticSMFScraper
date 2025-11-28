@@ -1,0 +1,13 @@
+{
+  "batch_id": "abercrombie_modest_dresses",
+  "workflow_type": "modest",
+  "total_urls": 1,
+  "all_urls": [
+    "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=life&seq=01&pagefm=navigation-grid&prodvm=navigation-grid"
+  ],
+  "processed_urls": [],
+  "successful_count": 0,
+  "failed_count": 0,
+  "created_at": "2025-11-28T19:35:09.868963",
+  "last_checkpoint": "2025-11-28T19:35:09.868966"
+}
