@@ -35,6 +35,8 @@ from db_manager import DatabaseManager
 from markdown_catalog_extractor import MarkdownCatalogExtractor
 from patchright_catalog_extractor import PatchrightCatalogExtractor
 
+logger = setup_logging(__name__)
+
 # Commercial API Tower (Third Tower - ZenRows/Bright Data)
 try:
     from commercial_config import CommercialAPIConfig
@@ -44,8 +46,6 @@ try:
 except ImportError as e:
     COMMERCIAL_API_AVAILABLE = False
     logger.warning(f"⚠️ Commercial API Tower not available: {e}")
-
-logger = setup_logging(__name__)
 
 # Retailer classification
 # ALL retailers use Patchright for catalog baseline scanning
@@ -146,6 +146,8 @@ class CatalogBaselineScanner:
         # Initialize Commercial API tower if available
         if COMMERCIAL_API_AVAILABLE:
             self.commercial_catalog_tower = CommercialCatalogExtractor()
+        else:
+            self.commercial_catalog_tower = None
         
         logger.info("✅ Catalog Baseline Scanner initialized (Triple Tower: Markdown, Patchright, Commercial API)")
     
@@ -218,17 +220,22 @@ class CatalogBaselineScanner:
                     # Extract products list from result
                     extracted_products = extraction_result.products
                 else:
-                    # Commercial API failed, fall back to Patchright
-                    logger.warning(f"Commercial API failed: {extraction_result.error}, falling back to Patchright")
-                    logger.info(f"🔄 Using Patchright Tower fallback for {retailer} baseline scan")
-                    catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
-                    extraction_result = await self.patchright_tower.extract_catalog(
-                        catalog_url,
-                        retailer,
-                        catalog_prompt
+                    # Commercial API failed - NO FALLBACK (debugging mode)
+                    logger.error(f"❌ Commercial API failed: {extraction_result.error}")
+                    logger.error(f"❌ Patchright fallback DISABLED for debugging")
+                    return BaselineResult(
+                        success=False,
+                        baseline_id=None,
+                        retailer=retailer,
+                        category=category,
+                        modesty_level=modesty_level,
+                        products_found=0,
+                        products_stored=0,
+                        duplicates_removed=0,
+                        method_used='commercial_api',
+                        processing_time=(datetime.utcnow() - start_time).total_seconds(),
+                        error=f"Commercial API failed: {extraction_result.error}"
                     )
-                    method_used = 'patchright'
-                    extracted_products = extraction_result.get('products', []) if extraction_result else []
             else:
                 # Use Patchright for retailers without Commercial API
                 logger.info(f"🔄 Using Patchright Tower for {retailer} baseline scan (DOM extraction)")
@@ -480,6 +487,11 @@ class CatalogBaselineScanner:
         if not self.patchright_tower:
             self.patchright_tower = PatchrightCatalogExtractor()
             logger.debug("Patchright Tower initialized")
+        
+        # Initialize Commercial API tower if available
+        if COMMERCIAL_API_AVAILABLE and self.commercial_catalog_tower:
+            await self.commercial_catalog_tower.initialize()
+            logger.debug("✅ Commercial API catalog tower initialized")
 
 
 # CLI entry point
