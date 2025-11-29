@@ -1,0 +1,741 @@
+{
+  "batch_id": "baseline_urban_outfitters_dresses_modest_20251129_030151",
+  "workflow": "catalog_baseline_scanner",
+  "retailer": "urban_outfitters",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-29T03:01:46.469575",
+  "total_failed": 73,
+  "failures": [
+    {
+      "url": "https://www.urban_outfitters.com/shop/owala-uo-exclusive-freesip-32-oz-water-bottle5?html_banner=1",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "SHOP THE DROP",
+      "attempted_at": "2025-11-29T03:01:51.467532",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-fog-jacquard-satin-lace-trim-midi-dress?color=054&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Fog Jacquard Satin Lace Trim Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.467575",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/onia-linen-tencel-midi-dress?color=029&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Onia Linen Tencel Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.467611",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-marta-velvet-bow-detail-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Marta Velvet Bow Detail Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467644",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-belmond-floral-babydoll-mini-dress?color=066&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Belmond Floral Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467677",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-creampuff-ribbon-trim-lace-maxi-dress?color=012&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Creampuff Ribbon Trim Lace Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.467709",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-luna-burnout-velvet-floral-asymmetric-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Luna Burnout Velvet Floral Asymmetric Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.467741",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-pine-puff-sleeve-ruffle-babydoll-mini-dress?color=030&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Pine Puff Sleeve Ruffle Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467772",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-greta-long-sleeve-smocked-maxi-dress?color=008&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Greta Long Sleeve Smocked Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.467803",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-take-the-plunge-double-cowl-cold-shoulder-long-sleeve-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Take The Plunge Double Cowl Cold Shoulder Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467834",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/frankies-bikinis-elsa-cloud-knit-off-the-shoulder-long-sleeve-mini-dress?color=027&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Frankies Bikinis Elsa Cloud Knit Off-The-Shoulder Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467865",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/afrm-ekko-rhinestone-sheer-mesh-high-neck-long-sleeve-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "AFRM Ekko Rhinestone Sheer Mesh High Neck Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467899",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kimchi-blue-castle-dweller-lace-trim-bell-sleeve-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kimchi Blue Castle Dweller Lace Trim Bell Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467929",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-what-you-want-studded-mesh-off-the-shoulder-long-sleeve-mini-dress?color=048&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO What You Want Studded Mesh Off-The-Shoulder Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.467962",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/out-from-under-sweetie-pie-lace-trim-ruffle-sleep-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Out From Under Sweetie Pie Lace Trim Ruffle Sleep Dress",
+      "attempted_at": "2025-11-29T03:01:51.467990",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-bombshell-sheer-burnout-velvet-floral-long-sleeve-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Bombshell Sheer Burnout Velvet Floral Long Sleeve Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468018",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-raquel-babydoll-corset-mini-dress?color=010&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Raquel Babydoll Corset Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468046",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-ramona-babydoll-corset-mini-dress?color=018&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Ramona Babydoll Corset Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468074",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-oasis-knot-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Oasis Knot Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468102",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-como-cap-sleeve-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Como Cap Sleeve Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468130",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-rhea-ruche-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Rhea Ruche Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468158",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-sola-slouchy-jersey-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Sola Slouchy Jersey Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468186",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/en-saison-ophelia-lace-up-open-back-puff-sleeve-midi-dress?color=009&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "En Saison Ophelia Lace-Up Open Back Puff Sleeve Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468217",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/leau-vacanza-drape-gown?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "LEAU Vacanza Drape Gown",
+      "attempted_at": "2025-11-29T03:01:51.468244",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/edikted-robynne-asymmetric-off-shoulder-mini-dress?color=041&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Edikted Robynne Asymmetric Off Shoulder Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468273",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/edikted-athelia-one-shoulder-mini-dress?color=006&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Edikted Athelia One Shoulder Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468301",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/edikted-turtle-neck-ribbed-knit-mini-dress?color=012&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Edikted Turtle Neck Ribbed Knit Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468328",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/weworewhat-cut-out-long-sleeve-maxi-dress?color=026&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "WeWoreWhat Cut Out Long Sleeve Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468356",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/the-ragged-priest-agent-cut-out-jersey-knit-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "The Ragged Priest Agent Cut-Out Jersey Knit Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468384",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/weworewhat-off-shoulder-ruched-midi-dress?color=061&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "WeWoreWhat Off Shoulder Ruched Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468411",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bdg-suzie-swan-femme-fair-isle-off-the-shoulder-sweater-mini-dress?color=009&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BDG Suzie Swan Femme Fair Isle Off-The-Shoulder Sweater Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468439",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/edikted-one-shoulder-sequin-knit-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Edikted One Shoulder Sequin Knit Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468466",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bdg-suzie-long-sleeve-off-the-shoulder-sweater-dress?color=011&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BDG Suzie Long Sleeve Off-The-Shoulder Sweater Dress",
+      "attempted_at": "2025-11-29T03:01:51.468494",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kimchi-blue-delicate-dreams-lace-bell-sleeve-mini-dress?color=011&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kimchi Blue Delicate Dreams Lace Bell Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468522",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-josephine-jersey-knit-asymmetric-off-shoulder-midi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Josephine Jersey Knit Asymmetric Off-Shoulder Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468549",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/remade-by-uo-remnants-knit-long-sleeve-off-the-shoulder-mini-dress?color=010&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "ReMADE By UO Remnants Knit Long Sleeve Off-The-Shoulder Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468577",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/tyler-mcgillivary-lipstick-stain-long-sleeve-babydoll-mini-dress?color=060&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Tyler McGillivary Lipstick Stain Long Sleeve Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468605",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-lyss-jersey-knit-off-the-shoulder-long-sleeve-midi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Lyss Jersey Knit Off-The-Shoulder Long Sleeve Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468634",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-swit-er-knit-off-the-shoulder-mini-dress?color=011&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Swit-er Knit Off-The-Shoulder Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468661",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/rat-boi-boatneck-mini-dress?color=061&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "RAT BOI Boatneck Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468689",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bardot-delphi-hourglass-short-sleeve-high-neck-mini-dress?color=060&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Bardot Delphi Hourglass Short Sleeve High Neck Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468717",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bardot-yana-lace-satin-bubble-hem-long-sleeve-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Bardot Yana Lace + Satin Bubble Hem Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468745",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-total-eclipse-draped-jersey-knit-off-the-shoulder-mini-dress?color=018&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Total Eclipse Draped Jersey Knit Off-The-Shoulder Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468772",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kimchi-blue-sweetest-thing-lace-puff-sleeve-corset-mini-dress?color=060&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kimchi Blue Sweetest Thing Lace Puff Sleeve Corset Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468800",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/remade-by-uo-remnants-asymmetric-cinched-off-shoulder-long-sleeve-mini-dress?color=004&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "ReMADE By UO Remnants Asymmetric Cinched Off-Shoulder Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468827",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/campbell-and-kramer-x-remade-by-uo-demeter-boatneck-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "CAMPBELL&KRAMER X ReMADE By UO Demeter Boatneck Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468855",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/motel-tarna-mesh-ruched-off-the-shoulder-maxi-dress?color=061&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Motel Tarna Mesh Ruched Off-The-Shoulder Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468883",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kimchi-blue-romantic-sheer-lace-trim-satin-slip-maxi-dress?color=062&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kimchi Blue Romantic Sheer Lace Trim Satin Slip Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468910",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-tea-time-floral-embroidered-babydoll-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Tea Time Floral Embroidered Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.468938",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/remade-by-uo-remnants-sheer-lace-long-sleeve-midi-dress?color=030&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "ReMADE By UO Remnants Sheer Lace Long Sleeve Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468966",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/glamorous-puff-sleeve-tie-front-smocked-midi-dress?color=061&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Glamorous Puff Sleeve Tie-Front Smocked Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.468993",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/glamorous-fit-and-flare-embellished-buckle-bow-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Glamorous Fit-And-Flare Embellished Buckle Bow Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469021",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/nocturne-tailored-collar-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Nocturne Tailored Collar Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469049",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-naomi-knit-long-sleeve-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Naomi Knit Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469076",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-colette-satin-burnout-ruffle-high-low-maxi-dress?color=023&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Colette Satin Burnout Ruffle High-Low Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469104",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-ciara-lace-trim-ruffle-mini-dress?color=067&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Ciara Lace Trim Ruffle Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469136",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/nocturne-asymmetric-draped-open-back-dress?color=026&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Nocturne Asymmetric Draped Open-Back Dress",
+      "attempted_at": "2025-11-29T03:01:51.469164",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/for-love-and-lemons-olivia-burnout-satin-floral-chiffon-babydoll-mini-dress?color=505&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "For Love & Lemons Olivia Burnout Satin Floral Chiffon Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469192",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bardot-leiden-cobalt-blue-sequin-hourglass-long-sleeve-mini-dress?color=040&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Bardot Leiden Cobalt Blue Sequin Hourglass Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469220",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bardot-delphi-hourglass-long-sleeve-mini-dress?color=061&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Bardot Delphi Hourglass Long Sleeve Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469247",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/campbell-and-kramer-x-remade-by-uo-demeter-sheer-lace-boatneck-maxi-dress?color=010&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "CAMPBELL&KRAMER X ReMADE By UO Demeter Sheer Lace Boatneck Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469274",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-tilda-floral-jacquard-satin-babydoll-mini-dress?color=041&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Tilda Floral Jacquard Satin Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469302",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-hyacinth-rhinestone-studded-asymmetric-ruffle-midi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Hyacinth Rhinestone Studded Asymmetric Ruffle Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469329",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/bdg-teddie-foldover-off-the-shoulder-sweater-midi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BDG Teddie Foldover Off-The-Shoulder Sweater Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469357",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/daisy-street-angel-drop-waist-button-front-plaid-mini-dress?color=049&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Daisy Street Angel Drop Waist Button-Front Plaid Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469385",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/lioness-contour-high-neck-long-sleeve-maxi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Lioness Contour High Neck Long Sleeve Maxi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469412",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/lioness-cheri-long-sleeve-blazer-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Lioness Cheri Long Sleeve Blazer Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469440",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kiss-the-sky-parisa-velvet-burnout-long-sleeve-boatneck-mini-dress?color=052&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kiss The Sky Parisa Velvet Burnout Long Sleeve Boatneck Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469468",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kiss-the-sky-juniper-fluted-sleeve-asymmetric-hanky-hem-mini-dress?color=060&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kiss The Sky Juniper Fluted Sleeve Asymmetric Hanky Hem Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469495",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/kiss-the-sky-bree-floral-jacquard-long-sleeve-babydoll-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Kiss The Sky Bree Floral Jacquard Long Sleeve Babydoll Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469522",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/tyler-mcgillivary-smooch-bodycon-midi-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Tyler McGillivary Smooch Bodycon Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469550",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/uo-hyacinth-lace-spliced-midi-dress?color=000&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "UO Hyacinth Lace Spliced Midi Dress",
+      "attempted_at": "2025-11-29T03:01:51.469577",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.urban_outfitters.com/shop/edikted-billy-cutout-boat-neck-mini-dress?color=001&type=REGULAR",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Edikted Billy Cutout Boat Neck Mini Dress",
+      "attempted_at": "2025-11-29T03:01:51.469604",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    }
+  ]
+}

@@ -1,0 +1,611 @@
+{
+  "batch_id": "baseline_aritzia_dresses_modest_20251129_030213",
+  "workflow": "catalog_baseline_scanner",
+  "retailer": "aritzia",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-29T03:02:03.088226",
+  "total_failed": 60,
+  "failures": [
+    {
+      "url": "https://www.aritzia.com/us/en/product/colette-dress/126670.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534245",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/colette-dress/126670.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534279",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/colette-dress/126670.html?color=32376",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534308",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/alfresco-linen-dress/125145.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534336",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/alfresco-linen-dress/125145.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534361",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/alfresco-linen-dress/125145.html?color=1844",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534386",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/alfresco-linen-dress/125145.html?color=34341",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534410",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/pippa-dress/125153.html?color=34373",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534435",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/pippa-dress/125153.html?color=34373",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534460",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/conscious-poplin-dress/125576.html?color=14396",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534486",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/conscious-poplin-dress/125576.html?color=14396",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534515",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/foxglove-poplin-dress/126214.html?color=14396",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534540",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/foxglove-poplin-dress/126214.html?color=14396",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534564",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/nancy-dress/126344.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534588",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/nancy-dress/126344.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534612",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/adria-poplin-dress/125254.html?color=33949",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534637",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/adria-poplin-dress/125254.html?color=33949",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534661",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/adria-poplin-dress/125254.html?color=14396",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534685",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/upstate-dress/125139.html?color=34373",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534709",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/upstate-dress/125139.html?color=34373",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534732",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/nightscape-linen-dress/125570.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534757",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/nightscape-linen-dress/125570.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534781",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/powersculpt\u2122-court-dress/123405.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534805",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/powersculpt\u2122-court-dress/123405.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534829",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hyde-satin-mini-dress/115693.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534857",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hyde-satin-mini-dress/115693.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534882",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hyde-satin-mini-dress/115693.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534910",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shimmer-satin-tube-dress/124181.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534934",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shimmer-satin-tube-dress/124181.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534958",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shimmer-satin-tube-dress/124181.html?color=17232",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.534981",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hart-dress/123870.html?color=33966",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535005",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hart-dress/123870.html?color=33966",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535029",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hart-dress/123870.html?color=30751",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535052",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shimmer-satin-dress/99544.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535076",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shimmer-satin-dress/99544.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535099",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/saturn-midi-dress/114359.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535123",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/saturn-midi-dress/114359.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535147",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/saturn-midi-dress/114359.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535170",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/lawn-dress/125628.html?color=34229",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535194",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/lawn-dress/125628.html?color=34229",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535217",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/futurist-dress/126034.html?color=19773",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535240",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/futurist-dress/126034.html?color=19773",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535264",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/babette-dress/123289.html?color=32815",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535287",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/babette-dress/123289.html?color=32815",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535311",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/portea-linen-dress/119265.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535334",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/portea-linen-dress/119265.html?color=1275",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535357",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/portea-linen-dress/119265.html?color=30751",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535381",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/portea-linen-dress/119265.html?color=34341",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535404",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/margaret-dress/122668.html?color=1539",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535428",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/margaret-dress/122668.html?color=1539",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535451",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/margaret-dress/122668.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535475",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/evie-midi-dress/98149.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535498",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/evie-midi-dress/98149.html?color=11420",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535522",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/evie-midi-dress/98149.html?color=1274",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535550",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/lark-dress/125040.html?color=10252",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535573",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/lark-dress/125040.html?color=10252",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535596",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shirt-dress/125488.html?color=32376",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535619",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/shirt-dress/125488.html?color=32376",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535642",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hera-dress/115804.html?color=3269",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535665",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.aritzia.com/us/en/product/hera-dress/115804.html?color=3269",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:02:13.535689",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    }
+  ]
+}
