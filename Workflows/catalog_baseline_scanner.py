@@ -17,6 +17,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Shared"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Markdown"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/Patchright"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../Extraction/CommercialAPI"))
 
 import asyncio
 import json
@@ -33,6 +34,16 @@ from db_manager import DatabaseManager
 # Tower imports
 from markdown_catalog_extractor import MarkdownCatalogExtractor
 from patchright_catalog_extractor import PatchrightCatalogExtractor
+
+# Commercial API Tower (Third Tower - ZenRows/Bright Data)
+try:
+    from commercial_config import CommercialAPIConfig
+    from commercial_catalog_extractor import CommercialCatalogExtractor
+    COMMERCIAL_API_AVAILABLE = True
+    logger.info("✅ Commercial API Tower available")
+except ImportError as e:
+    COMMERCIAL_API_AVAILABLE = False
+    logger.warning(f"⚠️ Commercial API Tower not available: {e}")
 
 logger = setup_logging(__name__)
 
@@ -130,8 +141,13 @@ class CatalogBaselineScanner:
         # Initialize towers
         self.markdown_tower = None
         self.patchright_tower = None
+        self.commercial_catalog_tower = None
         
-        logger.info("✅ Catalog Baseline Scanner initialized (Dual Tower)")
+        # Initialize Commercial API tower if available
+        if COMMERCIAL_API_AVAILABLE:
+            self.commercial_catalog_tower = CommercialCatalogExtractor()
+        
+        logger.info("✅ Catalog Baseline Scanner initialized (Triple Tower: Markdown, Patchright, Commercial API)")
     
     async def establish_baseline(
         self,
@@ -185,20 +201,55 @@ class CatalogBaselineScanner:
             # Step 2: Initialize towers
             await self._initialize_towers()
             
-            # Step 3: Use Patchright for ALL retailers (JavaScript-loaded product URLs)
-            logger.info(f"🔄 Using Patchright Tower for {retailer} baseline scan (DOM extraction)")
-            logger.info(f"📋 Extraction method for {retailer}: Patchright (catalog-level)")
-            logger.info(f"📸 Image extraction: Enabled (catalog-level)")
-            catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
-            extraction_result = await self.patchright_tower.extract_catalog(
-                catalog_url,
-                retailer,
-                catalog_prompt
-            )
-            method_used = 'patchright'
+            # Step 3: Route to appropriate tower
+            # Check if retailer should use Commercial API tower
+            if COMMERCIAL_API_AVAILABLE and CommercialAPIConfig.should_use_commercial_api(retailer):
+                logger.info(f"🌐 Using Commercial API Tower for {retailer} catalog (ZenRows + BeautifulSoup)")
+                extraction_result = await self.commercial_catalog_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    category,
+                    max_products=100
+                )
+                method_used = 'commercial_api'
+                
+                # Handle Commercial API result format
+                if extraction_result.success:
+                    # Extract products list from result
+                    extracted_products = extraction_result.products
+                else:
+                    # Commercial API failed, fall back to Patchright
+                    logger.warning(f"Commercial API failed: {extraction_result.error}, falling back to Patchright")
+                    logger.info(f"🔄 Using Patchright Tower fallback for {retailer} baseline scan")
+                    catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
+                    extraction_result = await self.patchright_tower.extract_catalog(
+                        catalog_url,
+                        retailer,
+                        catalog_prompt
+                    )
+                    method_used = 'patchright'
+                    extracted_products = extraction_result.get('products', []) if extraction_result else []
+            else:
+                # Use Patchright for retailers without Commercial API
+                logger.info(f"🔄 Using Patchright Tower for {retailer} baseline scan (DOM extraction)")
+                logger.info(f"📋 Extraction method for {retailer}: Patchright (catalog-level)")
+                logger.info(f"📸 Image extraction: Enabled (catalog-level)")
+                catalog_prompt = f"Extract all products from this {retailer} {category} catalog page"
+                extraction_result = await self.patchright_tower.extract_catalog(
+                    catalog_url,
+                    retailer,
+                    catalog_prompt
+                )
+                method_used = 'patchright'
+                extracted_products = extraction_result.get('products', []) if extraction_result else []
             
             # Handle both dict and object return types
-            if isinstance(extraction_result, dict):
+            if method_used == 'commercial_api':
+                # Commercial API returns CatalogExtractionResult object
+                success = extraction_result.success
+                products = extracted_products  # Already extracted above
+                errors = extraction_result.error if hasattr(extraction_result, 'error') else None
+            elif isinstance(extraction_result, dict):
                 success = extraction_result.get('success', False)
                 products = extraction_result.get('products', [])
                 errors = extraction_result.get('errors', [])
