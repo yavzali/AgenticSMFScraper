@@ -302,12 +302,12 @@ class HTMLParser:
         if missing_urls > 0:
             errors.append(f"{missing_urls} products missing required fields")
         
-        # Check for duplicate URLs
+        # Check for duplicate URLs (info only, not an error for catalogs)
         urls = [p.get('url') for p in products if p.get('url')]
         unique_urls = set(urls)
         if len(urls) != len(unique_urls):
             duplicates = len(urls) - len(unique_urls)
-            errors.append(f"{duplicates} duplicate URLs detected")
+            logger.info(f"ℹ️  {duplicates} duplicate URLs detected (will be deduplicated)")
         
         is_valid = len(errors) == 0
         

@@ -1,0 +1,13 @@
+{
+  "batch_id": "test_broadway",
+  "workflow_type": "modest",
+  "total_urls": 1,
+  "all_urls": [
+    "https://www.aritzia.com/us/en/product/broadway-dress/126827.html?color=34920"
+  ],
+  "processed_urls": [],
+  "successful_count": 0,
+  "failed_count": 0,
+  "created_at": "2025-11-29T00:23:08.987193",
+  "last_checkpoint": "2025-11-29T00:23:08.987196"
+}

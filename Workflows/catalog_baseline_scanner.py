@@ -289,11 +289,13 @@ class CatalogBaselineScanner:
                 images = product.get('images') or product.get('image_urls', [])
                 if images and len(images) > 0:
                     images_extracted += 1
-                    logger.debug(f"✅ {len(images)} images for {product.get('title', 'Unknown')[:50]}")
+                    title = product.get('title') or 'Unknown'
+                    logger.debug(f"✅ {len(images)} images for {title[:50]}")
                 else:
                     images_missing += 1
                     product_url = product.get('url') or product.get('catalog_url', 'Unknown URL')
-                    logger.warning(f"⚠️ No images for {product.get('title', 'Unknown')[:50]} - {product_url}")
+                    title = product.get('title') or 'Unknown'
+                    logger.warning(f"⚠️ No images for {title[:50]} - {product_url}")
                     
                     # Determine why images are missing
                     if product.get('images') is not None and len(product.get('images', [])) == 0:
@@ -395,7 +397,9 @@ class CatalogBaselineScanner:
             )
             
         except Exception as e:
+            import traceback
             logger.error(f"Failed to establish baseline: {e}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return BaselineResult(
                 success=False,
                 baseline_id=None,

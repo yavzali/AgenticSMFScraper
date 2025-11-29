@@ -1,0 +1,651 @@
+{
+  "batch_id": "baseline_abercrombie_dresses_modest_20251129_030113",
+  "workflow": "catalog_baseline_scanner",
+  "retailer": "abercrombie",
+  "category": "dresses",
+  "modesty_level": "modest",
+  "run_date": "2025-11-29T03:01:12.897952",
+  "total_failed": 64,
+  "failures": [
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708345?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239495",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708345?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "New!Mockneck Ribbed Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.239525",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239552",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "New!Mockneck Ribbed Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.239580",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239606",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "New!Mockneck Ribbed Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.239638",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=02&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239663",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/mockneck-ribbed-mini-sweater-dress-61708343?categoryId=12265&faceout=model&seq=02&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "New!Mockneck Ribbed Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.239688",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239713",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "The A&F Madeline Long-Sleeve Mini Sweater DressWas 80, now 60$80$60",
+      "attempted_at": "2025-11-29T03:01:13.239738",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-open-back-mockneck-mini-dress-61412339?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239761",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-open-back-mockneck-mini-dress-61412339?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerBra-Free Open-Back Mockneck Mini DressWas 85, now 63.75$85$63.75",
+      "attempted_at": "2025-11-29T03:01:13.239787",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-open-back-mockneck-mini-dress-61412339?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239818",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-open-back-mockneck-mini-dress-61412339?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerBra-Free Open-Back Mockneck Mini DressWas 85, now 63.75$85$63.75",
+      "attempted_at": "2025-11-29T03:01:13.239844",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/short-sleeve-easy-waist-ruffle-skort-60198820?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239868",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/short-sleeve-easy-waist-ruffle-skort-60198820?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerShort-Sleeve Easy Waist Ruffle SkortWas 120, now 90$120$90",
+      "attempted_at": "2025-11-29T03:01:13.239892",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=02&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239918",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=02&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerThe A&F Madeline Cable Mini Sweater DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.239943",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.239967",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-cable-mini-sweater-dress-61384319?categoryId=12265&faceout=model&seq=01&afsource=social+proofing&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerThe A&F Madeline Cable Mini Sweater DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.239991",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/a-and-f-zoe-bra-free-long-sleeve-knit-mini-dress-61267819?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240015",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/a-and-f-zoe-bra-free-long-sleeve-knit-mini-dress-61267819?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerA&F Zoe Bra-Free Long-Sleeve Knit Mini DressWas 65, now 48.75$65$48.75",
+      "attempted_at": "2025-11-29T03:01:13.240039",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/a-and-f-zoe-bra-free-long-sleeve-knit-mini-dress-61267819?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240064",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/a-and-f-zoe-bra-free-long-sleeve-knit-mini-dress-61267819?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerA&F Zoe Bra-Free Long-Sleeve Knit Mini DressWas 65, now 48.75$65$48.75",
+      "attempted_at": "2025-11-29T03:01:13.240087",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240111",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerLong-Sleeve Button-Through Maxi Sweater DressWas 120, now 90$120$90",
+      "attempted_at": "2025-11-29T03:01:13.240135",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=04&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240159",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=04&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Long-Sleeve Button-Through Maxi Sweater DressWas 120, now 90$120$90",
+      "attempted_at": "2025-11-29T03:01:13.240183",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-long-sleeve-mesh-maxi-dress-61142865?categoryId=12265&faceout=life&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240205",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/bra-free-long-sleeve-mesh-maxi-dress-61142865?categoryId=12265&faceout=life&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerBra-Free Long-Sleeve Mesh Maxi DressWas 110, now 55$110$5550% Off! Price As Marked",
+      "attempted_at": "2025-11-29T03:01:13.240229",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240253",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Long-Sleeve Button-Through Maxi Sweater DressWas 120, now 90$120$90",
+      "attempted_at": "2025-11-29T03:01:13.240278",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240300",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-button-through-maxi-sweater-dress-61177321?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerLong-Sleeve Button-Through Maxi Sweater DressWas 120, now 90$120$90",
+      "attempted_at": "2025-11-29T03:01:13.240324",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/flannel-shirt-dress-61008349?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240348",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/flannel-shirt-dress-61008349?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerFlannel Shirt DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240372",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240395",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerThe A&F Madeline Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240419",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240444",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=03&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerThe A&F Madeline Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240471",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240492",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-madeline-mini-sweater-dress-60897321?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerThe A&F Madeline Mini Sweater DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240515",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/angel-sleeve-sheer-mini-dress-60578340?categoryId=12265&faceout=model&seq=04&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240538",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/angel-sleeve-sheer-mini-dress-60578340?categoryId=12265&faceout=model&seq=04&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Angel Sleeve Sheer Mini DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.240562",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/angel-sleeve-sheer-mini-dress-60578340?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240584",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/angel-sleeve-sheer-mini-dress-60578340?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "BestsellerAngel Sleeve Sheer Mini DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.240609",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=life&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240633",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=life&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Top RatedLong-Sleeve Half-Zip Fleece JumpsuitWas 100, now 75$100$75",
+      "attempted_at": "2025-11-29T03:01:13.240658",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240680",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-half-zip-fleece-jumpsuit-56727322?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Top RatedLong-Sleeve Half-Zip Fleece JumpsuitWas 100, now 75$100$75",
+      "attempted_at": "2025-11-29T03:01:13.240704",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/denim-jumpsuit-56727342?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240728",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/denim-jumpsuit-56727342?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Top RatedDenim JumpsuitWas 130, now 65$130$6550% Off! Price As Marked",
+      "attempted_at": "2025-11-29T03:01:13.240753",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-zip-up-fleece-mini-dress-58772819?categoryId=12265&faceout=prod&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240775",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-zip-up-fleece-mini-dress-58772819?categoryId=12265&faceout=prod&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Long-Sleeve Zip-Up Fleece Mini DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240800",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-zip-up-fleece-mini-dress-58772819?categoryId=12265&faceout=prod&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240823",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/long-sleeve-zip-up-fleece-mini-dress-58772819?categoryId=12265&faceout=prod&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Long-Sleeve Zip-Up Fleece Mini DressWas 70, now 52.5$70$52.50",
+      "attempted_at": "2025-11-29T03:01:13.240844",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/utility-skort-56726342?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240867",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/utility-skort-56726342?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Utility SkortWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.240891",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/utility-skort-56726342?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240912",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/utility-skort-56726342?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Utility SkortWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.240934",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-mara-short-sleeve-vest-mini-dress-56382329?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.240958",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/the-a-and-f-mara-short-sleeve-vest-mini-dress-56382329?categoryId=12265&faceout=model&seq=01&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Top RatedThe A&F Mara Short-Sleeve Vest Mini DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.240985",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/button-through-midi-shirt-dress-53499360?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": null,
+      "attempted_at": "2025-11-29T03:01:13.241006",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": false
+    },
+    {
+      "url": "https://www.abercrombie.com/shop/us/p/button-through-midi-shirt-dress-53499360?categoryId=12265&faceout=model&seq=02&pagefm=navigation-grid&prodvm=navigation-grid",
+      "reason": "No image fields present in extracted data - extractor may have failed to process images",
+      "stage": "image_extraction",
+      "product_title": "Button-Through Midi Shirt DressWas 90, now 67.5$90$67.50",
+      "attempted_at": "2025-11-29T03:01:13.241029",
+      "certainty": "uncertain",
+      "has_price": false,
+      "has_title": true
+    }
+  ]
+}
