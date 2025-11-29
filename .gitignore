@@ -103,3 +103,4 @@ backup/
 # Web Assessment - Local configuration with credentials
 web_assessment/api/config.local.php Extraction/CommercialAPI/html_cache.db
 web_assessment/api/config.local.php
+Extraction/CommercialAPI/html_cache.db
